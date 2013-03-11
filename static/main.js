@@ -94,8 +94,13 @@ function _translate() {
 }
 
 function displayExample() {
-    // Randomly chooses an example sentence
-    var example = examples[Math.floor(Math.random() * examples.length)];
+    var ei = parseInt(getParameterByName("example"));
+    if (isNaN(ei)) {
+        // Randomly chooses an example sentence
+        ei = Math.floor(Math.random() * examples.length)
+    }
+
+    var example = examples[ei % examples.length];
 
     $("#text").html(example);
     _translate();

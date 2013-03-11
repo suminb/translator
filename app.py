@@ -38,6 +38,10 @@ def __translate__(text, source, target):
 def index():
     return render_template("index.html")
 
+@app.route('/discuss')
+def discuss():
+    return render_template("discuss.html")
+
 @app.route('/translate')
 def translate():
     text = request.args.get('text')

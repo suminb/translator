@@ -9,6 +9,10 @@ h1, h2, h3 {
     font-family: NanumGothicBold, sans-serif;
 }
 
+h1 a {
+    text-decoration: none;
+}
+
 #column1, #column2 {
     float: left;
     width: 46%;

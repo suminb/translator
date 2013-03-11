@@ -41,38 +41,25 @@
     
     <link rel="stylesheet" type="text/css" href="/static/frontend.css"/>
 </head>
-<body>
-    <h1>더 나은 한영 번역기</h1>
-    
-    <p>최근 소셜 네트워크 서비스를 타고 돌아다니는 <a href="#" onclick="toggle_screenshot()">'구글 번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다.</p>
 
-    <p id="google-translate">
-        <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
-    </p>
+    <h1><a href="/" class="">이전 페이지로 돌아가기</a></h1>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'translator-suminb'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     
-    <div id="column1">    
-        <form method="get">
-            <div style="text-align: right;">
-                <input id="radio-mode-1" type="radio" name="mode" value="1"/>
-                <label for="radio-mode-1">그냥 번역</label>
-                <input id="radio-mode-2" type="radio" name="mode" value="2"/>
-                <label for="radio-mode-2">일본어를 거쳐서 번역</label>
-                <input type="button" value="번역" onclick="_translate()"/>
-            </div>
-            <textarea id="text"></textarea>
-        </form>
-    </div>
-    <div id="column2">
-        <pre id="result"></pre>
-    </div>
-    
-    <div style="clear:both;"></div>
-    
-    <div id="page-url">
-        <h3>이 페이지 주소</h3>
-        <div></div>
-    </div>
-    
+
     <div id="footer">
         <div id="share-buttons"> 
             <!-- AddThis Button BEGIN -->

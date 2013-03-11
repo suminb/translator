@@ -107,6 +107,13 @@ function displayExample() {
     _translate();
 }
 
+function refreshExample() {
+    var example = examples[Math.floor(Math.random() * examples.length)];
+
+    $("#text").html(example);
+    _translate();
+}
+
 function displayResult(result) {
     $("#result").html(result);
 }

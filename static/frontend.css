@@ -1,0 +1,51 @@
+body {
+    margin: 1em;
+    font-family: NanumGothic, sans-serif;
+    font-size: 11pt;
+    color: #505050;
+}
+
+h1, h2, h3 {
+    font-family: NanumGothicBold, sans-serif;
+}
+
+#column1, #column2 {
+    float: left;
+    width: 46%;
+    margin: 0 1em;
+}
+
+#text {
+    display: block;
+    width: 99%;
+    height: 8em;
+    font-family: NanumGothic, sans-serif;
+    font-size: 11pt;
+    color: #303030;
+}
+
+#result {
+    font-family: NanumGothic, sans-serif;
+    font-size: 11pt;
+    white-space: pre-wrap;
+    color: #303030;
+}
+
+#page-url {
+    display: none;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+#share-buttons {
+    text-align: center;
+}
+
+#footer {
+    margin: 2em 0 0 0;
+}
+#copyright {
+    margin-top: 1em;
+    text-align: center;
+    font-size: 9pt;
+}

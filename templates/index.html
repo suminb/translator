@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>더 나은 한영 번역기 (beta)</title>
+
+    <meta property="og:title" content="더 나은 한영 번역기"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://btr.suminb.com"/>
+    <meta property="og:image" content="http://hanja.suminb.com/static/images/hanja.png"/>
+    <meta property="og:site_name" content="더 나은 한영 번역기"/>
+    <meta property="fb:admins" content="10132775"/>
+    <meta property="og:description"
+          content=" 소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법' 이미지에서 영감을 얻어 만든 서비스입니다."/>
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://static.suminb.com/jquery.sprintf.js"></script>
+    <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
+    
+    <!-- Webfont provided by fontface.kr -->
+    <script src="http://www.google.com/jsapi"></script>
+    <script>
+    /* <![CDATA[ */
+    google.load( "webfont", "1" );
+    google.setOnLoadCallback(function() {
+      WebFont.load({ custom: {
+       families: [ "NanumGothic", "NanumGothicBold", "NanumMyeongjo" ],
+       urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css", "http://fontface.kr/NanumMyeongjo/css" ]
+      }});
+    });
+
+    (function() {
+        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+        t.parentNode.insertBefore(s, t);
+    })();
+    /* ]]> */
+    </script>
+    
+    <link rel="stylesheet" type="text/css" href="/static/frontend.css"/>
+</head>
+<body>
+    <h1>더 나은 한영 번역기</h1>
+    
+    <p>최근 소셜 네트워크 서비스를 타고 돌아다니는 <a href="#" onclick="toggle_image()">'구글 번역기 활용 방법' 이미지</a>에서 영감을 얻어 만든 서비스입니다.</p>
+    
+    <div id="column1">    
+        <form method="get">
+            <div style="text-align: right;">
+                <input id="radio-mode-s" type="radio" name="m" value="substitution"/>
+                <label for="radio-mode-s">일본어를 거쳐서 번역</label>
+                <input id="radio-mode-c" type="radio" name="m" value="combination"/>
+                <label for="radio-mode-c">그냥 번역</label>
+                <input type="button" value="번역" onclick="_translate()"/>
+            </div>
+            <textarea id="text"></textarea>
+        </form>
+    </div>
+    <div id="column2">
+        <pre id="result"></pre>
+    </div>
+    
+    <div style="clear:both;"></div>
+    
+    <div id="page-url">
+        <h3>이 페이지 주소</h3>
+        <div></div>
+    </div>
+    
+    <div id="footer">
+        <div id="share-buttons"> 
+            <!-- AddThis Button BEGIN -->
+            <div class="addthis_toolbox addthis_default_style ">
+                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+                <a class="addthis_button_tweet"></a>
+                <a class="addthis_button_pinterest_pinit"></a>
+                <a class="addthis_counter addthis_pill_style"></a>
+                <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://labs.suminb.com"></a>
+            </div>
+            <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513d8a896d2c8ac3"></script>
+            <!-- AddThis Button END -->
+        </div> 
+        <div id="copyright">
+            Copyright &copy; 2013 <a href="http://labs.suminb.com">Sumin's Labs</a>
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript">
+    // Example statements; one of these will be shown upon launch (if no `t` value is given)
+    var examples = [
+        "여러분이 몰랐던 구글 번역기",
+        "더 나은 한영 번역기",
+        "청년들을 타락시킨 죄로 독콜라를 마시는 홍민희"
+    ];
+
+    window.onload = function() {
+        var mode = getParameterByName("m") == "combination";
+        $(mode ? "#radio-mode-c" : "#radio-mode-s").attr("checked", "checked");
+
+        // The following code was copied from
+        // http://stackoverflow.com/questions/2161906/handle-url-anchor-change-event-in-js
+        if ("onhashchange" in window) { // event supported?
+            window.onhashchange = function () {
+                hashChanged(window.location.hash);
+            }
+        }
+        else { // event not supported:
+            var storedHash = window.location.hash;
+            window.setInterval(function () {
+                if (window.location.hash != storedHash) {
+                    storedHash = window.location.hash;
+                    hashChanged(storedHash);
+                }
+            }, 100);
+        }
+        
+        hashChanged(window.location.hash ? window.location.hash : "");
+        
+        $("#text").autoResize({
+            // On resize:
+            onResize : function() {
+                $(this).css({opacity:0.8});
+            },
+            // After resize:
+            animateCallback : function() {
+                $(this).css({opacity:1});
+            },
+            // Quite slow animation:
+            animateDuration : 300,
+            // More extra space:
+            extraSpace : 40
+        }).trigger("change");
+    }
+
+    /**
+     * Parsing a URL query string
+     * http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
+     */
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)";
+        var regex = new RegExp(regexS);
+        var results = regex.exec(window.location.search);
+        if(results == null)
+            return "";
+        else
+            return decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    
+    function onchangeTextarea(t) {
+        console.log("textarea changed");
+    }
+    
+    function resizeTextarea(t) {
+        console.log("textarea onkeyup");
+        console.log(t.cols);
+        a = t.value.split('\n');
+        b = 1;
+        for (x=0;x < a.length; x++) {
+            if (a[x].length >= t.cols) b+= Math.floor(a[x].length/t.cols);
+        }
+        b+= a.length;
+        if (b > t.rows) t.rows = b;
+    }
+    
+    function _translate() {
+        var mode = $("#radio-mode-c").is(":checked") ? "1" : "2";
+        var text = $("#text").val();
+        console.log(text);
+        $.get("/translate", {
+                mode: mode,
+                text: text
+            }, function(response) {
+                displayResult(response);
+            }
+        ).error(function(response) {
+                console.log(response);
+            }
+        );
+        
+        return false;
+    }
+
+    function displayExample() {
+        // Randomly chooses an example sentence
+        var statement = examples[Math.floor(Math.random() * examples.length)];
+
+        $("#text").html(statement);
+        _translate();
+    }
+    
+    function displayResult(result) {
+        $("#result").html(result);
+    }
+    
+    function hashChanged(hash) {
+        if(hash.match(/^#t=/)) {
+            $("#text").val(decodeURIComponent(hash.substring(3)));
+            _translate();
+        }
+        else {
+            displayExample();
+        }
+    }
+
+    </script>
+    
+    <script type="text/javascript" src="http://api.flattr.com/js/0.6/load.js?mode=auto"></script>
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> 
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script> 
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-346833-18']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

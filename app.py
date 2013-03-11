@@ -9,13 +9,14 @@ import urllib
 
 app = Flask(__name__)
 
-def translate_(text, source, target):
+def __translate__(text, source, target):
     """
     text: text to be translated
     source: source language
     target: target language
     """
-    headers = {'referer': 'http://translate.google.com',
+    headers = {
+        'referer': 'http://translate.google.com',
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'
     }
     params = {
@@ -43,10 +44,10 @@ def translate():
     mode = request.args.get('mode')
 
     if mode == '2':
-        translated = translate_(text, 'ko', 'ja')
-        translated = translate_(translated, 'ja', 'en')
+        translated = __translate__(text, 'ko', 'ja')
+        translated = __translate__(translated, 'ja', 'en')
     else:
-        translated = translate_(text, 'ko', 'en')
+        translated = __translate__(text, 'ko', 'en')
 
     return translated
 

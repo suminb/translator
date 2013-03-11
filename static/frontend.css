@@ -15,6 +15,11 @@ h1, h2, h3 {
     margin: 0 1em;
 }
 
+#google-translate {
+    display: none;
+    text-align: center;
+}
+
 #text {
     display: block;
     width: 99%;
@@ -38,7 +43,14 @@ h1, h2, h3 {
 }
 
 #share-buttons {
-    text-align: center;
+    /*text-align: center;*/
+}
+div.addthis_toolbox {
+    width: 480px;
+    margin: 0 auto;
+}
+.FlattrButton {
+    margin-left: 16px;
 }
 
 #footer {

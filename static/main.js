@@ -1,11 +1,13 @@
 var examples = [
     "여러분이 몰랐던 구글 번역기",
     "샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근",
-    "구글은 세계 정복을 꿈꾸고 있다",
-    "강선구 이사님은 오늘도 새로운 기술을 찾아나선다",
+    "구글은 세계 정복을 꿈꾸고 있다.",
+    "강선구 이사님은 오늘도 새로운 기술을 찾아나선다.",
     "전망 좋은 카페에 앉아 먹었던 티라미수",
     //"청년들을 타락시킨 죄로 독콜라를 마시는 홍민희"
 ];
+
+var global = {};
 
 window.onload = function() {
     var mode = getParameterByName("mode") == "1";
@@ -95,21 +97,23 @@ function _translate() {
     return false;
 }
 
+// TODO: Refactor this function
 function displayExample() {
-    var ei = parseInt(getParameterByName("example"));
-    if (isNaN(ei)) {
+    global.ei = parseInt(getParameterByName("example"));
+    if (isNaN(global.ei)) {
         // Randomly chooses an example sentence
-        ei = Math.floor(Math.random() * examples.length)
+        global.ei = Math.floor(Math.random() * examples.length)
     }
 
-    var example = examples[ei % examples.length];
+    var example = examples[global.ei % examples.length];
 
     $("#text").html(example);
     _translate();
 }
 
+// TODO: Refactor this function
 function refreshExample() {
-    var example = examples[Math.floor(Math.random() * examples.length)];
+    var example = examples[++global.ei % examples.length];
 
     $("#text").html(example);
     _translate();

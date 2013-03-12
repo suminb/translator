@@ -3,15 +3,17 @@ var examples = {
         "The Google translator that you did not know about",
         "Google is dreaming of the world conquest.",
         "When in Rome do as the Romans do.",
-        "An eigenvector of a square matrix A is a non-zero vector v that, when multiplied by A, yields the original vector multiplied by a single number L; that is, Av = Lv. The number L is called the eigenvalue of A corresponding to v."
+        "An eigenvector of a square matrix A is a non-zero vector v that, when multiplied by A, yields the original vector multiplied by a single number L; that is, Av = Lv. The number L is called the eigenvalue of A corresponding to v.",
+        "What the hell is going on"
     ],
     ko: [
         "여러분이 몰랐던 구글 번역기",
+        "청년들을 타락시킨 죄로 독콜라를 마시는 홍민희",
         "샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근",
         "구글은 세계 정복을 꿈꾸고 있다.",
         "강선구 이사님은 오늘도 새로운 기술을 찾아나선다.",
-        "전망 좋은 카페에 앉아 먹었던 티라미수"
-        //"청년들을 타락시킨 죄로 독콜라를 마시는 홍민희"
+        "전망 좋은 카페에 앉아 먹었던 티라미수",
+        "호준이는 비싼 학비 때문에 허리가 휘어집니다."
     ]
 };
 

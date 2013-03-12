@@ -13,6 +13,10 @@ h1 a {
     text-decoration: none;
 }
 
+input[type=submit] {
+    font-size: 13pt;
+}
+
 #column1, #column2 {
     float: left;
     width: 46%;

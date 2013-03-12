@@ -51,14 +51,14 @@
         <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
     </p>
     
-    <form method="get">
+    <form method="get" onsubmit="return _translate()">
     <div id="translation-options">
         <a href="#" onclick="refreshExample()">다른 예제 보기</a>
-        <input id="radio-mode-1" type="radio" name="mode" value="1"/>
+        <input id="radio-mode-1" type="radio" name="mode" value="1" onclick="_translate()"/>
         <label for="radio-mode-1">그냥 번역</label>
-        <input id="radio-mode-2" type="radio" name="mode" value="2"/>
+        <input id="radio-mode-2" type="radio" name="mode" value="2" onclick="_translate()"/>
         <label for="radio-mode-2">일본어를 거쳐서 번역</label>
-        <input type="button" value="번역" onclick="_translate()"/>
+        <input type="submit" value="번역"/>
     </div>
     <div id="column1">
         <div>

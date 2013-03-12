@@ -1,11 +1,19 @@
-var examples = [
-    "여러분이 몰랐던 구글 번역기",
-    "샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근",
-    "구글은 세계 정복을 꿈꾸고 있다.",
-    "강선구 이사님은 오늘도 새로운 기술을 찾아나선다.",
-    "전망 좋은 카페에 앉아 먹었던 티라미수",
-    //"청년들을 타락시킨 죄로 독콜라를 마시는 홍민희"
-];
+var examples = {
+    en: [
+        "The Google translator that you did not know about",
+        "Google is dreaming of the world conquest.",
+        "When in Rome do as the Romans do.",
+        "An eigenvector of a square matrix A is a non-zero vector v that, when multiplied by A, yields the original vector multiplied by a single number L; that is, Av = Lv. The number L is called the eigenvalue of A corresponding to v."
+    ],
+    ko: [
+        "여러분이 몰랐던 구글 번역기",
+        "샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근",
+        "구글은 세계 정복을 꿈꾸고 있다.",
+        "강선구 이사님은 오늘도 새로운 기술을 찾아나선다.",
+        "전망 좋은 카페에 앉아 먹었던 티라미수"
+        //"청년들을 타락시킨 죄로 독콜라를 마시는 홍민희"
+    ]
+};
 
 var global = {};
 
@@ -80,11 +88,6 @@ function resizeTextarea(t) {
 }
 
 function _translate() {
-    var mode = $("#radio-mode-1").is(":checked") ? "1" : "2";
-    var text = $("#text").val();
-    var source = $("#source").val();
-    var target = $("#target").val();
-    console.log(text);
     $.get("/translate", $("form").serializeArray(), function(response) {
             displayResult(response);
         }
@@ -101,21 +104,31 @@ function displayExample() {
     global.ei = parseInt(getParameterByName("example"));
     if (isNaN(global.ei)) {
         // Randomly chooses an example sentence
-        global.ei = Math.floor(Math.random() * examples.length)
+        global.ei = Math.floor(Math.random() * examples.ko.length)
     }
 
-    var example = examples[global.ei % examples.length];
+    var example = examples.ko[global.ei % examples.ko.length];
 
-    $("#text").html(example);
+    $("#text").val(example);
     _translate();
 }
 
 // TODO: Refactor this function
 function refreshExample() {
-    var example = examples[++global.ei % examples.length];
-    window.location.hash = "#example=" + global.ei;
+    var language = $("select[name=source]").val();
 
-    $("#text").html(example);
+    console.log(language);
+    console.log(examples[language]);
+
+    var example = examples[language][++global.ei % examples[language].length];
+
+    console.log(example);
+
+    //window.location.hash = "#text=" + example;
+
+    console.log(example);
+
+    $("#text").val(example);
     _translate();
 }
 

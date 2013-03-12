@@ -44,14 +44,26 @@ def discuss():
 
 @app.route('/translate')
 def translate():
+    valid_languages = ['en', 'ja', 'ko']
+
     text = request.args.get('text')
     mode = request.args.get('mode')
+    source = request.args.get('source')
+    target = request.args.get('target')
+
+    if source == target:
+        return text
+
+    if source not in valid_languages:
+        return 'Invalid source language\n', 400
+    if target not in valid_languages:
+        return 'Invalid target language\n', 400
 
     if mode == '2':
-        translated = __translate__(text, 'ko', 'ja')
-        translated = __translate__(translated, 'ja', 'en')
+        translated = __translate__(text, source, 'ja')
+        translated = __translate__(translated, 'ja', target)
     else:
-        translated = __translate__(text, 'ko', 'en')
+        translated = __translate__(text, source, target)
 
     return translated
 

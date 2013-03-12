@@ -24,6 +24,12 @@ h1 a {
     text-align: center;
 }
 
+#translation-options {
+    width: 46%;
+    margin: 0 1em;
+    text-align: right;
+}
+
 #text {
     display: block;
     width: 99%;

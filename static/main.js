@@ -82,11 +82,10 @@ function resizeTextarea(t) {
 function _translate() {
     var mode = $("#radio-mode-1").is(":checked") ? "1" : "2";
     var text = $("#text").val();
+    var source = $("#source").val();
+    var target = $("#target").val();
     console.log(text);
-    $.get("/translate", {
-            mode: mode,
-            text: text
-        }, function(response) {
+    $.get("/translate", $("form").serializeArray(), function(response) {
             displayResult(response);
         }
     ).error(function(response) {
@@ -114,6 +113,7 @@ function displayExample() {
 // TODO: Refactor this function
 function refreshExample() {
     var example = examples[++global.ei % examples.length];
+    window.location.hash = "#example=" + global.ei;
 
     $("#text").html(example);
     _translate();
@@ -124,8 +124,8 @@ function displayResult(result) {
 }
 
 function hashChanged(hash) {
-    if(hash.match(/^#t=/)) {
-        $("#text").val(decodeURIComponent(hash.substring(3)));
+    if(hash.match(/^#text=/)) {
+        $("#text").val(decodeURIComponent(hash.substring(6)));
         _translate();
     }
     else {

@@ -1,0 +1,67 @@
+# Korean translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-03-15 06:14+0000\n"
+"PO-Revision-Date: 2013-03-15 06:15+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: ko <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: templates/index.html:6 templates/index.html:10 templates/index.html:45
+msgid "app-title"
+msgstr "더 나은 번역기"
+
+#: templates/index.html:13
+msgid "app-description-text"
+msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
+
+#: templates/index.html:48
+msgid "app-description-html"
+msgstr "최근 소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggle_screenshot()\">'구글 번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다."
+
+#: templates/index.html:56
+msgid "Show another example"
+msgstr "다른 예제 보기"
+
+#: templates/index.html:58
+msgid "Direct translation"
+msgstr "그냥 번역"
+
+#: templates/index.html:60
+msgid "Use Japanese as an intermediate langauge"
+msgstr "일본어를 거쳐서 번역"
+
+#: templates/index.html:61
+msgid "Translate"
+msgstr "번역"
+
+#: templates/index.html:66 templates/index.html:74
+msgid "Korean"
+msgstr "한국어"
+
+#: templates/index.html:67 templates/index.html:75
+msgid "English"
+msgstr "영어"
+
+#: templates/index.html:85
+msgid "URL for this page"
+msgstr "이 페이지 주소"
+
+#: templates/index.html:104
+msgid "Discussons"
+msgstr "건의 &amp; 토론"
+
+#: templates/index.html:105
+msgid "Bug reporting"
+msgstr "버그 리포팅"
+

@@ -1,0 +1,67 @@
+# Translations template for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-03-15 06:14+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: templates/index.html:6 templates/index.html:10 templates/index.html:45
+msgid "app-title"
+msgstr ""
+
+#: templates/index.html:13
+msgid "app-description-text"
+msgstr ""
+
+#: templates/index.html:48
+msgid "app-description-html"
+msgstr ""
+
+#: templates/index.html:56
+msgid "Show another example"
+msgstr ""
+
+#: templates/index.html:58
+msgid "Direct translation"
+msgstr ""
+
+#: templates/index.html:60
+msgid "Use Japanese as an intermediate langauge"
+msgstr ""
+
+#: templates/index.html:61
+msgid "Translate"
+msgstr ""
+
+#: templates/index.html:66 templates/index.html:74
+msgid "Korean"
+msgstr ""
+
+#: templates/index.html:67 templates/index.html:75
+msgid "English"
+msgstr ""
+
+#: templates/index.html:85
+msgid "URL for this page"
+msgstr ""
+
+#: templates/index.html:104
+msgid "Discussons"
+msgstr ""
+
+#: templates/index.html:105
+msgid "Bug reporting"
+msgstr ""
+

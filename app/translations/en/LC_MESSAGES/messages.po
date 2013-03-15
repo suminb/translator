@@ -23,11 +23,11 @@ msgstr "A Better Translator"
 
 #: templates/index.html:13
 msgid "app-description-text"
-msgstr "A Better Translator is a language translation service based on the idea that use of the Japanese language as an intermediate language yields a better result."
+msgstr "A Better Translator is a language translation service based on the idea that use of the Japanese language as an intermediate language yields a better result. The reason behind this is that a large quantity of sample data has been accumulated on the Google Translate database as everyone in the world tries to translate Japanese porn into their language, and thus Google Translate performs better with Japanese."
 
 #: templates/index.html:48
 msgid "app-description-html"
-msgstr "A Better Translator is a language translation service based on <a href=\"#\" onclick=\"toggle_screenshot()\">the idea</a> that use of the Japanese language as an intermediate language yields a better result."
+msgstr "A Better Translator is a language translation service based on <a href=\"#\" onclick=\"toggle_screenshot()\">the idea</a> that use of the Japanese language as an intermediate language yields a better result. The reason behind this is that a large quantity of sample data has been accumulated on the Google Translate database as everyone in the world tries to translate Japanese porn into their language, and thus Google Translate performs better with Japanese."
 
 #: templates/index.html:56
 msgid "Show another example"

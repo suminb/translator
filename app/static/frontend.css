@@ -3,6 +3,7 @@ body {
     font-family: NanumGothic, sans-serif;
     font-size: 11pt;
     color: #505050;
+    line-height: 135%;
 }
 
 h1, h2, h3 {

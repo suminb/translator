@@ -28,7 +28,7 @@ msgstr ""
 "A Better Translator is a language translation service based on the idea "
 "that use of the Japanese language as an intermediate language yields a "
 "better result. The reason behind this is that a large quantity of sample "
-"data has been accumulated on the Google Translate database as everyone in"
+"data has been accumulated in the Google Translate database as everyone in"
 " the world tries to translate Japanese porn into their language, and thus"
 " Google Translate performs better with Japanese."
 

@@ -1,7 +1,7 @@
 # French translations for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <flyingyujin@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
@@ -56,7 +56,7 @@ msgstr "Anglais"
 
 #: templates/index.html:85
 msgid "URL for this page"
-msgstr "UR de la page"
+msgstr "URL de la page"
 
 #: templates/index.html:104
 msgid "Discussons"

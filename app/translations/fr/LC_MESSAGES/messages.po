@@ -86,11 +86,11 @@ msgstr "Anglais"
 
 #: ../templates/index.html:25 ../templates/index.html:35
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 #: ../templates/index.html:26 ../templates/index.html:36
 msgid "Japanese"
-msgstr ""
+msgstr "Japonais"
 
 #: ../templates/index.html:46
 msgid "URL for this page"

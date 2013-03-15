@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>더 나은 한영 번역기 (beta)</title>
+    <title>{{ _("app-title") }}</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta property="og:title" content="{{ _("app-title") }}"/>
@@ -18,18 +18,20 @@
     <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
     <script type="text/javascript" src="/static/main.js"></script>
     
+    {% if locale == "ko" %}
     <!-- Webfont provided by fontface.kr -->
     <script src="http://www.google.com/jsapi"></script>
-    <script>
-    /* <![CDATA[ */
+    <script type="text/javascript">
     google.load( "webfont", "1" );
     google.setOnLoadCallback(function() {
       WebFont.load({ custom: {
-       families: [ "NanumGothic", "NanumGothicBold", "NanumMyeongjo" ],
-       urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css", "http://fontface.kr/NanumMyeongjo/css" ]
+       families: [ "NanumGothic", "NanumGothicBold" ],
+       urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css" ]
       }});
     });
-
+    </script>
+    {% endif %}
+    <script type="text/javascript">
     (function() {
         var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
         s.type = 'text/javascript';
@@ -37,7 +39,6 @@
         s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
         t.parentNode.insertBefore(s, t);
     })();
-    /* ]]> */
     </script>
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -89,8 +90,8 @@
     
     <div id="footer">
         <div>
-            <a href="#" onclick="$.post('/locale', {locale: 'ko'});">한국어</a> |
-            <a href="#" onclick="$.post('/locale', {locale: 'en'});">English</a>
+            <a href="#" onclick="$.cookie('locale', 'ko'); location.reload()">한국어</a> |
+            <a href="#" onclick="$.cookie('locale', 'en'); location.reload()">English</a>
         </div>
         <div id="share-buttons"> 
             <!-- AddThis Button BEGIN -->

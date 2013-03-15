@@ -27,7 +27,7 @@ msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역�
 
 #: templates/index.html:48
 msgid "app-description-html"
-msgstr "최근 소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggle_screenshot()\">'구글 번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다."
+msgstr "소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggle_screenshot()\">'구글 번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다."
 
 #: templates/index.html:56
 msgid "Show another example"

@@ -22,6 +22,8 @@
             <select name="source" onchange="_translate()">
                 <option value="ko" selected="selected">{{ _("Korean") }}</option>
                 <option value="en">{{ _("English") }}</option>
+                <option value="fr">{{ _("French") }}</option>
+                <option value="ja">{{ _("Japanese") }}</option>
             </select>
         </div>
         <textarea id="text" name="text"></textarea>
@@ -30,6 +32,8 @@
         <select name="target" onchange="_translate()">
             <option value="ko">{{ _("Korean") }}</option>
             <option value="en" selected="selected">{{ _("English") }}</option>
+            <option value="fr">{{ _("French") }}</option>
+            <option value="ja">{{ _("Japanese") }}</option>
         </select>
         <div id="error-message"></div>
         <pre id="result"></pre>

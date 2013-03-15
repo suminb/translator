@@ -43,6 +43,10 @@ def __translate__(text, source, target):
     source: source language
     target: target language
     """
+
+    if source == target:
+        return text
+
     headers = {
         'Referer': 'http://translate.google.com',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22',
@@ -63,10 +67,16 @@ def __translate__(text, source, target):
     try:
         data = json.loads(r.text)
 
+        print data
+
         try:
+            #if target == 'ja':
+            #    sentences = data['sentences']
             sentences = data['sentences']
         except:
             sentences = data['results'][0]['sentences']
+
+        print 'aaaaa'
 
         return ' '.join(map(lambda x: x['trans'], sentences)), 200
 
@@ -105,7 +115,7 @@ def credits():
 
 @app.route('/translate', methods=['POST'])
 def translate():
-    valid_languages = ['en', 'ja', 'ko']
+    valid_languages = ['en', 'fr', 'ja', 'ko', 'ru', 'zh-CN']
 
     text = request.form['text']
     mode = request.form['mode']

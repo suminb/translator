@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-15 09:26+0000\n"
+"POT-Creation-Date: 2013-03-15 09:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,19 +26,19 @@ msgstr ""
 msgid "app-description-text"
 msgstr ""
 
-#: ../templates/base.html:69 ../templates/credits.html:4
+#: ../templates/base.html:70 ../templates/credits.html:3
 msgid "Credits"
 msgstr ""
 
-#: ../templates/base.html:70
+#: ../templates/base.html:71 ../templates/discuss.html:3
 msgid "Discussions"
 msgstr ""
 
-#: ../templates/base.html:71
+#: ../templates/base.html:72
 msgid "Bug reporting"
 msgstr ""
 
-#: ../templates/credits.html:5
+#: ../templates/credits.html:4 ../templates/discuss.html:4
 msgid "Go back to home"
 msgstr ""
 
@@ -62,15 +62,23 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-#: ../templates/index.html:23 ../templates/index.html:31
+#: ../templates/index.html:23 ../templates/index.html:33
 msgid "Korean"
 msgstr ""
 
-#: ../templates/index.html:24 ../templates/index.html:32
+#: ../templates/index.html:24 ../templates/index.html:34
 msgid "English"
 msgstr ""
 
-#: ../templates/index.html:42
+#: ../templates/index.html:25 ../templates/index.html:35
+msgid "French"
+msgstr ""
+
+#: ../templates/index.html:26 ../templates/index.html:36
+msgid "Japanese"
+msgstr ""
+
+#: ../templates/index.html:46
 msgid "URL for this page"
 msgstr ""
 

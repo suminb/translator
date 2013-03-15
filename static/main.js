@@ -90,7 +90,7 @@ function resizeTextarea(t) {
 }
 
 function _translate() {
-    $.get("/translate", $("form").serializeArray(), function(response) {
+    $.post("/translate", $("form").serializeArray(), function(response) {
             displayResult(response);
         }
     ).fail(function(response) {

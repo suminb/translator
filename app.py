@@ -65,14 +65,14 @@ def index():
 def discuss():
     return render_template("discuss.html")
 
-@app.route('/translate')
+@app.route('/translate', methods=['POST'])
 def translate():
     valid_languages = ['en', 'ja', 'ko']
 
-    text = request.args.get('text')
-    mode = request.args.get('mode')
-    source = request.args.get('source')
-    target = request.args.get('target')
+    text = request.form['text']
+    mode = request.form['mode']
+    source = request.form['source']
+    target = request.form['target']
 
     if source == target:
         return text

@@ -13,7 +13,6 @@ import json
 import urllib
 
 app = Flask(__name__)
-app.config['BABEL_DEFAULT_LOCALE'] = 'ko'
 
 babel = Babel(app)
 

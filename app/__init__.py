@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, request, render_template
+from flaskext.babel import Babel, gettext as _
+from flaskext.babel import *
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 
@@ -11,12 +13,28 @@ import json
 import urllib
 
 app = Flask(__name__)
+app.config['BABEL_DEFAULT_LOCALE'] = 'ko'
+
+babel = Babel(app)
+
 
 class HTTPException(RuntimeError):
     def __init__(self, message, status_code):
         self.message = message
         self.status_code = status_code
         super(HTTPException, self).__init__()
+
+
+@babel.localeselector
+def get_locale():
+    """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    try:
+        return request.args['locale']
+    except KeyError:
+        try:
+            return request.cookies['locale']
+        except KeyError:
+            return request.accept_languages.best_match(['ko', 'en'])
 
 
 def __translate__(text, source, target):
@@ -54,16 +72,31 @@ def __translate__(text, source, target):
 
     except Exception as e:
         raise Exception('An error has occured: "%s" If the problem persists, you may report it <a href="/discuss">here</a>.' % str(e))
+
+
 #
 # Request handlers
 #
 @app.route('/')
 def index():
-    return render_template("index.html")
+    print babel.list_translations()
+    context = dict(locale=get_locale())
+    return render_template("index.html", **context)
+
+
+@app.route("/locale", methods=['POST'])
+def set_locale():
+    """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    locale = request.form["locale"]
+    response = redirect(url_for("index"))
+    response.set_cookie("locale", locale, 60 * 60 * 24 * 14)
+    return response
+
 
 @app.route('/discuss')
 def discuss():
     return render_template("discuss.html")
+
 
 @app.route('/translate', methods=['POST'])
 def translate():

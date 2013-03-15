@@ -1,0 +1,67 @@
+# English translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-03-15 06:14+0000\n"
+"PO-Revision-Date: 2013-03-15 06:16+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: enj <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: templates/index.html:6 templates/index.html:10 templates/index.html:45
+msgid "app-title"
+msgstr "A Better Translator"
+
+#: templates/index.html:13
+msgid "app-description-text"
+msgstr "A Better Translator is a language translation service based on the idea that use of the Japanese language as an intermediate language yields a better result."
+
+#: templates/index.html:48
+msgid "app-description-html"
+msgstr "A Better Translator is a language translation service based on <a href=\"#\" onclick=\"toggle_screenshot()\">the idea</a> that use of the Japanese language as an intermediate language yields a better result."
+
+#: templates/index.html:56
+msgid "Show another example"
+msgstr ""
+
+#: templates/index.html:58
+msgid "Direct translation"
+msgstr ""
+
+#: templates/index.html:60
+msgid "Use Japanese as an intermediate langauge"
+msgstr ""
+
+#: templates/index.html:61
+msgid "Translate"
+msgstr ""
+
+#: templates/index.html:66 templates/index.html:74
+msgid "Korean"
+msgstr ""
+
+#: templates/index.html:67 templates/index.html:75
+msgid "English"
+msgstr ""
+
+#: templates/index.html:85
+msgid "URL for this page"
+msgstr ""
+
+#: templates/index.html:104
+msgid "Discussons"
+msgstr ""
+
+#: templates/index.html:105
+msgid "Bug reporting"
+msgstr ""
+

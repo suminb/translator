@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>더 나은 한영 번역기 (beta)</title>
+    <title>{{ _("app-title") }}</title>
 
-    <meta property="og:title" content="더 나은 한영 번역기"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta property="og:title" content="{{ _("app-title") }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="http://translator.suminb.com"/>
     <meta property="og:image" content="http://translator.suminb.com/static/icon_256.png"/>
-    <meta property="og:site_name" content="더 나은 한영 번역기"/>
+    <meta property="og:site_name" content="{{ _("app-title") }}"/>
     <meta property="fb:admins" content="10132775"/>
     <meta property="og:description"
-          content=" 소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."/>
+          content="{{ _("app-description-text") }}"/>
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
+    <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
     <script type="text/javascript" src="/static/main.js"></script>
     
+    {% if locale == "ko" %}
     <!-- Webfont provided by fontface.kr -->
     <script src="http://www.google.com/jsapi"></script>
-    <script>
-    /* <![CDATA[ */
+    <script type="text/javascript">
     google.load( "webfont", "1" );
     google.setOnLoadCallback(function() {
       WebFont.load({ custom: {
-       families: [ "NanumGothic", "NanumGothicBold", "NanumMyeongjo" ],
-       urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css", "http://fontface.kr/NanumMyeongjo/css" ]
+       families: [ "NanumGothic", "NanumGothicBold" ],
+       urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css" ]
       }});
     });
-
+    </script>
+    {% endif %}
+    <script type="text/javascript">
     (function() {
         var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
         s.type = 'text/javascript';
@@ -35,16 +39,15 @@
         s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
         t.parentNode.insertBefore(s, t);
     })();
-    /* ]]> */
     </script>
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="/static/frontend.css"/>
 </head>
 <body>
-    <h1>더 나은 한영 번역기</h1>
+    <h1>{{ _("app-title") }}</h1>
     
-    <p>최근 소셜 네트워크 서비스를 타고 돌아다니는 <a href="#" onclick="toggle_screenshot()">'구글 번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다.</p>
+    <p>{{ _("app-description-html") }}</p>
 
     <p id="google-translate">
         <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
@@ -52,26 +55,26 @@
     
     <form method="get" onsubmit="return _translate()">
     <div id="translation-options">
-        <a href="#" onclick="refreshExample()">다른 예제 보기</a>
+        <a href="#" onclick="refreshExample()">{{ _("Show another example" )}}</a>
         <input id="radio-mode-1" type="radio" name="mode" value="1" onclick="_translate()"/>
-        <label for="radio-mode-1">그냥 번역</label>
+        <label for="radio-mode-1">{{ _("Direct translation") }}</label>
         <input id="radio-mode-2" type="radio" name="mode" value="2" onclick="_translate()"/>
-        <label for="radio-mode-2">일본어를 거쳐서 번역</label>
-        <input type="submit" value="번역"/>
+        <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
+        <input type="submit" value="{{ _("Translate") }}"/>
     </div>
     <div id="column1">
         <div>
             <select name="source" onchange="_translate()">
-                <option value="ko" selected="selected">한국어</option>
-                <option value="en">영어</option>
+                <option value="ko" selected="selected">{{ _("Korean") }}</option>
+                <option value="en">{{ _("English") }}</option>
             </select>
         </div>
         <textarea id="text" name="text"></textarea>
     </div>
     <div id="column2">
         <select name="target" onchange="_translate()">
-            <option value="ko">한국어</option>
-            <option value="en" selected="selected">영어</option>
+            <option value="ko">{{ _("Korean") }}</option>
+            <option value="en" selected="selected">{{ _("English") }}</option>
         </select>
         <div id="error-message"></div>
         <pre id="result"></pre>
@@ -81,11 +84,15 @@
     <div style="clear:both;"></div>
     
     <div id="page-url">
-        <h3>이 페이지 주소</h3>
+        <h3>{{ _("URL for this page") }}</h3>
         <div></div>
     </div>
     
     <div id="footer">
+        <div>
+            <a href="#" onclick="$.cookie('locale', 'ko'); location.reload()">한국어</a> |
+            <a href="#" onclick="$.cookie('locale', 'en'); location.reload()">English</a>
+        </div>
         <div id="share-buttons"> 
             <!-- AddThis Button BEGIN -->
             <div class="addthis_toolbox addthis_default_style ">
@@ -100,8 +107,8 @@
             <!-- AddThis Button END -->
         </div> 
         <div id="copyright">
-            <a href="/discuss">건의 &amp; 토론</a> |
-            <a href="http://github.com/suminb/translator/issues">버그 리포팅</a> |
+            <a href="/discuss">{{ _("Discussons") }}</a> |
+            <a href="http://github.com/suminb/translator/issues">{{ _("Bug reporting") }}</a> |
             Translation service is provided by <a href="http://translate.google.com">Google Translate</a><br/>
 
             &copy; 2013 <a href="http://labs.suminb.com">Sumin's Labs</a>. All rights reserved.

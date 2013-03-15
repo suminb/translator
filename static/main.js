@@ -93,7 +93,8 @@ function _translate() {
     $.get("/translate", $("form").serializeArray(), function(response) {
             displayResult(response);
         }
-    ).error(function(response) {
+    ).fail(function(response) {
+            displayError(response.responseText)
             console.log(response);
         }
     );
@@ -135,7 +136,13 @@ function refreshExample() {
 }
 
 function displayResult(result) {
+    $("#error-message").html("");
     $("#result").html(result);
+}
+
+function displayError(message) {
+    $("#error-message").html(message);
+    $("#result").html("");
 }
 
 function hashChanged(hash) {

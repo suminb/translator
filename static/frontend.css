@@ -50,6 +50,10 @@ input[type=submit] {
     color: #303030;
 }
 
+#error-message {
+    color: #F03300;
+}
+
 #page-url {
     display: none;
     width: 100%;

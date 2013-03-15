@@ -2,12 +2,22 @@ from flask import Flask, jsonify, request, render_template
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 
-import os
+# This guy does not take keyword arguments
+#from requests.exceptions import HTTPError
+
+import os, sys
 import requests
 import json
 import urllib
 
 app = Flask(__name__)
+
+class HTTPException(RuntimeError):
+    def __init__(self, message, status_code):
+        self.message = message
+        self.status_code = status_code
+        super(HTTPException, self).__init__()
+
 
 def __translate__(text, source, target):
     """
@@ -16,21 +26,34 @@ def __translate__(text, source, target):
     target: target language
     """
     headers = {
-        'referer': 'http://translate.google.com',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'
+        'Referer': 'http://translate.google.com',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22',
+        #'Content-Length': str(sys.getsizeof(text))
     }
-    params = {
+    payload = {
         'client': 'x',
         'sl': source,
         'tl': target,
         'text': text
     }
     url = 'http://translate.google.com/translate_a/t'
-    r = requests.get(url, headers=headers, params=params)
+    r = requests.get(url, headers=headers, params=payload)
 
-    data = json.loads(r.text)
+    if r.status_code != 200:
+        raise HTTPException(('Google Translate returned HTTP %d' % r.status_code), r.status_code)
 
-    return data['sentences'][0]['trans']
+    try:
+        data = json.loads(r.text)
+
+        try:
+            sentences = data['sentences']
+        except:
+            sentences = data['results'][0]['sentences']
+
+        return ' '.join(map(lambda x: x['trans'], sentences)), 200
+
+    except Exception as e:
+        raise Exception('An error has occured: "%s" If the problem persists, you may report it <a href="/discuss">here</a>.' % str(e))
 #
 # Request handlers
 #
@@ -59,13 +82,21 @@ def translate():
     if target not in valid_languages:
         return 'Invalid target language\n', 400
 
-    if mode == '2':
-        translated = __translate__(text, source, 'ja')
-        translated = __translate__(translated, 'ja', target)
-    else:
-        translated = __translate__(text, source, target)
+    try:
+        if mode == '2':
+            translated = __translate__(text, source, 'ja')
+            translated = __translate__(translated, 'ja', target)
+        else:
+            translated = __translate__(text, source, target)
 
-    return translated
+        return translated
+
+    except HTTPException as e:
+        return e.message, e.status_code
+
+    except Exception as e:
+        return str(e), 500
+
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

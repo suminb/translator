@@ -7,83 +7,92 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-15 06:14+0000\n"
+"POT-Creation-Date: 2013-03-15 11:49+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-"X-Generator: Poedit 1.5.4\n"
 
-
-#: templates/credits.html:4 templates/discuss.html:4
-msgid "Go back to home"
-msgstr "Retourner à la page d'accueil"
-
-#: templates/index.html:6 templates/index.html:10 templates/index.html:45
+#: ../templates/base.html:4 ../templates/base.html:7 ../templates/base.html:11
+#: ../templates/index.html:3
 msgid "app-title"
 msgstr "Traduction de mieux "
 
-#: templates/index.html:13
+#: ../templates/base.html:14
 msgid "app-description-text"
 msgstr ""
-"La traduction de mieux est un service qui permet d'effectuer des traductions "
-"de la langue envers le japonais. Le motif déterminant de ce service est "
-"cela, il y a des donnés accumulés par utilisateurs partout dans le monde qui "
+"La traduction de mieux est un service qui permet d'effectuer des "
+"traductions de la langue envers le japonais. Le motif déterminant de ce "
+"service est cela, il y a des donnés accumulés par utilisateurs partout "
+"dans le monde qui essaient de traduire le porno japonais dans leur propre"
+" langage. Par conséquent, Google Traduction envers le japonais vous donne"
+" le meilleur résultat. Google Traduction en japonais."
+
+#: ../templates/base.html:72 ../templates/credits.html:3
+msgid "Credits"
+msgstr "Crédit"
+
+#: ../templates/base.html:73 ../templates/discuss.html:3
+#, fuzzy
+msgid "Discussions"
+msgstr "Discussion"
+
+#: ../templates/base.html:74
+msgid "Bug reporting"
+msgstr "Rapport de bogues"
+
+#: ../templates/credits.html:4 ../templates/discuss.html:4
+msgid "Go back to home"
+msgstr "Retourner à la page d'accueil"
+
+#: ../templates/index.html:5
+msgid "app-description-html"
+msgstr ""
+"La traduction de mieux est un service qui permet d'effectuer des "
+"traductions de la langue envers le japonais. Le motif déterminant de ce "
+"service est <a href=\"#\" onclick=\"toggle_screenshot()\">cela</a>, il y "
+"a des donnés accumulés par utilisateurs partout dans le monde qui "
 "essaient de traduire le porno japonais dans leur propre langage. Par "
 "conséquent, Google Traduction envers le japonais vous donne le meilleur "
 "résultat. Google Traduction en japonais."
 
-#: templates/index.html:48
-msgid "app-description-html"
-msgstr ""
-"La traduction de mieux est un service qui permet d'effectuer des traductions "
-"de la langue envers le japonais. Le motif déterminant de ce service est <a "
-"href=\"#\" onclick=\"toggle_screenshot()\">cela</a>, il y a des donnés "
-"accumulés par utilisateurs partout dans le monde qui essaient de traduire le "
-"porno japonais dans leur propre langage. Par conséquent, Google Traduction "
-"envers le japonais vous donne le meilleur résultat. Google Traduction en "
-"japonais."
-
-#: templates/index.html:56
+#: ../templates/index.html:13
 msgid "Show another example"
 msgstr "Afficher un autre exemple"
 
-#: templates/index.html:58
+#: ../templates/index.html:15
 msgid "Direct translation"
 msgstr "Traduction directe"
 
-#: templates/index.html:60
+#: ../templates/index.html:17
 msgid "Use Japanese as an intermediate langauge"
 msgstr "Traduction via japonais"
 
-#: templates/index.html:61
+#: ../templates/index.html:18
 msgid "Translate"
 msgstr "Traduire"
 
-#: templates/index.html:66 templates/index.html:74
+#: ../templates/index.html:23 ../templates/index.html:33
 msgid "Korean"
 msgstr "Coréen"
 
-#: templates/index.html:67 templates/index.html:75
+#: ../templates/index.html:24 ../templates/index.html:34
 msgid "English"
 msgstr "Anglais"
 
-#: templates/base.html:70 templates/credits.html:3
-msgid "Credits"
-msgstr "Crédit"
+#: ../templates/index.html:25 ../templates/index.html:35
+msgid "French"
+msgstr ""
 
-#: templates/index.html:85
+#: ../templates/index.html:26 ../templates/index.html:36
+msgid "Japanese"
+msgstr ""
+
+#: ../templates/index.html:46
 msgid "URL for this page"
 msgstr "URL de la page"
 
-#: templates/index.html:104
-msgid "Discussons"
-msgstr "Discussion"
-
-#: templates/index.html:105
-msgid "Bug reporting"
-msgstr "Rapport de bogues"

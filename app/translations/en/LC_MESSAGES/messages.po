@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-15 09:55+0000\n"
+"POT-Creation-Date: 2013-03-15 11:49+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: enj <LL@li.org>\n"
@@ -32,15 +32,15 @@ msgstr ""
 " the world tries to translate Japanese porn into their language, and thus"
 " Google Translate performs better with Japanese."
 
-#: ../templates/base.html:70 ../templates/credits.html:3
+#: ../templates/base.html:72 ../templates/credits.html:3
 msgid "Credits"
 msgstr ""
 
-#: ../templates/base.html:71 ../templates/discuss.html:3
+#: ../templates/base.html:73 ../templates/discuss.html:3
 msgid "Discussions"
 msgstr ""
 
-#: ../templates/base.html:72
+#: ../templates/base.html:74
 msgid "Bug reporting"
 msgstr ""
 

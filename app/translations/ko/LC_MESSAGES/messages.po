@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-15 09:55+0000\n"
+"POT-Creation-Date: 2013-03-15 11:49+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -26,15 +26,15 @@ msgstr "더 나은 번역기"
 msgid "app-description-text"
 msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
 
-#: ../templates/base.html:70 ../templates/credits.html:3
+#: ../templates/base.html:72 ../templates/credits.html:3
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: ../templates/base.html:71 ../templates/discuss.html:3
+#: ../templates/base.html:73 ../templates/discuss.html:3
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: ../templates/base.html:72
+#: ../templates/base.html:74
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 

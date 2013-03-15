@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-15 06:14+0000\n"
+"POT-Creation-Date: 2013-03-15 09:26+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -17,51 +17,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: templates/index.html:6 templates/index.html:10 templates/index.html:45
+#: ../templates/base.html:4 ../templates/base.html:7 ../templates/base.html:11
+#: ../templates/index.html:3
 msgid "app-title"
 msgstr "더 나은 번역기"
 
-#: templates/index.html:13
+#: ../templates/base.html:14
 msgid "app-description-text"
 msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
 
-#: templates/index.html:48
-msgid "app-description-html"
-msgstr "소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggle_screenshot()\">'구글 번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다."
+#: ../templates/base.html:69 ../templates/credits.html:4
+msgid "Credits"
+msgstr "만든 사람들"
 
-#: templates/index.html:56
+#: ../templates/base.html:70
+msgid "Discussions"
+msgstr "건의 &amp; 토론"
+
+#: ../templates/base.html:71
+msgid "Bug reporting"
+msgstr "버그 리포팅"
+
+#: ../templates/credits.html:5
+msgid "Go back to home"
+msgstr "첫 페이지로 돌아가기"
+
+#: ../templates/index.html:5
+msgid "app-description-html"
+msgstr ""
+"소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggle_screenshot()\">'구글 "
+"번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다."
+
+#: ../templates/index.html:13
 msgid "Show another example"
 msgstr "다른 예제 보기"
 
-#: templates/index.html:58
+#: ../templates/index.html:15
 msgid "Direct translation"
 msgstr "그냥 번역"
 
-#: templates/index.html:60
+#: ../templates/index.html:17
 msgid "Use Japanese as an intermediate langauge"
 msgstr "일본어를 거쳐서 번역"
 
-#: templates/index.html:61
+#: ../templates/index.html:18
 msgid "Translate"
 msgstr "번역"
 
-#: templates/index.html:66 templates/index.html:74
+#: ../templates/index.html:23 ../templates/index.html:31
 msgid "Korean"
 msgstr "한국어"
 
-#: templates/index.html:67 templates/index.html:75
+#: ../templates/index.html:24 ../templates/index.html:32
 msgid "English"
 msgstr "영어"
 
-#: templates/index.html:85
+#: ../templates/index.html:42
 msgid "URL for this page"
 msgstr "이 페이지 주소"
-
-#: templates/index.html:104
-msgid "Discussons"
-msgstr "건의 &amp; 토론"
-
-#: templates/index.html:105
-msgid "Bug reporting"
-msgstr "버그 리포팅"
 

@@ -1,13 +1,13 @@
 body {
-    margin: 1em;
-    font-family: NanumGothic, sans-serif;
+    margin: 1.5em;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     color: #505050;
     line-height: 135%;
 }
 
 h1, h2, h3 {
-    font-family: NanumGothicBold, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 h1 a {
@@ -16,6 +16,22 @@ h1 a {
 
 input[type=submit] {
     font-size: 13pt;
+}
+
+.credits {
+    max-width: 800px;
+    min-width: 300px;
+    margin: 0 auto;
+}
+.credits h3 {
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ccc;
+    font-weight: normal;
+    color: #888;
+}
+.credits .name {
+    font-size: 1.25em;
+    font-weight: bold;
 }
 
 #column1, #column2 {
@@ -39,13 +55,15 @@ input[type=submit] {
     display: block;
     width: 99%;
     height: 8em;
-    font-family: NanumGothic, sans-serif;
+    padding: .5em;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     color: #303030;
+    border: 1px solid #aaa;
 }
 
 #result {
-    font-family: NanumGothic, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     white-space: pre-wrap;
     color: #303030;

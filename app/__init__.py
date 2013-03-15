@@ -98,6 +98,11 @@ def discuss():
     return render_template("discuss.html")
 
 
+@app.route('/credits')
+def credits():
+    return render_template("credits.html")
+
+
 @app.route('/translate', methods=['POST'])
 def translate():
     valid_languages = ['en', 'ja', 'ko']

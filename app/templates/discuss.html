@@ -1,48 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>더 나은 한영 번역기 (beta)</title>
-
-    <meta property="og:title" content="더 나은 한영 번역기"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="http://translator.suminb.com"/>
-    <meta property="og:image" content="http://translator.suminb.com/static/icon_256.png"/>
-    <meta property="og:site_name" content="더 나은 한영 번역기"/>
-    <meta property="fb:admins" content="10132775"/>
-    <meta property="og:description"
-          content=" 소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."/>
-    
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://static.suminb.com/jquery.sprintf.js"></script>
-    <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
-    <script type="text/javascript" src="/static/main.js"></script>
-    
-    <!-- Webfont provided by fontface.kr -->
-    <script src="http://www.google.com/jsapi"></script>
-    <script>
-    /* <![CDATA[ */
-    google.load( "webfont", "1" );
-    google.setOnLoadCallback(function() {
-      WebFont.load({ custom: {
-       families: [ "NanumGothic", "NanumGothicBold", "NanumMyeongjo" ],
-       urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css", "http://fontface.kr/NanumMyeongjo/css" ]
-      }});
-    });
-
-    (function() {
-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
-        t.parentNode.insertBefore(s, t);
-    })();
-    /* ]]> */
-    </script>
-    
-    <link rel="stylesheet" type="text/css" href="/static/frontend.css"/>
-</head>
-
-    <h1><a href="/" class="">이전 페이지로 돌아가기</a></h1>
+{% extends "base.html" %}
+{% block content %}
+    <h1>{{ _("Discussions") }}</h1>
+    <a href="/" class="">{{ _("Go back to home") }}</a>
 
     <div id="disqus_thread"></div>
     <script type="text/javascript">
@@ -58,41 +17,4 @@
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    
-
-    <div id="footer">
-        <div id="share-buttons"> 
-            <!-- AddThis Button BEGIN -->
-            <div class="addthis_toolbox addthis_default_style ">
-                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-                <a class="addthis_button_tweet"></a>
-                <a class="addthis_button_pinterest_pinit"></a>
-                <a class="addthis_counter addthis_pill_style"></a>
-                <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://labs.suminb.com"></a>
-            </div>
-            <script type="text/javascript">var addthis_config = {"data_track_addressbar":false};</script>
-            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513d8a896d2c8ac3"></script>
-            <!-- AddThis Button END -->
-        </div> 
-        <div id="copyright">
-            Copyright &copy; 2013 <a href="http://labs.suminb.com">Sumin's Labs</a> |
-            <a href="/discuss">Discussion</a>
-        </div>
-    </div>
-    
-    <script type="text/javascript" src="http://api.flattr.com/js/0.6/load.js?mode=auto"></script>
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> 
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script> 
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-346833-18']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-</body>
-</html>
+{% endblock %}

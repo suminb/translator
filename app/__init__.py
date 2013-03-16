@@ -23,6 +23,24 @@ class HTTPException(RuntimeError):
         self.status_code = status_code
         super(HTTPException, self).__init__()
 
+def log(source, target, mode, text, translated):
+    """Naive logging function"""
+
+    from datetime import datetime
+    from random import randint
+    from json import dumps
+
+    f = open('../../logs/stat.%d.log' % randint(0, 100), 'a')
+    payload = [
+        datetime.now().isoformat(),
+        target,
+        source,
+        mode,
+        '"%s"' % text.replace('"', '\\"'),
+        '"%s"' % translated[0].replace('"', '\\"')
+    ]
+    f.write((','.join(payload) + '\n').encode('utf-8'))
+    f.close()
 
 @babel.localeselector
 def get_locale():
@@ -135,6 +153,8 @@ def translate():
             translated = __translate__(translated, 'ja', target)
         else:
             translated = __translate__(text, source, target)
+
+        log(source, target, mode, text, translated)
 
         return translated
 

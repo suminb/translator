@@ -33,12 +33,13 @@ def log(source, target, mode, text, translated):
     f = open('logs/user/translator/stat.%d.log' % randint(0, 100), 'a')
     payload = [
         datetime.now().isoformat(),
-        target,
         source,
+        target,
         mode,
-        '"%s"' % text.replace('"', '\\"'),
-        '"%s"' % translated[0].replace('"', '\\"')
+        '"%s"' % text.replace('"', '\\"').replace('\r', '').replace('\n', '\\n'),
+        '"%s"' % translated[0].replace('"', '\\"').replace('\r', '').replace('\n', '\\n')
     ]
+    print 'payload=', payload
     f.write((','.join(payload) + '\n').encode('utf-8'))
     f.close()
 
@@ -84,16 +85,12 @@ def __translate__(text, source, target):
     try:
         data = json.loads(r.text)
 
-        print data
-
         try:
             #if target == 'ja':
             #    sentences = data['sentences']
             sentences = data['sentences']
         except:
             sentences = data['results'][0]['sentences']
-
-        print 'aaaaa'
 
         return ' '.join(map(lambda x: x['trans'], sentences)), 200
 
@@ -106,7 +103,6 @@ def __translate__(text, source, target):
 #
 @app.route('/')
 def index():
-    print babel.list_translations()
     context = dict(locale=get_locale())
     return render_template("index.html", **context)
 

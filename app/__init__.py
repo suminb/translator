@@ -30,7 +30,7 @@ def log(source, target, mode, text, translated):
     from random import randint
     from json import dumps
 
-    f = open('logs/user/translator/stat.%d.log' % randint(0, 100), 'a')
+    f = open('logs/user/translator/stat.%d.log' % randint(0, 99), 'a')
     payload = [
         datetime.now().isoformat(),
         source,

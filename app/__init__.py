@@ -30,7 +30,10 @@ def log(source, target, mode, text, translated):
     from random import randint
     from json import dumps
 
-    f = open('logs/user/translator/stat.%d.log' % randint(0, 99), 'a')
+    home = os.path.expanduser("~")
+    log_path = os.path.join(home, 'logs/user/translator/stat.%d.log' % randint(0, 99))
+
+    f = open(log_path, 'a')
     payload = [
         datetime.now().isoformat(),
         source,

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-18 06:37+0000\n"
+"POT-Creation-Date: 2013-03-18 14:46+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: enj <LL@li.org>\n"
@@ -32,15 +32,15 @@ msgstr ""
 " the world tries to translate Japanese porn into their language, and thus"
 " Google Translate performs better with Japanese."
 
-#: app/templates/base.html:71 app/templates/credits.html:3
+#: app/templates/base.html:72 app/templates/credits.html:3
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:72 app/templates/discuss.html:3
+#: app/templates/base.html:73 app/templates/discuss.html:3
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:73
+#: app/templates/base.html:74
 msgid "Bug reporting"
 msgstr ""
 
@@ -52,13 +52,24 @@ msgstr ""
 msgid "Lead Developer"
 msgstr ""
 
-#: app/templates/credits.html:16
+#: app/templates/credits.html:16 app/templates/credits.html:20
+#: app/templates/credits.html:24
 msgid "Localization"
 msgstr ""
 
 #: app/templates/credits.html:16 app/templates/index.html:25
-#: app/templates/index.html:36
+#: app/templates/index.html:37
 msgid "French"
+msgstr ""
+
+#: app/templates/credits.html:20 app/templates/index.html:27
+#: app/templates/index.html:39
+msgid "Spanish"
+msgstr ""
+
+#: app/templates/credits.html:24 app/templates/index.html:28
+#: app/templates/index.html:40
+msgid "Russian"
 msgstr ""
 
 #: app/templates/index.html:5
@@ -88,23 +99,19 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-#: app/templates/index.html:23 app/templates/index.html:34
+#: app/templates/index.html:23 app/templates/index.html:35
 msgid "Korean"
 msgstr ""
 
-#: app/templates/index.html:24 app/templates/index.html:35
+#: app/templates/index.html:24 app/templates/index.html:36
 msgid "English"
 msgstr ""
 
-#: app/templates/index.html:26 app/templates/index.html:37
+#: app/templates/index.html:26 app/templates/index.html:38
 msgid "Japanese"
 msgstr ""
 
-#: app/templates/index.html:27 app/templates/index.html:38
-msgid "Spanish"
-msgstr ""
-
-#: app/templates/index.html:48
+#: app/templates/index.html:50
 msgid "URL for this page"
 msgstr ""
 

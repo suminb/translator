@@ -1,0 +1,107 @@
+# Translation of PROJECT to Russian.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# Park Shinjo <peremen@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-03-18 06:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: app/templates/base.html:4 app/templates/base.html:7
+#: app/templates/base.html:11 app/templates/index.html:3
+msgid "app-title"
+msgstr "Лучший переводчик"
+
+#: app/templates/base.html:14
+msgid "app-description-text"
+msgstr ""
+"Лучший переводчик – языкового переводчика на идее, что перевод через японскому"
+" языку дает лучший результат. Причиной этого является то, что большое"
+" количество образцов данных было накоплено в базе данных Google Translate, как"
+" и все в мире пытается перевести японские порно на свой язык, и, таким образом"
+" Google Translate работает лучше с японцами."
+
+#: app/templates/base.html:71 app/templates/credits.html:3
+msgid "Credits"
+msgstr "Титры"
+
+#: app/templates/base.html:72 app/templates/discuss.html:3
+msgid "Discussions"
+msgstr "Обсуждение"
+
+#: app/templates/base.html:73
+msgid "Bug reporting"
+msgstr "Сообщить об ошибке"
+
+#: app/templates/credits.html:4 app/templates/discuss.html:4
+msgid "Go back to home"
+msgstr "Перейти на главную страницу"
+
+#: app/templates/credits.html:6
+msgid "Lead Developer"
+msgstr "Ведущий программист"
+
+#: app/templates/credits.html:16
+msgid "Localization"
+msgstr "Локализации"
+
+#: app/templates/credits.html:16 app/templates/index.html:25
+#: app/templates/index.html:36
+msgid "French"
+msgstr "Французский"
+
+#: app/templates/index.html:5
+msgid "app-description-html"
+msgstr ""
+"Лучший переводчик – языкового переводчика на <a href=\"#\"
+onclick=\"toggle_screenshot()\">идее</a>, что перевод через японскому"
+" языку дает лучший результат. Причиной этого является то, что большое"
+" количество образцов данных было накоплено в базе данных Google Translate, как"
+" и все в мире пытается перевести японские порно на свой язык, и, таким образом"
+" Google Translate работает лучше с японцами."
+
+#: app/templates/index.html:13
+msgid "Show another example"
+msgstr "Показать другим пример"
+
+#: app/templates/index.html:15
+msgid "Direct translation"
+msgstr "Прямой перевод"
+
+#: app/templates/index.html:17
+msgid "Use Japanese as an intermediate langauge"
+msgstr "Перевод через Японский"
+
+#: app/templates/index.html:18
+msgid "Translate"
+msgstr "Перевести"
+
+#: app/templates/index.html:23 app/templates/index.html:34
+msgid "Korean"
+msgstr "Корейский"
+
+#: app/templates/index.html:24 app/templates/index.html:35
+msgid "English"
+msgstr "Английский"
+
+#: app/templates/index.html:26 app/templates/index.html:37
+msgid "Japanese"
+msgstr "Японский"
+
+#: app/templates/index.html:27 app/templates/index.html:38
+msgid "Spanish"
+msgstr "Испанский"
+
+#: app/templates/index.html:48
+msgid "URL for this page"
+msgstr "Постоянная ссылка"
+

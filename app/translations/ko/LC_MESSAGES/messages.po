@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-18 14:46+0000\n"
+"POT-Creation-Date: 2013-03-21 04:26+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -52,17 +52,17 @@ msgid "Localization"
 msgstr ""
 
 #: app/templates/credits.html:16 app/templates/index.html:25
-#: app/templates/index.html:37
+#: app/templates/index.html:38
 msgid "French"
 msgstr "프랑스어"
 
 #: app/templates/credits.html:20 app/templates/index.html:27
-#: app/templates/index.html:39
+#: app/templates/index.html:40
 msgid "Spanish"
 msgstr "스페인어"
 
 #: app/templates/credits.html:24 app/templates/index.html:28
-#: app/templates/index.html:40
+#: app/templates/index.html:41
 msgid "Russian"
 msgstr "러시아어"
 
@@ -70,7 +70,8 @@ msgstr "러시아어"
 msgid "app-description-html"
 msgstr ""
 "소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggle_screenshot()\">'구글 "
-"번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다."
+"번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다. 특집 기사 - <a "
+"href=\"http://blog.suminb.com/archives/1792\">이건 어떻게 만든거지?</a>"
 
 #: app/templates/index.html:13
 msgid "Show another example"
@@ -88,19 +89,23 @@ msgstr "일본어를 거쳐서 번역"
 msgid "Translate"
 msgstr "번역"
 
-#: app/templates/index.html:23 app/templates/index.html:35
+#: app/templates/index.html:23 app/templates/index.html:36
 msgid "Korean"
 msgstr "한국어"
 
-#: app/templates/index.html:24 app/templates/index.html:36
+#: app/templates/index.html:24 app/templates/index.html:37
 msgid "English"
 msgstr "영어"
 
-#: app/templates/index.html:26 app/templates/index.html:38
+#: app/templates/index.html:26 app/templates/index.html:39
 msgid "Japanese"
 msgstr "일본어"
 
-#: app/templates/index.html:50
+#: app/templates/index.html:29 app/templates/index.html:42
+msgid "Indonesian"
+msgstr "인도네시아어"
+
+#: app/templates/index.html:52
 msgid "URL for this page"
 msgstr "이 페이지 주소"
 

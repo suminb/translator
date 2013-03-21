@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-18 14:46+0000\n"
+"POT-Creation-Date: 2013-03-21 04:26+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -59,17 +59,17 @@ msgid "Localization"
 msgstr "Localización"
 
 #: app/templates/credits.html:16 app/templates/index.html:25
-#: app/templates/index.html:37
+#: app/templates/index.html:38
 msgid "French"
 msgstr "Francés"
 
 #: app/templates/credits.html:20 app/templates/index.html:27
-#: app/templates/index.html:39
+#: app/templates/index.html:40
 msgid "Spanish"
 msgstr "Español"
 
 #: app/templates/credits.html:24 app/templates/index.html:28
-#: app/templates/index.html:40
+#: app/templates/index.html:41
 msgid "Russian"
 msgstr ""
 
@@ -101,19 +101,23 @@ msgstr "Usar Japonés como idioma intermediario"
 msgid "Translate"
 msgstr "Traducir"
 
-#: app/templates/index.html:23 app/templates/index.html:35
+#: app/templates/index.html:23 app/templates/index.html:36
 msgid "Korean"
 msgstr "Coreano"
 
-#: app/templates/index.html:24 app/templates/index.html:36
+#: app/templates/index.html:24 app/templates/index.html:37
 msgid "English"
 msgstr "Inglés"
 
-#: app/templates/index.html:26 app/templates/index.html:38
+#: app/templates/index.html:26 app/templates/index.html:39
 msgid "Japanese"
 msgstr "Japonés"
 
-#: app/templates/index.html:50
+#: app/templates/index.html:29 app/templates/index.html:42
+msgid "Indonesian"
+msgstr ""
+
+#: app/templates/index.html:52
 msgid "URL for this page"
 msgstr "URL de esta página"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-18 14:46+0000\n"
+"POT-Creation-Date: 2013-03-21 04:26+0000\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -58,17 +58,17 @@ msgid "Localization"
 msgstr "Локализации"
 
 #: app/templates/credits.html:16 app/templates/index.html:25
-#: app/templates/index.html:37
+#: app/templates/index.html:38
 msgid "French"
 msgstr "Французский"
 
 #: app/templates/credits.html:20 app/templates/index.html:27
-#: app/templates/index.html:39
+#: app/templates/index.html:40
 msgid "Spanish"
 msgstr "Испанский"
 
 #: app/templates/credits.html:24 app/templates/index.html:28
-#: app/templates/index.html:40
+#: app/templates/index.html:41
 msgid "Russian"
 msgstr "Pусский"
 
@@ -98,19 +98,23 @@ msgstr "Перевод через Японский"
 msgid "Translate"
 msgstr "Перевести"
 
-#: app/templates/index.html:23 app/templates/index.html:35
+#: app/templates/index.html:23 app/templates/index.html:36
 msgid "Korean"
 msgstr "Корейский"
 
-#: app/templates/index.html:24 app/templates/index.html:36
+#: app/templates/index.html:24 app/templates/index.html:37
 msgid "English"
 msgstr "Английский"
 
-#: app/templates/index.html:26 app/templates/index.html:38
+#: app/templates/index.html:26 app/templates/index.html:39
 msgid "Japanese"
 msgstr "Японский"
 
-#: app/templates/index.html:50
+#: app/templates/index.html:29 app/templates/index.html:42
+msgid "Indonesian"
+msgstr ""
+
+#: app/templates/index.html:52
 msgid "URL for this page"
 msgstr "Постоянная ссылка"
 

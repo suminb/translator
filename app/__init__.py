@@ -42,7 +42,7 @@ def log(source, target, mode, text, translated):
         '"%s"' % text.replace('"', '\\"').replace('\r', '').replace('\n', '\\n'),
         '"%s"' % translated[0].replace('"', '\\"').replace('\r', '').replace('\n', '\\n')
     ]
-    print 'payload=', payload
+
     f.write((','.join(payload) + '\n').encode('utf-8'))
     f.close()
 
@@ -129,9 +129,9 @@ def credits():
     return render_template("credits.html")
 
 
-@app.route('/translate', methods=['POST'])
+@app.route('/translate', methods=['GET', 'POST'])
 def translate():
-    valid_languages = ['en', 'fr', 'ja', 'ko', 'ru', 'zh-CN']
+    valid_languages = ['en', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
 
     text = request.form['text']
     mode = request.form['mode']

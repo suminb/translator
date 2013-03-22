@@ -31,15 +31,6 @@
     });
     </script>
     {% endif %}
-    <script type="text/javascript">
-    (function() {
-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
-        t.parentNode.insertBefore(s, t);
-    })();
-    </script>
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="/static/frontend.css"/>
@@ -62,7 +53,6 @@
                 <a class="addthis_button_tweet" addthis:url="http://translator.suminb.com"></a>
                 <a class="addthis_button_google_plusone" g:plusone:size="medium" addthis:url="http://translator.suminb.com"></a> 
                 <a class="addthis_counter addthis_pill_style"></a>
-                <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://labs.suminb.com"></a>
             </div>
             <script type="text/javascript">var addthis_config = {"data_track_addressbar":false};</script>
             <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513d8a896d2c8ac3"></script>

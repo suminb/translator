@@ -93,11 +93,8 @@ input[type=submit] {
     /*text-align: center;*/
 }
 div.addthis_toolbox {
-    width: 530px;
+    width: 400px;
     margin: 0 auto;
-}
-.FlattrButton {
-    margin-left: 16px;
 }
 
 #footer {

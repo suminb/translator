@@ -55,7 +55,19 @@ window.onload = function() {
         animateDuration : 300,
         // More extra space:
         extraSpace : 40
-    }).trigger("change");
+    })
+    .trigger("change")
+    .keypress(function (event) {
+        if (event.keyCode == 13) {
+            _translate();
+        }
+    })
+    .bind('paste', function (event) {
+        // http://stackoverflow.com/questions/9494283/jquery-how-to-get-the-pasted-content
+        // When pasting to an input the "paste" event is fired before the value has time to update
+        // Therefore, _translate() function has to be called after the completion of this event handling function
+        setTimeout(_translate, 100);
+    });
 }
 
 /**
@@ -74,12 +86,9 @@ function getParameterByName(name) {
 }
 
 function onchangeTextarea(t) {
-    console.log("textarea changed");
 }
 
 function resizeTextarea(t) {
-    console.log("textarea onkeyup");
-    console.log(t.cols);
     a = t.value.split('\n');
     b = 1;
     for (x=0;x < a.length; x++) {
@@ -95,7 +104,6 @@ function _translate() {
         }
     ).fail(function(response) {
             displayError(response.responseText)
-            console.log(response);
         }
     );
     

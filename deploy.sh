@@ -7,4 +7,4 @@ pybabel compile -d app/translations
 rm -rf $(find . -name ".AppleDouble")
 
 # Deploy files
-rsync -arzP -e ssh * suminb.com:webapps/translator/webapp
+rsync -arzP -e ssh * sumin@suminb.com:webapps/translator/webapp

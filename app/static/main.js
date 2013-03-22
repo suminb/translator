@@ -99,13 +99,20 @@ function resizeTextarea(t) {
 }
 
 function _translate() {
-    $.post("/translate", $("form").serializeArray(), function(response) {
-            displayResult(response);
-        }
-    ).fail(function(response) {
-            displayError(response.responseText)
-        }
-    );
+    if ($("select[name=source]").val() == $("select[name=target]").val()) {
+        // simply displays the original text when the source language and the target language are identical
+        displayResult($("#text").val());
+    }
+    else {
+        // translates if the source language and the target language are not identical
+        $.post("/translate", $("form").serializeArray(), function(response) {
+                displayResult(response);
+            }
+        ).fail(function(response) {
+                displayError(response.responseText)
+            }
+        );
+    }
     
     return false;
 }

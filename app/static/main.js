@@ -56,7 +56,6 @@ window.onload = function() {
         // More extra space:
         extraSpace : 40
     })
-    .trigger("change")
     .keypress(function (event) {
         if (event.keyCode == 13) {
             _translate();
@@ -67,7 +66,8 @@ window.onload = function() {
         // When pasting to an input the "paste" event is fired before the value has time to update
         // Therefore, _translate() function has to be called after the completion of this event handling function
         setTimeout(_translate, 100);
-    });
+    })
+    .trigger("change");
 }
 
 /**
@@ -83,9 +83,6 @@ function getParameterByName(name) {
         return "";
     else
         return decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-function onchangeTextarea(t) {
 }
 
 function resizeTextarea(t) {

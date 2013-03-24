@@ -11,16 +11,16 @@
     <form method="get" onsubmit="return _translate()">
     <div id="translation-options">
         <a href="#" onclick="refreshExample()">{{ _("Show another example" )}}</a>
-        <input id="radio-mode-1" type="radio" name="mode" value="1" onclick="_translate()"/>
+        <input id="radio-mode-1" type="radio" name="m" value="1" onclick="_translate()"/>
         <label for="radio-mode-1">{{ _("Direct translation") }}</label>
-        <input id="radio-mode-2" type="radio" name="mode" value="2" onclick="_translate()"/>
+        <input id="radio-mode-2" type="radio" name="m" value="2" onclick="_translate()"/>
         <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
         <input type="submit" value="{{ _("Translate") }}"/>
     </div>
     <div id="column1">
         <div>
-            <select name="source" onchange="_translate()">
-                <option value="ko" selected="selected">{{ _("Korean") }}</option>
+            <select name="sl" onchange="_translate()">
+                <option value="ko">{{ _("Korean") }}</option>
                 <option value="en">{{ _("English") }}</option>
                 <option value="fr">{{ _("French") }}</option>
                 <option value="ja">{{ _("Japanese") }}</option>
@@ -29,12 +29,12 @@
                 <option value="id">{{ _("Indonesian") }}</option>
             </select>
         </div>
-        <textarea id="text" name="text"></textarea>
+        <textarea id="text" name="t"></textarea>
     </div>
     <div id="column2">
-        <select name="target" onchange="_translate()">
+        <select name="tl" onchange="_translate()">
             <option value="ko">{{ _("Korean") }}</option>
-            <option value="en" selected="selected">{{ _("English") }}</option>
+            <option value="en">{{ _("English") }}</option>
             <option value="fr">{{ _("French") }}</option>
             <option value="ja">{{ _("Japanese") }}</option>
             <option value="es">{{ _("Spanish") }}</option>
@@ -50,6 +50,6 @@
     
     <div id="page-url">
         <h3>{{ _("URL for this page") }}</h3>
-        <div></div>
+        <div id="page-url-value"></div>
     </div>
 {% endblock %}

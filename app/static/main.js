@@ -20,9 +20,6 @@ var examples = {
 var global = {};
 
 window.onload = function() {
-    var mode = getParameterByName("mode") == "1";
-    $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
-
     // The following code was copied from
     // http://stackoverflow.com/questions/2161906/handle-url-anchor-change-event-in-js
     if ("onhashchange" in window) { // event supported?
@@ -96,14 +93,21 @@ function resizeTextarea(t) {
 }
 
 function _translate() {
-    if ($("select[name=source]").val() == $("select[name=target]").val()) {
+    var source = $("select[name=sl]").val();
+    var target = $("select[name=tl]").val();
+    var text = $("#text").val();
+
+    if (source == target) {
         // simply displays the original text when the source language and the target language are identical
-        displayResult($("#text").val());
+        displayResult(text);
     }
     else {
         // translates if the source language and the target language are not identical
         $.post("/translate", $("form").serializeArray(), function(response) {
                 displayResult(response);
+
+                var mode = $("input[name=m]:checked").val();
+                displayPageURL(source, target, mode, text);
             }
         ).fail(function(response) {
                 displayError(response.responseText)
@@ -130,18 +134,12 @@ function displayExample() {
 
 // TODO: Refactor this function
 function refreshExample() {
-    var language = $("select[name=source]").val();
+    var language = $("select[name=sl]").val();
 
     console.log(language);
     console.log(examples[language]);
 
     var example = examples[language][++global.ei % examples[language].length];
-
-    console.log(example);
-
-    //window.location.hash = "#text=" + example;
-
-    console.log(example);
 
     $("#text").val(example);
     _translate();
@@ -152,14 +150,38 @@ function displayResult(result) {
     $("#result").html(result);
 }
 
+function displayPageURL(source, target, mode, text) {
+    encoded = encodeURIComponent(text);
+    if (encoded.length < 256) {
+        var url = $.sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
+
+        $("#page-url").show("medium");
+        $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
+    }
+    else {
+        $("#page-url").hide("medium");
+    }
+}
+
 function displayError(message) {
     $("#error-message").html(message);
     $("#result").html("");
 }
 
 function hashChanged(hash) {
-    if(hash.match(/^#text=/)) {
-        $("#text").val(decodeURIComponent(hash.substring(6)));
+    var source = getParameterByName("sl");
+    var target = getParameterByName("tl");
+    var mode = getParameterByName("m");
+    var text = getParameterByName("t");
+
+    $("select[name=sl]").val(source ? source : "k");
+    $("select[name=tl]").val(target ? target : "en");
+
+    var mode = getParameterByName("m") == "1";
+    $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+
+    if (text) {
+        $("#text").val(text);
         _translate();
     }
     else {

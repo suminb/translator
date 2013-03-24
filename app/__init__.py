@@ -131,12 +131,12 @@ def credits():
 
 @app.route('/translate', methods=['GET', 'POST'])
 def translate():
-    valid_languages = ['en', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
+    valid_languages = ['en', 'es', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
 
-    text = request.form['text']
-    mode = request.form['mode']
-    source = request.form['source']
-    target = request.form['target']
+    text = request.form['t']
+    mode = request.form['m']
+    source = request.form['sl']
+    target = request.form['tl']
 
     if source == target:
         return text

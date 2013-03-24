@@ -213,6 +213,9 @@ function swapLanguages() {
     _translate();
 }
 
-function toggle_screenshot() {
-    $("#google-translate").toggle();
+function toggleScreenshot() {
+    $("#google-translate").toggle('medium');
 }
+
+// FIXME: Deprecated
+toggle_screenshot = toggleScreenshot;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-24 22:41+0000\n"
+"POT-Creation-Date: 2013-03-24 23:00+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
@@ -89,7 +89,7 @@ msgid "Show another example"
 msgstr "Afficher un autre exemple"
 
 #: app/templates/index.html:15
-msgid "Switch source and target"
+msgid "Swap languages"
 msgstr ""
 
 #: app/templates/index.html:19 app/templates/index.html:39
@@ -120,7 +120,7 @@ msgstr "Traduction envers japonais"
 msgid "Translate"
 msgstr "Traduire"
 
-#: app/templates/index.html:55
+#: app/templates/index.html:56
 msgid "URL for this page"
 msgstr "URL de la page"
 

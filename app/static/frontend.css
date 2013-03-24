@@ -88,6 +88,9 @@ input[type=submit] {
     width: 100%;
     word-wrap: break-word;
 }
+#page-url a {
+    font-size: 10pt;
+}
 
 #share-buttons {
     /*text-align: center;*/

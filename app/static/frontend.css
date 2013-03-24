@@ -81,6 +81,9 @@ input[type=submit] {
 #error-message {
     color: #F03300;
 }
+#progress-message {
+    color: #ccc;
+}
 
 #page-url {
     display: none;

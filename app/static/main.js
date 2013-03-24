@@ -114,8 +114,13 @@ function _translate() {
         displayResult(text);
     }
     else {
+        $("#result").html("");
+        $("#progress-message").html("Translation in progress...");
+
         // translates if the source language and the target language are not identical
         $.post("/translate", $("form").serializeArray(), function(response) {
+                $("#progress-message").html("");
+            
                 displayResult(response);
 
                 var mode = $("input[name=m]:checked").val();

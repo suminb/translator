@@ -9,15 +9,11 @@
     </p>
     
     <form method="get" onsubmit="return _translate()">
-    <div id="translation-options">
-        <a href="#" onclick="refreshExample()">{{ _("Show another example" )}}</a>
-        <input id="radio-mode-1" type="radio" name="m" value="1" onclick="_translate()"/>
-        <label for="radio-mode-1">{{ _("Direct translation") }}</label>
-        <input id="radio-mode-2" type="radio" name="m" value="2" onclick="_translate()"/>
-        <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
-        <input type="submit" value="{{ _("Translate") }}"/>
-    </div>
     <div id="column1">
+        <div class="translation-options">
+            <a href="#" onclick="refreshExample()">{{ _("Show another example" )}}</a> |
+            <a href="#" onclick="swapLanguages()">{{ _("Switch source and target") }}</a>
+        </div>
         <div>
             <select name="sl" onchange="_translate()">
                 <option value="ko">{{ _("Korean") }}</option>
@@ -32,6 +28,13 @@
         <textarea id="text" name="t"></textarea>
     </div>
     <div id="column2">
+        <div class="translation-options">
+            <input id="radio-mode-1" type="radio" name="m" value="1" onclick="_translate()"/>
+            <label for="radio-mode-1">{{ _("Direct translation") }}</label>
+            <input id="radio-mode-2" type="radio" name="m" value="2" onclick="_translate()"/>
+            <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
+            <input type="submit" value="{{ _("Translate") }}"/>
+        </div>
         <select name="tl" onchange="_translate()">
             <option value="ko">{{ _("Korean") }}</option>
             <option value="en">{{ _("English") }}</option>

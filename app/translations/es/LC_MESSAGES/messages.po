@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-21 04:26+0000\n"
+"POT-Creation-Date: 2013-03-24 22:38+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -33,15 +33,15 @@ msgstr ""
 "pornografía Japonesa a su idioma. Usando esta base de datos, la "
 "traducción de idiomas funciona mejor a través del uso del Japonés."
 
-#: app/templates/base.html:72 app/templates/credits.html:3
+#: app/templates/base.html:63 app/templates/credits.html:3
 msgid "Credits"
 msgstr "Créditos"
 
-#: app/templates/base.html:73 app/templates/discuss.html:3
+#: app/templates/base.html:64 app/templates/discuss.html:3
 msgid "Discussions"
 msgstr "Discusiones"
 
-#: app/templates/base.html:74
+#: app/templates/base.html:65
 msgid "Bug reporting"
 msgstr "Reportar código defectuoso"
 
@@ -58,18 +58,18 @@ msgstr ""
 msgid "Localization"
 msgstr "Localización"
 
-#: app/templates/credits.html:16 app/templates/index.html:25
-#: app/templates/index.html:38
+#: app/templates/credits.html:16 app/templates/index.html:21
+#: app/templates/index.html:41
 msgid "French"
 msgstr "Francés"
 
-#: app/templates/credits.html:20 app/templates/index.html:27
-#: app/templates/index.html:40
+#: app/templates/credits.html:20 app/templates/index.html:23
+#: app/templates/index.html:43
 msgid "Spanish"
 msgstr "Español"
 
-#: app/templates/credits.html:24 app/templates/index.html:28
-#: app/templates/index.html:41
+#: app/templates/credits.html:24 app/templates/index.html:24
+#: app/templates/index.html:44
 msgid "Russian"
 msgstr ""
 
@@ -85,39 +85,43 @@ msgstr ""
 " Usando esta base de datos, la traducción de idiomas funciona mejor a "
 "través del uso del Japonés"
 
-#: app/templates/index.html:13
+#: app/templates/index.html:14
 msgid "Show another example"
 msgstr "Mostrar otro ejemplo"
 
 #: app/templates/index.html:15
-msgid "Direct translation"
-msgstr "Traducción directa"
+msgid "Switch source and target"
+msgstr ""
 
-#: app/templates/index.html:17
-msgid "Use Japanese as an intermediate langauge"
-msgstr "Usar Japonés como idioma intermediario"
-
-#: app/templates/index.html:18
-msgid "Translate"
-msgstr "Traducir"
-
-#: app/templates/index.html:23 app/templates/index.html:36
+#: app/templates/index.html:19 app/templates/index.html:39
 msgid "Korean"
 msgstr "Coreano"
 
-#: app/templates/index.html:24 app/templates/index.html:37
+#: app/templates/index.html:20 app/templates/index.html:40
 msgid "English"
 msgstr "Inglés"
 
-#: app/templates/index.html:26 app/templates/index.html:39
+#: app/templates/index.html:22 app/templates/index.html:42
 msgid "Japanese"
 msgstr "Japonés"
 
-#: app/templates/index.html:29 app/templates/index.html:42
+#: app/templates/index.html:25 app/templates/index.html:45
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:52
+#: app/templates/index.html:33
+msgid "Direct translation"
+msgstr "Traducción directa"
+
+#: app/templates/index.html:35
+msgid "Use Japanese as an intermediate langauge"
+msgstr "Usar Japonés como idioma intermediario"
+
+#: app/templates/index.html:36
+msgid "Translate"
+msgstr "Traducir"
+
+#: app/templates/index.html:55
 msgid "URL for this page"
 msgstr "URL de esta página"
 

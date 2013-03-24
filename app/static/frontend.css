@@ -46,7 +46,7 @@ input[type=submit] {
 
 #column1, #column2 {
     float: left;
-    width: 46%;
+    width: 47%;
     margin: 0 1em;
 }
 
@@ -55,9 +55,8 @@ input[type=submit] {
     text-align: center;
 }
 
-#translation-options {
-    width: 46%;
-    margin: 0 1em;
+.translation-options {
+    width: 100%;
     text-align: right;
 }
 

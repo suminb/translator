@@ -194,9 +194,6 @@ function hashChanged(hash) {
     var mode = getParameterByName("m") == "1";
     $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
-    console.log("source="+source)
-    console.log("text="+text);
-
     if (text) {
         $("#text").val(decodeURIComponent(text));
         _translate();
@@ -204,6 +201,16 @@ function hashChanged(hash) {
     else {
         displayExample();
     }
+}
+
+function swapLanguages() {
+    var source = $("select[name=sl]").val();
+    var target = $("select[name=tl]").val();
+
+    $("select[name=sl]").val(target);
+    $("select[name=tl]").val(source);
+    $("#text").val($("#result").html());
+    _translate();
 }
 
 function toggle_screenshot() {

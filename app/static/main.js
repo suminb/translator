@@ -82,6 +82,18 @@ function getParameterByName(name) {
         return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+/**
+ * Copied from http://codereview.stackexchange.com/questions/9574/faster-and-cleaner-way-to-parse-parameters-from-url-in-javascript-jquery
+ */
+function parseHash(hash) {
+    var query = (window.location.search || '#').substr(1),
+        map   = {};
+    hash.replace(/([^&=]+)=?([^&]*)(?:&+|$)/g, function(match, key, value) {
+        (map[key] = map[key] || []).push(value);
+    });
+    return map;
+}
+
 function resizeTextarea(t) {
     a = t.value.split('\n');
     b = 1;
@@ -169,19 +181,24 @@ function displayError(message) {
 }
 
 function hashChanged(hash) {
-    var source = getParameterByName("sl");
-    var target = getParameterByName("tl");
-    var mode = getParameterByName("m");
-    var text = getParameterByName("t");
+    phash = parseHash(hash.substr(1));
 
-    $("select[name=sl]").val(source ? source : "k");
+    var source = phash.sl;
+    var target = phash.tl;
+    var mode = phash.m;
+    var text = phash.t;
+
+    $("select[name=sl]").val(source ? source : "ko");
     $("select[name=tl]").val(target ? target : "en");
 
     var mode = getParameterByName("m") == "1";
     $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
+    console.log("source="+source)
+    console.log("text="+text);
+
     if (text) {
-        $("#text").val(text);
+        $("#text").val(decodeURIComponent(text));
         _translate();
     }
     else {

@@ -119,17 +119,18 @@ function _translate() {
 
         // translates if the source language and the target language are not identical
         $.post("/translate", $("form").serializeArray(), function(response) {
-                $("#progress-message").html("");
-            
-                displayResult(response);
+            displayResult(response);
 
-                var mode = $("input[name=m]:checked").val();
-                displayPageURL(source, target, mode, text);
-            }
-        ).fail(function(response) {
-                displayError(response.responseText)
-            }
-        );
+            var mode = $("input[name=m]:checked").val();
+            displayPageURL(source, target, mode, text);
+
+        }).fail(function(response) {
+            displayError(response.responseText)
+        
+        }).always(function() {
+            $("#progress-message").html("");
+
+        });
     }
     
     return false;

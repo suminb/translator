@@ -94,6 +94,11 @@ input[type=submit] {
     font-size: 10pt;
 }
 
+#app-markets {
+    margin: 1em 0;
+    text-align: center;
+}
+
 #share-buttons {
     /*text-align: center;*/
 }

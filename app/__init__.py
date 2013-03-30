@@ -80,7 +80,7 @@ def __translate__(text, source, target):
         'text': text
     }
     url = 'http://translate.google.com/translate_a/t'
-    r = requests.get(url, headers=headers, params=payload)
+    r = requests.post(url, headers=headers, data=payload)
 
     if r.status_code != 200:
         raise HTTPException(('Google Translate returned HTTP %d' % r.status_code), r.status_code)
@@ -166,7 +166,7 @@ def translate():
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')
-    port = int(os.environ.get('PORT', 80))
+    port = int(os.environ.get('PORT', 5000))
     debug = bool(os.environ.get('DEBUG', 0))
 
     app.run(host=host, port=port, debug=debug)

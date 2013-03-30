@@ -11,10 +11,14 @@ import os, sys
 import requests
 import json
 import urllib
+import config
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 
 babel = Babel(app)
+
+from models import *
 
 
 class HTTPException(RuntimeError):
@@ -163,6 +167,18 @@ def translate():
     except Exception as e:
         return str(e), 500
 
+@app.route('/store', methods=['GET', 'POST'])
+def store():
+    import uuid
+    import psycopg2.extras
+    import datetime
+
+    psycopg2.extras.register_uuid()
+
+    t = Translation(id=uuid.uuid4(), timestamp=datetime.datetime.now(), source='en', target='ko', mode=2, original_text='test', translated_text='test2', is_sample=False)
+    db.session.add(t)
+    db.session.commit()
+    return ''
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

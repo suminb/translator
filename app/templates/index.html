@@ -29,11 +29,11 @@
     </div>
     <div class="column2">
         <div class="translation-options">
+            <input type="submit" value="{{ _("Translate") }}"/>
             <input id="radio-mode-1" type="radio" name="m" value="1" onclick="_translate()"/>
             <label for="radio-mode-1">{{ _("Direct translation") }}</label>
             <input id="radio-mode-2" type="radio" name="m" value="2" onclick="_translate()"/>
             <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
-            <input type="submit" value="{{ _("Translate") }}"/>
         </div>
         <select name="tl" onchange="_translate()">
             <option value="ko">{{ _("Korean") }}</option>
@@ -56,14 +56,19 @@
         <div id="feedback">
             <div id="rating" class="hidden">
                 {{ _("How did you like this translation?") }}
-                <a href="#" onclick="rate(-1)">{{ _("Poor") }}</a> |
-                <a href="#" onclick="rate(0)">{{ _("Acceptable") }}</a> |
-                <a href="#" onclick="rate(1)">{{ _("Excellent") }}</a>
+                <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
+                <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
+                <span class="action" onclick="rate(1)">{{ _("Excellent") }}</span>
             </div>
-            <div id="alternative-translation" class="hidden">
+            <form id="alternative-translation" class="hidden" onsubmit="return submitAlternativeTranslation()">
                 {{ _("How would you translate it?") }}
-                <input type="text" name=""/>
-                <input type="submit" value="Submit"/>
+                <textarea name=""></textarea>
+                <div style="width:100%; text-align:right;">
+                    <input type="submit" value="{{ _("Submit") }}"/>
+                </div>
+            </form>
+            <div id="appreciation" class="hidden">
+                {{ _("Thank you for your feedback.") }}
             </div>
         </div>
     </div>

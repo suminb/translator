@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-24 23:00+0000\n"
+"POT-Creation-Date: 2013-03-31 23:07+0000\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -118,7 +118,35 @@ msgstr "Перевод через Японский"
 msgid "Translate"
 msgstr "Перевести"
 
-#: app/templates/index.html:56
+#: app/templates/index.html:58
+msgid "How did you like this translation?"
+msgstr ""
+
+#: app/templates/index.html:59
+msgid "Poor"
+msgstr ""
+
+#: app/templates/index.html:60
+msgid "Acceptable"
+msgstr ""
+
+#: app/templates/index.html:61
+msgid "Excellent"
+msgstr ""
+
+#: app/templates/index.html:64
+msgid "How would you translate it?"
+msgstr ""
+
+#: app/templates/index.html:66
+msgid "Submit"
+msgstr ""
+
+#: app/templates/index.html:69
+msgid "Thank you for your feedback."
+msgstr ""
+
+#: app/templates/index.html:76
 msgid "URL for this page"
 msgstr "Постоянная ссылка"
 

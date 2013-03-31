@@ -242,7 +242,15 @@ function rate(r) {
         if (r < 1) {
             askForAlternativeTranslation();
         }
+        else {
+            expressAppreciation();
+        }
     }
+}
+
+function submitAlternativeTranslation() {
+    expressAppreciation();
+    return false;
 }
 
 function askForRating() {
@@ -252,4 +260,10 @@ function askForRating() {
 function askForAlternativeTranslation() {
     $("#rating").hide("medium");
     $("#alternative-translation").show("medium");
+}
+
+function expressAppreciation() {
+    $("#rating").hide("medium");
+    $("#alternative-translation").hide("medium");
+    $("#appreciation").show("medium");
 }

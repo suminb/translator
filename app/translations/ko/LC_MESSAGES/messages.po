@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-24 23:00+0000\n"
+"POT-Creation-Date: 2013-03-31 23:07+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -109,7 +109,35 @@ msgstr "일본어를 거쳐서 번역"
 msgid "Translate"
 msgstr "번역"
 
-#: app/templates/index.html:56
+#: app/templates/index.html:58
+msgid "How did you like this translation?"
+msgstr "번역 결과가 마음에 들었나요?"
+
+#: app/templates/index.html:59
+msgid "Poor"
+msgstr "마음에 안 들어요"
+
+#: app/templates/index.html:60
+msgid "Acceptable"
+msgstr "그럭저럭"
+
+#: app/templates/index.html:61
+msgid "Excellent"
+msgstr "좋아요"
+
+#: app/templates/index.html:64
+msgid "How would you translate it?"
+msgstr "여러분이라면 어떻게 번역하시겠습니까?"
+
+#: app/templates/index.html:66
+msgid "Submit"
+msgstr "보내기"
+
+#: app/templates/index.html:69
+msgid "Thank you for your feedback."
+msgstr "감사합니다."
+
+#: app/templates/index.html:76
 msgid "URL for this page"
 msgstr "이 페이지 주소"
 

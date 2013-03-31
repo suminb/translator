@@ -9,7 +9,7 @@
     </p>
     
     <form method="get" onsubmit="return _translate()">
-    <div id="column1">
+    <div class="column1">
         <div class="translation-options">
             <a href="#" onclick="refreshExample()">{{ _("Show another example" )}}</a> |
             <a href="#" onclick="swapLanguages()">{{ _("Swap languages") }}</a>
@@ -27,7 +27,7 @@
         </div>
         <textarea id="text" name="t"></textarea>
     </div>
-    <div id="column2">
+    <div class="column2">
         <div class="translation-options">
             <input id="radio-mode-1" type="radio" name="m" value="1" onclick="_translate()"/>
             <label for="radio-mode-1">{{ _("Direct translation") }}</label>
@@ -49,7 +49,24 @@
         <pre id="result"></pre>
     </div>
     </form>
-    
+    <div style="clear:both;"></div>
+
+    <div class="column1">&nbsp;</div>
+    <div class="column2">
+        <div id="feedback">
+            <div id="rating" class="hidden">
+                {{ _("How did you like this translation?") }}
+                <a href="#" onclick="rate(-1)">{{ _("Poor") }}</a> |
+                <a href="#" onclick="rate(0)">{{ _("Acceptable") }}</a> |
+                <a href="#" onclick="rate(1)">{{ _("Excellent") }}</a>
+            </div>
+            <div id="alternative-translation" class="hidden">
+                {{ _("How would you translate it?") }}
+                <input type="text" name=""/>
+                <input type="submit" value="Submit"/>
+            </div>
+        </div>
+    </div>
     <div style="clear:both;"></div>
     
     <div id="page-url">

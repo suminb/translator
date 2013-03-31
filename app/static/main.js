@@ -17,6 +17,9 @@ var examples = {
     ]
 };
 
+// URL encoded length, exclsively less than
+var SHORT_TRANSLATION_THRESHOLD = 256;
+
 var global = {};
 
 window.onload = function() {
@@ -34,7 +37,7 @@ window.onload = function() {
                 storedHash = window.location.hash;
                 hashChanged(storedHash);
             }
-        }, 100);
+        }, 250);
     }
     
     hashChanged(window.location.hash ? window.location.hash : "");
@@ -124,6 +127,8 @@ function _translate() {
             var mode = $("input[name=m]:checked").val();
             displayPageURL(source, target, mode, text);
 
+            askForRating();
+
         }).fail(function(response) {
             displayError(response.responseText)
         
@@ -169,8 +174,8 @@ function displayResult(result) {
 }
 
 function displayPageURL(source, target, mode, text) {
-    encoded = encodeURIComponent(text);
-    if (encoded.length < 256) {
+    var encoded = encodeURIComponent(text);
+    if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
         var url = $.sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
 
         $("#page-url").show("medium");
@@ -220,8 +225,31 @@ function swapLanguages() {
 }
 
 function toggleScreenshot() {
-    $("#google-translate").toggle('medium');
+    $("#google-translate").toggle("medium");
 }
 
 // FIXME: Deprecated
 toggle_screenshot = toggleScreenshot;
+
+function rate(r) {
+    // if not already store (has a permalink)
+
+    var text = $("text").val();
+    var encoded = encodeURIComponent(text);
+    if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
+
+        // If negative or neutral rating
+        if (r < 1) {
+            askForAlternativeTranslation();
+        }
+    }
+}
+
+function askForRating() {
+    $("#rating").show("medium");
+}
+
+function askForAlternativeTranslation() {
+    $("#rating").hide("medium");
+    $("#alternative-translation").show("medium");
+}

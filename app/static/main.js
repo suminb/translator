@@ -120,6 +120,8 @@ function _translate() {
         if (text.trim() != "") {
             $("#result").html("");
             $("#progress-message").html("Translation in progress...");
+            $("#page-url").hide("medium");
+            global.serial = null;
 
             // translates if the source language and the target language are not identical
             $.post("/translate", $("#translation-form").serializeArray(), function(response) {
@@ -127,6 +129,9 @@ function _translate() {
 
                 //var mode = $("input[name=m]:checked").val();
                 //displayPageURL(source, target, mode, text);
+
+                global.serial = null;
+                window.location.hash = '';
 
                 askForRating();
 
@@ -192,7 +197,7 @@ function displayError(message) {
 function hashChanged(hash) {
     phash = parseHash(hash.substr(1));
 
-    var serial = phash.sr[0];
+    var serial = phash.sr ? phash.sr[0] : "";
 
     if (serial) {
         // If a translation record is not newly loaded
@@ -237,7 +242,7 @@ function hashChanged(hash) {
             $("#text").val(decodeURIComponent(text));
             _translate();
         }
-        else {
+        else if (global.ei == -1) { // indicates the initial state
             refreshExample();
         }
     }
@@ -343,6 +348,7 @@ function skipAlternativeTranslation() {
 }
 
 function askForRating() {
+    $("#appreciation").hide("medium");
     $("#rating").show("medium");
 }
 

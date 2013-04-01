@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-31 23:07+0000\n"
+"POT-Creation-Date: 2013-04-01 05:02+0000\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 
 #: app/templates/base.html:4 app/templates/base.html:7
-#: app/templates/base.html:11 app/templates/index.html:3
+#: app/templates/base.html:11 app/templates/index.html:5
 msgid "app-title"
 msgstr "Лучший переводчик"
 
@@ -57,22 +57,22 @@ msgstr "Ведущий программист"
 msgid "Localization"
 msgstr "Локализации"
 
-#: app/templates/credits.html:16 app/templates/index.html:21
-#: app/templates/index.html:41
+#: app/templates/credits.html:16 app/templates/index.html:25
+#: app/templates/index.html:44
 msgid "French"
 msgstr "Французский"
 
-#: app/templates/credits.html:20 app/templates/index.html:23
-#: app/templates/index.html:43
+#: app/templates/credits.html:20 app/templates/index.html:27
+#: app/templates/index.html:46
 msgid "Spanish"
 msgstr "Испанский"
 
-#: app/templates/credits.html:24 app/templates/index.html:24
-#: app/templates/index.html:44
+#: app/templates/credits.html:24 app/templates/index.html:28
+#: app/templates/index.html:47
 msgid "Russian"
 msgstr "Pусский"
 
-#: app/templates/index.html:5
+#: app/templates/index.html:8
 msgid "app-description-html"
 msgstr ""
 "Лучший переводчик – языкового переводчика на <a href=\"#\" "
@@ -82,71 +82,83 @@ msgstr ""
 " как и все в мире пытается перевести японские порно на свой язык, и, "
 "таким образом Google Translate работает лучше с японцами."
 
-#: app/templates/index.html:14
+#: app/templates/index.html:17
 msgid "Show another example"
 msgstr "Показать другим пример"
 
-#: app/templates/index.html:15
+#: app/templates/index.html:18
 msgid "Swap languages"
 msgstr ""
 
-#: app/templates/index.html:19 app/templates/index.html:39
-msgid "Korean"
-msgstr "Корейский"
-
-#: app/templates/index.html:20 app/templates/index.html:40
-msgid "English"
-msgstr "Английский"
-
-#: app/templates/index.html:22 app/templates/index.html:42
-msgid "Japanese"
-msgstr "Японский"
-
-#: app/templates/index.html:25 app/templates/index.html:45
-msgid "Indonesian"
-msgstr ""
-
-#: app/templates/index.html:33
-msgid "Direct translation"
-msgstr "Прямой перевод"
-
-#: app/templates/index.html:35
-msgid "Use Japanese as an intermediate langauge"
-msgstr "Перевод через Японский"
-
-#: app/templates/index.html:36
+#: app/templates/index.html:19
 msgid "Translate"
 msgstr "Перевести"
 
-#: app/templates/index.html:58
-msgid "How did you like this translation?"
+#: app/templates/index.html:23 app/templates/index.html:42
+msgid "Korean"
+msgstr "Корейский"
+
+#: app/templates/index.html:24 app/templates/index.html:43
+msgid "English"
+msgstr "Английский"
+
+#: app/templates/index.html:26 app/templates/index.html:45
+msgid "Japanese"
+msgstr "Японский"
+
+#: app/templates/index.html:29 app/templates/index.html:48
+msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:59
-msgid "Poor"
+#: app/templates/index.html:37
+msgid "Direct translation"
+msgstr "Прямой перевод"
+
+#: app/templates/index.html:39
+msgid "Use Japanese as an intermediate langauge"
+msgstr "Перевод через Японский"
+
+#: app/templates/index.html:58
+msgid "Request a permalink"
 msgstr ""
 
 #: app/templates/index.html:60
-msgid "Acceptable"
+msgid "URL for this page"
+msgstr "Постоянная ссылка"
+
+#: app/templates/index.html:74
+msgid "How did you like this translation?"
 msgstr ""
 
-#: app/templates/index.html:61
-msgid "Excellent"
-msgstr ""
-
-#: app/templates/index.html:64
-msgid "How would you translate it?"
-msgstr ""
-
-#: app/templates/index.html:66
-msgid "Submit"
-msgstr ""
-
-#: app/templates/index.html:69
-msgid "Thank you for your feedback."
+#: app/templates/index.html:75
+msgid "Poor"
 msgstr ""
 
 #: app/templates/index.html:76
-msgid "URL for this page"
-msgstr "Постоянная ссылка"
+msgid "Acceptable"
+msgstr ""
+
+#: app/templates/index.html:77
+msgid "Excellent"
+msgstr ""
+
+#: app/templates/index.html:80
+msgid "How would you translate it?"
+msgstr ""
+
+#: app/templates/index.html:83
+msgid "Skip"
+msgstr ""
+
+#: app/templates/index.html:84
+msgid "Submit"
+msgstr ""
+
+#: app/templates/index.html:88
+msgid "Thank you for your feedback."
+msgstr ""
+
+#: app/templates/index.html:89
+msgid "Dismiss"
+msgstr ""
 

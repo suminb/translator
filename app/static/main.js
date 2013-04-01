@@ -200,6 +200,8 @@ function hashChanged(hash) {
     var serial = phash.sr ? phash.sr[0] : "";
 
     if (serial) {
+        $("#request-permalink").hide();
+
         // If a translation record is not newly loaded
         if (serial != global.serial) {
             $("#progress-message").html("Fetching requested resources...");
@@ -231,6 +233,8 @@ function hashChanged(hash) {
         var target = phash.tl;
         var mode = phash.m;
         var text = phash.t;
+
+        $("#request-permalink").show();
 
         $("select[name=sl]").val(source ? source : "ko");
         $("select[name=tl]").val(target ? target : "en");
@@ -270,14 +274,13 @@ function rate(rating) {
 
     var original = $("text").val();
     var encoded = encodeURIComponent(original);
-    var translated = {name:"s", value:$("#result").html()};
 
     if (global.serial) {
         displayPermalink(global.serial);
         sendRating(global.serial, rating);
     }
     else {
-        generatePermalink($("#translation-form").serializeArray().concat(translated), sendRating, rating);
+        generatePermalink(sendRating, rating);
     }
 
     // TODO: I'll do this later
@@ -297,15 +300,18 @@ function rate(rating) {
  * @param pairs Key-value pairs
  * @param sendRating A function to be called when parmalink generation was successful
  */
-function generatePermalink(pairs, sendRating, rating) {
+function generatePermalink(sendRating, rating) {
+
+    $("#request-permalink").hide("medium");
+
+    var translated = {name:"s", value:$("#result").html()};
+    var pairs = $("#translation-form").serializeArray().concat(translated);
+
     $.post("/v0.9/store", pairs, function(response) {
         displayPermalink(response.base62);
 
         if (sendRating != null) {
             sendRating(response.base62, rating);
-        }
-        else {
-            expressAppreciation();
         }
 
     }).fail(function(response) {

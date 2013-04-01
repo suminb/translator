@@ -54,7 +54,20 @@
     </form>
     <div style="clear:both;"></div>
 
-    <div class="column1">&nbsp;</div>
+    <div class="column1">
+        <span id="request-permalink" class="action" onclick="generatePermalink(null, 0)">{{ _("Request a permalink") }}</span>
+        <div id="page-url">
+            <h3>{{ _("URL for this page") }}</h3>
+            <div id="page-url-value" style="float:left;"></div>
+            <div class="addthis_toolbox addthis_default_style " style="float:left;">
+                <a class="addthis_button_facebook"></a>
+                <a class="addthis_button_twitter"></a>
+                <a class="addthis_button_compact"></a>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        &nbsp;
+    </div>
     <div class="column2">
         <div id="feedback">
             <div id="rating" class="hidden">
@@ -73,19 +86,10 @@
             </form>
             <div id="appreciation" class="hidden">
                 {{ _("Thank you for your feedback.") }}
+                <span class="action" onclick="$('#appreciation').hide('medium')">{{ _("Dismiss") }}</span>
             </div>
         </div>
     </div>
     <div style="clear:both;"></div>
     
-    <div id="page-url">
-        <h3>{{ _("URL for this page") }}</h3>
-        <div id="page-url-value" style="float:left;"></div>
-        <div class="addthis_toolbox addthis_default_style " style="float:left;">
-            <a class="addthis_button_facebook"></a>
-            <a class="addthis_button_twitter"></a>
-            <a class="addthis_button_compact"></a>
-        </div>
-        <div style="clear:both;"></div>
-    </div>
 {% endblock %}

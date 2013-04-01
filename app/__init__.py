@@ -253,9 +253,14 @@ def rate(serial):
     if t == None:
         return 'Requested resource does not exist\n', 404
 
-    r = Rating(id=uuid.uuid4(), translation_id=t.id)
+    r = Rating(id=str(uuid.uuid4()), translation_id=t.id)
     r.rating = int(rating)
-    r.ip = request.remote_addr
+
+    # To circumvent Webfaction HTTP gateway
+    if not request.headers.getlist('X-Forwarded-For'):
+        r.ip = request.remote_addr
+    else:
+        r.ip = request.headers.getlist('X-Forwarded-For')[0]
 
     try:
         db.session.add(r)

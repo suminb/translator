@@ -222,26 +222,26 @@ def store():
 
         # FIXME: Base62 encoding must be done in the frontend
         # NOTE: UUID is not JSON serializable
-        return jsonify(id=str(t.id), serial=t.serial, base62=base62.encode(t.serial))
+        return jsonify(id=str(t.id), serial=t.serial, base62='0z'+base62.encode(t.serial))
     
     except Exception as e:
         return str(e), 500
 
 
-@app.route('/v0.9/rate/<tid>', methods=['POST'])
-def rate(tid):
+@app.route('/v0.9/rate/<serial>', methods=['POST'])
+def rate(serial):
     """
-    :param id: Translation ID
-    :type id: PostgreSQL UUID
+    :param id: Translation serial
+    :type id: string (base62 representation)
     """
 
     # TODO: Clean up the following code
+    import base62
+    import uuid
 
     rating = request.form['r']
 
-    import uuid
-
-    t = Translation.query.get(tid)
+    t = Translation.query.filter_by(serial=base62.decode(serial)).first()
 
     if t == None:
         return 'Requested resource does not exist\n', 404

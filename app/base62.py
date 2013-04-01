@@ -19,6 +19,9 @@ def encode(n):
     return ''.join(s)
 
 def decode(b):
+    if b.startswith('0z'):
+        b = b[2:]
+
     l, i, v = len(b), 0, 0
     for x in b:
         v += __value__(x) * (BASE**(l-(i+1)))

@@ -192,29 +192,34 @@ function displayError(message) {
 function hashChanged(hash) {
     phash = parseHash(hash.substr(1));
 
-    var serial = phash.sr;
+    var serial = phash.sr[0];
 
     if (serial) {
-        $("#progress-message").html("Fetching requested resources...");
+        // If a translation record is not newly loaded
+        if (serial != global.serial) {
+            $("#progress-message").html("Fetching requested resources...");
 
-        $.get("/v0.9/fetch/"+serial, function(response) {
-            $("#text").val(response.original_text);
-            $("#result").html(response.translated_text);
+            $.get("/v0.9/fetch/"+serial, function(response) {
+                $("#text").val(response.original_text);
+                $("#result").html(response.translated_text);
 
-            $("select[name=sl]").val(response.source);
-            $("select[name=tl]").val(response.target);
+                $("select[name=sl]").val(response.source);
+                $("select[name=tl]").val(response.target);
 
-            var mode = response.mode == "1";
-            $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+                var mode = response.mode == "1";
+                $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
-            askForRating();
+                askForRating();
 
-        }).fail(function(response) {
-            displayError(response.responseText)
-        
-        }).always(function() {
-            $("#progress-message").html("");
-        });
+            }).fail(function(response) {
+                displayError(response.responseText)
+            
+            }).always(function() {
+                $("#progress-message").html("");
+            });
+        }
+
+        global.serial = serial;
     }
     else {
         var source = phash.sl;
@@ -262,7 +267,13 @@ function rate(rating) {
     var encoded = encodeURIComponent(original);
     var translated = {name:"s", value:$("#result").html()};
 
-    generatePermalink($("#translation-form").serializeArray().concat(translated), sendRating, rating);
+    if (global.serial) {
+        displayPermalink(global.serial);
+        sendRating(global.serial, rating);
+    }
+    else {
+        generatePermalink($("#translation-form").serializeArray().concat(translated), sendRating, rating);
+    }
 
     // TODO: I'll do this later
     // if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
@@ -275,8 +286,6 @@ function rate(rating) {
     //         expressAppreciation();
     //     }
     // }
-
-    expressAppreciation();
 }
 
 /**
@@ -288,7 +297,10 @@ function generatePermalink(pairs, sendRating, rating) {
         displayPermalink(response.base62);
 
         if (sendRating != null) {
-            sendRating(response.id, rating);
+            sendRating(response.base62, rating);
+        }
+        else {
+            expressAppreciation();
         }
 
     }).fail(function(response) {
@@ -299,15 +311,19 @@ function generatePermalink(pairs, sendRating, rating) {
     });
 }
 
-function displayPermalink(id) {
-    var url = $.sprintf("%s/#sr=0z%s", window.location.origin, id);
+function displayPermalink(serial) {
+    var url = $.sprintf("%s/#sr=%s", window.location.origin, serial);
 
     $("#page-url").show("medium");
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
+
+    global.serial = serial;
+    window.location.hash = $.sprintf("sr=%s", serial);
 }
 
-function sendRating(tid, rating) {
-    $.post("/v0.9/rate/"+tid, {r:rating}, function(response) {
+function sendRating(serial, rating) {
+    $.post("/v0.9/rate/"+serial, {r:rating}, function(response) {
+        expressAppreciation();
 
     }).fail(function(response) {
         displayError(response.responseText)

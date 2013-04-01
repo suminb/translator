@@ -20,7 +20,7 @@ var examples = {
 // URL encoded length, exclsively less than
 var SHORT_TRANSLATION_THRESHOLD = 256;
 
-var global = {};
+var global = {ei: 0};
 
 window.onload = function() {
     // The following code was copied from
@@ -117,25 +117,27 @@ function _translate() {
         displayResult(text);
     }
     else {
-        $("#result").html("");
-        $("#progress-message").html("Translation in progress...");
+        if (text.trim() != "") {
+            $("#result").html("");
+            $("#progress-message").html("Translation in progress...");
 
-        // translates if the source language and the target language are not identical
-        $.post("/translate", $("#translation-form").serializeArray(), function(response) {
-            displayResult(response);
+            // translates if the source language and the target language are not identical
+            $.post("/translate", $("#translation-form").serializeArray(), function(response) {
+                displayResult(response);
 
-            //var mode = $("input[name=m]:checked").val();
-            //displayPageURL(source, target, mode, text);
+                //var mode = $("input[name=m]:checked").val();
+                //displayPageURL(source, target, mode, text);
 
-            askForRating();
+                askForRating();
 
-        }).fail(function(response) {
-            displayError(response.responseText)
-        
-        }).always(function() {
-            $("#progress-message").html("");
+            }).fail(function(response) {
+                displayError(response.responseText)
+            
+            }).always(function() {
+                $("#progress-message").html("");
 
-        });
+            });
+        }
     }
     
     return false;
@@ -158,10 +160,6 @@ function displayExample() {
 // TODO: Refactor this function
 function refreshExample() {
     var language = $("select[name=sl]").val();
-
-    console.log(language);
-    console.log(examples[language]);
-
     var example = examples[language][++global.ei % examples[language].length];
 
     $("#text").val(example);
@@ -194,23 +192,49 @@ function displayError(message) {
 function hashChanged(hash) {
     phash = parseHash(hash.substr(1));
 
-    var source = phash.sl;
-    var target = phash.tl;
-    var mode = phash.m;
-    var text = phash.t;
+    var serial = phash.sr;
 
-    $("select[name=sl]").val(source ? source : "ko");
-    $("select[name=tl]").val(target ? target : "en");
+    if (serial) {
+        $("#progress-message").html("Fetching requested resources...");
 
-    var mode = getParameterByName("m") == "1";
-    $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+        $.get("/v0.9/fetch/"+serial, function(response) {
+            $("#text").val(response.original_text);
+            $("#result").html(response.translated_text);
 
-    if (text) {
-        $("#text").val(decodeURIComponent(text));
-        _translate();
+            $("select[name=sl]").val(response.source);
+            $("select[name=tl]").val(response.target);
+
+            var mode = response.mode == "1";
+            $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+
+            askForRating();
+
+        }).fail(function(response) {
+            displayError(response.responseText)
+        
+        }).always(function() {
+            $("#progress-message").html("");
+        });
     }
     else {
-        displayExample();
+        var source = phash.sl;
+        var target = phash.tl;
+        var mode = phash.m;
+        var text = phash.t;
+
+        $("select[name=sl]").val(source ? source : "ko");
+        $("select[name=tl]").val(target ? target : "en");
+
+        var mode = getParameterByName("m") == "1";
+        $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+
+        if (text) {
+            $("#text").val(decodeURIComponent(text));
+            _translate();
+        }
+        else {
+            displayExample();
+        }
     }
 }
 
@@ -240,16 +264,19 @@ function rate(r) {
 
     generatePermalink($("#translation-form").serializeArray().concat(translated));
 
-    if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
+    // TODO: I'll do this later
+    // if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
 
-        // If negative or neutral rating
-        if (r < 1) {
-            askForAlternativeTranslation();
-        }
-        else {
-            expressAppreciation();
-        }
-    }
+    //     // If negative or neutral rating
+    //     if (r < 1) {
+    //         askForAlternativeTranslation();
+    //     }
+    //     else {
+    //         expressAppreciation();
+    //     }
+    // }
+
+    expressAppreciation();
 }
 
 /**
@@ -268,7 +295,7 @@ function generatePermalink(pairs) {
 }
 
 function displayPermalink(id) {
-    var url = $.sprintf("%s/tr/0z%s", window.location.origin, id);
+    var url = $.sprintf("%s/#sr=0z%s", window.location.origin, id);
 
     $("#page-url").show("medium");
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));

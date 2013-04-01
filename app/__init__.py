@@ -167,6 +167,23 @@ def translate():
     except Exception as e:
         return str(e), 500
 
+@app.route('/v0.9/fetch/<serial>', methods=['GET'])
+def fetch(serial):
+    import base62
+
+    if not serial.startswith('0z'):
+        return 'Invalid serial format\n', 400
+
+    serial = base62.decode(serial[2:])
+
+    row = Translation.query.filter_by(serial=serial).first()
+
+    if row == None:
+        return 'Requested resource does not exist\n', 404
+
+    return jsonify(row.serialize())
+
+
 @app.route('/v0.9/store', methods=['POST'])
 def store():
     """Stores a translation and generates a permalink.
@@ -178,8 +195,6 @@ def store():
     mode = request.form['m']
     source = request.form['sl']
     target = request.form['tl']
-
-    print original, translated
 
     if source not in VALID_LANGUAGES:
         return 'Invalid source language\n', 400

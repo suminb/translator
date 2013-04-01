@@ -11,11 +11,16 @@ import os, sys
 import requests
 import json
 import urllib
+import config
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 
 babel = Babel(app)
 
+from models import *
+
+VALID_LANGUAGES = ['en', 'es', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
 
 class HTTPException(RuntimeError):
     def __init__(self, message, status_code):
@@ -137,9 +142,8 @@ def credits():
 
 
 @app.route('/translate', methods=['GET', 'POST'])
+@app.route('/v0.9/translate', methods=['GET', 'POST'])
 def translate():
-    valid_languages = ['en', 'es', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
-
     text = request.form['t']
     mode = request.form['m']
     source = request.form['sl']
@@ -148,9 +152,9 @@ def translate():
     if source == target:
         return text
 
-    if source not in valid_languages:
+    if source not in VALID_LANGUAGES:
         return 'Invalid source language\n', 400
-    if target not in valid_languages:
+    if target not in VALID_LANGUAGES:
         return 'Invalid target language\n', 400
 
     try:
@@ -167,6 +171,99 @@ def translate():
     except HTTPException as e:
         return e.message, e.status_code
 
+    except Exception as e:
+        return str(e), 500
+
+@app.route('/v0.9/fetch/<serial>', methods=['GET'])
+def fetch(serial):
+    import base62
+
+    if not serial.startswith('0z'):
+        return 'Invalid serial format\n', 400
+
+    serial = base62.decode(serial[2:])
+
+    row = Translation.query.filter_by(serial=serial).first()
+
+    if row == None:
+        return 'Requested resource does not exist\n', 404
+
+    return jsonify(row.serialize())
+
+
+@app.route('/v0.9/store', methods=['POST'])
+def store():
+    """Stores a translation and generates a permalink.
+    """
+
+    # TODO: Clean up the following code
+    original = request.form['t']
+    translated = request.form['s']
+    mode = request.form['m']
+    source = request.form['sl']
+    target = request.form['tl']
+
+    if source not in VALID_LANGUAGES:
+        return 'Invalid source language\n', 400
+    if target not in VALID_LANGUAGES:
+        return 'Invalid target language\n', 400
+
+    import uuid
+    import psycopg2.extras
+    import datetime
+    import base62
+
+    psycopg2.extras.register_uuid()
+
+    t = Translation(id=uuid.uuid4(), timestamp=datetime.datetime.now())
+    t.source = source
+    t.target = target
+    t.mode = mode
+    t.original_text = original
+    t.translated_text = translated
+    t.is_sample = False
+
+    try:
+        db.session.add(t)
+        db.session.commit()
+
+        # FIXME: Base62 encoding must be done in the frontend
+        # NOTE: UUID is not JSON serializable
+        return jsonify(id=str(t.id), serial=t.serial, base62='0z'+base62.encode(t.serial))
+    
+    except Exception as e:
+        return str(e), 500
+
+
+@app.route('/v0.9/rate/<serial>', methods=['POST'])
+def rate(serial):
+    """
+    :param id: Translation serial
+    :type id: string (base62 representation)
+    """
+
+    # TODO: Clean up the following code
+    import base62
+    import uuid
+
+    rating = request.form['r']
+
+    t = Translation.query.filter_by(serial=base62.decode(serial)).first()
+
+    if t == None:
+        return 'Requested resource does not exist\n', 404
+
+    r = Rating(id=uuid.uuid4(), translation_id=t.id)
+    r.rating = int(rating)
+    r.ip = request.remote_addr
+
+    try:
+        db.session.add(r)
+        db.session.commit()
+
+        # NOTE: UUID is not JSON serializable
+        return jsonify(id=str(r.id))
+    
     except Exception as e:
         return str(e), 500
 

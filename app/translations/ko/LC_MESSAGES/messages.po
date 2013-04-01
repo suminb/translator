@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-24 23:00+0000\n"
+"POT-Creation-Date: 2013-04-01 05:02+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 
 #: app/templates/base.html:4 app/templates/base.html:7
-#: app/templates/base.html:11 app/templates/index.html:3
+#: app/templates/base.html:11 app/templates/index.html:5
 msgid "app-title"
 msgstr "더 나은 번역기"
 
@@ -51,65 +51,105 @@ msgstr "최고 책임 개발자"
 msgid "Localization"
 msgstr ""
 
-#: app/templates/credits.html:16 app/templates/index.html:21
-#: app/templates/index.html:41
+#: app/templates/credits.html:16 app/templates/index.html:25
+#: app/templates/index.html:44
 msgid "French"
 msgstr "프랑스어"
 
-#: app/templates/credits.html:20 app/templates/index.html:23
-#: app/templates/index.html:43
+#: app/templates/credits.html:20 app/templates/index.html:27
+#: app/templates/index.html:46
 msgid "Spanish"
 msgstr "스페인어"
 
-#: app/templates/credits.html:24 app/templates/index.html:24
-#: app/templates/index.html:44
+#: app/templates/credits.html:24 app/templates/index.html:28
+#: app/templates/index.html:47
 msgid "Russian"
 msgstr "러시아어"
 
-#: app/templates/index.html:5
+#: app/templates/index.html:8
 msgid "app-description-html"
 msgstr ""
 "소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggleScreenshot()\">'구글 "
 "번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다. 특집 기사 - <a "
 "href=\"http://blog.suminb.com/archives/1792\">이건 어떻게 만든거지?</a>"
 
-#: app/templates/index.html:14
+#: app/templates/index.html:17
 msgid "Show another example"
 msgstr "다른 예제 보기"
 
-#: app/templates/index.html:15
+#: app/templates/index.html:18
 msgid "Swap languages"
 msgstr "언어 맞바꾸기"
 
-#: app/templates/index.html:19 app/templates/index.html:39
-msgid "Korean"
-msgstr "한국어"
-
-#: app/templates/index.html:20 app/templates/index.html:40
-msgid "English"
-msgstr "영어"
-
-#: app/templates/index.html:22 app/templates/index.html:42
-msgid "Japanese"
-msgstr "일본어"
-
-#: app/templates/index.html:25 app/templates/index.html:45
-msgid "Indonesian"
-msgstr "인도네시아어"
-
-#: app/templates/index.html:33
-msgid "Direct translation"
-msgstr "그냥 번역"
-
-#: app/templates/index.html:35
-msgid "Use Japanese as an intermediate langauge"
-msgstr "일본어를 거쳐서 번역"
-
-#: app/templates/index.html:36
+#: app/templates/index.html:19
 msgid "Translate"
 msgstr "번역"
 
-#: app/templates/index.html:56
+#: app/templates/index.html:23 app/templates/index.html:42
+msgid "Korean"
+msgstr "한국어"
+
+#: app/templates/index.html:24 app/templates/index.html:43
+msgid "English"
+msgstr "영어"
+
+#: app/templates/index.html:26 app/templates/index.html:45
+msgid "Japanese"
+msgstr "일본어"
+
+#: app/templates/index.html:29 app/templates/index.html:48
+msgid "Indonesian"
+msgstr "인도네시아어"
+
+#: app/templates/index.html:37
+msgid "Direct translation"
+msgstr "그냥 번역"
+
+#: app/templates/index.html:39
+msgid "Use Japanese as an intermediate langauge"
+msgstr "일본어를 거쳐서 번역"
+
+#: app/templates/index.html:58
+msgid "Request a permalink"
+msgstr "이 페이지 링크 요청하기"
+
+#: app/templates/index.html:60
 msgid "URL for this page"
 msgstr "이 페이지 주소"
+
+#: app/templates/index.html:74
+msgid "How did you like this translation?"
+msgstr "번역 결과가 마음에 들었나요?"
+
+#: app/templates/index.html:75
+msgid "Poor"
+msgstr "마음에 안 들어요"
+
+#: app/templates/index.html:76
+msgid "Acceptable"
+msgstr "그럭저럭"
+
+#: app/templates/index.html:77
+msgid "Excellent"
+msgstr "좋아요"
+
+#: app/templates/index.html:80
+msgid "How would you translate it?"
+msgstr "여러분이라면 어떻게 번역하시겠습니까?"
+
+#: app/templates/index.html:83
+msgid "Skip"
+msgstr ""
+
+#: app/templates/index.html:84
+msgid "Submit"
+msgstr "보내기"
+
+#: app/templates/index.html:88
+msgid "Thank you for your feedback."
+msgstr "감사합니다."
+
+#: app/templates/index.html:89
+msgid "Dismiss"
+msgstr "확인"
 

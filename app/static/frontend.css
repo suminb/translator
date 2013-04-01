@@ -14,18 +14,23 @@ h1 a {
     text-decoration: none;
 }
 
-a, a:visited {
+a, a:visited, span.action {
+    cursor: pointer;
     padding: 1px;
     color: #1033d0;
     text-decoration: none;
 }
-a:hover {
+a:hover, span.action:hover {
     color: #183cff;
     /*background-color: #efcc2f;*/
 }
 
 input[type=submit] {
     font-size: 13pt;
+}
+
+.hidden {
+    display: none;
 }
 
 .credits {
@@ -44,7 +49,7 @@ input[type=submit] {
     font-weight: bold;
 }
 
-#column1, #column2 {
+.column1, .column2 {
     float: left;
     width: 47%;
     margin: 0 1em;
@@ -55,20 +60,27 @@ input[type=submit] {
     text-align: center;
 }
 
-.translation-options {
+.column1 .translation-options {
     width: 100%;
     text-align: right;
+}
+
+textarea {
+    padding: .5em;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11pt;
+    color: #303030;
+    border: 1px solid #aaa;
+}
+textarea[disabled=disabled] {
+    color: #999;
+    background-color: #eee;
 }
 
 #text {
     display: block;
     width: 99%;
     height: 8em;
-    padding: .5em;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11pt;
-    color: #303030;
-    border: 1px solid #aaa;
 }
 
 #result {
@@ -83,6 +95,17 @@ input[type=submit] {
 }
 #progress-message {
     color: #ccc;
+}
+
+#feedback {
+    margin: .5em 0 0 0;
+    color: #666;
+}
+
+#alternative-translation-form textarea {
+    display: block;
+    width: 99%;
+    height: 8em;
 }
 
 #page-url {

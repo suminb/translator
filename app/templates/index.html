@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{ _("app-title") }}</h1>
+    <h1>
+        <img src="/static/icon_32.png" alt="" style="vertical-align: text-bottom"/>
+        {{ _("app-title") }}
+    </h1>
     
     <p>{{ _("app-description-html") }}</p>
 
@@ -8,11 +11,12 @@
         <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
     </p>
     
-    <form method="get" onsubmit="return _translate()">
-    <div id="column1">
+    <form id="translation-form" method="get" onsubmit="return _translate()">
+    <div class="column1">
         <div class="translation-options">
-            <a href="#" onclick="refreshExample()">{{ _("Show another example" )}}</a> |
-            <a href="#" onclick="swapLanguages()">{{ _("Swap languages") }}</a>
+            <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
+            <span class="action" onclick="swapLanguages()">{{ _("Swap languages") }}</span>
+            <input type="submit" value="{{ _("Translate") }}"/>
         </div>
         <div>
             <select name="sl" onchange="_translate()">
@@ -27,13 +31,12 @@
         </div>
         <textarea id="text" name="t"></textarea>
     </div>
-    <div id="column2">
+    <div class="column2">
         <div class="translation-options">
             <input id="radio-mode-1" type="radio" name="m" value="1" onclick="_translate()"/>
             <label for="radio-mode-1">{{ _("Direct translation") }}</label>
             <input id="radio-mode-2" type="radio" name="m" value="2" onclick="_translate()"/>
             <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
-            <input type="submit" value="{{ _("Translate") }}"/>
         </div>
         <select name="tl" onchange="_translate()">
             <option value="ko">{{ _("Korean") }}</option>
@@ -49,11 +52,44 @@
         <pre id="result"></pre>
     </div>
     </form>
-    
+    <div style="clear:both;"></div>
+
+    <div class="column1">
+        <span id="request-permalink" class="action" onclick="generatePermalink(null, 0)">{{ _("Request a permalink") }}</span>
+        <div id="page-url">
+            <h3>{{ _("URL for this page") }}</h3>
+            <div id="page-url-value" style="float:left;"></div>
+            <div class="addthis_toolbox addthis_default_style " style="float:left;">
+                <a class="addthis_button_facebook"></a>
+                <a class="addthis_button_twitter"></a>
+                <a class="addthis_button_compact"></a>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        &nbsp;
+    </div>
+    <div class="column2">
+        <div id="feedback">
+            <div id="rating" class="hidden">
+                {{ _("How did you like this translation?") }}
+                <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
+                <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
+                <span class="action" onclick="rate(1)">{{ _("Excellent") }}</span>
+            </div>
+            <form id="alternative-translation-form" class="hidden" onsubmit="return submitAlternativeTranslation()">
+                {{ _("How would you translate it?") }}
+                <textarea name="alt"></textarea>
+                <div style="width:100%; text-align:right;">
+                    <span class="action" onclick="skipAlternativeTranslation()">{{ _("Skip") }}</span>
+                    <input type="submit" value="{{ _("Submit") }}"/>
+                </div>
+            </form>
+            <div id="appreciation" class="hidden">
+                {{ _("Thank you for your feedback.") }}
+                <span class="action" onclick="$('#appreciation').hide('medium')">{{ _("Dismiss") }}</span>
+            </div>
+        </div>
+    </div>
     <div style="clear:both;"></div>
     
-    <div id="page-url">
-        <h3>{{ _("URL for this page") }}</h3>
-        <div id="page-url-value"></div>
-    </div>
 {% endblock %}

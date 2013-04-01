@@ -121,11 +121,11 @@ function _translate() {
         $("#progress-message").html("Translation in progress...");
 
         // translates if the source language and the target language are not identical
-        $.post("/translate", $("form").serializeArray(), function(response) {
+        $.post("/translate", $("#translation-form").serializeArray(), function(response) {
             displayResult(response);
 
-            var mode = $("input[name=m]:checked").val();
-            displayPageURL(source, target, mode, text);
+            //var mode = $("input[name=m]:checked").val();
+            //displayPageURL(source, target, mode, text);
 
             askForRating();
 
@@ -234,8 +234,12 @@ toggle_screenshot = toggleScreenshot;
 function rate(r) {
     // if not already store (has a permalink)
 
-    var text = $("text").val();
-    var encoded = encodeURIComponent(text);
+    var original = $("text").val();
+    var encoded = encodeURIComponent(original);
+    var translated = {name:"s", value:$("#result").html()};
+
+    generatePermalink($("#translation-form").serializeArray().concat(translated));
+
     if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
 
         // If negative or neutral rating
@@ -248,9 +252,35 @@ function rate(r) {
     }
 }
 
+/**
+ * @param pairs Key-value pairs
+ */
+function generatePermalink(pairs) {
+    $.post("/v0.9/store", pairs, function(response) {
+        displayPermalink(response.base62);
+
+    }).fail(function(response) {
+        displayError(response.responseText)
+    
+    }).always(function() {
+
+    });
+}
+
+function displayPermalink(id) {
+    var url = $.sprintf("%s/tr/0z%s", window.location.origin, id);
+
+    $("#page-url").show("medium");
+    $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
+}
+
 function submitAlternativeTranslation() {
     expressAppreciation();
     return false;
+}
+
+function skipAlternativeTranslation() {
+    expressAppreciation();
 }
 
 function askForRating() {
@@ -258,12 +288,14 @@ function askForRating() {
 }
 
 function askForAlternativeTranslation() {
+    $("#text").attr("disabled", "disabled");
     $("#rating").hide("medium");
-    $("#alternative-translation").show("medium");
+    $("#alternative-translation-form").show("medium");
 }
 
 function expressAppreciation() {
+    $("#text").removeAttr("disabled");
     $("#rating").hide("medium");
-    $("#alternative-translation").hide("medium");
+    $("#alternative-translation-form").hide("medium");
     $("#appreciation").show("medium");
 }

@@ -72,6 +72,10 @@ textarea {
     color: #303030;
     border: 1px solid #aaa;
 }
+textarea[disabled=disabled] {
+    color: #999;
+    background-color: #eee;
+}
 
 #text {
     display: block;
@@ -98,7 +102,7 @@ textarea {
     color: #666;
 }
 
-#alternative-translation textarea {
+#alternative-translation-form textarea {
     display: block;
     width: 99%;
     height: 8em;

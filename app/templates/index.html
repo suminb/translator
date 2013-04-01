@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{ _("app-title") }}</h1>
+    <h1>
+        <img src="/static/icon_32.png" alt="" style="vertical-align: text-bottom"/>
+        {{ _("app-title") }}
+    </h1>
     
     <p>{{ _("app-description-html") }}</p>
 
@@ -8,11 +11,11 @@
         <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
     </p>
     
-    <form method="get" onsubmit="return _translate()">
+    <form id="translation-form" method="get" onsubmit="return _translate()">
     <div class="column1">
         <div class="translation-options">
-            <a href="#" onclick="refreshExample()">{{ _("Show another example" )}}</a> |
-            <a href="#" onclick="swapLanguages()">{{ _("Swap languages") }}</a>
+            <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
+            <span class="action" onclick="swapLanguages()">{{ _("Swap languages") }}</span>
         </div>
         <div>
             <select name="sl" onchange="_translate()">
@@ -60,10 +63,11 @@
                 <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
                 <span class="action" onclick="rate(1)">{{ _("Excellent") }}</span>
             </div>
-            <form id="alternative-translation" class="hidden" onsubmit="return submitAlternativeTranslation()">
+            <form id="alternative-translation-form" class="hidden" onsubmit="return submitAlternativeTranslation()">
                 {{ _("How would you translate it?") }}
-                <textarea name=""></textarea>
+                <textarea name="alt"></textarea>
                 <div style="width:100%; text-align:right;">
+                    <span class="action" onclick="skipAlternativeTranslation()">{{ _("Skip") }}</span>
                     <input type="submit" value="{{ _("Submit") }}"/>
                 </div>
             </form>

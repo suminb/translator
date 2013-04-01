@@ -20,6 +20,7 @@ babel = Babel(app)
 
 from models import *
 
+VALID_LANGUAGES = ['en', 'es', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
 
 class HTTPException(RuntimeError):
     def __init__(self, message, status_code):
@@ -134,9 +135,8 @@ def credits():
 
 
 @app.route('/translate', methods=['GET', 'POST'])
+@app.route('/v0.9/translate', methods=['GET', 'POST'])
 def translate():
-    valid_languages = ['en', 'es', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
-
     text = request.form['t']
     mode = request.form['m']
     source = request.form['sl']
@@ -145,9 +145,9 @@ def translate():
     if source == target:
         return text
 
-    if source not in valid_languages:
+    if source not in VALID_LANGUAGES:
         return 'Invalid source language\n', 400
-    if target not in valid_languages:
+    if target not in VALID_LANGUAGES:
         return 'Invalid target language\n', 400
 
     try:
@@ -167,18 +167,50 @@ def translate():
     except Exception as e:
         return str(e), 500
 
-@app.route('/store', methods=['GET', 'POST'])
+@app.route('/v0.9/store', methods=['POST'])
 def store():
+    """Stores a translation and generates a permalink.
+    """
+
+    # TODO: Clean up the following code
+    original = request.form['t']
+    translated = request.form['s']
+    mode = request.form['m']
+    source = request.form['sl']
+    target = request.form['tl']
+
+    print original, translated
+
+    if source not in VALID_LANGUAGES:
+        return 'Invalid source language\n', 400
+    if target not in VALID_LANGUAGES:
+        return 'Invalid target language\n', 400
+
     import uuid
     import psycopg2.extras
     import datetime
+    import base62
 
     psycopg2.extras.register_uuid()
 
-    t = Translation(id=uuid.uuid4(), timestamp=datetime.datetime.now(), source='en', target='ko', mode=2, original_text='test', translated_text='test2', is_sample=False)
-    db.session.add(t)
-    db.session.commit()
-    return ''
+    t = Translation(id=uuid.uuid4(), timestamp=datetime.datetime.now())
+    t.source = source
+    t.target = target
+    t.mode = mode
+    t.original_text = original
+    t.translated_text = translated
+    t.is_sample = False
+
+    try:
+        db.session.add(t)
+        db.session.commit()
+
+        # FIXME: Base62 encoding must be done in the frontend
+        return jsonify(serial=t.serial, base62=base62.encode(t.serial))
+    
+    except Exception as e:
+        return str(e), 500
+
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

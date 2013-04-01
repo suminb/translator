@@ -8,19 +8,19 @@ var examples = {
     ],
     ko: [
         "여러분이 몰랐던 구글 번역기",
-        "청년들을 타락시킨 죄로 독콜라를 마시는 홍민희",
         "샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근",
         "구글은 세계 정복을 꿈꾸고 있다.",
-        "강선구 이사님은 오늘도 새로운 기술을 찾아나선다.",
+        "호준이는 비싼 학비 때문에 허리가 휘어집니다.",
         "전망 좋은 카페에 앉아 먹었던 티라미수",
-        "호준이는 비싼 학비 때문에 허리가 휘어집니다."
+        "청년들을 타락시킨 죄로 독콜라를 마시는 홍민희",
+        "강선구 이사님은 오늘도 새로운 기술을 찾아나선다."
     ]
 };
 
 // URL encoded length, exclsively less than
 var SHORT_TRANSLATION_THRESHOLD = 256;
 
-var global = {ei: 0};
+var global = {ei: -1};
 
 window.onload = function() {
     // The following code was copied from
@@ -143,19 +143,19 @@ function _translate() {
     return false;
 }
 
-// TODO: Refactor this function
-function displayExample() {
-    global.ei = parseInt(getParameterByName("example"));
-    if (isNaN(global.ei)) {
-        // Randomly chooses an example sentence
-        global.ei = Math.floor(Math.random() * examples.ko.length)
-    }
+// // TODO: Refactor this function
+// function displayExample() {
+//     global.ei = parseInt(getParameterByName("example"));
+//     if (isNaN(global.ei)) {
+//         // Randomly chooses an example sentence
+//         global.ei = Math.floor(Math.random() * examples.ko.length)
+//     }
 
-    var example = examples.ko[global.ei % examples.ko.length];
+//     var example = examples.ko[global.ei % examples.ko.length];
 
-    $("#text").val(example);
-    _translate();
-}
+//     $("#text").val(example);
+//     _translate();
+// }
 
 // TODO: Refactor this function
 function refreshExample() {
@@ -233,7 +233,7 @@ function hashChanged(hash) {
             _translate();
         }
         else {
-            displayExample();
+            refreshExample();
         }
     }
 }
@@ -255,14 +255,14 @@ function toggleScreenshot() {
 // FIXME: Deprecated
 toggle_screenshot = toggleScreenshot;
 
-function rate(r) {
+function rate(rating) {
     // if not already store (has a permalink)
 
     var original = $("text").val();
     var encoded = encodeURIComponent(original);
     var translated = {name:"s", value:$("#result").html()};
 
-    generatePermalink($("#translation-form").serializeArray().concat(translated));
+    generatePermalink($("#translation-form").serializeArray().concat(translated), sendRating, rating);
 
     // TODO: I'll do this later
     // if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
@@ -281,10 +281,15 @@ function rate(r) {
 
 /**
  * @param pairs Key-value pairs
+ * @param sendRating A function to be called when parmalink generation was successful
  */
-function generatePermalink(pairs) {
+function generatePermalink(pairs, sendRating, rating) {
     $.post("/v0.9/store", pairs, function(response) {
         displayPermalink(response.base62);
+
+        if (sendRating != null) {
+            sendRating(response.id, rating);
+        }
 
     }).fail(function(response) {
         displayError(response.responseText)
@@ -299,6 +304,17 @@ function displayPermalink(id) {
 
     $("#page-url").show("medium");
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
+}
+
+function sendRating(tid, rating) {
+    $.post("/v0.9/rate/"+tid, {r:rating}, function(response) {
+
+    }).fail(function(response) {
+        displayError(response.responseText)
+    
+    }).always(function() {
+
+    });
 }
 
 function submitAlternativeTranslation() {

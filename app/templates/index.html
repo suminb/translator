@@ -16,6 +16,7 @@
         <div class="translation-options">
             <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
             <span class="action" onclick="swapLanguages()">{{ _("Swap languages") }}</span>
+            <input type="submit" value="{{ _("Translate") }}"/>
         </div>
         <div>
             <select name="sl" onchange="_translate()">
@@ -32,7 +33,6 @@
     </div>
     <div class="column2">
         <div class="translation-options">
-            <input type="submit" value="{{ _("Translate") }}"/>
             <input id="radio-mode-1" type="radio" name="m" value="1" onclick="_translate()"/>
             <label for="radio-mode-1">{{ _("Direct translation") }}</label>
             <input id="radio-mode-2" type="radio" name="m" value="2" onclick="_translate()"/>

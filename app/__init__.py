@@ -125,7 +125,8 @@ def index(serial=''):
         row = Translation.query.filter_by(serial=base62.decode(serial)).first()
 
         if row == None:
-            return 'Requested resource does not exist.\n', 404
+            context['message'] = _('Requrested resource does not exist')
+            return render_template("404.html", **context)
 
         context['og_description'] = row.original_text
         context['translation'] = json.dumps(row.serialize())

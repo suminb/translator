@@ -29,7 +29,6 @@ class Translation(db.Model):
     mode = db.Column(db.Integer)
     original_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
-    is_sample = db.Column(db.Boolean)
 
     def serialize(self):
         return serialize(self)

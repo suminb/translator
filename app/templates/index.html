@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+    <script type="text/javascript">
+        var global = {ei: -1, serial:"{{ serial }}"};
+    </script>
     <h1>
         <img src="/static/icon_32.png" alt="" style="vertical-align: text-bottom"/>
         {{ _("app-title") }}

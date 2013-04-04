@@ -14,13 +14,17 @@ var examples = {
         "전망 좋은 카페에 앉아 먹었던 티라미수",
         "청년들을 타락시킨 죄로 독콜라를 마시는 홍민희",
         "강선구 이사님은 오늘도 새로운 기술을 찾아나선다."
-    ]
+    ],
+    // TODO: Fill in some example sentences.
+    fr: [""],
+    en: [""],
+    ja: [""],
+    ru: [""],
+    id: [""]
 };
 
 // URL encoded length, exclsively less than
 var SHORT_TRANSLATION_THRESHOLD = 256;
-
-var global = {ei: -1};
 
 window.onload = function() {
     // The following code was copied from
@@ -39,8 +43,14 @@ window.onload = function() {
             }
         }, 250);
     }
-    
-    hashChanged(window.location.hash ? window.location.hash : "");
+
+    if (global.serial) {
+        displayPermalink(global.serial);
+        fetchTranslation(global.serial);
+    }
+    else {
+        hashChanged(window.location.hash ? window.location.hash : "");
+    }
     
     $("#text").autoResize({
         // On resize:
@@ -131,7 +141,10 @@ function _translate() {
                 //displayPageURL(source, target, mode, text);
 
                 global.serial = null;
-                window.location.hash = '';
+                window.location.hash = "";
+                window.history.pushState({}, "", "/");
+
+                $("#request-permalink").show("medium");
 
                 askForRating();
 
@@ -204,26 +217,7 @@ function hashChanged(hash) {
 
         // If a translation record is not newly loaded
         if (serial != global.serial) {
-            $("#progress-message").html("Fetching requested resources...");
-
-            $.get("/v0.9/fetch/"+serial, function(response) {
-                $("#text").val(response.original_text);
-                $("#result").html(response.translated_text);
-
-                $("select[name=sl]").val(response.source);
-                $("select[name=tl]").val(response.target);
-
-                var mode = response.mode == "1";
-                $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
-
-                askForRating();
-
-            }).fail(function(response) {
-                displayError(response.responseText)
-            
-            }).always(function() {
-                $("#progress-message").html("");
-            });
+            fetchTranslation(serial);
         }
 
         global.serial = serial;
@@ -268,6 +262,29 @@ function toggleScreenshot() {
 
 // FIXME: Deprecated
 toggle_screenshot = toggleScreenshot;
+
+function fetchTranslation(serial) {
+    $("#progress-message").html("Fetching requested resources...");
+
+    $.get("/v0.9/fetch/"+serial, function(response) {
+        $("#text").val(response.original_text);
+        $("#result").html(response.translated_text);
+
+        $("select[name=sl]").val(response.source);
+        $("select[name=tl]").val(response.target);
+
+        var mode = response.mode == "1";
+        $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+
+        askForRating();
+
+    }).fail(function(response) {
+        displayError(response.responseText)
+    
+    }).always(function() {
+        $("#progress-message").html("");
+    });
+}
 
 function rate(rating) {
     // if not already store (has a permalink)
@@ -323,13 +340,14 @@ function generatePermalink(sendRating, rating) {
 }
 
 function displayPermalink(serial) {
-    var url = $.sprintf("%s/#sr=%s", window.location.origin, serial);
+    var url = $.sprintf("%s/sr/%s", window.location.origin, serial);
 
+    $("#request-permalink").hide("medium");
     $("#page-url").show("medium");
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
     global.serial = serial;
-    window.location.hash = $.sprintf("sr=%s", serial);
+    window.history.pushState({}, "", $.sprintf("/sr/%s", serial));
 }
 
 function sendRating(serial, rating) {

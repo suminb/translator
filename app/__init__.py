@@ -110,14 +110,12 @@ def __translate__(text, source, target):
 # Request handlers
 #
 @app.route('/')
-def index():
+@app.route('/sr/<serial>')
+def index(serial=''):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
-
-    print user_agent
-    print is_android
     
-    context = dict(locale=get_locale(), is_android=is_android)
+    context = dict(locale=get_locale(), serial=serial, is_android=is_android)
 
     return render_template("index.html", **context)
 

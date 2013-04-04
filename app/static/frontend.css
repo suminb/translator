@@ -116,6 +116,9 @@ textarea[disabled=disabled] {
 #page-url a {
     font-size: 10pt;
 }
+#page-url h3 {
+    margin-bottom: 0.25em;
+}
 
 #app-markets {
     margin: 1em 0;

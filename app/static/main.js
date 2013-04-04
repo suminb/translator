@@ -80,6 +80,11 @@ window.onload = function() {
     .trigger("change");
 }
 
+window.onpopstate = function(event) {
+    console.log(event);
+    populateValues(event.state);
+};
+
 /**
  * Parsing a URL query string
  * http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
@@ -142,7 +147,7 @@ function _translate() {
 
                 global.serial = null;
                 window.location.hash = "";
-                window.history.pushState({}, "", "/");
+                window.history.pushState(serializeCurrentState(), "", "/");
 
                 $("#request-permalink").show("medium");
 
@@ -276,6 +281,9 @@ function fetchTranslation(serial) {
         var mode = response.mode == "1";
         $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
+        console.log("Replacing current history");
+        window.history.replaceState(serializeCurrentState(), "", window.location.href);
+
         askForRating();
 
     }).fail(function(response) {
@@ -347,7 +355,7 @@ function displayPermalink(serial) {
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
     global.serial = serial;
-    window.history.pushState({}, "", $.sprintf("/sr/%s", serial));
+    window.history.pushState(serializeCurrentState(), "", $.sprintf("/sr/%s", serial));
 }
 
 function sendRating(serial, rating) {
@@ -387,4 +395,24 @@ function expressAppreciation() {
     $("#rating").hide("medium");
     $("#alternative-translation-form").hide("medium");
     $("#appreciation").show("medium");
+}
+
+function serializeCurrentState() {
+    return {
+        t: $("#text").val(),
+        m: $("input[name=m]:checked").val(),
+        sl: $("select[name=sl]").val(),
+        tl: $("select[name=tl]").val(),
+        s: $("#result").html()
+    };
+}
+
+function populateValues(state) {
+    if (state != null) {
+        $("#text").val(state.t ? state.t : "");
+        $("select[name=sl]").val(state.sl ? state.sl : "ko");
+        $("select[name=tl]").val(state.tl ? state.tl : "en");
+        $(state.m == "1" ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+        $("#result").html(state.s ? state.s : "")
+    }
 }

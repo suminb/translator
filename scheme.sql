@@ -21,6 +21,7 @@ SET default_with_oids = false;
 CREATE TABLE rating (
     id uuid NOT NULL,
     translation_id uuid NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
     rating smallint NOT NULL,
     ip character varying(64),
     token character varying(128)

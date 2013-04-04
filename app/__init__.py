@@ -243,6 +243,7 @@ def rate(serial):
     # TODO: Clean up the following code
     import base62
     import uuid
+    import datetime
 
     rating = request.form['r']
 
@@ -251,7 +252,7 @@ def rate(serial):
     if t == None:
         return 'Requested resource does not exist\n', 404
 
-    r = Rating(id=str(uuid.uuid4()), translation_id=t.id)
+    r = Rating(id=str(uuid.uuid4()), translation_id=t.id, timestamp=datetime.datetime.now())
     r.rating = int(rating)
 
     # To circumvent Webfaction HTTP gateway

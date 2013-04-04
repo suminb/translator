@@ -13,11 +13,11 @@
     <meta property="og:description"
           content="{{ _("app-description-text") }}"/>
     
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
     <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
     <script type="text/javascript" src="http://static.suminb.com/jquery.sprintf.js"></script>
-    <script type="text/javascript" src="/static/main.js"></script>
+    <script type="text/javascript" src="/static/main.js?v=0.9.16"></script>
     
     {% if locale == "ko" %}
     <!-- Webfont provided by fontface.kr -->
@@ -34,7 +34,7 @@
     {% endif %}
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" type="text/css" href="/static/frontend.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/frontend.css?v=0.9.16"/>
 </head>
 <body>
 {% block content %}{% endblock %}

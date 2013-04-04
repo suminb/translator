@@ -194,6 +194,9 @@ function displayResult(result) {
     $("#result").html(result);
 }
 
+/**
+ * @deprecated
+ */
 function displayPageURL(source, target, mode, text) {
     var encoded = encodeURIComponent(text);
     if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
@@ -272,6 +275,7 @@ function fetchTranslation(serial) {
     $("#progress-message").html("Fetching requested resources...");
 
     $.get("/v0.9/fetch/"+serial, function(response) {
+        // TODO: Refactor this part
         $("#text").val(response.original_text);
         $("#result").html(response.translated_text);
 

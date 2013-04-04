@@ -46,7 +46,14 @@ window.onload = function() {
 
     if (global.serial) {
         displayPermalink(global.serial);
-        fetchTranslation(global.serial);
+        populateValues({
+            t: global.translation.original_text,
+            s: global.translation.translated_text,
+            m: global.translation.mode,
+            sl: global.translation.source,
+            tl: global.translation.target
+        });
+        askForRating();
     }
     else {
         hashChanged(window.location.hash ? window.location.hash : "");

@@ -13,6 +13,8 @@ import json
 import urllib
 import config
 
+import base62
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 
@@ -114,8 +116,21 @@ def __translate__(text, source, target):
 def index(serial=''):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
-    
-    context = dict(locale=get_locale(), serial=serial, is_android=is_android)
+
+    context = dict(locale=get_locale(),
+        serial=serial,
+        is_android=is_android)
+
+    if serial != '':
+        row = Translation.query.filter_by(serial=base62.decode(serial)).first()
+
+        if row == None:
+            return 'Requested resource does not exist.\n', 404
+
+        context['og_description'] = row.original_text
+        context['translation'] = json.dumps(row.serialize())
+    else:
+        context['og_description'] = _("app-description-text")
 
     return render_template("index.html", **context)
 
@@ -209,7 +224,6 @@ def store():
     import uuid
     import psycopg2.extras
     import datetime
-    import base62
 
     psycopg2.extras.register_uuid()
 
@@ -241,7 +255,6 @@ def rate(serial):
     """
 
     # TODO: Clean up the following code
-    import base62
     import uuid
     import datetime
 

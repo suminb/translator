@@ -11,13 +11,13 @@
     <meta property="og:site_name" content="{{ _("app-title") }}"/>
     <meta property="fb:admins" content="10132775"/>
     <meta property="og:description"
-          content="{{ _("app-description-text") }}"/>
+          content="{{ og_description }}"/>
     
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
     <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
     <script type="text/javascript" src="http://static.suminb.com/jquery.sprintf.js"></script>
-    <script type="text/javascript" src="/static/main.js"></script>
+    <script type="text/javascript" src="/static/main.js?v=0.9.16"></script>
     
     {% if locale == "ko" %}
     <!-- Webfont provided by fontface.kr -->
@@ -34,18 +34,18 @@
     {% endif %}
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" type="text/css" href="/static/frontend.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/frontend.css?v=0.9.16"/>
 </head>
 <body>
 {% block content %}{% endblock %}
     
     <div id="footer">
         <div>
-            <a href="#" onclick="$.cookie('locale', 'ko'); location.href='?locale=ko'">한국어</a> |
-            <a href="#" onclick="$.cookie('locale', 'en'); location.href='?locale=en'">English</a> |
-            <a href="#" onclick="$.cookie('locale', 'fr'); location.href='?locale=fr'">Français</a> |
-            <a href="#" onclick="$.cookie('locale', 'es'); location.href='?locale=es'">Español</a> |
-            <a href="#" onclick="$.cookie('locale', 'ru'); location.href='?locale=ru'">Pусский</a> 
+            <span class="action" onclick="$.cookie('locale', 'ko'); location.href='?locale=ko'">한국어</span> |
+            <span class="action" onclick="$.cookie('locale', 'en'); location.href='?locale=en'">English</span> |
+            <span class="action" onclick="$.cookie('locale', 'fr'); location.href='?locale=fr'">Français</a> |
+            <span class="action" onclick="$.cookie('locale', 'es'); location.href='?locale=es'">Español</span> |
+            <span class="action" onclick="$.cookie('locale', 'ru'); location.href='?locale=ru'">Pусский</span> 
         </div>
         {% if is_android %}
         <div id="app-markets">

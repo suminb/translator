@@ -13,6 +13,8 @@ import json
 import urllib
 import config
 
+import base62
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 
@@ -110,14 +112,26 @@ def __translate__(text, source, target):
 # Request handlers
 #
 @app.route('/')
-def index():
+@app.route('/sr/<serial>')
+def index(serial=''):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
 
-    print user_agent
-    print is_android
-    
-    context = dict(locale=get_locale(), is_android=is_android)
+    context = dict(locale=get_locale(),
+        serial=serial,
+        is_android=is_android)
+
+    if serial != '':
+        row = Translation.query.filter_by(serial=base62.decode(serial)).first()
+
+        if row == None:
+            context['message'] = _('Requrested resource does not exist')
+            return render_template("404.html", **context)
+
+        context['og_description'] = row.original_text
+        context['translation'] = json.dumps(row.serialize())
+    else:
+        context['og_description'] = _("app-description-text")
 
     return render_template("index.html", **context)
 
@@ -211,7 +225,6 @@ def store():
     import uuid
     import psycopg2.extras
     import datetime
-    import base62
 
     psycopg2.extras.register_uuid()
 
@@ -243,8 +256,8 @@ def rate(serial):
     """
 
     # TODO: Clean up the following code
-    import base62
     import uuid
+    import datetime
 
     rating = request.form['r']
 
@@ -253,7 +266,7 @@ def rate(serial):
     if t == None:
         return 'Requested resource does not exist\n', 404
 
-    r = Rating(id=str(uuid.uuid4()), translation_id=t.id)
+    r = Rating(id=str(uuid.uuid4()), translation_id=t.id, timestamp=datetime.datetime.now())
     r.rating = int(rating)
 
     # To circumvent Webfaction HTTP gateway

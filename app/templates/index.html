@@ -1,9 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
+    <script type="text/javascript">
+        var global = {
+            ei: -1,
+            serial: "{{ serial }}",
+            {% if translation %}translation: {{ translation | safe }} {% endif %}
+        };
+    </script>
     <h1>
         <img src="/static/icon_32.png" alt="" style="vertical-align: text-bottom"/>
         {{ _("app-title") }}
     </h1>
+
+    <!--
+    <p class="notification">{{ _("A Better Translator may not work properly with old web browsers (e.g., Internet Explorer 9 and below)") }}</p>
+    -->
     
     <p>{{ _("app-description-html") }}</p>
 

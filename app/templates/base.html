@@ -41,11 +41,11 @@
     
     <div id="footer">
         <div>
-            <a href="#" onclick="$.cookie('locale', 'ko'); location.href='?locale=ko'">한국어</a> |
-            <a href="#" onclick="$.cookie('locale', 'en'); location.href='?locale=en'">English</a> |
-            <a href="#" onclick="$.cookie('locale', 'fr'); location.href='?locale=fr'">Français</a> |
-            <a href="#" onclick="$.cookie('locale', 'es'); location.href='?locale=es'">Español</a> |
-            <a href="#" onclick="$.cookie('locale', 'ru'); location.href='?locale=ru'">Pусский</a> 
+            <span class="action" onclick="$.cookie('locale', 'ko'); location.href='?locale=ko'">한국어</span> |
+            <span class="action" onclick="$.cookie('locale', 'en'); location.href='?locale=en'">English</span> |
+            <span class="action" onclick="$.cookie('locale', 'fr'); location.href='?locale=fr'">Français</a> |
+            <span class="action" onclick="$.cookie('locale', 'es'); location.href='?locale=es'">Español</span> |
+            <span class="action" onclick="$.cookie('locale', 'ru'); location.href='?locale=ru'">Pусский</span> 
         </div>
         {% if is_android %}
         <div id="app-markets">

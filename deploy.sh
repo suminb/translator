@@ -8,8 +8,11 @@ pybabel compile -d app/translations
 # Delete .AppleDouble (effing OSX...)
 rm -rf $(find . -name ".AppleDouble")
 
+# Delete .pyc files
+rm -rf $(find . -name "*.pyc")
+
 # Deploy files
-rsync -arzP -e ssh * $HOST:webapps/translator/webapp
+rsync -arzP -e ssh --exclude app/config.py * $HOST:webapps/translator/webapp
 
 read -p "Restart the server? " -n 1 -r
 echo

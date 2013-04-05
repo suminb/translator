@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-01 05:02+0000\n"
+"POT-Creation-Date: 2013-04-04 11:10+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -17,12 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/templates/base.html:4 app/templates/base.html:7
-#: app/templates/base.html:11 app/templates/index.html:5
-msgid "app-title"
-msgstr "Un Mejor Traductor"
+#: app/__init__.py:128
+msgid "Requrested resource does not exist"
+msgstr ""
 
-#: app/templates/base.html:14
+#: app/__init__.py:134
 msgid "app-description-text"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en la "
@@ -33,15 +32,26 @@ msgstr ""
 "pornografía Japonesa a su idioma. Usando esta base de datos, la "
 "traducción de idiomas funciona mejor a través del uso del Japonés."
 
-#: app/templates/base.html:63 app/templates/credits.html:3
+#: app/templates/404.html:6
+msgid ""
+"You are viewing this message because the page you requested is not found."
+" You may go back to the <a href=\"/\">home page</a>."
+msgstr ""
+
+#: app/templates/base.html:4 app/templates/base.html:7
+#: app/templates/base.html:10 app/templates/index.html:12
+msgid "app-title"
+msgstr "Un Mejor Traductor"
+
+#: app/templates/base.html:70 app/templates/credits.html:3
 msgid "Credits"
 msgstr "Créditos"
 
-#: app/templates/base.html:64 app/templates/discuss.html:3
+#: app/templates/base.html:71 app/templates/discuss.html:3
 msgid "Discussions"
 msgstr "Discusiones"
 
-#: app/templates/base.html:65
+#: app/templates/base.html:72
 msgid "Bug reporting"
 msgstr "Reportar código defectuoso"
 
@@ -58,22 +68,28 @@ msgstr ""
 msgid "Localization"
 msgstr "Localización"
 
-#: app/templates/credits.html:16 app/templates/index.html:25
-#: app/templates/index.html:44
+#: app/templates/credits.html:16 app/templates/index.html:36
+#: app/templates/index.html:55
 msgid "French"
 msgstr "Francés"
 
-#: app/templates/credits.html:20 app/templates/index.html:27
-#: app/templates/index.html:46
+#: app/templates/credits.html:20 app/templates/index.html:38
+#: app/templates/index.html:57
 msgid "Spanish"
 msgstr "Español"
 
-#: app/templates/credits.html:24 app/templates/index.html:28
-#: app/templates/index.html:47
+#: app/templates/credits.html:24 app/templates/index.html:39
+#: app/templates/index.html:58
 msgid "Russian"
 msgstr ""
 
-#: app/templates/index.html:8
+#: app/templates/index.html:16
+msgid ""
+"A Better Translator may not work properly with old web browsers (e.g., "
+"Internet Explorer 9 and below)"
+msgstr ""
+
+#: app/templates/index.html:19
 msgid "app-description-html"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en <a "
@@ -85,83 +101,83 @@ msgstr ""
 " Usando esta base de datos, la traducción de idiomas funciona mejor a "
 "través del uso del Japonés"
 
-#: app/templates/index.html:17
+#: app/templates/index.html:28
 msgid "Show another example"
 msgstr "Mostrar otro ejemplo"
 
-#: app/templates/index.html:18
+#: app/templates/index.html:29
 msgid "Swap languages"
 msgstr ""
 
-#: app/templates/index.html:19
+#: app/templates/index.html:30
 msgid "Translate"
 msgstr "Traducir"
 
-#: app/templates/index.html:23 app/templates/index.html:42
+#: app/templates/index.html:34 app/templates/index.html:53
 msgid "Korean"
 msgstr "Coreano"
 
-#: app/templates/index.html:24 app/templates/index.html:43
+#: app/templates/index.html:35 app/templates/index.html:54
 msgid "English"
 msgstr "Inglés"
 
-#: app/templates/index.html:26 app/templates/index.html:45
+#: app/templates/index.html:37 app/templates/index.html:56
 msgid "Japanese"
 msgstr "Japonés"
 
-#: app/templates/index.html:29 app/templates/index.html:48
+#: app/templates/index.html:40 app/templates/index.html:59
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:37
+#: app/templates/index.html:48
 msgid "Direct translation"
 msgstr "Traducción directa"
 
-#: app/templates/index.html:39
+#: app/templates/index.html:50
 msgid "Use Japanese as an intermediate langauge"
 msgstr "Usar Japonés como idioma intermediario"
 
-#: app/templates/index.html:58
+#: app/templates/index.html:69
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:60
+#: app/templates/index.html:71
 msgid "URL for this page"
 msgstr "URL de esta página"
 
-#: app/templates/index.html:74
+#: app/templates/index.html:85
 msgid "How did you like this translation?"
 msgstr ""
 
-#: app/templates/index.html:75
+#: app/templates/index.html:86
 msgid "Poor"
 msgstr ""
 
-#: app/templates/index.html:76
+#: app/templates/index.html:87
 msgid "Acceptable"
 msgstr ""
 
-#: app/templates/index.html:77
+#: app/templates/index.html:88
 msgid "Excellent"
 msgstr ""
 
-#: app/templates/index.html:80
+#: app/templates/index.html:91
 msgid "How would you translate it?"
 msgstr ""
 
-#: app/templates/index.html:83
+#: app/templates/index.html:94
 msgid "Skip"
 msgstr ""
 
-#: app/templates/index.html:84
+#: app/templates/index.html:95
 msgid "Submit"
 msgstr ""
 
-#: app/templates/index.html:88
+#: app/templates/index.html:99
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:89
+#: app/templates/index.html:100
 msgid "Dismiss"
 msgstr ""
 

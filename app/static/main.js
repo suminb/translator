@@ -340,10 +340,7 @@ function generatePermalink(sendRating, rating) {
 
     $("#request-permalink").hide("medium");
 
-    var translated = {name:"s", value:$("#result").html()};
-    var pairs = $("#translation-form").serializeArray().concat(translated);
-
-    $.post("/v0.9/store", pairs, function(response) {
+    $.post("/v0.9/store", serializeCurrentState(), function(response) {
         displayPermalink(response.base62);
 
         if (sendRating != null) {

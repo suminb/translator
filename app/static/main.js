@@ -56,7 +56,12 @@ window.onload = function() {
         askForRating();
     }
     else {
-        hashChanged(window.location.hash ? window.location.hash : "");
+        if (getParameterByName("t")) {
+            initWithParameters();
+        }
+        else {
+            hashChanged(window.location.hash ? window.location.hash : "");
+        }
     }
     
     $("#text").autoResize({
@@ -91,6 +96,20 @@ window.onpopstate = function(event) {
     console.log(event);
     populateValues(event.state);
 };
+
+/**
+ * When $GET[t] is a non-trivial value, pre-populate the input fields and perform the translation.
+ */
+function initWithParameters() {
+    populateValues({
+        t: getParameterByName("t"),
+        m: getParameterByName("m"),
+        sl: getParameterByName("sl"),
+        tl: getParameterByName("tl")
+    });
+
+    _translate();
+}
 
 /**
  * Parsing a URL query string
@@ -154,7 +173,7 @@ function _translate() {
 
                 global.serial = null;
                 window.location.hash = "";
-                window.history.pushState(serializeCurrentState(), "", "/");
+                window.history.pushState(serializeCurrentState(), "", window.location.href);
 
                 $("#request-permalink").show("medium");
 

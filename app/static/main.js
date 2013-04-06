@@ -60,6 +60,10 @@ window.onload = function() {
             initWithParameters();
         }
         else {
+            // indicates the initial state
+            if (global.ei == -1) {
+                refreshExample();
+            }
             hashChanged(window.location.hash ? window.location.hash : "");
         }
     }
@@ -153,10 +157,11 @@ function _translate() {
     var target = $("select[name=tl]").val();
     var text = $("#text").val();
 
+    // simply displays the original text when the source language and the target language are identical
     if (source == target) {
-        // simply displays the original text when the source language and the target language are identical
         displayResult(text);
     }
+    // translates if the source language and the target language are not identical
     else {
         if (text.trim() != "") {
             $("#result").html("");
@@ -164,7 +169,6 @@ function _translate() {
             $("#page-url").hide("medium");
             global.serial = null;
 
-            // translates if the source language and the target language are not identical
             $.post("/translate", $("#translation-form").serializeArray(), function(response) {
                 displayResult(response);
 
@@ -256,6 +260,9 @@ function hashChanged(hash) {
 
         global.serial = serial;
     }
+    else if(getParameterByName("t")) {
+        // Perform no action
+    }
     else {
         var source = phash.sl;
         var target = phash.tl;
@@ -273,9 +280,6 @@ function hashChanged(hash) {
         if (text) {
             $("#text").val(decodeURIComponent(text));
             _translate();
-        }
-        else if (global.ei == -1) { // indicates the initial state
-            refreshExample();
         }
     }
 }

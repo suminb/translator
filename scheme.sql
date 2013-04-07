@@ -45,6 +45,8 @@ CREATE TABLE translation (
     id uuid NOT NULL,
     "serial" integer,
     "timestamp" timestamp with time zone NOT NULL,
+    user_agent character varying(255),
+    remote_address character varying(64),
     source character varying(16) NOT NULL,
     target character varying(16) NOT NULL,
     mode smallint NOT NULL,

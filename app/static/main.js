@@ -60,6 +60,10 @@ window.onload = function() {
             initWithParameters();
         }
         else {
+            $("select[name=sl]").val("ko");
+            $("select[name=tl]").val("en");
+            $("#radio-mode-2").attr("checked", "checked");
+            
             // indicates the initial state
             if (global.ei == -1) {
                 refreshExample();
@@ -214,7 +218,10 @@ function _translate() {
 // TODO: Refactor this function
 function refreshExample() {
     var language = $("select[name=sl]").val();
-    var example = examples[language][++global.ei % examples[language].length];
+
+    // Randomly chooses an example sentence
+    global.ei = Math.floor(Math.random() * examples.ko.length)
+    var example = examples[language][global.ei % examples[language].length];
 
     $("#text").val(example);
     _translate();

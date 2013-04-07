@@ -298,7 +298,8 @@ def rate(serial):
 
     r = Rating(id=str(uuid.uuid4()), translation_id=t.id, timestamp=datetime.datetime.now())
     r.rating = int(rating)
-    r.ip = get_remote_address(request)
+    r.user_agent = request.headers.get('User-Agent')
+    r.remote_address = get_remote_address(request)
 
     try:
         db.session.add(r)

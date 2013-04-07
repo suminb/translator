@@ -179,9 +179,10 @@ function _translate() {
                 window.location.hash = "";
                 window.history.pushState(serializeCurrentState(), "", window.location.href);
 
-                $("#request-permalink").show("medium");
-
-                askForRating();
+                if (global.serial) {
+                    $("#request-permalink").show("medium");
+                    askForRating();
+                }
 
             }).fail(function(response) {
                 displayError(response.responseText)
@@ -269,8 +270,6 @@ function hashChanged(hash) {
         var mode = phash.m;
         var text = phash.t;
 
-        $("#request-permalink").show();
-
         $("select[name=sl]").val(source ? source : "ko");
         $("select[name=tl]").val(target ? target : "en");
 
@@ -335,11 +334,15 @@ function rate(rating) {
     var encoded = encodeURIComponent(original);
 
     if (global.serial) {
-        displayPermalink(global.serial);
-        sendRating(global.serial, rating);
-    }
-    else {
-        generatePermalink(sendRating, rating);
+        $.post("/v0.9/rate/"+global.serial, {r:rating}, function(response) {
+            expressAppreciation();
+
+        }).fail(function(response) {
+            displayError(response.responseText)
+        
+        }).always(function() {
+
+        });
     }
 
     // TODO: I'll do this later
@@ -379,26 +382,16 @@ function generatePermalink(sendRating, rating) {
 }
 
 function displayPermalink(serial) {
-    var url = $.sprintf("%s/sr/%s", window.location.origin, serial);
+    if (serial) {
+        var url = $.sprintf("%s/sr/%s", window.location.origin, serial);
 
-    $("#request-permalink").hide("medium");
-    $("#page-url").show("medium");
-    $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
+        $("#request-permalink").hide("medium");
+        $("#page-url").show("medium");
+        $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
-    global.serial = serial;
-    window.history.pushState(serializeCurrentState(), "", $.sprintf("/sr/%s", serial));
-}
-
-function sendRating(serial, rating) {
-    $.post("/v0.9/rate/"+serial, {r:rating}, function(response) {
-        expressAppreciation();
-
-    }).fail(function(response) {
-        displayError(response.responseText)
-    
-    }).always(function() {
-
-    });
+        global.serial = serial;
+        window.history.pushState(serializeCurrentState(), "", $.sprintf("/sr/%s", serial));
+    }
 }
 
 function submitAlternativeTranslation() {

@@ -39,6 +39,7 @@ class Rating(db.Model):
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
     timestamp = db.Column(db.DateTime(timezone=True))
+    user_agent = db.Column(db.String(255))
+    remote_address = db.Column(db.String(64))
     rating = db.Column(db.Integer)
-    ip = db.Column(db.String(64))
     token = db.Column(db.String(128))

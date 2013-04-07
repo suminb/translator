@@ -169,13 +169,13 @@ function _translate() {
             $("#page-url").hide("medium");
             global.serial = null;
 
-            $.post("/translate", $("#translation-form").serializeArray(), function(response) {
-                displayResult(response);
+            $.post("/v1.0/translate", $("#translation-form").serializeArray(), function(response) {
+                displayResult(response.translated_text);
 
                 //var mode = $("input[name=m]:checked").val();
                 //displayPageURL(source, target, mode, text);
 
-                global.serial = null;
+                global.serial = response.serial_b62;
                 window.location.hash = "";
                 window.history.pushState(serializeCurrentState(), "", window.location.href);
 

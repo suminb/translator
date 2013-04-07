@@ -11,9 +11,13 @@ import os, sys
 import requests
 import json
 import urllib
-import config
+import uuid
+import datetime
 
 import base62
+
+import config
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
@@ -29,6 +33,12 @@ class HTTPException(RuntimeError):
         self.message = message
         self.status_code = status_code
         super(HTTPException, self).__init__()
+
+def get_remote_address(req):
+    if not req.headers.getlist('X-Forwarded-For'):
+        return req.remote_addr
+    else:
+        return req.headers.getlist('X-Forwarded-For')[0]
 
 def log(source, target, mode, text, translated):
     """Naive logging function"""
@@ -102,7 +112,7 @@ def __translate__(text, source, target):
         except:
             sentences = data['results'][0]['sentences']
 
-        return ' '.join(map(lambda x: x['trans'], sentences)), 200
+        return ' '.join(map(lambda x: x['trans'], sentences))
 
     except Exception as e:
         raise Exception('An error has occured: "%s" If the problem persists, you may report it <a href="/discuss">here</a>.' % str(e))
@@ -155,8 +165,16 @@ def credits():
     return render_template("credits.html")
 
 
+# deprecated
 @app.route('/translate', methods=['GET', 'POST'])
 @app.route('/v0.9/translate', methods=['GET', 'POST'])
+def translate_0_9():
+    return translate()['translated_text']
+
+@app.route('/v1.0/translate', methods=['GET', 'POST'])
+def translate_1_0():
+    return jsonify(translate())
+
 def translate():
     text = request.form['t']
     mode = request.form['m']
@@ -178,15 +196,33 @@ def translate():
         else:
             translated = __translate__(text, source, target)
 
+        # Legacy logger
         log(source, target, mode, text, translated)
 
-        return translated
+        # TODO: Refactor this section
+        translation = Translation(id=str(uuid.uuid4()))
+        translation.timestamp = datetime.datetime.now()
+        translation.user_agent = request.headers.get('User-Agent')
+        translation.remote_address = get_remote_address(request)
+        translation.source = source
+        translation.target = target
+        translation.mode = mode
+        translation.original_text = text
+        translation.translated_text = translated
+
+        db.session.add(translation)
+        db.session.commit()
+
+        return dict(
+            serial_b62='0z'+base62.encode(translation.serial),
+            translated_text=translated)
 
     except HTTPException as e:
         return e.message, e.status_code
 
     except Exception as e:
         return str(e), 500
+
 
 @app.route('/v0.9/fetch/<serial>', methods=['GET'])
 def fetch(serial):
@@ -222,9 +258,7 @@ def store():
     if target not in VALID_LANGUAGES:
         return 'Invalid target language\n', 400
 
-    import uuid
     import psycopg2.extras
-    import datetime
 
     psycopg2.extras.register_uuid()
 
@@ -255,10 +289,6 @@ def rate(serial):
     :type id: string (base62 representation)
     """
 
-    # TODO: Clean up the following code
-    import uuid
-    import datetime
-
     rating = request.form['r']
 
     t = Translation.query.filter_by(serial=base62.decode(serial)).first()
@@ -268,12 +298,7 @@ def rate(serial):
 
     r = Rating(id=str(uuid.uuid4()), translation_id=t.id, timestamp=datetime.datetime.now())
     r.rating = int(rating)
-
-    # To circumvent Webfaction HTTP gateway
-    if not request.headers.getlist('X-Forwarded-For'):
-        r.ip = request.remote_addr
-    else:
-        r.ip = request.headers.getlist('X-Forwarded-For')[0]
+    r.ip = get_remote_address(request)
 
     try:
         db.session.add(r)
@@ -292,6 +317,7 @@ if __name__ == '__main__':
     debug = bool(os.environ.get('DEBUG', 0))
 
     app.run(host=host, port=port, debug=debug)
+
 
 if app.config['DEBUG']:
     from werkzeug import SharedDataMiddleware

@@ -312,6 +312,11 @@ def rate(serial):
         return str(e), 500
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html', message='Page Not Found'), 404
+
+
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 5000))

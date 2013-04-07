@@ -24,6 +24,8 @@ class Translation(db.Model):
     id = db.Column(UUID, primary_key=True)
     serial = db.Column(db.Integer, db.Sequence('translation_serial_seq'))
     timestamp = db.Column(db.DateTime(timezone=True))
+    user_agent = db.Column(db.String(255))
+    remote_address = db.Column(db.String(64))
     source = db.Column(db.String(16))
     target = db.Column(db.String(16))
     mode = db.Column(db.Integer)

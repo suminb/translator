@@ -66,7 +66,7 @@
     <div style="clear:both;"></div>
 
     <div class="column1">
-        <span id="request-permalink" class="action" onclick="generatePermalink(null, 0)">{{ _("Request a permalink") }}</span>
+        <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(global.serial)">{{ _("Request a permalink") }}</span>
         <div id="page-url">
             <h3>{{ _("URL for this page") }}</h3>
             <div id="page-url-value" style="float:left;"></div>
@@ -97,7 +97,6 @@
             </form>
             <div id="appreciation" class="hidden">
                 {{ _("Thank you for your feedback.") }}
-                <span class="action" onclick="$('#appreciation').hide('medium')">{{ _("Dismiss") }}</span>
             </div>
         </div>
     </div>

@@ -419,6 +419,7 @@ function expressAppreciation() {
     $("#rating").hide("medium");
     $("#alternative-translation-form").hide("medium");
     $("#appreciation").show("medium");
+    setTimeout(function() { $("#appreciation").hide("medium"); }, 5000);
 }
 
 function serializeCurrentState() {

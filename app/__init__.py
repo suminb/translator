@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 from flask import Flask, jsonify, request, render_template
 from flaskext.babel import Babel, gettext as _
 from flaskext.babel import *
@@ -27,6 +29,16 @@ babel = Babel(app)
 from models import *
 
 VALID_LANGUAGES = ['en', 'es', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
+
+# FIXME: This is a temporary solution to deal with burst peak of traffic
+TR_CACHE = {
+    u'여러분이 몰랐던 구글 번역기': ['You did not know Google translator', 'Google translation that you did not know'],
+    u'청년들을 타락시킨 죄로 독콜라를 마시는 홍민희': ['Poison drinking cola sin corrupting the youth hongminhui', 'Honminfui cola drink poison sin was to corrupt the youth'],
+    u'샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근': ['Keun Mossi live in San Diego energetic to work today', 'Mr. Gimugun who lives in San Diego today healthy attendance'],
+    u'구글은 세계 정복을 꿈꾸고 있다.': ['I dream of world conquest.', 'Google have a dream to conquer the world.'],
+    u'호준이는 비싼 학비 때문에 허리가 휘어집니다.': ['Because the waist is bent. Hojun expensive tuition', 'Hojun will stoop for expensive tuition.'],
+    u'강선구 이사님은 오늘도 새로운 기술을 찾아나선다.': ['Sets out to find a new technology today. Gangseongu Shirley', 'Gansongu director leaves to find a new technology today.'],
+}
 
 class HTTPException(RuntimeError):
     def __init__(self, message, status_code):
@@ -176,10 +188,18 @@ def translate_1_0():
     return jsonify(translate())
 
 def translate():
-    text = request.form['t']
-    mode = request.form['m']
-    source = request.form['sl']
-    target = request.form['tl']
+    text = request.form['t'].strip()
+    mode = request.form['m'].strip()
+    source = request.form['sl'].strip()
+    target = request.form['tl'].strip()
+
+    # FIXME: This is a temporary solution to deal with burst peak of traffic
+    if text in TR_CACHE:
+        i = 0 if mode == '1' else 1
+
+        return dict(
+            serial_b62=None,
+            translated_text=TR_CACHE[text][i])
 
     user_agent = request.headers.get('User-Agent')
 

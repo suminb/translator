@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-04 11:10+0000\n"
+"POT-Creation-Date: 2013-04-07 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/__init__.py:128
+#: app/__init__.py:138
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/__init__.py:134
+#: app/__init__.py:144
 msgid "app-description-text"
 msgstr ""
 
@@ -62,17 +62,17 @@ msgid "Localization"
 msgstr ""
 
 #: app/templates/credits.html:16 app/templates/index.html:36
-#: app/templates/index.html:55
+#: app/templates/index.html:56
 msgid "French"
 msgstr ""
 
 #: app/templates/credits.html:20 app/templates/index.html:38
-#: app/templates/index.html:57
+#: app/templates/index.html:58
 msgid "Spanish"
 msgstr ""
 
 #: app/templates/credits.html:24 app/templates/index.html:39
-#: app/templates/index.html:58
+#: app/templates/index.html:59
 msgid "Russian"
 msgstr ""
 
@@ -98,71 +98,71 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-#: app/templates/index.html:34 app/templates/index.html:53
+#: app/templates/index.html:34 app/templates/index.html:54
 msgid "Korean"
 msgstr ""
 
-#: app/templates/index.html:35 app/templates/index.html:54
+#: app/templates/index.html:35 app/templates/index.html:55
 msgid "English"
 msgstr ""
 
-#: app/templates/index.html:37 app/templates/index.html:56
+#: app/templates/index.html:37 app/templates/index.html:57
 msgid "Japanese"
 msgstr ""
 
-#: app/templates/index.html:40 app/templates/index.html:59
+#: app/templates/index.html:40 app/templates/index.html:60
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:48
+#: app/templates/index.html:41 app/templates/index.html:61
+msgid "Chinese"
+msgstr ""
+
+#: app/templates/index.html:49
 msgid "Direct translation"
 msgstr ""
 
-#: app/templates/index.html:50
+#: app/templates/index.html:51
 msgid "Use Japanese as an intermediate langauge"
 msgstr ""
 
-#: app/templates/index.html:69
+#: app/templates/index.html:71
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:71
+#: app/templates/index.html:73
 msgid "URL for this page"
 msgstr ""
 
-#: app/templates/index.html:85
+#: app/templates/index.html:87
 msgid "How did you like this translation?"
 msgstr ""
 
-#: app/templates/index.html:86
+#: app/templates/index.html:88
 msgid "Poor"
 msgstr ""
 
-#: app/templates/index.html:87
+#: app/templates/index.html:89
 msgid "Acceptable"
 msgstr ""
 
-#: app/templates/index.html:88
+#: app/templates/index.html:90
 msgid "Excellent"
 msgstr ""
 
-#: app/templates/index.html:91
+#: app/templates/index.html:93
 msgid "How would you translate it?"
 msgstr ""
 
-#: app/templates/index.html:94
+#: app/templates/index.html:96
 msgid "Skip"
 msgstr ""
 
-#: app/templates/index.html:95
+#: app/templates/index.html:97
 msgid "Submit"
 msgstr ""
 
-#: app/templates/index.html:99
+#: app/templates/index.html:101
 msgid "Thank you for your feedback."
-msgstr ""
-
-#: app/templates/index.html:100
-msgid "Dismiss"
 msgstr ""
 

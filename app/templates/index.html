@@ -39,6 +39,7 @@
                 <option value="es">{{ _("Spanish") }}</option>
                 <option value="ru">{{ _("Russian") }}</option>
                 <option value="id">{{ _("Indonesian") }}</option>
+                <option value="zh-CN">{{ _("Chinese") }}</option>
             </select>
         </div>
         <textarea id="text" name="t"></textarea>
@@ -58,6 +59,7 @@
             <option value="es">{{ _("Spanish") }}</option>
             <option value="ru">{{ _("Russian") }}</option>
             <option value="id">{{ _("Indonesian") }}</option>
+            <option value="zh-CN">{{ _("Chinese") }}</option>
         </select>
         <div id="error-message"></div>
         <div id="progress-message"></div>
@@ -67,7 +69,7 @@
     <div style="clear:both;"></div>
 
     <div class="column1">
-        <span id="request-permalink" class="action" onclick="generatePermalink(null, 0)">{{ _("Request a permalink") }}</span>
+        <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(global.serial)">{{ _("Request a permalink") }}</span>
         <div id="page-url">
             <h3>{{ _("URL for this page") }}</h3>
             <div id="page-url-value" style="float:left;"></div>
@@ -98,7 +100,6 @@
             </form>
             <div id="appreciation" class="hidden">
                 {{ _("Thank you for your feedback.") }}
-                <span class="action" onclick="$('#appreciation').hide('medium')">{{ _("Dismiss") }}</span>
             </div>
         </div>
     </div>

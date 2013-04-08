@@ -195,11 +195,12 @@ def translate():
 
     # FIXME: This is a temporary solution to deal with burst peak of traffic
     if text in TR_CACHE:
-        i = 0 if mode == '1' else 1
+        if source == 'ko' and target == 'en':
+            i = 0 if mode == '1' else 1
 
-        return dict(
-            serial_b62=None,
-            translated_text=TR_CACHE[text][i])
+            return dict(
+                serial_b62=None,
+                translated_text=TR_CACHE[text][i])
 
     user_agent = request.headers.get('User-Agent')
 

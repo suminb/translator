@@ -75,7 +75,7 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 
-def __translate__(text, source, target):
+def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'):
     """
     text: text to be translated
     source: source language
@@ -87,7 +87,7 @@ def __translate__(text, source, target):
 
     headers = {
         'Referer': 'http://translate.google.com',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22',
+        'User-Agent': user_agent,
         #'Content-Length': str(sys.getsizeof(text))
     }
     payload = {
@@ -181,6 +181,8 @@ def translate():
     source = request.form['sl']
     target = request.form['tl']
 
+    user_agent = request.headers.get('User-Agent')
+
     if source == target:
         return text
 
@@ -191,10 +193,10 @@ def translate():
 
     try:
         if mode == '2':
-            translated = __translate__(text, source, 'ja')
-            translated = __translate__(translated, 'ja', target)
+            translated = __translate__(text, source, 'ja', user_agent)
+            translated = __translate__(translated, 'ja', target, user_agent)
         else:
-            translated = __translate__(text, source, target)
+            translated = __translate__(text, source, target, user_agent)
 
         # Legacy logger
         log(source, target, mode, text, translated)
@@ -202,7 +204,7 @@ def translate():
         # TODO: Refactor this section
         translation = Translation(id=str(uuid.uuid4()))
         translation.timestamp = datetime.datetime.now()
-        translation.user_agent = request.headers.get('User-Agent')
+        translation.user_agent = user_agent
         translation.remote_address = get_remote_address(request)
         translation.source = source
         translation.target = target

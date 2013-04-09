@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
     <script type="text/javascript">
-        global.ei: -1;
-        global.serial: "{{ serial }}",
-            {% if translation %}translation: {{ translation | safe }} {% endif %}
-        };
+        global.ei = -1;
+        global.serial = "{{ serial }}";
+        {% if translation %}global.translation = {{ translation | safe }}; {% endif %}
     </script>
     <h1>
         <img src="/static/icon_32.png" alt="" style="vertical-align: text-bottom"/>

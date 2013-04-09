@@ -13,7 +13,7 @@
     </div>
 
     <h2>Hourly Usage</h2>
-    <div id="chart-daily" class="section"></div>
+    <div id="chart-daily" class="section" style="height:300px;">></div>
 
     <h2>Heatmap</h2>
     <div id="heatmap" class="section" style="height:400px;"></div>
@@ -78,7 +78,8 @@ $(function () {
                 value: 0,
                 width: 1,
                 color: '#808080'
-            }]
+            }],
+            min: 0
         },
         tooltip: {
             valueSuffix: ''

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ _("Statistics") }}</h1>
+<a href="/" class="">{{ _("Go back to home") }}</a>
+
+<div class="content">
+    <div class="section">
+        Translated <span id="stat-translation-count" class="count"></span> documents,
+        and <span id="stat-rating-count" class="count"></span> people have rated translations.
+        Average rating = <span id="stat-rating-average" class="count medium"></span>,
+        standard deviation = <span id="stat-rating-stddev" class="count medium"></span>
+    </div>
+
+    <div id="chart-daily" class="section"></div>
+</div>
+
+<script type="text/javascript" src="/statistics?format=json"></script>
+<script type="text/javascript" src="/static/highcharts.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+    $("#stat-translation-count").html(stat_translation_count);
+    $("#stat-rating-count").html(stat_rating[0]);
+    $("#stat-rating-average").html($.sprintf("%.3f", stat_rating[1]));
+    $("#stat-rating-stddev").html($.sprintf("%.3f", stat_rating[2]));
+}
+
+$(function () {
+        $('#chart-daily').highcharts({
+            chart: {
+                type: 'line',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'Hourly Usage',
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+                categories: stat_hourly[0]
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: 0,
+                y: 100,
+                borderWidth: 0
+            },
+            series: [{
+                name: '# of requests',
+                data: stat_hourly[1]
+            }]
+        });
+    });
+    
+</script>
+
+{% endblock %}

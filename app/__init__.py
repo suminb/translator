@@ -169,13 +169,21 @@ def set_locale():
 
 @app.route('/discuss')
 def discuss():
-    return render_template("discuss.html")
+    return render_template('discuss.html')
 
 
 @app.route('/credits')
 def credits():
-    return render_template("credits.html")
+    return render_template('credits.html')
 
+@app.route('/statistics')
+def statistics():
+    if request.args.get('format') == 'json':
+        from analytics import generate_output
+        from flask import Response
+        return Response(generate_output(), mimetype='application/json')
+    else:
+        return render_template('statistics.html')
 
 # deprecated
 @app.route('/translate', methods=['GET', 'POST'])

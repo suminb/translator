@@ -1,3 +1,5 @@
+var global = {};
+
 var examples = {
     en: [
         "The Google translator that you did not know about",

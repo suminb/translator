@@ -161,7 +161,9 @@ div.addthis_toolbox {
 }
 
 .content {
-    margin-top: 2em;
+    max-width: 1000px;
+    min-width: 640px;
+    margin: 2em auto 0 auto;
 }
 .content .section {
     margin: 1em 0;

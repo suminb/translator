@@ -13,63 +13,88 @@
     </div>
 
     <div id="chart-daily" class="section"></div>
+
+    <div id="heatmap" class="section" style="height:400px;"></div>
 </div>
 
-<script type="text/javascript" src="/statistics?format=json"></script>
+<!--<script type="text/javascript" src="/statistics?format=json"></script>-->
+<script type="text/javascript" src="/static/statistics.js"></script>
 <script type="text/javascript" src="/static/highcharts.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="/static/heatmap.js"></script>
+<script type="text/javascript" src="/static/heatmap-gmaps.js"></script>
 <script type="text/javascript">
 window.onload = function() {
     $("#stat-translation-count").html(stat_translation_count);
     $("#stat-rating-count").html(stat_rating[0]);
     $("#stat-rating-average").html($.sprintf("%.3f", stat_rating[1]));
     $("#stat-rating-stddev").html($.sprintf("%.3f", stat_rating[2]));
+
+    var heapmapOptions = {
+      zoom: 2,
+      center: new google.maps.LatLng(48.3333, 16.35),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: false,
+      scrollwheel: true,
+      draggable: true,
+      navigationControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      disableDoubleClickZoom: false
+    };
+    map = new google.maps.Map(document.getElementById("heatmap"), heapmapOptions);
+    
+    heatmap = new HeatmapOverlay(map, {"radius":15, "visible":true, "opacity":60});
+    google.maps.event.addListenerOnce(map, "idle", function(){
+        heatmap.setDataSet(stat_heatmap);
+    });
 }
 
 $(function () {
-        $('#chart-daily').highcharts({
-            chart: {
-                type: 'line',
-                marginRight: 130,
-                marginBottom: 25
-            },
+    $('#chart-daily').highcharts({
+        chart: {
+            type: 'line',
+            marginRight: 130,
+            marginBottom: 25
+        },
+        title: {
+            text: 'Hourly Usage',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: stat_hourly[0]
+        },
+        yAxis: {
             title: {
-                text: 'Hourly Usage',
-                x: -20 //center
+                text: ''
             },
-            subtitle: {
-                text: '',
-                x: -20
-            },
-            xAxis: {
-                categories: stat_hourly[0]
-            },
-            yAxis: {
-                title: {
-                    text: ''
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ''
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: 0,
-                y: 100,
-                borderWidth: 0
-            },
-            series: [{
-                name: '# of requests',
-                data: stat_hourly[1]
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
             }]
-        });
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: 0,
+            y: 100,
+            borderWidth: 0
+        },
+        series: [{
+            name: '# of requests',
+            data: stat_hourly[1]
+        }]
     });
+});
     
 </script>
 

@@ -1,5 +1,7 @@
 from sqlalchemy import create_engine, MetaData
 import json
+import requests
+import os, sys
 import config
 
 engine = create_engine(config.DB_URI, convert_unicode=True)
@@ -19,10 +21,40 @@ def jsonify_list(rows, keys=None):
 def get_translation_count(conn):
     return conn.execute('SELECT count(id) FROM translation').first()[0]
 
-
 def get_rating_stat(conn):
     cols = conn.execute('SELECT count(id), avg(rating), stddev_samp(rating) FROM rating').first()
     return [int(cols[0]), float(cols[1]), float(cols[2])]
+
+def geolocation(conn):
+    def ip_lookup(ip):
+        import time
+
+        r = requests.get('http://freegeoip.net/json/' + ip)
+        if r.status_code == 200:
+            time.sleep(0.3)
+            return r.content
+        else:
+            sys.stderr.write('Geo-location of %s is unknown (HTTP %d)\n' % (ip, r.status_code))
+            return None
+
+    def lookup_records():
+        geoip = {}
+        for row in conn.execute('SELECT remote_address, count(remote_address) FROM translation GROUP BY remote_address'):
+            ip, count = row[0], row[1]
+
+            if ip != None:
+                record = ip_lookup(ip)
+                if record != None:
+                    record = json.loads(record)
+                    yield {'lat':record['latitude'], 'lng':record['longitude'], 'count':count}
+
+    mx = 0
+    data = []
+    for r in lookup_records():
+        mx = r['count'] if r['count'] > mx else mx
+        data.append(r)
+
+    return {'max':mx, 'data':data}
 
 def hourly(conn):
     sql = """
@@ -55,6 +87,8 @@ def generate_output():
 
     #print jsonify_list(hourly(conn), ['date', 'hour', 'count'])
     buf.append('var stat_hourly = %s;' % jsonify_list(zip(*hourly(conn))))
+
+    buf.append('var stat_heatmap = %s;' % json.dumps(geolocation(conn)))
 
     return '\n'.join(buf)
 

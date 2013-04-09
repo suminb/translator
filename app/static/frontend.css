@@ -148,3 +148,21 @@ div.addthis_toolbox {
     font-size: 9pt;
     line-height: 150%;
 }
+
+/***
+ * Application-specific styles
+ */
+.count {
+    font-size: 3em;
+    font-weight: bold;
+}
+.count.medium {
+    font-size: 2em;
+}
+
+.content {
+    margin-top: 2em;
+}
+.content .section {
+    margin: 1em 0;
+}

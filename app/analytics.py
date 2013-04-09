@@ -21,7 +21,8 @@ def get_translation_count(conn):
 
 
 def get_rating_stat(conn):
-    return conn.execute('SELECT count(id), avg(rating), stddev_samp(rating) FROM rating').first()
+    cols = conn.execute('SELECT count(id), avg(rating), stddev_samp(rating) FROM rating').first()
+    return [int(cols[0]), float(cols[1]), float(cols[2])]
 
 def hourly(conn):
     sql = """
@@ -49,7 +50,8 @@ def generate_output():
     buf = []
 
     buf.append('var stat_translation_count = %d;' % get_translation_count(conn))
-    #print get_rating_stat(conn)
+
+    buf.append('var stat_rating = %s;' % str(get_rating_stat(conn)))
 
     #print jsonify_list(hourly(conn), ['date', 'hour', 'count'])
     buf.append('var stat_hourly = %s;' % jsonify_list(zip(*hourly(conn))))

@@ -170,6 +170,7 @@ function _translate() {
             $("#result").html("");
             $("#progress-message").html("Translation in progress...");
             $("#page-url").hide("medium");
+            $("form input[type=submit]").attr("disabled", "disabled");
             global.serial = null;
 
             $.post("/v1.0/translate", $("#translation-form").serializeArray(), function(response) {
@@ -192,7 +193,7 @@ function _translate() {
             
             }).always(function() {
                 $("#progress-message").html("");
-
+                $("form input[type=submit]").removeAttr("disabled");
             });
         }
     }

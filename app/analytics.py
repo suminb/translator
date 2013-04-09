@@ -38,7 +38,8 @@ def geolocation(conn):
 
         if ip in geoipdb:
             return geoipdb[ip]
-        else:
+        # A naive conditional statement to look for a valid IP address. This shall be replaced with a regular expression.
+        elif len(ip.split('.')) == 4:
             sys.stderr.write('Locating %s...\n' % ip)
             r = requests.get('http://freegeoip.net/json/' + ip)
             if r.status_code == 200:

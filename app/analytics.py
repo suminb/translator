@@ -5,11 +5,14 @@ import config
 engine = create_engine(config.DB_URI, convert_unicode=True)
 metadata = MetaData(bind=engine)
 
-def jsonify_list(keys, rows):
+def jsonify_list(rows, keys=None):
     results = []
     for row in rows:
-        for i in xrange(len(keys)):
-            results.append({keys[i]: row[i]})
+        if keys == None:
+            results.append(row)
+        else:
+            for i in xrange(len(keys)):
+                results.append({keys[i]: row[i]})
 
     return json.dumps(results)
 
@@ -39,4 +42,5 @@ if __name__ == '__main__':
     #for row in hourly(conn):
     #    print row
 
-    print jsonify_list(['date', 'hour', 'count'], hourly(conn))
+    #print jsonify_list(hourly(conn), ['date', 'hour', 'count'])
+    print jsonify_list(hourly(conn))

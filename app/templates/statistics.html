@@ -12,8 +12,10 @@
         standard deviation = <span id="stat-rating-stddev" class="count medium"></span>
     </div>
 
+    <h2>Hourly Usage</h2>
     <div id="chart-daily" class="section"></div>
 
+    <h2>Heatmap</h2>
     <div id="heatmap" class="section" style="height:400px;"></div>
 </div>
 
@@ -54,11 +56,11 @@ $(function () {
     $('#chart-daily').highcharts({
         chart: {
             type: 'line',
-            marginRight: 130,
-            marginBottom: 25
+            marginRight: 0,
+            marginBottom: 60
         },
         title: {
-            text: 'Hourly Usage',
+            text: '',
             x: -20 //center
         },
         subtitle: {
@@ -86,7 +88,7 @@ $(function () {
             align: 'right',
             verticalAlign: 'top',
             x: 0,
-            y: 100,
+            y: 60,
             borderWidth: 0
         },
         series: [{

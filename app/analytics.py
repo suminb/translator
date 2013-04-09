@@ -29,13 +29,31 @@ def geolocation(conn):
     def ip_lookup(ip):
         import time
 
-        r = requests.get('http://freegeoip.net/json/' + ip)
-        if r.status_code == 200:
-            time.sleep(0.3)
-            return r.content
+        f = open('/tmp/geoip.json', 'r')
+        try:
+            geoipdb = json.loads(f.read())
+        except ValueError:
+            geoipdb = {}
+        f.close()
+
+        if ip in geoipdb:
+            return geoipdb[ip]
         else:
-            sys.stderr.write('Geo-location of %s is unknown (HTTP %d)\n' % (ip, r.status_code))
-            return None
+            sys.stderr.write('Locating %s...\n' % ip)
+            r = requests.get('http://freegeoip.net/json/' + ip)
+            if r.status_code == 200:
+                record = json.loads(r.content)
+                geoipdb[ip] = {'latitude':record['latitude'], 'longitude':record['longitude']}
+
+                f = open('/tmp/geoip.json', 'w+')
+                f.write(json.dumps(geoipdb))
+                f.close()
+
+                time.sleep(0.3)
+                return record
+            else:
+                sys.stderr.write('Geo-location of %s is unknown (HTTP %d)\n' % (ip, r.status_code))
+                return None
 
     def lookup_records():
         geoip = {}
@@ -45,7 +63,6 @@ def geolocation(conn):
             if ip != None:
                 record = ip_lookup(ip)
                 if record != None:
-                    record = json.loads(record)
                     yield {'lat':record['latitude'], 'lng':record['longitude'], 'count':count}
 
     mx = 0

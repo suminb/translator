@@ -183,7 +183,8 @@ def statistics():
         from flask import Response
         return Response(generate_output(), mimetype='application/json')
     else:
-        return render_template('statistics.html')
+        context = dict(timestamp=datetime.datetime.now().strftime('%Y%m%d%H%M'))
+        return render_template('statistics.html', **context)
 
 # deprecated
 @app.route('/translate', methods=['GET', 'POST'])

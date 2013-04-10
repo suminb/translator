@@ -25,6 +25,9 @@ def get_rating_stat(conn):
     cols = conn.execute('SELECT count(id), avg(rating), stddev_samp(rating) FROM rating').first()
     return [int(cols[0]), float(cols[1]), float(cols[2])]
 
+def get_language_count(conn):
+    return conn.execute('SELECT source, target, count(source) FROM translation GROUP BY source, target').first()
+
 def geolocation(conn):
     def ip_lookup(ip):
         import time
@@ -112,3 +115,6 @@ def generate_output():
 
 if __name__ == '__main__':
     print generate_output()
+
+    #print get_language_count(engine.connect())
+

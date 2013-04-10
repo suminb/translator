@@ -12,6 +12,7 @@ import json
 import urllib
 import uuid
 import datetime
+import re
 import base62
 
 babel = Babel(app)
@@ -85,6 +86,9 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
 
     if source == target:
         return text
+
+    if not re.match(r'Mozilla/\d+\.\d+ \(.*', user_agent):
+        user_agent = 'Mozilla/5.0 (%s)' % user_agent
 
     headers = {
         'Referer': 'http://translate.google.com',

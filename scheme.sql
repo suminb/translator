@@ -108,6 +108,11 @@ ALTER TABLE ONLY translation
 
 CREATE UNIQUE INDEX serial ON translation USING btree (serial);
 
+--
+-- Name: original_text_lsh; Type: INDEX; Schema: public; Owner: sumin_translator; Tablespace: 
+--
+
+CREATE INDEX original_text_lsh ON translation USING btree (original_text_lsh);
 
 --
 -- Name: translation; Type: FK CONSTRAINT; Schema: public; Owner: sumin_translator

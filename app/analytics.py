@@ -28,6 +28,9 @@ def get_rating_stat(conn):
 def get_language_count(conn):
     return conn.execute('SELECT source, target, count(source) FROM translation GROUP BY source, target').first()
 
+def get_char_length(conn):
+    return conn.execute('SELECT sum(char_length(original_text)) FROM translation').first()[0]
+
 def geolocation(conn):
     def ip_lookup(ip):
         import time

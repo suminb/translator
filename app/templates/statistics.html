@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ _("Statistics") }}</h1>
+<a href="/" class="">{{ _("Go back to home") }}</a>
+
+<div class="content">
+    <div class="section" style="line-height: 3em;">
+        We have processed <span id="stat-translation-count" class="count"></span> translation requests,
+        and <span id="stat-rating-count" class="count"></span> people have rated translations.<br/>
+        Average rating = <span id="stat-rating-average" class="count medium"></span>,
+        standard deviation = <span id="stat-rating-stddev" class="count medium"></span>
+    </div>
+
+    <h2>Heatmap</h2>
+    <div id="heatmap" class="section" style="height:400px;"></div>
+
+    <h2>Hourly Usage</h2>
+    <div id="chart-daily" class="section" style="height:300px;">></div>
+
+</div>
+
+<script type="text/javascript" src="/static/statistics.js?t={{ timestamp }}"></script>
+<script type="text/javascript" src="/static/highcharts.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="/static/heatmap.js"></script>
+<script type="text/javascript" src="/static/heatmap-gmaps.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+    $("#stat-translation-count").html(stat_translation_count);
+    $("#stat-rating-count").html(stat_rating[0]);
+    $("#stat-rating-average").html($.sprintf("%.3f", stat_rating[1]));
+    $("#stat-rating-stddev").html($.sprintf("%.3f", stat_rating[2]));
+
+    var heapmapOptions = {
+      zoom: 2,
+      center: new google.maps.LatLng(48.3333, 16.35),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: false,
+      scrollwheel: true,
+      draggable: true,
+      navigationControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      disableDoubleClickZoom: false
+    };
+    map = new google.maps.Map(document.getElementById("heatmap"), heapmapOptions);
+    
+    heatmap = new HeatmapOverlay(map, {"radius":15, "visible":true, "opacity":60});
+    google.maps.event.addListenerOnce(map, "idle", function(){
+        heatmap.setDataSet(stat_heatmap);
+    });
+}
+
+$(function () {
+    $('#chart-daily').highcharts({
+        chart: {
+            type: 'line',
+            marginRight: 0,
+            marginBottom: 60
+        },
+        title: {
+            text: '',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: stat_hourly[0]
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }],
+            min: 0
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: 0,
+            y: 60,
+            borderWidth: 0
+        },
+        series: [{
+            name: '# of requests',
+            data: stat_hourly[1]
+        }]
+    });
+});
+    
+</script>
+
+{% endblock %}

@@ -51,7 +51,8 @@ CREATE TABLE translation (
     target character varying(16) NOT NULL,
     mode smallint NOT NULL,
     original_text text NOT NULL,
-    translated_text text
+    translated_text text,
+    intermediate_text text
 );
 
 

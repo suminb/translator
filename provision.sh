@@ -7,7 +7,7 @@ if [ ! -a /home/vagrant/flag ]; then
 
     sudo pip install flask-babel flask-sqlalchemy 
     sudo pip install requests
-    sudo pip install sphinx
+    sudo pip install sphinx sphinxcontrib-httpdomain
     sudo pip install psycopg2
 
     touch /home/vagrant/flag

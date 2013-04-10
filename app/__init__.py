@@ -190,6 +190,33 @@ def statistics():
 @app.route('/translate', methods=['GET', 'POST'])
 @app.route('/v0.9/translate', methods=['GET', 'POST'])
 def translate_0_9():
+    """Translates given text. This is deprecated. Use v1.0 instead.
+
+    **Example Request**:
+
+    .. sourcecode:: http
+
+        POST /v0.9/translate HTTP/1.1
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22
+        Host: 192.168.0.185:5000
+        Accept: */*
+        Content-Length: 37
+        Content-Type: application/x-www-form-urlencoded
+
+        sl=en&tl=ko&m=2&t=This is an example.
+
+    **Example Response**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Content-Type: text/html; charset=utf-8
+        Content-Length: 23
+        Server: Werkzeug/0.8.3 Python/2.7.3
+        Date: Wed, 10 Apr 2013 06:37:40 GMT
+
+        이것은 예입니다.
+    """
     try:
         return translate()['translated_text']
 
@@ -201,6 +228,37 @@ def translate_0_9():
 
 @app.route('/v1.0/translate', methods=['GET', 'POST'])
 def translate_1_0():
+    """Translates given text.
+
+    **Example Request**:
+
+    .. sourcecode:: http
+
+        POST /v1.0/translate HTTP/1.1
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22
+        Host: 192.168.0.185:5000
+        Accept: */*
+        Content-Length: 57
+        Content-Type: application/x-www-form-urlencoded
+
+        sl=ko&tl=en&m=2&t=여러분이 몰랐던 구글 번역기
+
+    **Example Response**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Content-Type: application/json
+        Content-Length: 90
+        Server: Werkzeug/0.8.3 Python/2.7.3
+        Date: Wed, 10 Apr 2013 06:43:13 GMT
+
+        {
+          "translated_text": "Google translation that you did not know",
+          "serial_b62": "0z19x",
+          "intermediate_text": "\u7686\u3055\u3093\u304c\u77e5\u3089\u306a\u304b\u3063\u305fGoogle\u306e\u7ffb\u8a33"
+        }
+    """
     try:
         return jsonify(translate())
 

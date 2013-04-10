@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-08 08:46+0000\n"
+"POT-Creation-Date: 2013-04-10 08:12+0000\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/__init__.py:138
+#: app/core.py:139
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/__init__.py:144
+#: app/core.py:145
 msgid "app-description-text"
 msgstr ""
 "Лучший переводчик – языкового переводчика на идее, что перевод через "
@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 
 #: app/templates/base.html:4 app/templates/base.html:7
-#: app/templates/base.html:10 app/templates/index.html:12
+#: app/templates/base.html:10 app/templates/index.html:10
 msgid "app-title"
 msgstr "Лучший переводчик"
 
@@ -55,6 +55,7 @@ msgid "Bug reporting"
 msgstr "Сообщить об ошибке"
 
 #: app/templates/credits.html:4 app/templates/discuss.html:4
+#: app/templates/statistics.html:5
 msgid "Go back to home"
 msgstr "Перейти на главную страницу"
 
@@ -82,7 +83,7 @@ msgstr "Испанский"
 msgid "Russian"
 msgstr "Pусский"
 
-#: app/templates/index.html:16
+#: app/templates/index.html:14
 msgid ""
 "A Better Translator may not work properly with old web browsers (e.g., "
 "Internet Explorer 9 and below)"
@@ -176,5 +177,9 @@ msgstr ""
 
 #: app/templates/index.html:102
 msgid "Thank you for your feedback."
+msgstr ""
+
+#: app/templates/statistics.html:4
+msgid "Statistics"
 msgstr ""
 

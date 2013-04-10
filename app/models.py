@@ -31,6 +31,7 @@ class Translation(db.Model):
     mode = db.Column(db.Integer)
     original_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
+    intermediate_text = db.Column(db.Text)
 
     def serialize(self):
         return serialize(self)

@@ -190,11 +190,25 @@ def statistics():
 @app.route('/translate', methods=['GET', 'POST'])
 @app.route('/v0.9/translate', methods=['GET', 'POST'])
 def translate_0_9():
-    return translate()['translated_text']
+    try:
+        return translate()['translated_text']
+
+    except HTTPException as e:
+        return e.message, e.status_code
+
+    except Exception as e:
+        return str(e), 500
 
 @app.route('/v1.0/translate', methods=['GET', 'POST'])
 def translate_1_0():
-    return jsonify(translate())
+    try:
+        return jsonify(translate())
+
+    except HTTPException as e:
+        return e.message, e.status_code
+
+    except Exception as e:
+        return str(e), 500
 
 def translate():
     text = request.form['t'].strip()
@@ -221,39 +235,34 @@ def translate():
     if target not in VALID_LANGUAGES:
         return 'Invalid target language\n', 400
 
-    try:
-        if mode == '2':
-            translated = __translate__(text, source, 'ja', user_agent)
-            translated = __translate__(translated, 'ja', target, user_agent)
-        else:
-            translated = __translate__(text, source, target, user_agent)
 
-        # Legacy logger
-        log(source, target, mode, text, translated)
+    if mode == '2':
+        intermediate = __translate__(text, source, 'ja', user_agent)
+        translated = __translate__(intermediate, 'ja', target, user_agent)
+    else:
+        intermediate = None
+        translated = __translate__(text, source, target, user_agent)
 
-        # TODO: Refactor this section
-        translation = Translation(id=str(uuid.uuid4()))
-        translation.timestamp = datetime.datetime.now()
-        translation.user_agent = user_agent
-        translation.remote_address = get_remote_address(request)
-        translation.source = source
-        translation.target = target
-        translation.mode = mode
-        translation.original_text = text
-        translation.translated_text = translated
+    # TODO: Refactor this section
+    translation = Translation(id=str(uuid.uuid4()))
+    translation.timestamp = datetime.datetime.now()
+    translation.user_agent = user_agent
+    translation.remote_address = get_remote_address(request)
+    translation.source = source
+    translation.target = target
+    translation.mode = mode
+    translation.original_text = text
+    translation.translated_text = translated
+    translation.intermediate_text = intermediate
 
-        db.session.add(translation)
-        db.session.commit()
+    db.session.add(translation)
+    db.session.commit()
 
-        return dict(
-            serial_b62='0z'+base62.encode(translation.serial),
-            translated_text=translated)
+    return dict(
+        serial_b62='0z'+base62.encode(translation.serial),
+        intermediate_text=intermediate,
+        translated_text=translated)
 
-    except HTTPException as e:
-        return e.message, e.status_code
-
-    except Exception as e:
-        return str(e), 500
 
 
 @app.route('/v0.9/fetch/<serial>', methods=['GET'])

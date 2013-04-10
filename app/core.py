@@ -13,6 +13,7 @@ import urllib
 import uuid
 import datetime
 import re
+import nilsimsa # Locality Sensitive Hash
 import base62
 
 babel = Babel(app)
@@ -307,6 +308,7 @@ def translate():
     translation.original_text = text
     translation.translated_text = translated
     translation.intermediate_text = intermediate
+    translation.original_text_lsh = nilsimsa.Nilsimsa(text).hexdigest()
 
     db.session.add(translation)
     db.session.commit()

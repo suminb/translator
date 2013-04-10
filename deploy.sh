@@ -14,6 +14,9 @@ rm -rf $(find . -name "*.pyc")
 # Deploy files
 rsync -arzP -e ssh --exclude app/config.py * $HOST:webapps/translator/webapp
 
+# Deploy documents
+rsync -arzP -e ssh docs/build/html/* $HOST:webapps/static/translator-docs/
+
 read -p "Restart the server? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then

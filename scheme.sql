@@ -52,7 +52,8 @@ CREATE TABLE translation (
     mode smallint NOT NULL,
     original_text text NOT NULL,
     translated_text text,
-    intermediate_text text
+    intermediate_text text,
+    original_text_lsh character varying(255) NOT NULL
 );
 
 

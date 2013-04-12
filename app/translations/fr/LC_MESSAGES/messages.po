@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-10 08:12+0000\n"
+"POT-Creation-Date: 2013-04-12 04:34+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:139
+#: app/core.py:144
 msgid "Requrested resource does not exist"
 msgstr "Il n'existe pas la source de la demande."
 
-#: app/core.py:145
+#: app/core.py:150
 msgid "app-description-text"
 msgstr ""
 "La traduction de mieux est un service qui permet d'effectuer des "
@@ -35,7 +35,10 @@ msgstr ""
 msgid ""
 "You are viewing this message because the page you requested is not found."
 " You may go back to the <a href=\"/\">home page</a>."
-msgstr "Vous visualisez actuellement ce message parce que la page demandée est introuvable. Vous pouvez revenir à l'étape précédente pour retourner à la page d'accueil."
+msgstr ""
+"Vous visualisez actuellement ce message parce que la page demandée est "
+"introuvable. Vous pouvez revenir à l'étape précédente pour retourner à la"
+" page d'accueil."
 
 #: app/templates/base.html:4 app/templates/base.html:7
 #: app/templates/base.html:10 app/templates/index.html:10
@@ -88,7 +91,9 @@ msgstr "Russe"
 msgid ""
 "A Better Translator may not work properly with old web browsers (e.g., "
 "Internet Explorer 9 and below)"
-msgstr "La traduction de mieux ne peut pas fonctionner correctement avec ancien navigateur."
+msgstr ""
+"La traduction de mieux ne peut pas fonctionner correctement avec ancien "
+"navigateur."
 
 #: app/templates/index.html:20
 msgid "app-description-html"
@@ -143,7 +148,7 @@ msgstr "Traduction envers japonais"
 
 #: app/templates/index.html:72
 msgid "Request a permalink"
-msgstr "Demande de la lien permanent	"
+msgstr "Demande de la lien permanent\t"
 
 #: app/templates/index.html:74
 msgid "URL for this page"
@@ -183,5 +188,5 @@ msgstr "Merci pour vos commentaires."
 
 #: app/templates/statistics.html:4
 msgid "Statistics"
-msgstr "Statistiques	"
+msgstr "Statistiques\t"
 

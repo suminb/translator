@@ -19,7 +19,7 @@ msgstr ""
 
 #: app/core.py:139
 msgid "Requrested resource does not exist"
-msgstr ""
+msgstr "Il n'existe pas la source de la demande."
 
 #: app/core.py:145
 msgid "app-description-text"
@@ -35,7 +35,7 @@ msgstr ""
 msgid ""
 "You are viewing this message because the page you requested is not found."
 " You may go back to the <a href=\"/\">home page</a>."
-msgstr ""
+msgstr "Vous visualisez actuellement ce message parce que la page demandée est introuvable. Vous pouvez revenir à l'étape précédente pour retourner à la page d'accueil."
 
 #: app/templates/base.html:4 app/templates/base.html:7
 #: app/templates/base.html:10 app/templates/index.html:10
@@ -62,12 +62,12 @@ msgstr "Retourner à la page d'accueil"
 
 #: app/templates/credits.html:6
 msgid "Lead Developer"
-msgstr ""
+msgstr "Développeur"
 
 #: app/templates/credits.html:16 app/templates/credits.html:20
 #: app/templates/credits.html:24
 msgid "Localization"
-msgstr ""
+msgstr "Localisaion"
 
 #: app/templates/credits.html:16 app/templates/index.html:37
 #: app/templates/index.html:57
@@ -77,18 +77,18 @@ msgstr "Français"
 #: app/templates/credits.html:20 app/templates/index.html:39
 #: app/templates/index.html:59
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
 #: app/templates/credits.html:24 app/templates/index.html:40
 #: app/templates/index.html:60
 msgid "Russian"
-msgstr ""
+msgstr "Russe"
 
 #: app/templates/index.html:14
 msgid ""
 "A Better Translator may not work properly with old web browsers (e.g., "
 "Internet Explorer 9 and below)"
-msgstr ""
+msgstr "La traduction de mieux ne peut pas fonctionner correctement avec ancien navigateur."
 
 #: app/templates/index.html:20
 msgid "app-description-html"
@@ -107,7 +107,7 @@ msgstr "Afficher un autre exemple"
 
 #: app/templates/index.html:30
 msgid "Swap languages"
-msgstr ""
+msgstr "Intervertir des langues"
 
 #: app/templates/index.html:31
 msgid "Translate"
@@ -127,11 +127,11 @@ msgstr "Japonais"
 
 #: app/templates/index.html:41 app/templates/index.html:61
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonésien"
 
 #: app/templates/index.html:42 app/templates/index.html:62
 msgid "Chinese"
-msgstr ""
+msgstr "Chinois"
 
 #: app/templates/index.html:50
 msgid "Direct translation"
@@ -143,7 +143,7 @@ msgstr "Traduction envers japonais"
 
 #: app/templates/index.html:72
 msgid "Request a permalink"
-msgstr ""
+msgstr "Demande de la lien permanent	"
 
 #: app/templates/index.html:74
 msgid "URL for this page"
@@ -151,37 +151,37 @@ msgstr "URL de la page"
 
 #: app/templates/index.html:88
 msgid "How did you like this translation?"
-msgstr ""
+msgstr "Qu'est-ce que vous en pensez de cette traduction?"
 
 #: app/templates/index.html:89
 msgid "Poor"
-msgstr ""
+msgstr "Médiocre"
 
 #: app/templates/index.html:90
 msgid "Acceptable"
-msgstr ""
+msgstr "Accéptable"
 
 #: app/templates/index.html:91
 msgid "Excellent"
-msgstr ""
+msgstr "Excellente"
 
 #: app/templates/index.html:94
 msgid "How would you translate it?"
-msgstr ""
+msgstr "Comment voulez-vous traduire?"
 
 #: app/templates/index.html:97
 msgid "Skip"
-msgstr ""
+msgstr "Ignorer"
 
 #: app/templates/index.html:98
 msgid "Submit"
-msgstr ""
+msgstr "Soumettre"
 
 #: app/templates/index.html:102
 msgid "Thank you for your feedback."
-msgstr ""
+msgstr "Merci pour vos commentaires."
 
 #: app/templates/statistics.html:4
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiques	"
 

@@ -58,7 +58,7 @@ input[type=submit] {
 .column1, .column2 {
     float: left;
     width: 47%;
-    margin: 0 1em;
+    margin: 0 1%;
 }
 
 #google-translate {

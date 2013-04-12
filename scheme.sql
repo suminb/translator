@@ -53,7 +53,7 @@ CREATE TABLE translation (
     original_text text NOT NULL,
     translated_text text,
     intermediate_text text,
-    original_text_lsh character varying(255) NOT NULL
+    original_text_hash character varying(255) NOT NULL
 );
 
 

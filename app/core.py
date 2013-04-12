@@ -308,7 +308,7 @@ def translate():
     translation.original_text = text
     translation.translated_text = translated
     translation.intermediate_text = intermediate
-    translation.original_text_lsh = nilsimsa.Nilsimsa(text).hexdigest()
+    translation.original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
     db.session.add(translation)
     db.session.commit()

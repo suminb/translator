@@ -406,14 +406,3 @@ def rate(serial):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html', message='Page Not Found'), 404
-
-
-@app.route('/lsh')
-def lsh():
-    for row in Translation.query.filter_by(source='en').all():
-        print row.original_text
-        row.original_text_lsh = nilsimsa.Nilsimsa(row.original_text).hexdigest()
-
-        db.session.commit()
-
-    return ''

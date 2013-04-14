@@ -143,7 +143,7 @@ msgstr "Traduction envers japonais"
 
 #: app/templates/index.html:72
 msgid "Request a permalink"
-msgstr "Demande de la lien permanent	"
+msgstr "Créer un lien permanent	"
 
 #: app/templates/index.html:74
 msgid "URL for this page"
@@ -155,7 +155,7 @@ msgstr "Qu'est-ce que vous en pensez de cette traduction?"
 
 #: app/templates/index.html:89
 msgid "Poor"
-msgstr "Médiocre"
+msgstr "Pas très bien"
 
 #: app/templates/index.html:90
 msgid "Acceptable"
@@ -163,7 +163,7 @@ msgstr "Accéptable"
 
 #: app/templates/index.html:91
 msgid "Excellent"
-msgstr "Excellente"
+msgstr "Très bien"
 
 #: app/templates/index.html:94
 msgid "How would you translate it?"

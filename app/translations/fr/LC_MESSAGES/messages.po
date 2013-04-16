@@ -1,7 +1,7 @@
 # French translations for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <flyingyujin@gmail.com>, 2013.
+# Yujin Chung <flyingyujin@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
@@ -9,8 +9,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-04-16 00:42+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
-"Last-Translator: \n"
-"Language-Team: fr <LL@li.org>\n"
+"Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
+"Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -168,7 +168,7 @@ msgstr "Traduction envers japonais"
 
 #: app/templates/index.html:82
 msgid "Request a permalink"
-msgstr "Demande de la lien permanent\t"
+msgstr "Créer un lien permanent	"
 
 #: app/templates/index.html:84
 msgid "URL for this page"
@@ -180,7 +180,7 @@ msgstr "Qu'est-ce que vous en pensez de cette traduction?"
 
 #: app/templates/index.html:99
 msgid "Poor"
-msgstr "Médiocre"
+msgstr "Pas très bien"
 
 #: app/templates/index.html:100
 msgid "Acceptable"
@@ -188,7 +188,7 @@ msgstr "Accéptable"
 
 #: app/templates/index.html:101
 msgid "Excellent"
-msgstr "Excellente"
+msgstr "Très bien"
 
 #: app/templates/index.html:104
 msgid "How would you translate it?"

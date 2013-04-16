@@ -7,7 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2013-04-16 00:42+0000\n"
+=======
+"POT-Creation-Date: 2013-04-12 04:34+0000\n"
+>>>>>>> lsh
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -17,11 +21,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
+<<<<<<< HEAD
 #: app/core.py:143
 msgid "Requrested resource does not exist"
 msgstr ""
 
 #: app/core.py:149
+=======
+#: app/core.py:144
+msgid "Requrested resource does not exist"
+msgstr ""
+
+#: app/core.py:150
+>>>>>>> lsh
 msgid "app-description-text"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en la "

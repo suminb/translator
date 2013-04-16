@@ -17,11 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:143
+#: app/core.py:144
 msgid "Requrested resource does not exist"
 msgstr "Il n'existe pas la source de la demande."
 
-#: app/core.py:149
 msgid "app-description-text"
 msgstr ""
 "La traduction de mieux est un service qui permet d'effectuer des "

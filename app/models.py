@@ -32,6 +32,7 @@ class Translation(db.Model):
     original_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
     intermediate_text = db.Column(db.Text)
+    original_text_hash = db.Column(db.String(255))
 
     def serialize(self):
         return serialize(self)

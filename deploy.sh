@@ -12,7 +12,7 @@ rm -rf $(find . -name ".AppleDouble")
 rm -rf $(find . -name "*.pyc")
 
 # Deploy files
-rsync -arzP -e ssh --exclude app/config.py * $HOST:webapps/translator/webapp
+rsync -arzP -e ssh --exclude app/config.py --exclude app/static/statistics.js * $HOST:webapps/translator/webapp
 
 # Deploy documents
 rsync -arzP -e ssh docs/build/html/* $HOST:webapps/static/translator-docs/

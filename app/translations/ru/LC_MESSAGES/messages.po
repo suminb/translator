@@ -22,7 +22,6 @@ msgstr ""
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/core.py:149
 msgid "app-description-text"
 msgstr ""
 "Лучший переводчик – языкового переводчика на идее, что перевод через "

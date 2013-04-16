@@ -13,6 +13,7 @@ import urllib
 import uuid
 import datetime
 import re
+import nilsimsa # Locality Sensitive Hash
 import base62
 
 babel = Babel(app)
@@ -269,17 +270,6 @@ def translate():
     source = request.form['sl'].strip()
     target = request.form['tl'].strip()
 
-    # FIXME: This is a temporary solution to deal with burst peak of traffic
-    if text in TR_CACHE:
-        if source == 'ko' and target == 'en':
-            i = 0 if mode == '1' else 1
-
-            return dict(
-                serial_b62=None,
-                translated_text=TR_CACHE[text][i])
-
-    user_agent = request.headers.get('User-Agent')
-
     if source == target:
         return text
 
@@ -288,33 +278,40 @@ def translate():
     if target not in VALID_LANGUAGES:
         return 'Invalid target language\n', 400
 
+    original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
-    if mode == '2':
-        intermediate = __translate__(text, source, 'ja', user_agent)
-        translated = __translate__(intermediate, 'ja', target, user_agent)
-    else:
-        intermediate = None
-        translated = __translate__(text, source, target, user_agent)
+    translation = Translation.query.filter_by(original_text_hash=original_text_hash, source=source, mode=mode).first()
 
-    # TODO: Refactor this section
-    translation = Translation(id=str(uuid.uuid4()))
-    translation.timestamp = datetime.datetime.now()
-    translation.user_agent = user_agent
-    translation.remote_address = get_remote_address(request)
-    translation.source = source
-    translation.target = target
-    translation.mode = mode
-    translation.original_text = text
-    translation.translated_text = translated
-    translation.intermediate_text = intermediate
+    if translation == None:
+        user_agent = request.headers.get('User-Agent')
 
-    db.session.add(translation)
-    db.session.commit()
+        if mode == '2':
+            intermediate = __translate__(text, source, 'ja', user_agent)
+            translated = __translate__(intermediate, 'ja', target, user_agent)
+        else:
+            intermediate = None
+            translated = __translate__(text, source, target, user_agent)
+
+        # TODO: Refactor this section
+        translation = Translation(id=str(uuid.uuid4()))
+        translation.timestamp = datetime.datetime.now()
+        translation.user_agent = user_agent
+        translation.remote_address = get_remote_address(request)
+        translation.source = source
+        translation.target = target
+        translation.mode = mode
+        translation.original_text = text
+        translation.translated_text = translated
+        translation.intermediate_text = intermediate
+        translation.original_text_hash = original_text_hash
+
+        db.session.add(translation)
+        db.session.commit()
 
     return dict(
         serial_b62='0z'+base62.encode(translation.serial),
-        intermediate_text=intermediate,
-        translated_text=translated)
+        intermediate_text=translation.intermediate_text,
+        translated_text=translation.translated_text)
 
 
 

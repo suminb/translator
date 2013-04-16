@@ -1,4 +1,6 @@
 from sqlalchemy import create_engine, MetaData
+from math import log
+
 import json
 import requests
 import os, sys
@@ -78,7 +80,10 @@ def geolocation(conn):
         mx = r['count'] if r['count'] > mx else mx
         data.append(r)
 
-    return {'max':mx, 'data':data}
+    for d in data:
+        d['count'] = log(d['count'])
+
+    return {'max':log(mx), 'data':data}
 
 def hourly(conn):
     sql = """

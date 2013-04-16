@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-16 00:42+0000\n"
+"POT-Creation-Date: 2013-04-16 04:06+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: enj <LL@li.org>\n"
@@ -17,10 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:143
+#: app/core.py:144
 msgid "Requrested resource does not exist"
 msgstr ""
 
+#: app/core.py:150
 msgid "app-description-text"
 msgstr ""
 "A Better Translator is a language translation service based on the idea "

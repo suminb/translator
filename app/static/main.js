@@ -18,7 +18,7 @@ var examples = {
     ],
     // TODO: Fill in some example sentences.
     fr: [""],
-    en: [""],
+    es: [""],
     ja: [""],
     ru: [""],
     id: [""]
@@ -33,7 +33,7 @@ window.onload = function() {
     if ("onhashchange" in window) { // event supported?
         window.onhashchange = function () {
             hashChanged(window.location.hash);
-        }
+        };
     }
     else { // event not supported:
         var storedHash = window.location.hash;
@@ -99,7 +99,7 @@ window.onload = function() {
         setTimeout(_translate, 100);
     })
     .trigger("change");
-}
+};
 
 window.onpopstate = function(event) {
     console.log(event);
@@ -158,9 +158,11 @@ function resizeTextarea(t) {
 }
 
 function _translate() {
-    var source = $("select[name=sl]").val();
-    var target = $("select[name=tl]").val();
-    var text = $("#text").val();
+    var currentState = serializeCurrentState();
+
+    var source = currentState.sl;
+    var target = currentState.tl;
+    var text = currentState.t;
 
     // simply displays the original text when the source language and the target language are identical
     if (source == target) {
@@ -175,15 +177,12 @@ function _translate() {
             $("form input[type=submit]").attr("disabled", "disabled");
             global.serial = null;
 
-            $.post("/v1.0/translate", $("#translation-form").serializeArray(), function(response) {
+            $.post("/v1.0/translate", currentState, function(response) {
                 displayResult(response.translated_text);
-
-                //var mode = $("input[name=m]:checked").val();
-                //displayPageURL(source, target, mode, text);
 
                 global.serial = response.serial_b62;
                 window.location.hash = "";
-                window.history.pushState(serializeCurrentState(), "", window.location.href);
+                window.history.pushState(currentState, "", window.location.href);
 
                 if (global.serial) {
                     $("#request-permalink").show("medium");

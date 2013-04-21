@@ -170,7 +170,7 @@ function _translate() {
     }
     // translates if the source language and the target language are not identical
     else {
-        if (text.trim() != "") {
+        if (text.trim() !== "") {
             $("#result").html("");
             $("#progress-message").html("Translation in progress...");
             $("#page-url").hide("medium");
@@ -190,7 +190,7 @@ function _translate() {
                 }
 
             }).fail(function(response) {
-                displayError(response.responseText)
+                displayError(response.responseText);
             
             }).always(function() {
                 $("#progress-message").html("");
@@ -221,7 +221,7 @@ function refreshExample() {
     var language = $("select[name=sl]").val();
 
     // Randomly chooses an example sentence
-    global.ei = Math.floor(Math.random() * examples.ko.length)
+    global.ei = Math.floor(Math.random() * examples.ko.length);
     var example = examples[language][global.ei % examples[language].length];
 
     $("#text").val(example);
@@ -281,8 +281,8 @@ function hashChanged(hash) {
         $("select[name=sl]").val(source ? source : "ko");
         $("select[name=tl]").val(target ? target : "en");
 
-        var mode = getParameterByName("m") == "1";
-        $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
+        //var mode = getParameterByName("m") == "1";
+        //$(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
         if (text) {
             $("#text").val(decodeURIComponent(text));
@@ -377,7 +377,7 @@ function generatePermalink(sendRating, rating) {
     $.post("/v0.9/store", serializeCurrentState(), function(response) {
         displayPermalink(response.base62);
 
-        if (sendRating != null) {
+        if (sendRating !== null) {
             sendRating(response.base62, rating);
         }
 
@@ -441,7 +441,7 @@ function serializeCurrentState() {
 }
 
 function populateValues(state) {
-    if (state != null) {
+    if (state !== null) {
         $("#text").val(state.t ? state.t : "");
         $("select[name=sl]").val(state.sl ? state.sl : "ko");
         $("select[name=tl]").val(state.tl ? state.tl : "en");

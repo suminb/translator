@@ -89,14 +89,14 @@ window.onload = function() {
     })
     .keypress(function (event) {
         if (event.keyCode == 13) {
-            _translate();
+            performTranslation();
         }
     })
     .bind('paste', function (event) {
         // http://stackoverflow.com/questions/9494283/jquery-how-to-get-the-pasted-content
         // When pasting to an input the "paste" event is fired before the value has time to update
-        // Therefore, _translate() function has to be called after the completion of this event handling function
-        setTimeout(_translate, 100);
+        // Therefore, performTranslation() function has to be called after the completion of this event handling function
+        setTimeout(performTranslation, 100);
     })
     .trigger("change");
 };
@@ -117,7 +117,7 @@ function initWithParameters() {
         tl: getParameterByName("tl")
     });
 
-    _translate();
+    performTranslation();
 }
 
 /**
@@ -157,24 +157,23 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
-function _translate() {
+function performTranslation() {
     var currentState = serializeCurrentState();
 
     var source = currentState.sl;
     var target = currentState.tl;
     var text = currentState.t;
 
-    // simply displays the original text when the source language and the target language are identical
     if (source == target) {
+        // simply displays the original text when the source language and the target language are identical
         displayResult(text);
-    }
-    // translates if the source language and the target language are not identical
-    else {
-        if (text.trim() !== "") {
+    } else {
+        // translates if the source language and the target language are not identical
+        if (text !== "") {
             $("#result").html("");
             $("#progress-message").html("Translation in progress...");
             $("#page-url").hide("medium");
-            $("form input[type=submit]").attr("disabled", "disabled");
+            //$("form input[type=submit]").attr("disabled", "disabled");
             global.serial = null;
 
             $.post("/v1.0/translate", currentState, function(response) {
@@ -194,7 +193,7 @@ function _translate() {
             
             }).always(function() {
                 $("#progress-message").html("");
-                $("form input[type=submit]").removeAttr("disabled");
+                //$("form input[type=submit]").removeAttr("disabled");
             });
         }
     }
@@ -213,7 +212,7 @@ function _translate() {
 //     var example = examples.ko[global.ei % examples.ko.length];
 
 //     $("#text").val(example);
-//     _translate();
+//     performTranslation();
 // }
 
 // TODO: Refactor this function
@@ -225,7 +224,7 @@ function refreshExample() {
     var example = examples[language][global.ei % examples[language].length];
 
     $("#text").val(example);
-    _translate();
+    performTranslation();
 }
 
 function displayResult(result) {
@@ -286,7 +285,7 @@ function hashChanged(hash) {
 
         if (text) {
             $("#text").val(decodeURIComponent(text));
-            _translate();
+            performTranslation();
         }
     }
 }
@@ -298,7 +297,7 @@ function swapLanguages() {
     $("select[name=sl]").val(target);
     $("select[name=tl]").val(source);
     $("#text").val($("#result").html());
-    _translate();
+    performTranslation();
 }
 
 function toggleScreenshot() {

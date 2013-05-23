@@ -184,7 +184,17 @@ def statistics():
 @app.route('/translate', methods=['POST'])
 @app.route('/v0.9/translate', methods=['POST'])
 def translate_0_9():
-    """Translates given text.
+    """
+    :param sl: source language
+    :type sl: string
+    :param tl: target language
+    :type tl: string
+    :param m: mode ( 1 for normal, 2 for better )
+    :type m: int
+    :param t: text to be translated
+    :type t: string
+
+    Translates given text.
 
     .. deprecated:: 2706db734a3654eed5ac84b7a2703d5b96df4cbc
 
@@ -224,7 +234,17 @@ def translate_0_9():
 
 @app.route('/v1.0/translate', methods=['POST'])
 def translate_1_0():
-    """Translates given text.
+    """
+    :param sl: source language
+    :type sl: string
+    :param tl: target language
+    :type tl: string
+    :param m: mode ( 1 for normal, 2 for better )
+    :type m: int
+    :param t: text to be translated
+    :type t: string
+
+    Translates given text.
 
     **Example Request**:
 
@@ -254,6 +274,33 @@ def translate_1_0():
           "serial_b62": "0z19x",
           "intermediate_text": "\u7686\u3055\u3093\u304c\u77e5\u3089\u306a\u304b\u3063\u305fGoogle\u306e\u7ffb\u8a33"
         }
+
+    **Example iOS Code using ILHTTPClient**
+
+    ILHTTPClient: https://github.com/isaaclimdc/ILHTTPClient
+
+    .. sourcecode:: objective-c
+
+        ILHTTPClient *client = [ILHTTPClient clientWithBaseURL:@"http://translator.suminb.com/" showingHUDInView:self.view];
+            NSDictionary *params = @{
+                                        @"sl": @"en",
+                                        @"tl": @"ko",
+                                        @"m": @"2",
+                                        @"t": @"Google translation that you did not know."
+            };
+            
+            [client postPath:@"/v1.0/translate"
+                  parameters:params
+                 loadingText:@"Loading..."
+                 successText:@"Success!"
+               multiPartForm:^(id<AFMultipartFormData> formData) {
+               }
+                     success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                         NSLog(@"%@", response);
+                     }
+                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     }
+            ];
     """
     try:
         return jsonify(translate())

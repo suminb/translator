@@ -18,7 +18,21 @@ import base62
 
 babel = Babel(app)
 
-VALID_LANGUAGES = ['en', 'es', 'fr', 'ja', 'ko', 'ru', 'zh-CN', 'id']
+VALID_LANGUAGES = {
+    'en': 'English',
+    'es': 'Spanish',
+    'fr': 'French',
+    'ja': 'Japanese',
+    'ko': 'Korean',
+    'ru': 'Russian',
+    'zh-CN': 'Chinese',
+    'id': 'Indonesian',
+    'vi': 'Vietnamese',
+    'th': 'Thai',
+    'it': 'Italian',
+    'de': 'German',
+    'tl': 'Filipino',
+}
 
 # FIXME: This is a temporary solution to deal with burst peak of traffic
 TR_CACHE = {
@@ -160,6 +174,14 @@ def set_locale():
     response.set_cookie("locale", locale, 60 * 60 * 24 * 14)
     return response
 
+
+@app.route('/languages')
+def languages():
+    """Returns a list of supported languages."""
+    locale = request.args["locale"]
+    langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(), VALID_LANGUAGES.values())}
+
+    return jsonify(langs)
 
 @app.route('/discuss')
 def discuss():
@@ -320,9 +342,9 @@ def translate():
     if source == target:
         return text
 
-    if source not in VALID_LANGUAGES:
+    if source not in VALID_LANGUAGES.keys():
         return 'Invalid source language\n', 400
-    if target not in VALID_LANGUAGES:
+    if target not in VALID_LANGUAGES.keys():
         return 'Invalid target language\n', 400
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()

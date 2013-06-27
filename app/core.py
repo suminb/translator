@@ -110,7 +110,10 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
         except:
             sentences = data['results'][0]['sentences']
 
-        return ' '.join(map(lambda x: x['trans'], sentences))
+        result = ' '.join(map(lambda x: x['trans'], sentences))
+
+        # Remove unneccessary white spaces
+        return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
 
     except Exception as e:
         raise Exception('An error has occured: "%s" If the problem persists, you may report it <a href="/discuss">here</a>.' % str(e))

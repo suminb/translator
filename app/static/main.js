@@ -181,11 +181,12 @@ function performTranslation() {
 
                 global.serial = response.serial_b62;
                 window.location.hash = "";
-                window.history.pushState(currentState, "", window.location.href);
+                //window.history.pushState(currentState, "", window.location.href);
 
                 if (global.serial) {
-                    $("#request-permalink").show("medium");
+                    //$("#request-permalink").show("medium");
                     askForRating();
+                    displayPermalink(global.serial);
                 }
 
             }).fail(function(response) {

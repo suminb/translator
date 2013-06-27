@@ -2,6 +2,7 @@
 -- PostgreSQL database dump
 --
 
+SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
 SET check_function_bodies = false;
@@ -22,8 +23,9 @@ CREATE TABLE rating (
     id uuid NOT NULL,
     translation_id uuid NOT NULL,
     "timestamp" timestamp with time zone NOT NULL,
+    user_agent character varying(255),
+    remote_address character varying(64),
     rating smallint NOT NULL,
-    ip character varying(64),
     token character varying(128)
 );
 
@@ -43,7 +45,7 @@ COMMENT ON COLUMN rating.rating IS '-1, 0, +1';
 
 CREATE TABLE translation (
     id uuid NOT NULL,
-    "serial" integer,
+    serial integer,
     "timestamp" timestamp with time zone NOT NULL,
     user_agent character varying(255),
     remote_address character varying(64),
@@ -53,17 +55,25 @@ CREATE TABLE translation (
     original_text text NOT NULL,
     translated_text text,
     intermediate_text text,
-    original_text_hash character varying(255) NOT NULL
+    original_text_hash character varying(255)
 );
 
 
 ALTER TABLE public.translation OWNER TO sumin_translator;
 
 --
+-- Name: COLUMN translation.original_text_hash; Type: COMMENT; Schema: public; Owner: sumin_translator
+--
+
+COMMENT ON COLUMN translation.original_text_hash IS 'Locality Sensitive Hash (LSH) value of original_text';
+
+
+--
 -- Name: translation_serial_seq; Type: SEQUENCE; Schema: public; Owner: sumin_translator
 --
 
 CREATE SEQUENCE translation_serial_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -83,7 +93,7 @@ ALTER SEQUENCE translation_serial_seq OWNED BY translation.serial;
 -- Name: serial; Type: DEFAULT; Schema: public; Owner: sumin_translator
 --
 
-ALTER TABLE translation ALTER COLUMN serial SET DEFAULT nextval('translation_serial_seq'::regclass);
+ALTER TABLE ONLY translation ALTER COLUMN serial SET DEFAULT nextval('translation_serial_seq'::regclass);
 
 
 --
@@ -103,16 +113,20 @@ ALTER TABLE ONLY translation
 
 
 --
+-- Name: original_text_hash; Type: INDEX; Schema: public; Owner: sumin_translator; Tablespace: 
+--
+
+CREATE INDEX original_text_hash ON translation USING btree (original_text_hash);
+
+
+--
 -- Name: serial; Type: INDEX; Schema: public; Owner: sumin_translator; Tablespace: 
 --
 
 CREATE UNIQUE INDEX serial ON translation USING btree (serial);
 
---
--- Name: original_text_lsh; Type: INDEX; Schema: public; Owner: sumin_translator; Tablespace: 
---
+ALTER TABLE translation CLUSTER ON serial;
 
-CREATE INDEX original_text_lsh ON translation USING btree (original_text_lsh);
 
 --
 -- Name: translation; Type: FK CONSTRAINT; Schema: public; Owner: sumin_translator

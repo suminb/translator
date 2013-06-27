@@ -57,28 +57,6 @@ def get_remote_address(req):
     else:
         return req.headers.getlist('X-Forwarded-For')[0]
 
-def log(source, target, mode, text, translated):
-    """Naive logging function"""
-
-    from datetime import datetime
-    from random import randint
-    from json import dumps
-
-    home = os.path.expanduser("~")
-    log_path = os.path.join(home, 'logs/user/translator/stat.%d.log' % randint(0, 99))
-
-    f = open(log_path, 'a')
-    payload = [
-        datetime.now().isoformat(),
-        source,
-        target,
-        mode,
-        '"%s"' % text.replace('"', '\\"').replace('\r', '').replace('\n', '\\n'),
-        '"%s"' % translated[0].replace('"', '\\"').replace('\r', '').replace('\n', '\\n')
-    ]
-
-    f.write((','.join(payload) + '\n').encode('utf-8'))
-    f.close()
 
 @babel.localeselector
 def get_locale():
@@ -349,7 +327,7 @@ def translate():
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
-    translation = Translation.query.filter_by(original_text_hash=original_text_hash, source=source, mode=mode).first()
+    translation = Translation.query.filter_by(original_text_hash=original_text_hash, source=source, target=target, mode=mode).first()
 
     if translation == None:
         user_agent = request.headers.get('User-Agent')

@@ -13,9 +13,11 @@ if [ ! -a /vagrant/.provisioned ]; then
     sudo pip install psycopg2
     sudo pip install nilsimsa
 
-    sudo su - postgres
+    su - postgres
     #echo "createuser -s vagrant" | psql
     echo "CREATE ROLE vagrant SUPERUSER LOGIN" | psql
+    echo "CREATE DATABSE vagrant" | psql
+    exit
     cat /vagrant/scheme.sql | psql
 
     touch /vagrant/.provisioned

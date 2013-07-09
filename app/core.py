@@ -32,6 +32,13 @@ VALID_LANGUAGES = {
     'it': 'Italian',
     'de': 'German',
     'tl': 'Filipino',
+    'ar': 'Arabic',
+    'cs': 'Czech',
+    'iw': 'Hebrew',
+    'pl': 'Polish',
+    'pt': 'Portuguese',
+    'sv': 'Swedish',
+    'tr': 'Turkish',
 }
 
 # FIXME: This is a temporary solution to deal with burst peak of traffic
@@ -119,6 +126,15 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
         raise Exception('An error has occured: "%s" If the problem persists, you may report it <a href="/discuss">here</a>.' % str(e))
 
 
+def __language_options__():
+    import operator
+
+    tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
+    sorted_tuples = sorted(tuples, key=operator.itemgetter(1))
+
+    return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
+
+
 #
 # Request handlers
 #
@@ -130,7 +146,8 @@ def index(serial=''):
 
     context = dict(locale=get_locale(),
         serial=serial,
-        is_android=is_android)
+        is_android=is_android,
+        language_options=__language_options__())
 
     if serial != '':
         row = Translation.query.filter_by(serial=base62.decode(serial)).first()

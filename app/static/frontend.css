@@ -45,7 +45,8 @@ input[type=submit] {
     margin: 0 auto;
 }
 .credits h3 {
-    padding-bottom: 4px;
+    margin: 2em 0 .5em 0;
+    padding: 0 0 .2em 0;
     border-bottom: 1px solid #ccc;
     font-weight: normal;
     color: #888;

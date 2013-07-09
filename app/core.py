@@ -174,6 +174,7 @@ def set_locale():
 
 
 @app.route('/languages')
+@app.route('/v1.0/languages')
 def languages():
     """Returns a list of supported languages."""
     locale = request.args["locale"]

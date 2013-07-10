@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-13 16:39-0700\n"
+"POT-Creation-Date: 2013-07-10 05:25+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:144
+#: app/core.py:157
 msgid "Requrested resource does not exist"
 msgstr "Il n'existe pas la source de la demande."
 
-#: app/core.py:150
+#: app/core.py:163
 msgid "app-description-text"
 msgstr ""
 "La traduction de mieux est un service qui permet d'effectuer des "
@@ -50,11 +50,6 @@ msgid "Credits"
 msgstr "Crédit"
 
 #: app/templates/base.html:71 app/templates/discuss.html:3
-#, fuzzy
-msgid "Discussions"
-msgstr "Discussion"
-
-#: app/templates/base.html:72
 msgid "Bug reporting"
 msgstr "Rapport de bogues"
 
@@ -72,18 +67,15 @@ msgstr "Développeur"
 msgid "Localization"
 msgstr "Localisaion"
 
-#: app/templates/credits.html:16 app/templates/index.html:38
-#: app/templates/index.html:63
+#: app/templates/credits.html:16 app/templates/index.html:99
 msgid "French"
 msgstr "Français"
 
-#: app/templates/credits.html:20 app/templates/index.html:40
-#: app/templates/index.html:65
+#: app/templates/credits.html:20 app/templates/index.html:117
 msgid "Spanish"
 msgstr "Español"
 
-#: app/templates/credits.html:24 app/templates/index.html:41
-#: app/templates/index.html:66
+#: app/templates/credits.html:24 app/templates/index.html:98
 msgid "Russian"
 msgstr "Russe"
 
@@ -118,93 +110,122 @@ msgstr "Intervertir des langues"
 msgid "Translate"
 msgstr "Traduire"
 
-#: app/templates/index.html:36 app/templates/index.html:61
-msgid "Korean"
-msgstr "Coréen"
-
-#: app/templates/index.html:37 app/templates/index.html:62
-msgid "English"
-msgstr "Anglais"
-
-#: app/templates/index.html:39 app/templates/index.html:64
-msgid "Japanese"
-msgstr "Japonais"
-
-#: app/templates/index.html:42 app/templates/index.html:67
-msgid "Indonesian"
-msgstr "Indonésien"
-
-#: app/templates/index.html:43 app/templates/index.html:68
-msgid "Chinese"
-msgstr "Chinois"
-
-#: app/templates/index.html:44 app/templates/index.html:69
-msgid "Vietnamese"
-msgstr ""
-
-#: app/templates/index.html:45 app/templates/index.html:70
-msgid "Thai"
-msgstr ""
-
-#: app/templates/index.html:46 app/templates/index.html:71
-msgid "Italian"
-msgstr ""
-
-#: app/templates/index.html:47 app/templates/index.html:72
-msgid "German"
-msgstr ""
-
-#: app/templates/index.html:48 app/templates/index.html:73
-msgid "Filipino"
-msgstr ""
-
-#: app/templates/index.html:56
+#: app/templates/index.html:44
 msgid "Direct translation"
 msgstr "Traduction directe"
 
-#: app/templates/index.html:58
+#: app/templates/index.html:46
 msgid "Use Japanese as an intermediate langauge"
 msgstr "Traduction envers japonais"
 
-#: app/templates/index.html:83
+#: app/templates/index.html:59
 msgid "Request a permalink"
 msgstr "Créer un lien permanent\t"
 
-#: app/templates/index.html:85
+#: app/templates/index.html:61
 msgid "URL for this page"
 msgstr "URL de la page"
 
-#: app/templates/index.html:99
+#: app/templates/index.html:75
 msgid "How did you like this translation?"
 msgstr "Qu'est-ce que vous en pensez de cette traduction?"
 
-#: app/templates/index.html:100
+#: app/templates/index.html:76
 msgid "Poor"
 msgstr "Pas très bien"
 
-#: app/templates/index.html:101
+#: app/templates/index.html:77
 msgid "Acceptable"
 msgstr "Accéptable"
 
-#: app/templates/index.html:102
+#: app/templates/index.html:78
 msgid "Excellent"
 msgstr "Très bien"
 
-#: app/templates/index.html:105
+#: app/templates/index.html:81
 msgid "How would you translate it?"
 msgstr "Comment voulez-vous traduire?"
 
-#: app/templates/index.html:108
+#: app/templates/index.html:84
 msgid "Skip"
 msgstr "Ignorer"
 
-#: app/templates/index.html:109
+#: app/templates/index.html:85
 msgid "Submit"
 msgstr "Soumettre"
 
-#: app/templates/index.html:113
+#: app/templates/index.html:89
 msgid "Thank you for your feedback."
 msgstr "Merci pour vos commentaires."
+
+#: app/templates/index.html:100
+msgid "English"
+msgstr "Anglais"
+
+#: app/templates/index.html:101
+msgid "Portuguese"
+msgstr ""
+
+#: app/templates/index.html:102
+msgid "Vietnamese"
+msgstr ""
+
+#: app/templates/index.html:103
+msgid "German"
+msgstr ""
+
+#: app/templates/index.html:104
+msgid "Korean"
+msgstr "Coréen"
+
+#: app/templates/index.html:105
+msgid "Italian"
+msgstr ""
+
+#: app/templates/index.html:106
+msgid "Hebrew"
+msgstr ""
+
+#: app/templates/index.html:107
+msgid "Indonesian"
+msgstr "Indonésien"
+
+#: app/templates/index.html:108
+msgid "Turkish"
+msgstr ""
+
+#: app/templates/index.html:109
+msgid "Chinese"
+msgstr "Chinois"
+
+#: app/templates/index.html:110
+msgid "Filipino"
+msgstr ""
+
+#: app/templates/index.html:111
+msgid "Arabic"
+msgstr ""
+
+#: app/templates/index.html:112
+#, fuzzy
+msgid "Polish"
+msgstr "Español"
+
+#: app/templates/index.html:113
+msgid "Thai"
+msgstr ""
+
+#: app/templates/index.html:114
+msgid "Czech"
+msgstr ""
+
+#: app/templates/index.html:115
+msgid "Swedish"
+msgstr ""
+
+#: app/templates/index.html:116
+msgid "Japanese"
+msgstr "Japonais"
 
 #: app/templates/statistics.html:4
 msgid "Statistics"

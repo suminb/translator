@@ -40,6 +40,7 @@ VALID_LANGUAGES = {
     'sv': 'Swedish',
     'tr': 'Turkish',
 }
+# print '\n'.join(["{{ _('%s') }}" % v for v in VALID_LANGUAGES.values()])
 
 # FIXME: This is a temporary solution to deal with burst peak of traffic
 TR_CACHE = {

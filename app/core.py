@@ -113,32 +113,32 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
     }
     url = 'http://translate.google.com/translate_a/t'
 
+    r = None
     try:
-        #r = requests.post(url, headers=headers, data=payload)
         r = proxy_factory.make_request(url, headers=headers, params=payload, req_type=requests.post)
-
-        if r == None:
-            raise Exception('HTTP request via proxy failed.')
-
-        if r.status_code != 200:
-            raise HTTPException(('Google Translate returned HTTP %d' % r.status_code), r.status_code)
-
-        data = json.loads(r.text)
-
-        try:
-            #if target == 'ja':
-            #    sentences = data['sentences']
-            sentences = data['sentences']
-        except:
-            sentences = data['results'][0]['sentences']
-
-        result = ' '.join(map(lambda x: x['trans'], sentences))
-
-        # Remove unneccessary white spaces
-        return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
-
     except Exception as e:
-        raise Exception('An error has occured: "%s"' % str(e))
+        logger.error(str(e))
+
+    if r == None:
+        # if request via proxy fails
+        r = requests.post(url, headers=headers, data=payload)
+
+    if r.status_code != 200:
+        raise HTTPException(('Google Translate returned HTTP %d' % r.status_code), r.status_code)
+
+    data = json.loads(r.text)
+
+    try:
+        #if target == 'ja':
+        #    sentences = data['sentences']
+        sentences = data['sentences']
+    except:
+        sentences = data['results'][0]['sentences']
+
+    result = ' '.join(map(lambda x: x['trans'], sentences))
+
+    # Remove unneccessary white spaces
+    return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
 
 
 def __language_options__():

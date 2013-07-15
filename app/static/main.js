@@ -170,6 +170,7 @@ function performTranslation() {
     } else {
         // translates if the source language and the target language are not identical
         if (text !== "") {
+            $("#error-message").html("");
             $("#result").html("");
             $("#progress-message").html("Translation in progress...");
             $("#page-url").hide("medium");

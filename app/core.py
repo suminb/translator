@@ -85,6 +85,9 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
     target: target language
     """
 
+    from hallucination import Hallucination
+    hallucination = Hallucination(config=dict(db_uri='sqlite:///test.db'))
+
     if source == target:
         return text
 
@@ -103,7 +106,8 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
         'text': text
     }
     url = 'http://translate.google.com/translate_a/t'
-    r = requests.post(url, headers=headers, data=payload)
+    #r = requests.post(url, headers=headers, data=payload)
+    r = hallucination.make_request(url, headers=headers, params=payload, req_type=requests.post)
 
     if r.status_code != 200:
         raise HTTPException(('Google Translate returned HTTP %d' % r.status_code), r.status_code)

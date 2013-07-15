@@ -251,7 +251,8 @@ function displayPageURL(source, target, mode, text) {
 }
 
 function displayError(message) {
-    $("#error-message").html(message);
+    var postfix = ' If problem persists, please report it <a href="/discuss">here</a>.'
+    $("#error-message").html(message + postfix);
     $("#result").html("");
 }
 

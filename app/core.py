@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*- 
 
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, url_for, redirect
 from flaskext.babel import Babel, gettext as _
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
-from __init__ import app
+from __init__ import app, logger
 from models import *
 
 import requests
@@ -15,6 +15,7 @@ import datetime
 import re
 import nilsimsa # Locality Sensitive Hash
 import base62
+import os, sys
 
 babel = Babel(app)
 
@@ -85,8 +86,11 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
     target: target language
     """
 
-    from hallucination import Hallucination
-    hallucination = Hallucination(config=dict(db_uri='sqlite:///test.db'))
+    from hallucination import ProxyFactory
+    proxy_factory = ProxyFactory(
+        config=dict(db_uri='sqlite:///test.db'),
+        logger=logger
+    )
 
     if source == target:
         return text
@@ -109,7 +113,7 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
 
     try:
         #r = requests.post(url, headers=headers, data=payload)
-        r = hallucination.make_request(url, headers=headers, params=payload, req_type=requests.post)
+        r = proxy_factory.make_request(url, headers=headers, params=payload, req_type=requests.post)
 
         if r == None:
             raise Exception('HTTP request via proxy failed.')
@@ -143,6 +147,12 @@ def __language_options__():
 
     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
 
+
+@app.before_request
+def check_for_maintenance():
+    maintenance_mode = bool(os.environ.get('MAINTENANCE', 0))
+    if maintenance_mode and request.path != url_for('maintenance'): 
+        return redirect(url_for('maintenance'))
 
 #
 # Request handlers
@@ -478,6 +488,11 @@ def rate(serial):
     
     except Exception as e:
         return str(e), 500
+
+
+@app.route('/maintenance')
+def maintenance():
+    return render_template('maintenance.html'), 503
 
 
 @app.errorhandler(404)

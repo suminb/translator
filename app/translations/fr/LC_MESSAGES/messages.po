@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-10 05:25+0000\n"
+"POT-Creation-Date: 2013-07-15 14:04+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:157
+#: app/core.py:165
 msgid "Requrested resource does not exist"
 msgstr "Il n'existe pas la source de la demande."
 
-#: app/core.py:163
+#: app/core.py:171
 msgid "app-description-text"
 msgstr ""
 "La traduction de mieux est un service qui permet d'effectuer des "

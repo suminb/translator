@@ -17,6 +17,8 @@ import nilsimsa # Locality Sensitive Hash
 import base62
 import os, sys
 
+import config
+
 babel = Babel(app)
 
 VALID_LANGUAGES = {
@@ -88,7 +90,7 @@ def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Inte
 
     from hallucination import ProxyFactory
     proxy_factory = ProxyFactory(
-        config=dict(db_uri='sqlite:///test.db'),
+        config=dict(db_uri=config.HALLUCINATION_DB_URI),
         logger=logger
     )
 

@@ -174,6 +174,7 @@ function performTranslation() {
             $("#result").html("");
             $("#progress-message").html("Translation in progress...");
             $("#page-url").hide("medium");
+            $("#rating").hide("medium");
             //$("form input[type=submit]").attr("disabled", "disabled");
             global.serial = null;
 

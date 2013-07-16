@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-15 14:04+0000\n"
+"POT-Creation-Date: 2013-07-16 04:59+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:165
+#: app/core.py:177
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/core.py:171
+#: app/core.py:183
 msgid "app-description-text"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en la "
@@ -65,25 +65,25 @@ msgstr ""
 msgid "Localization"
 msgstr "Localización"
 
-#: app/templates/credits.html:16 app/templates/index.html:99
+#: app/templates/credits.html:16 app/templates/index.html:97
 msgid "French"
 msgstr "Francés"
 
-#: app/templates/credits.html:20 app/templates/index.html:117
+#: app/templates/credits.html:20 app/templates/index.html:115
 msgid "Spanish"
 msgstr "Español"
 
-#: app/templates/credits.html:24 app/templates/index.html:98
+#: app/templates/credits.html:24 app/templates/index.html:96
 msgid "Russian"
 msgstr ""
 
-#: app/templates/index.html:14
+#: app/templates/index.html:13
 msgid ""
-"A Better Translator may not work properly with old web browsers (e.g., "
-"Internet Explorer 9 and below)"
+"Better Translator may not work properly with Internet Explorer 9 and "
+"below. Try modern browsers such as Firefox, Chrome and Safari."
 msgstr ""
 
-#: app/templates/index.html:21
+#: app/templates/index.html:19
 msgid "app-description-html"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en <a "
@@ -95,134 +95,138 @@ msgstr ""
 " Usando esta base de datos, la traducción de idiomas funciona mejor a "
 "través del uso del Japonés"
 
-#: app/templates/index.html:30
+#: app/templates/index.html:28
 msgid "Show another example"
 msgstr "Mostrar otro ejemplo"
 
-#: app/templates/index.html:31
+#: app/templates/index.html:29
 msgid "Swap languages"
 msgstr ""
 
-#: app/templates/index.html:32
+#: app/templates/index.html:30
 msgid "Translate"
 msgstr "Traducir"
 
-#: app/templates/index.html:44
+#: app/templates/index.html:42
 msgid "Direct translation"
 msgstr "Traducción directa"
 
-#: app/templates/index.html:46
+#: app/templates/index.html:44
 msgid "Use Japanese as an intermediate langauge"
 msgstr "Usar Japonés como idioma intermediario"
 
-#: app/templates/index.html:59
+#: app/templates/index.html:57
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:61
+#: app/templates/index.html:59
 msgid "URL for this page"
 msgstr "URL de esta página"
 
-#: app/templates/index.html:75
+#: app/templates/index.html:73
 msgid "How did you like this translation?"
 msgstr ""
 
-#: app/templates/index.html:76
+#: app/templates/index.html:74
 msgid "Poor"
 msgstr ""
 
-#: app/templates/index.html:77
+#: app/templates/index.html:75
 msgid "Acceptable"
 msgstr ""
 
-#: app/templates/index.html:78
+#: app/templates/index.html:76
 msgid "Excellent"
 msgstr ""
 
-#: app/templates/index.html:81
+#: app/templates/index.html:79
 msgid "How would you translate it?"
 msgstr ""
 
-#: app/templates/index.html:84
+#: app/templates/index.html:82
 msgid "Skip"
 msgstr ""
 
-#: app/templates/index.html:85
+#: app/templates/index.html:83
 msgid "Submit"
 msgstr ""
 
-#: app/templates/index.html:89
+#: app/templates/index.html:87
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:100
+#: app/templates/index.html:98
 msgid "English"
 msgstr "Inglés"
 
-#: app/templates/index.html:101
+#: app/templates/index.html:99
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/index.html:102
+#: app/templates/index.html:100
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/index.html:103
+#: app/templates/index.html:101
 msgid "German"
 msgstr ""
 
-#: app/templates/index.html:104
+#: app/templates/index.html:102
 msgid "Korean"
 msgstr "Coreano"
 
-#: app/templates/index.html:105
+#: app/templates/index.html:103
 msgid "Italian"
 msgstr ""
 
-#: app/templates/index.html:106
+#: app/templates/index.html:104
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/index.html:107
+#: app/templates/index.html:105
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:108
+#: app/templates/index.html:106
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/index.html:109
+#: app/templates/index.html:107
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/index.html:110
+#: app/templates/index.html:108
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/index.html:111
+#: app/templates/index.html:109
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/index.html:112
+#: app/templates/index.html:110
 #, fuzzy
 msgid "Polish"
 msgstr "Español"
 
-#: app/templates/index.html:113
+#: app/templates/index.html:111
 msgid "Thai"
 msgstr ""
 
-#: app/templates/index.html:114
+#: app/templates/index.html:112
 msgid "Czech"
 msgstr ""
 
-#: app/templates/index.html:115
+#: app/templates/index.html:113
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/index.html:116
+#: app/templates/index.html:114
 msgid "Japanese"
 msgstr "Japonés"
+
+#: app/templates/maintenance.html:3
+msgid "Maintenance"
+msgstr ""
 
 #: app/templates/statistics.html:4
 msgid "Statistics"

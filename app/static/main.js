@@ -172,10 +172,10 @@ function performTranslation() {
         if (text !== "") {
             $("#error-message").html("");
             $("#result").html("");
-            $("#progress-message").html("Translation in progress...");
+            $("#progress-message").html("Translation in progress... <img src=\"/static/progress.gif\"/>");
             $("#page-url").hide("medium");
             $("#rating").hide("medium");
-            //$("form input[type=submit]").attr("disabled", "disabled");
+            $("form input[type=submit]").attr("disabled", "disabled");
             global.serial = null;
 
             $.post("/v1.0/translate", currentState, function(response) {
@@ -196,7 +196,7 @@ function performTranslation() {
             
             }).always(function() {
                 $("#progress-message").html("");
-                //$("form input[type=submit]").removeAttr("disabled");
+                $("form input[type=submit]").removeAttr("disabled");
             });
         }
     }

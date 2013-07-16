@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request, render_template, url_for, redirect
 from flaskext.babel import Babel, gettext as _
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
-from __init__ import app, logger
+from __init__ import __version__, app, logger
 from models import *
 
 import requests
@@ -165,7 +165,9 @@ def index(serial=''):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
 
-    context = dict(locale=get_locale(),
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
         serial=serial,
         is_android=is_android,
         language_options=__language_options__())
@@ -181,6 +183,8 @@ def index(serial=''):
         context['translation'] = json.dumps(row.serialize())
     else:
         context['og_description'] = _("app-description-text")
+
+    print __version__
 
     return render_template("index.html", **context)
 
@@ -205,12 +209,12 @@ def languages():
 
 @app.route('/discuss')
 def discuss():
-    return render_template('discuss.html')
+    return render_template('discuss.html', version=__version__)
 
 
 @app.route('/credits')
 def credits():
-    return render_template('credits.html')
+    return render_template('credits.html', version=__version__)
 
 @app.route('/statistics')
 def statistics():
@@ -219,7 +223,10 @@ def statistics():
         from flask import Response
         return Response(generate_output(), mimetype='application/json')
     else:
-        context = dict(timestamp=datetime.datetime.now().strftime('%Y%m%d%H%M'))
+        context = dict(
+            version=__version__,
+            timestamp=datetime.datetime.now().strftime('%Y%m%d%H%M')
+        )
         return render_template('statistics.html', **context)
 
 # deprecated
@@ -369,7 +376,9 @@ def translate():
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
-    translation = Translation.query.filter_by(original_text_hash=original_text_hash, source=source, target=target, mode=mode).first()
+    translation = Translation.query.filter_by(
+        original_text_hash=original_text_hash,
+        source=source, target=target, mode=mode).first()
 
     if translation == None:
         user_agent = request.headers.get('User-Agent')
@@ -494,9 +503,10 @@ def rate(serial):
 
 @app.route('/maintenance')
 def maintenance():
-    return render_template('maintenance.html'), 503
+    return render_template('maintenance.html', version=__version__), 503
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html', message='Page Not Found'), 404
+    return render_template('404.html',
+        version=__version__, message='Page Not Found'), 404

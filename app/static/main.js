@@ -401,7 +401,7 @@ function displayPermalink(serial) {
         $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
         global.serial = serial;
-        window.history.pushState(serializeCurrentState(), "", $.sprintf("/sr/%s", serial));
+        //window.history.pushState(serializeCurrentState(), "", $.sprintf("/sr/%s", serial));
     }
 }
 

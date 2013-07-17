@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-16 04:59+0000\n"
+"POT-Creation-Date: 2013-07-17 18:08+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:177
+#: app/core.py:179
 msgid "Requrested resource does not exist"
 msgstr "요청하신 페이지가 존재하지 않습니다"
 
-#: app/core.py:183
+#: app/core.py:185
 msgid "app-description-text"
 msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
 
@@ -71,12 +71,14 @@ msgid "Russian"
 msgstr "러시아어"
 
 #: app/templates/index.html:13
+#, fuzzy
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
-"below. Try modern browsers such as Firefox, Chrome and Safari."
+"below. We encourage you to try modern browsers such as Firefox, Chrome "
+"and Safari."
 msgstr ""
 "더 나은 번역기는 인터넷 익스플로러 9 이하에서 제대로 작동하지 않을 수도 있습니다. 파이어폭스, 크롬, 사파리와 같은 현대적인 "
-"브라우저를 사용하십시오."
+"브라우저를 권장합니다."
 
 #: app/templates/index.html:19
 msgid "app-description-html"

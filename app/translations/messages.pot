@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-16 04:59+0000\n"
+"POT-Creation-Date: 2013-07-17 18:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:177
+#: app/core.py:179
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/core.py:183
+#: app/core.py:185
 msgid "app-description-text"
 msgstr ""
 
@@ -73,7 +73,8 @@ msgstr ""
 #: app/templates/index.html:13
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
-"below. Try modern browsers such as Firefox, Chrome and Safari."
+"below. We encourage you to try modern browsers such as Firefox, Chrome "
+"and Safari."
 msgstr ""
 
 #: app/templates/index.html:19

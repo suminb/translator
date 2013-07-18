@@ -102,6 +102,7 @@ textarea[disabled=disabled] {
     color: #F03300;
 }
 #progress-message {
+    display: none;
     color: #ccc;
 }
 

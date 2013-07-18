@@ -312,7 +312,8 @@ function toggleScreenshot() {
 toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
-    $("#progress-message").html("Fetching requested resources...");
+    //$("#progress-message").html("Fetching requested resources...");
+    $("#progress-message").show();
 
     $.get("/v0.9/fetch/"+serial, function(response) {
         // TODO: Refactor this part
@@ -334,7 +335,7 @@ function fetchTranslation(serial) {
         displayError(response.responseText)
     
     }).always(function() {
-        $("#progress-message").html("");
+        $("#progress-message").hide();
     });
 }
 

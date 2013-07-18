@@ -47,7 +47,9 @@
             {{ language_options | safe }}
         </select>
         <div id="error-message"></div>
-        <div id="progress-message"></div>
+        <div id="progress-message">
+            {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+        </div>
         <pre id="result"></pre>
     </div>
     </form>

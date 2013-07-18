@@ -172,7 +172,7 @@ function performTranslation() {
         if (text !== "") {
             $("#error-message").html("");
             $("#result").html("");
-            $("#progress-message").html("Translation in progress... <img src=\"/static/progress.gif\"/>");
+            $("#progress-message").show();
             $("#page-url").hide("medium");
             $("#rating").hide("medium");
             $("form input[type=submit]").attr("disabled", "disabled");
@@ -195,7 +195,7 @@ function performTranslation() {
                 displayError(response.responseText);
             
             }).always(function() {
-                $("#progress-message").html("");
+                $("#progress-message").hide();
                 $("form input[type=submit]").removeAttr("disabled");
             });
         }

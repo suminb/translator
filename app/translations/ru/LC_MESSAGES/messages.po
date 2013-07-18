@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-17 18:08+0000\n"
+"POT-Creation-Date: 2013-07-18 23:30+0000\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -64,15 +64,15 @@ msgstr "Ведущий программист"
 msgid "Localization"
 msgstr "Локализации"
 
-#: app/templates/credits.html:16 app/templates/index.html:97
+#: app/templates/credits.html:16 app/templates/index.html:99
 msgid "French"
 msgstr "Французский"
 
-#: app/templates/credits.html:20 app/templates/index.html:115
+#: app/templates/credits.html:20 app/templates/index.html:117
 msgid "Spanish"
 msgstr "Испанский"
 
-#: app/templates/credits.html:24 app/templates/index.html:96
+#: app/templates/credits.html:24 app/templates/index.html:98
 msgid "Russian"
 msgstr "Pусский"
 
@@ -113,112 +113,116 @@ msgstr "Прямой перевод"
 msgid "Use Japanese as an intermediate langauge"
 msgstr "Перевод через Японский"
 
-#: app/templates/index.html:57
-msgid "Request a permalink"
+#: app/templates/index.html:51
+msgid "Translation in progress..."
 msgstr ""
 
 #: app/templates/index.html:59
+msgid "Request a permalink"
+msgstr ""
+
+#: app/templates/index.html:61
 msgid "URL for this page"
 msgstr "Постоянная ссылка"
 
-#: app/templates/index.html:73
+#: app/templates/index.html:75
 msgid "How did you like this translation?"
 msgstr ""
 
-#: app/templates/index.html:74
+#: app/templates/index.html:76
 msgid "Poor"
 msgstr ""
 
-#: app/templates/index.html:75
+#: app/templates/index.html:77
 msgid "Acceptable"
 msgstr ""
 
-#: app/templates/index.html:76
+#: app/templates/index.html:78
 msgid "Excellent"
 msgstr ""
 
-#: app/templates/index.html:79
+#: app/templates/index.html:81
 msgid "How would you translate it?"
 msgstr ""
 
-#: app/templates/index.html:82
+#: app/templates/index.html:84
 msgid "Skip"
 msgstr ""
 
-#: app/templates/index.html:83
+#: app/templates/index.html:85
 msgid "Submit"
 msgstr ""
 
-#: app/templates/index.html:87
+#: app/templates/index.html:89
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:98
+#: app/templates/index.html:100
 msgid "English"
 msgstr "Английский"
 
-#: app/templates/index.html:99
+#: app/templates/index.html:101
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/index.html:100
+#: app/templates/index.html:102
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/index.html:101
+#: app/templates/index.html:103
 msgid "German"
 msgstr ""
 
-#: app/templates/index.html:102
+#: app/templates/index.html:104
 msgid "Korean"
 msgstr "Корейский"
 
-#: app/templates/index.html:103
+#: app/templates/index.html:105
 msgid "Italian"
 msgstr ""
 
-#: app/templates/index.html:104
+#: app/templates/index.html:106
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/index.html:105
+#: app/templates/index.html:107
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:106
+#: app/templates/index.html:108
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/index.html:107
+#: app/templates/index.html:109
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/index.html:108
+#: app/templates/index.html:110
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/index.html:109
+#: app/templates/index.html:111
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/index.html:110
+#: app/templates/index.html:112
 #, fuzzy
 msgid "Polish"
 msgstr "Испанский"
 
-#: app/templates/index.html:111
+#: app/templates/index.html:113
 msgid "Thai"
 msgstr ""
 
-#: app/templates/index.html:112
+#: app/templates/index.html:114
 msgid "Czech"
 msgstr ""
 
-#: app/templates/index.html:113
+#: app/templates/index.html:115
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/index.html:114
+#: app/templates/index.html:116
 msgid "Japanese"
 msgstr "Японский"
 
@@ -229,11 +233,4 @@ msgstr ""
 #: app/templates/statistics.html:4
 msgid "Statistics"
 msgstr ""
-
-#~ msgid ""
-#~ "Better Translator may not work properly"
-#~ " with Internet Explorer 9 and below."
-#~ " Try modern browsers such as Firefox,"
-#~ " Chrome and Safari."
-#~ msgstr ""
 

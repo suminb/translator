@@ -91,6 +91,7 @@ textarea[disabled=disabled] {
 }
 
 #result {
+    margin: 0;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     white-space: pre-wrap;

@@ -175,7 +175,7 @@ function performTranslation() {
             $("#progress-message").show();
             $("#page-url").hide("medium");
             $("#rating").hide("medium");
-            $("form input[type=submit]").attr("disabled", "disabled");
+            enableControls(false);
             global.serial = null;
 
             $.post("/v1.0/translate", currentState, function(response) {
@@ -196,7 +196,7 @@ function performTranslation() {
             
             }).always(function() {
                 $("#progress-message").hide();
-                $("form input[type=submit]").removeAttr("disabled");
+                enableControls(true);
             });
         }
     }
@@ -451,5 +451,19 @@ function populateValues(state) {
         $("select[name=tl]").val(state.tl ? state.tl : "en");
         $(state.m == "1" ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
         $("#result").html(state.s ? state.s : "")
+    }
+}
+
+/**
+ * @param state True or false
+ */
+function enableControls(state) {
+    if (state) {
+        $("form input").removeAttr("disabled");
+        $("form select").removeAttr("disabled");
+    }
+    else {
+        $("form input").attr("disabled", "disabled");
+        $("form select").attr("disabled", "disabled");
     }
 }

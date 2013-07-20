@@ -501,6 +501,18 @@ def rate(serial):
         return str(e), 500
 
 
+@app.route('/v1.0/test')
+def test():
+    """Procudes arbitrary HTTP responses for debugging purposes."""
+
+    status_code = int(request.args['status_code'])
+    message = request.args['message']
+
+    if 200 <= status_code < 600 and len(message) <= 8000:
+        return message, status_code
+    else:
+        return '', 400
+
 @app.route('/maintenance')
 def maintenance():
     return render_template('maintenance.html', version=__version__), 503

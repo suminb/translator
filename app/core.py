@@ -51,6 +51,8 @@ VALID_LANGUAGES = {
     'tr': 'Turkish',
 }
 
+DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'
+
 facebook_app = oauth.remote_app('facebook',
     base_url='https://graph.facebook.com/',
     request_token_url=None,
@@ -79,7 +81,7 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 
-def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'):
+def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     """
     text: text to be translated
     source: source language
@@ -555,8 +557,6 @@ def facebook_authorized(resp):
     # Somehow this not only is disfunctional, but also it prevents other 
     # session values to be set
     #session['oauth_data'] = me.data
-
-    print me.data
 
     key_mappings = {
         # User model : Facebook OAuth

@@ -357,10 +357,8 @@ def translate_1_0():
         return str(e), 500
 
 def translate():
-    text = request.form['t'].strip()
-    mode = request.form['m'].strip()
-    source = request.form['sl'].strip()
-    target = request.form['tl'].strip()
+    keys = ('t', 'm', 'sl', 'tl')
+    text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
     if source == target:
         return text

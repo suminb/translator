@@ -370,13 +370,12 @@ def translate():
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
-    translation = Translation.query.filter_by(
-        original_text_hash=original_text_hash,
-        source=source, target=target, mode=mode).first()
+    translation = Translation.fetch(original_text_hash, source, target, mode)
 
     if translation == None:
         user_agent = request.headers.get('User-Agent')
 
+        # NOTE: The following is time consuming operations
         if mode == '2':
             intermediate = __translate__(text, source, 'ja', user_agent)
             translated = __translate__(intermediate, 'ja', target, user_agent)
@@ -384,21 +383,25 @@ def translate():
             intermediate = None
             translated = __translate__(text, source, target, user_agent)
 
-        # TODO: Refactor this section
-        translation = Translation(id=str(uuid.uuid4()))
-        translation.timestamp = datetime.datetime.now()
-        translation.user_agent = user_agent
-        translation.remote_address = get_remote_address(request)
-        translation.source = source
-        translation.target = target
-        translation.mode = mode
-        translation.original_text = text
-        translation.translated_text = translated
-        translation.intermediate_text = intermediate
-        translation.original_text_hash = original_text_hash
+        # NOTE: Therefore check one more time if a record exists
+        translation = Translation.fetch(original_text_hash, source, target, mode)
 
-        db.session.add(translation)
-        db.session.commit()
+        if translation is None:
+            # TODO: Refactor this section
+            translation = Translation(id=str(uuid.uuid4()))
+            translation.timestamp = datetime.datetime.now()
+            translation.user_agent = user_agent
+            translation.remote_address = get_remote_address(request)
+            translation.source = source
+            translation.target = target
+            translation.mode = mode
+            translation.original_text = text
+            translation.translated_text = translated
+            translation.intermediate_text = intermediate
+            translation.original_text_hash = original_text_hash
+
+            db.session.add(translation)
+            db.session.commit()
 
     return dict(
         id_b62='0z'+base62.encode(uuid.UUID(translation.id).int),

@@ -43,6 +43,12 @@ class Translation(db.Model):
     def serialize(self):
         return serialize(self)
 
+    @staticmethod
+    def fetch(original_text_hash, source, target, mode):
+        return Translation.query.filter_by(
+            original_text_hash=original_text_hash,
+            source=source, target=target, mode=mode).first()
+
 
 class TranslationResponse(db.Model):
     # Users may submit a translation response only once

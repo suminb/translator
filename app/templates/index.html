@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <script type="text/javascript">
-      global.ei = -1;
-      global.serial = "{{ serial }}";
+      state.serial = "{{ serial }}";
       {% if translation %}global.translation = {{ translation | safe }}; {% endif %}
   </script>
 
@@ -22,11 +21,11 @@
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
   <div class="column column1">
     <div class="translation-options">
-      <select name="sl" style="position:absolute;left:0;" onchange="performTranslation()">
+      <select name="sl" style="position:absolute;left:0;" onchange="state.selectSource(this.value)">
         {{ language_options | safe }}
       </select>
       <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
-      <span class="action" onclick="swapLanguages()">{{ _("Swap languages") }}</span>
+      <span class="action" onclick="state.swapLanguages()">{{ _("Swap languages") }}</span>
       <!--<input type="submit" value="{{ _("Translate") }}"/>-->
       <button class="btn">{{ _("Translate") }}</button>
     </div>
@@ -34,20 +33,12 @@
     <textarea id="text" name="t"></textarea>
   </div>
   <div class="column column2" style="position:relative;">
-      <!--
-      <div class="translation-options">
-          <input id="radio-mode-1" type="radio" name="m" value="1" onclick="performTranslation()"/>
-          <label for="radio-mode-1">{{ _("Direct translation") }}</label>
-          <input id="radio-mode-2" type="radio" name="m" value="2" onclick="performTranslation()"/>
-          <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
-      </div>
-    -->
     <div class="translation-options">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <button type="button" class="btn">{{ _("Direct translation") }}</button>
-        <button type="button" class="btn">{{ _("Use Japanese as an intermediate langauge") }}</button>
+      <div class="btn-group to-mode" data-toggle="buttons-radio">
+        <button type="button" class="btn to-mode" value="1">{{ _("Direct translation") }}</button>
+        <button type="button" class="btn to-mode" value="2">{{ _("Use Japanese as an intermediate langauge") }}</button>
       </div>
-      <select name="tl" style="position:absolute;right:0;" onchange="performTranslation()">
+      <select name="tl" style="position:absolute;right:0;" onchange="state.selectTarget(this.value)">
           {{ language_options | safe }}
       </select>
     </div>

@@ -16,13 +16,13 @@ h1 a {
     text-decoration: none;
 }
 
-a, a:visited, span.action {
+/*a, a:visited,*/ span.action {
     cursor: pointer;
     padding: 1px;
     color: #1033d0;
     text-decoration: none;
 }
-a:hover, span.action:hover {
+/*a:hover,*/ span.action:hover {
     color: #183cff;
     /*background-color: #efcc2f;*/
 }

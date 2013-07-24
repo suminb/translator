@@ -1,5 +1,3 @@
-var global = {};
-
 var examples = {
     en: [
         "The Google translator that you did not know about",
@@ -27,6 +25,87 @@ var examples = {
 // URL encoded length, exclsively less than
 var SHORT_TRANSLATION_THRESHOLD = 256;
 
+var state = {
+    source: 'ko',
+    target: 'en',
+    mode: 2,
+    text: null,
+
+    serial: null,
+    example_index: 0,
+
+    setSource: function(v) {
+        this.source = v;
+        $("select[name=sl]").val(v);
+    },
+
+    setTarget: function(v) {
+        this.target = v;
+        $("select[name=tl]").val(v);
+    },
+
+    setMode: function(v) {
+        this.mode = v;
+        $("button.to-mode").removeClass("active");
+        $($.sprintf("button.to-mode[value=%s]", v)).addClass("active");
+    },
+
+    setText: function(v) {
+        this.text = v;
+        $("#text").val(v);
+    },
+
+    setResult: function(v) {
+        $("#result").html(v);
+    },
+
+    selectSource: function(v) {
+        this.source = v;
+        this.setResult("");
+    },
+
+    selectTarget: function(v) {
+        this.target = v;
+        this.setResult("");
+    },
+
+    init: function() {
+        // TODO: Use a cookie
+        this.setSource("ko");
+        this.setTarget("en");
+        this.setMode(2);
+    },
+
+    initWithParameters: function() {
+        this.setSource(getParameterByName("sl"));
+        this.setTarget(getParameterByName("tl"));
+        this.setMode(getParameterByName("m"));
+        this.setText(getParameterByName("t"));
+    },
+
+    swapLanguages: function() {
+        var source = this.source;
+        var target = this.target
+
+        this.setSource(target);
+        this.setTarget(source);
+        this.setText($("#result").html());
+
+        performTranslation();
+    },
+
+    serialize: function() {
+        this.text = $("#text").val();
+
+        return {
+            sl: this.source,
+            tl: this.target,
+            m: this.mode,
+            t: this.text
+        };
+    }
+};
+
 window.onload = function() {
     // The following code was copied from
     // http://stackoverflow.com/questions/2161906/handle-url-anchor-change-event-in-js
@@ -45,28 +124,26 @@ window.onload = function() {
         }, 250);
     }
 
-    if (global.serial) {
-        displayPermalink(global.serial);
-        populateValues({
-            t: global.translation.original_text,
-            s: global.translation.translated_text,
-            m: global.translation.mode,
-            sl: global.translation.source,
-            tl: global.translation.target
-        });
-        askForRating();
+    if (state.serial) {
+        // displayPermalink(state.serial);
+        // populateValues({
+        //     t: state.translation.original_text,
+        //     s: state.translation.translated_text,
+        //     m: state.translation.mode,
+        //     sl: state.translation.source,
+        //     tl: state.translation.target
+        // });
+        // askForRating();
     }
     else {
         if (getParameterByName("t")) {
-            initWithParameters();
+            state.initWithParameters();
         }
         else {
-            $("select[name=sl]").val("ko");
-            $("select[name=tl]").val("en");
-            $("#radio-mode-2").attr("checked", "checked");
+            state.init();
             
             // indicates the initial state
-            if (global.ei == -1) {
+            if (state.example_index == 0) {
                 refreshExample();
             }
             hashChanged(window.location.hash ? window.location.hash : "");
@@ -88,6 +165,7 @@ window.onload = function() {
         extraSpace: 40
     })
     .keypress(function (event) {
+        state.text = $("#text").val();
         if (event.keyCode == 13) {
             performTranslation();
         }
@@ -99,10 +177,17 @@ window.onload = function() {
         setTimeout(performTranslation, 100);
     })
     .trigger("change");
+
+    $("button.to-mode").click(function(evt) {
+        var button = $(evt.target);
+        button.addClass("active");
+
+        state.mode = button.attr("value");
+        performTranslation();
+    });
 };
 
 window.onpopstate = function(event) {
-    console.log(event);
     populateValues(event.state);
 };
 
@@ -158,37 +243,33 @@ function resizeTextarea(t) {
 }
 
 function performTranslation() {
-    var currentState = serializeCurrentState();
 
-    var source = currentState.sl;
-    var target = currentState.tl;
-    var text = currentState.t;
-
-    if (source == target) {
+    if (state.source == state.target) {
         // simply displays the original text when the source language and the target language are identical
         displayResult(text);
-    } else {
+    }
+    else {
         // translates if the source language and the target language are not identical
-        if (text !== "") {
+        if (state.text !== "") {
             $("#error-message").html("");
             $("#result").html("");
             $("#progress-message").show();
             $("#page-url").hide("medium");
             $("#rating").hide("medium");
             enableControls(false);
-            global.serial = null;
+            state.serial = null;
 
-            $.post("/v1.0/translate", currentState, function(response) {
+            $.post("/v1.0/translate", state.serialize(), function(response) {
                 displayResult(response.translated_text);
 
-                global.serial = response.serial_b62;
+                state.serial = response.serial_b62;
                 window.location.hash = "";
                 //window.history.pushState(currentState, "", window.location.href);
 
-                if (global.serial) {
+                if (state.serial) {
                     //$("#request-permalink").show("medium");
                     askForRating(response.id_b62);
-                    displayPermalink(global.serial);
+                    displayPermalink(state.serial);
                 }
 
             }).fail(function(response) {
@@ -204,29 +285,18 @@ function performTranslation() {
     return false;
 }
 
-// // TODO: Refactor this function
-// function displayExample() {
-//     global.ei = parseInt(getParameterByName("example"));
-//     if (isNaN(global.ei)) {
-//         // Randomly chooses an example sentence
-//         global.ei = Math.floor(Math.random() * examples.ko.length)
-//     }
-
-//     var example = examples.ko[global.ei % examples.ko.length];
-
-//     $("#text").val(example);
-//     performTranslation();
-// }
 
 // TODO: Refactor this function
 function refreshExample() {
-    var language = $("select[name=sl]").val();
+    var language = state.source;
 
     // Randomly chooses an example sentence
-    global.ei = Math.floor(Math.random() * examples.ko.length);
-    var example = examples[language][global.ei % examples[language].length];
+    //state.ei = Math.floor(Math.random() * examples.ko.length);
+
+    var example = examples[language][state.example_index++ % examples[language].length];
 
     $("#text").val(example);
+
     performTranslation();
 }
 
@@ -266,11 +336,11 @@ function hashChanged(hash) {
         $("#request-permalink").hide();
 
         // If a translation record is not newly loaded
-        if (serial != global.serial) {
+        if (serial != state.serial) {
             fetchTranslation(serial);
         }
 
-        global.serial = serial;
+        state.serial = serial;
     }
     else if(getParameterByName("t")) {
         // Perform no action
@@ -292,16 +362,6 @@ function hashChanged(hash) {
             performTranslation();
         }
     }
-}
-
-function swapLanguages() {
-    var source = $("select[name=sl]").val();
-    var target = $("select[name=tl]").val();
-
-    $("select[name=sl]").val(target);
-    $("select[name=tl]").val(source);
-    $("#text").val($("#result").html());
-    performTranslation();
 }
 
 function toggleScreenshot() {
@@ -345,8 +405,8 @@ function rate(rating) {
     var original = $("text").val();
     var encoded = encodeURIComponent(original);
 
-    if (global.serial) {
-        $.post("/v0.9/rate/"+global.serial, {r:rating}, function(response) {
+    if (state.serial) {
+        $.post("/v0.9/rate/"+state.serial, {r:rating}, function(response) {
             expressAppreciation();
 
         }).fail(function(response) {
@@ -401,7 +461,7 @@ function displayPermalink(serial) {
         $("#page-url").show("medium");
         $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
-        global.serial = serial;
+        state.serial = serial;
         //window.history.pushState(serializeCurrentState(), "", $.sprintf("/sr/%s", serial));
     }
 }
@@ -433,16 +493,6 @@ function expressAppreciation() {
     $("#alternative-translation-form").hide("medium");
     $("#appreciation").show("medium");
     setTimeout(function() { $("#appreciation").hide("medium"); }, 5000);
-}
-
-function serializeCurrentState() {
-    return {
-        t: $("#text").val(),
-        m: $("input[name=m]:checked").val(),
-        sl: $("select[name=sl]").val(),
-        tl: $("select[name=tl]").val(),
-        s: $("#result").html()
-    };
 }
 
 function populateValues(state) {

@@ -2,7 +2,7 @@
 
 from flask import Flask, jsonify, request, render_template, url_for, redirect, session
 from flaskext.babel import Babel, gettext as _
-from flask_oauth import OAuth
+from flask_oauthlib.client import OAuth
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
@@ -19,6 +19,7 @@ import re
 import nilsimsa # Locality Sensitive Hash
 import base62
 import os, sys
+import facebook
 
 import config
 
@@ -48,14 +49,14 @@ VALID_LANGUAGES = {
     'tr': 'Turkish',
 }
 
-facebook = oauth.remote_app('facebook',
+facebook_app = oauth.remote_app('facebook',
     base_url='https://graph.facebook.com/',
     request_token_url=None,
     access_token_url='/oauth/access_token',
     authorize_url='https://www.facebook.com/dialog/oauth',
     consumer_key=config.FACEBOOK_APP_ID,
     consumer_secret=config.FACEBOOK_APP_SECRET,
-    request_token_params={'scope': 'email'}
+    request_token_params={'scope': 'email, publish_stream'}
 )
 
 class HTTPException(RuntimeError):
@@ -484,16 +485,31 @@ def maintenance():
     return render_template('maintenance.html', version=__version__), 503
 
 
+@app.route('/translation/<translation_id>/post')
+def translation_post(translation_id):
+    print session.get('oauth_token')
+    graph = facebook.GraphAPI(session.get('oauth_token')[0])
+    #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
+    post_id = graph.put_wall_post('message body', dict(
+        name='Link name',
+        link='http://translator.suminb.com',
+        caption='{*actor*} posted a new stuff',
+        description='This is a longer description of the attachment',
+        picture='http://translator.suminb.com/static/icon_256.png',
+    ))
+    return str(post_id)
+
+
 @app.route('/login')
 def login():
     session['login'] = True
-    return facebook.authorize(callback=url_for('facebook_authorized',
+    return facebook_app.authorize(callback=url_for('facebook_authorized',
         next=request.args.get('next') or request.referrer or None,
         _external=True))
 
 
 @app.route('/login/authorized')
-@facebook.authorized_handler
+@facebook_app.authorized_handler
 def facebook_authorized(resp):
     if resp is None:
         return 'Access denied: reason=%s error=%s' % (
@@ -503,7 +519,7 @@ def facebook_authorized(resp):
 
     session['oauth_token'] = (resp['access_token'], '')
 
-    me = facebook.get('/me')
+    me = facebook_app.get('/me')
 
     # Somehow this not only is disfunctional, but also it prevents other 
     # session values to be set
@@ -544,7 +560,7 @@ def facebook_authorized(resp):
     #    (me.data['id'], me.data['name'], me.data['email'], request.args.get('next'))
 
 
-@facebook.tokengetter
+@facebook_app.tokengetter
 def get_facebook_oauth_token():
     return session.get('oauth_token')
 

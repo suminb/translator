@@ -31,7 +31,7 @@ table, th, td {
     border: 1px solid #c0c0c0;
 }
 th, td {
-    padding: .25em 1em .25em 1em;
+    padding: .5em 1em;
 }
 
 input[type=submit] {

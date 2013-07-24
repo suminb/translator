@@ -3,6 +3,7 @@
 __version__ = '1.0.4'
 
 from flask import Flask
+from flask.ext.login import LoginManager
 
 import os, sys
 import logging
@@ -11,6 +12,10 @@ import config
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 app.secret_key = config.SECRET_KEY
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 logger = logging.getLogger('translator')
 logger.addHandler(logging.FileHandler('translator.log')) 

@@ -2,13 +2,15 @@
 
 from flask import Flask, jsonify, request, render_template, url_for, redirect, session
 from flaskext.babel import Babel, gettext as _
+from flask.ext.login import login_required, login_user, current_user
 from flask_oauthlib.client import OAuth
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
 
-from __init__ import __version__, app, logger
+from __init__ import __version__, app, logger, login_manager
 from models import *
+from utils import *
 
 import requests
 import json
@@ -59,18 +61,10 @@ facebook_app = oauth.remote_app('facebook',
     request_token_params={'scope': 'email, publish_stream'}
 )
 
-class HTTPException(RuntimeError):
-    """HTTPError does not take keyword arguments, so we are defining a custom exception class."""
-    def __init__(self, message, status_code):
-        self.message = message
-        self.status_code = status_code
-        super(HTTPException, self).__init__()
-
-def get_remote_address(req):
-    if not req.headers.getlist('X-Forwarded-For'):
-        return req.remote_addr
-    else:
-        return req.headers.getlist('X-Forwarded-For')[0]
+# DO NOT MOVE THIS TO __init__.py
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 
 @babel.localeselector
@@ -168,12 +162,6 @@ def __language_options__():
 def index(serial=''):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
-
-    #session.clear()
-    print 'New session:'
-
-    print session
-    #print session.me
 
     context = dict(
         version=__version__,
@@ -487,6 +475,7 @@ def maintenance():
 
 
 @app.route('/translation/<translation_id>/request')
+@login_required
 def translation_request(translation_id):
     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
     translation_id = base62.decode(translation_id)
@@ -495,10 +484,36 @@ def translation_request(translation_id):
     context = dict(
         referrer=request.referrer,
         locale=get_locale(),
-        translation=translation
+        translation=translation,
     )
 
     return render_template('translation_request.html', **context)
+
+
+@app.route('/translation/<translation_id>/response', methods=['GET', 'POST'])
+@login_required
+def translation_response(translation_id):
+    # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
+    translation_id = uuid.UUID(int=base62.decode(translation_id))
+
+    if request.method == 'POST':
+        TranslationResponse.insert_or_update(translation_id, current_user.id, request.form)
+
+        return redirect(url_for('translation_response',
+            translation_id='0z'+base62.encode(translation_id.int)))
+    else:
+        translation = Translation.query.get(str(translation_id))
+        tresponse = TranslationResponse.fetch(translation_id, current_user.id)
+
+        context = dict(
+            referrer=request.referrer,
+            locale=get_locale(),
+            translation=translation,
+            tresponse=tresponse,
+        )
+
+        return render_template('translation_response.html', **context)
+
 
 @app.route('/translation/<translation_id>/post')
 def translation_post(translation_id):
@@ -559,7 +574,9 @@ def facebook_authorized(resp):
         payload[key] = me.data[oauth_key]
 
     try:
-        User.insert(payload)
+        user = User.insert(payload)
+        login_user(user)
+
     except IntegrityError as e:
         logger.info(str(e))
         #logger.info('User %s (%s) already exists.' % (payload['oauth_username'],

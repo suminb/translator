@@ -1,6 +1,9 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import UserMixin
 from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.sql.expression import and_, or_
 from sqlalchemy.dialects.postgresql import UUID
+from datetime import datetime
 from __init__ import app
 
 import uuid
@@ -41,6 +44,50 @@ class Translation(db.Model):
         return serialize(self)
 
 
+class TranslationResponse(db.Model):
+    # Users may submit a translation response only once
+    __table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), {} )
+
+    id = db.Column(UUID, primary_key=True)
+    translation_id = db.Column(UUID)
+    user_id = db.Column(UUID)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    text = db.Column(db.Text)
+
+    def serialize(self):
+        return serialize(self)
+
+    @staticmethod
+    def fetch(translation_id, user_id):
+        return TranslationResponse.query.filter(and_(
+            TranslationResponse.translation_id == str(translation_id),
+            TranslationResponse.user_id == str(user_id)
+        )).first()
+
+    @staticmethod
+    def insert_or_update(translation_id, user_id, values):
+        tresponse = TranslationResponse.fetch(translation_id, user_id)
+        text = values['text'].strip()
+
+        if tresponse == None:
+            tresponse = TranslationResponse(
+                id=str(uuid.uuid4()),
+                translation_id=translation_id,
+                user_id=user_id,
+                timestamp=datetime.now(),
+                text=text,
+            )
+            db.session.add(tresponse)
+
+        else:
+            #tresponse.timestamp = datetime.now()
+            tresponse.text = text
+
+        db.session.commit()
+
+        return tresponse
+
+
 class Rating(db.Model):
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
@@ -51,7 +98,7 @@ class Rating(db.Model):
     token = db.Column(db.String(128))
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __table_args__ = ( db.UniqueConstraint('oauth_provider', 'oauth_id'), {} )
 
     id = db.Column(UUID, primary_key=True)
@@ -75,6 +122,8 @@ class User(db.Model):
 
         db.session.add(user)
         db.session.commit()
+
+        return user
 
     def serialize(self):
         return serialize(self)

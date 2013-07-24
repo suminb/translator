@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <script type="text/javascript">
-      state.serial = "{{ serial }}";
-      {% if translation %}global.translation = {{ translation | safe }}; {% endif %}
+    {% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
   </script>
 
   <!--
@@ -36,7 +35,7 @@
     <div class="translation-options">
       <div class="btn-group to-mode" data-toggle="buttons-radio">
         <button type="button" class="btn to-mode" value="1">{{ _("Direct translation") }}</button>
-        <button type="button" class="btn to-mode" value="2">{{ _("Use Japanese as an intermediate langauge") }}</button>
+        <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
       </div>
       <select name="tl" style="position:absolute;right:0;" onchange="state.selectTarget(this.value)">
           {{ language_options | safe }}
@@ -53,12 +52,11 @@
   </form>
   <div style="clear:both;"></div>
 
-  <div class="column1">
-      <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(global.serial)">{{ _("Request a permalink") }}</span>
+  <div class="column column1">
+      <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
       <div id="page-url">
-          <h3>{{ _("URL for this page") }}</h3>
           <div id="page-url-value" style="float:left;"></div>
-          <div class="addthis_toolbox addthis_default_style " style="float:left;">
+          <div class="addthis_default_style " style="float:left;margin-left:.75em;">
               <a class="addthis_button_facebook"></a>
               <a class="addthis_button_twitter"></a>
               <a class="addthis_button_compact"></a>
@@ -67,9 +65,9 @@
       </div>
       &nbsp;
   </div>
-  <div class="column2">
+  <div class="column column2">
       <div id="feedback">
-          <div id="rating" class="hidden">
+          <div id="rating" style="display:none;">
               {{ _("How did you like this translation?") }}
               <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
               <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
@@ -80,7 +78,7 @@
               </div>
               -->
           </div>
-          <form id="alternative-translation-form" class="hidden" onsubmit="return submitAlternativeTranslation()">
+          <form id="alternative-translation-form" style="display:none;" onsubmit="return submitAlternativeTranslation()">
               {{ _("How would you translate it?") }}
               <textarea name="alt"></textarea>
               <div style="width:100%; text-align:right;">
@@ -88,7 +86,7 @@
                   <input type="submit" value="{{ _("Submit") }}"/>
               </div>
           </form>
-          <div id="appreciation" class="hidden">
+          <div id="appreciation" style="display:none;">
               {{ _("Thank you for your feedback.") }}
           </div>
       </div>

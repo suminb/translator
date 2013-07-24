@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ _("app-title") }}</title>
+  <title>{{ _("app-title") }}</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta property="og:title" content="{{ _("app-title") }}"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image" content="http://translator.suminb.com/static/icon_256.png"/>
-    <meta property="og:site_name" content="{{ _("app-title") }}"/>
-    <meta property="fb:admins" content="10132775"/>
-    <meta property="og:description"
-          content="{{ og_description }}"/>
-    
-    <script type="text/javascript" src="/static/main.js?v={{ version }}"></script>
-    {% if locale == "ko" %}
-    <!-- Webfont provided by fontface.kr -->
-    <script src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-    google.load( "webfont", "1" );
-    google.setOnLoadCallback(function() {
-      WebFont.load({ custom: {
-       families: [ "NanumGothic", "NanumGothicBold" ],
-       urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css" ]
-      }});
-    });
-    </script>
-    {% endif %}
-    
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/static/frontend.css?v={{ version }}"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta property="og:title" content="{{ _("app-title") }}"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="http://translator.suminb.com/static/icon_256.png"/>
+  <meta property="og:site_name" content="{{ _("app-title") }}"/>
+  <meta property="fb:admins" content="10132775"/>
+  <meta property="og:description"
+        content="{{ og_description }}"/>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://static.suminb.com/jquery.sprintf.js"></script>
+  <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
+  <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
+  <script type="text/javascript" src="/static/main.js?v={{ version }}"></script>
+  {% if locale == "ko" %}
+  <!-- Webfont provided by fontface.kr -->
+  <script src="http://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+  google.load( "webfont", "1" );
+  google.setOnLoadCallback(function() {
+    WebFont.load({ custom: {
+     families: [ "NanumGothic", "NanumGothicBold" ],
+     urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css" ]
+    }});
+  });
+  </script>
+  {% endif %}
+  
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/static/frontend.css?v={{ version }}"/>
 </head>
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top">
@@ -96,11 +100,7 @@
       </div>
     </div>
   </div>
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
-  <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
-  <script type="text/javascript" src="http://static.suminb.com/jquery.sprintf.js"></script>
+  
   <script src="/static/bootstrap/js/bootstrap.min.js"></script>
   
   <!--<script type="text/javascript" src="http://api.flattr.com/js/0.6/load.js?mode=auto"></script>-->

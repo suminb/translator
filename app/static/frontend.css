@@ -49,9 +49,11 @@ div.navigation {
     margin: 1em 0;
 }
 
+/*
 .hidden {
-    display: none;
+  display: none;
 }
+*/
 
 .credits {
     max-width: 800px;
@@ -73,7 +75,7 @@ div.navigation {
 .column {
   float: left;
   width: 47%;
-  margin: 16px;
+  margin: 2px 16px;
   min-width: 400px;
   max-width: 700px;
 }

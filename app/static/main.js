@@ -30,7 +30,10 @@ var state = {
     target: 'en',
     mode: 2,
     text: null,
+    result: null,
 
+    id: null,
+    id_b62: null,
     serial: null,
     example_index: 0,
 
@@ -77,10 +80,30 @@ var state = {
     },
 
     initWithParameters: function() {
+        console.log("initWithParameters");
         this.setSource(getParameterByName("sl"));
         this.setTarget(getParameterByName("tl"));
         this.setMode(getParameterByName("m"));
         this.setText(getParameterByName("t"));
+    },
+
+    initWithTranslation: function(t) {
+        console.log(t);
+        this.id = t.id;
+        this.id_b62 = t.id_b62;
+        this.serial = t.serial;
+        this.source = t.source;
+        this.target = t.target;
+        this.mode = t.mode;
+        this.text = t.original_text;
+        this.result = t.translated_text;
+    },
+
+    updateWithTranslation: function(t) {
+        console.log(t);
+        this.id = t.id;
+        this.id_b62 = t.id_b62;
+        this.result = t.translated_text;
     },
 
     swapLanguages: function() {
@@ -92,6 +115,20 @@ var state = {
         this.setText($("#result").html());
 
         performTranslation();
+    },
+
+    invalidateUI: function() {
+        $("select[name=sl]").val(this.source);
+        $("select[name=tl]").val(this.target);
+        $("button.to-mode").removeClass("active");
+        $($.sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
+        $("#text").val(this.text);
+
+        if (this.result) $("#result").html(this.result);
+        if (this.id) {
+            displayPermalink(this.id_b62);
+            askForRating(this.id_b62);
+        }
     },
 
     serialize: function() {
@@ -124,16 +161,8 @@ window.onload = function() {
         }, 250);
     }
 
-    if (state.serial) {
-        // displayPermalink(state.serial);
-        // populateValues({
-        //     t: state.translation.original_text,
-        //     s: state.translation.translated_text,
-        //     m: state.translation.mode,
-        //     sl: state.translation.source,
-        //     tl: state.translation.target
-        // });
-        // askForRating();
+    if (state.id) {
+        askForRating(state.id_b62);
     }
     else {
         if (getParameterByName("t")) {
@@ -149,6 +178,8 @@ window.onload = function() {
             hashChanged(window.location.hash ? window.location.hash : "");
         }
     }
+
+    state.invalidateUI();
     
     $("#text, #result").autoResize({
         // On resize:
@@ -188,22 +219,9 @@ window.onload = function() {
 };
 
 window.onpopstate = function(event) {
-    populateValues(event.state);
+    
 };
 
-/**
- * When $GET[t] is a non-trivial value, pre-populate the input fields and perform the translation.
- */
-function initWithParameters() {
-    populateValues({
-        t: getParameterByName("t"),
-        m: getParameterByName("m"),
-        sl: getParameterByName("sl"),
-        tl: getParameterByName("tl")
-    });
-
-    performTranslation();
-}
 
 /**
  * Parsing a URL query string
@@ -246,7 +264,7 @@ function performTranslation() {
 
     if (state.source == state.target) {
         // simply displays the original text when the source language and the target language are identical
-        displayResult(text);
+        state.setResult(text);
     }
     else {
         // translates if the source language and the target language are not identical
@@ -254,23 +272,23 @@ function performTranslation() {
             $("#error-message").html("");
             $("#result").html("");
             $("#progress-message").show();
-            $("#page-url").hide("medium");
-            $("#rating").hide("medium");
+            $("#page-url").hide();
+            $("#rating").hide();
             enableControls(false);
             state.serial = null;
 
             $.post("/v1.0/translate", state.serialize(), function(response) {
-                displayResult(response.translated_text);
+                state.updateWithTranslation(response);
 
-                state.serial = response.serial_b62;
                 window.location.hash = "";
                 //window.history.pushState(currentState, "", window.location.href);
 
                 if (state.serial) {
-                    //$("#request-permalink").show("medium");
                     askForRating(response.id_b62);
-                    displayPermalink(state.serial);
+                    displayPermalink(response.id_b62);
                 }
+
+                state.invalidateUI();
 
             }).fail(function(response) {
                 displayError(response.responseText);
@@ -372,6 +390,7 @@ function toggleScreenshot() {
 toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
+    console.log('fetchTranslation');
     //$("#progress-message").html("Fetching requested resources...");
     $("#progress-message").show();
 
@@ -400,13 +419,11 @@ function fetchTranslation(serial) {
 }
 
 function rate(rating) {
-    // if not already store (has a permalink)
+    //var original = $("text").val();
+    //var encoded = encodeURIComponent(original);
 
-    var original = $("text").val();
-    var encoded = encodeURIComponent(original);
-
-    if (state.serial) {
-        $.post("/v0.9/rate/"+state.serial, {r:rating}, function(response) {
+    if (state.id) {
+        $.post("/v1.0/rate/"+state.id_b62, {r:rating}, function(response) {
             expressAppreciation();
 
         }).fail(function(response) {
@@ -430,40 +447,15 @@ function rate(rating) {
     // }
 }
 
-/**
- * @param pairs Key-value pairs
- * @param sendRating A function to be called when parmalink generation was successful
- */
-function generatePermalink(sendRating, rating) {
 
-    $("#request-permalink").hide("medium");
+function displayPermalink(id_b62) {
+    var url = $.sprintf("%s/tr/%s", window.location.origin, id_b62);
 
-    $.post("/v0.9/store", serializeCurrentState(), function(response) {
-        displayPermalink(response.base62);
+    $("#request-permalink").hide();
+    $("#page-url").show();
+    $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
-        if (sendRating !== null) {
-            sendRating(response.base62, rating);
-        }
-
-    }).fail(function(response) {
-        displayError(response.responseText)
-    
-    }).always(function() {
-
-    });
-}
-
-function displayPermalink(serial) {
-    if (serial) {
-        var url = $.sprintf("%s/sr/%s", window.location.origin, serial);
-
-        $("#request-permalink").hide("medium");
-        $("#page-url").show("medium");
-        $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
-
-        state.serial = serial;
-        //window.history.pushState(serializeCurrentState(), "", $.sprintf("/sr/%s", serial));
-    }
+    //window.history.pushState(serializeCurrentState(), "", $.sprintf("/tr/%s", id_b62));
 }
 
 function submitAlternativeTranslation() {
@@ -476,9 +468,9 @@ function skipAlternativeTranslation() {
 }
 
 function askForRating(id_b62) {
-    $("#appreciation").hide("medium");
-    $("#rating").show("medium");
-    $("#rating a.facebook-post").attr("href", $.sprintf("translation/%s/request", id_b62));
+    $("#appreciation").hide();
+    $("#rating").show();
+    //$("#rating a.facebook-post").attr("href", $.sprintf("/translation/%s/request", id_b62));
 }
 
 function askForAlternativeTranslation() {
@@ -493,16 +485,6 @@ function expressAppreciation() {
     $("#alternative-translation-form").hide("medium");
     $("#appreciation").show("medium");
     setTimeout(function() { $("#appreciation").hide("medium"); }, 5000);
-}
-
-function populateValues(state) {
-    if (state !== null) {
-        $("#text").val(state.t ? state.t : "");
-        $("select[name=sl]").val(state.sl ? state.sl : "ko");
-        $("select[name=tl]").val(state.tl ? state.tl : "en");
-        $(state.m == "1" ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
-        $("#result").html(state.s ? state.s : "")
-    }
 }
 
 /**

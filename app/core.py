@@ -503,7 +503,7 @@ def rate(serial):
 
 @app.route('/v1.0/test')
 def test():
-    """Procudes arbitrary HTTP responses for debugging purposes."""
+    """Produces arbitrary HTTP responses for debugging purposes."""
 
     status_code = int(request.args['status_code'])
     message = request.args['message']

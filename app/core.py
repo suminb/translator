@@ -166,6 +166,12 @@ def index(serial=''):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
 
+    #session.clear()
+    print 'New session:'
+
+    print session
+    #print session.me
+
     context = dict(
         version=__version__,
         locale=get_locale(),
@@ -183,19 +189,17 @@ def index(serial=''):
         context['og_description'] = row.original_text
         context['translation'] = json.dumps(row.serialize())
     else:
-        context['og_description'] = _("app-description-text")
+        context['og_description'] = _('app-description-text')
 
-    print __version__
-
-    return render_template("index.html", **context)
+    return render_template('index.html', **context)
 
 
-@app.route("/locale", methods=['POST'])
+@app.route('/locale', methods=['POST'])
 def set_locale():
     """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
-    locale = request.form["locale"]
-    response = redirect(url_for("index"))
-    response.set_cookie("locale", locale, 60 * 60 * 24 * 14)
+    locale = request.form['locale']
+    response = redirect(url_for('index'))
+    response.set_cookie('locale', locale, 60 * 60 * 24 * 14)
     return response
 
 
@@ -203,7 +207,7 @@ def set_locale():
 @app.route('/v1.0/languages')
 def languages():
     """Returns a list of supported languages."""
-    locale = request.args["locale"]
+    locale = request.args['locale']
     langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(), VALID_LANGUAGES.values())}
 
     return jsonify(langs)
@@ -431,47 +435,6 @@ def fetch(serial):
     return jsonify(row.serialize())
 
 
-@app.route('/v0.9/store', methods=['POST'])
-def store():
-    """Stores a translation and generates a permalink.
-    """
-
-    # TODO: Clean up the following code
-    original = request.form['t']
-    translated = request.form['s']
-    mode = request.form['m']
-    source = request.form['sl']
-    target = request.form['tl']
-
-    if source not in VALID_LANGUAGES:
-        return 'Invalid source language\n', 400
-    if target not in VALID_LANGUAGES:
-        return 'Invalid target language\n', 400
-
-    import psycopg2.extras
-
-    psycopg2.extras.register_uuid()
-
-    t = Translation(id=uuid.uuid4(), timestamp=datetime.datetime.now())
-    t.source = source
-    t.target = target
-    t.mode = mode
-    t.original_text = original
-    t.translated_text = translated
-    t.is_sample = False
-
-    try:
-        db.session.add(t)
-        db.session.commit()
-
-        # FIXME: Base62 encoding must be done in the frontend
-        # NOTE: UUID is not JSON serializable
-        return jsonify(id=str(t.id), serial=t.serial, base62='0z'+base62.encode(t.serial))
-    
-    except Exception as e:
-        return str(e), 500
-
-
 @app.route('/v0.9/rate/<serial>', methods=['POST'])
 def rate(serial):
     """
@@ -521,6 +484,7 @@ def maintenance():
 
 @app.route('/login')
 def login():
+    session['login'] = True
     return facebook.authorize(callback=url_for('facebook_authorized',
         next=request.args.get('next') or request.referrer or None,
         _external=True))
@@ -534,10 +498,25 @@ def facebook_authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         ), 401
+
     session['oauth_token'] = (resp['access_token'], '')
+
     me = facebook.get('/me')
-    return 'Logged in as id=%s name=%s redirect=%s' % \
-        (me.data['id'], me.data['name'], request.args.get('next'))
+
+    # Somehow this not only is disfunctional, but also it prevents other 
+    # session values to be set
+    #session['oauth_data'] = me.data
+
+    print me.data
+    
+    keys = ('id', 'username', 'first_name', 'last_name', 'email', 'locale', 'gender',)
+    for key in keys:
+        session['oauth_%s' % key] = me.data[key]
+
+    return redirect('/')
+
+    #return 'Logged in as id=%s name=%s, email=%s, redirect=%s' % \
+    #    (me.data['id'], me.data['name'], me.data['email'], request.args.get('next'))
 
 
 @facebook.tokengetter

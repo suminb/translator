@@ -3,6 +3,8 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.dialects.postgresql import UUID
 from __init__ import app
 
+import uuid
+
 db = SQLAlchemy(app)
 
 def serialize(obj):
@@ -19,6 +21,7 @@ def serialize(obj):
                 fields[field] = None
         # a json-encodable dict
         return fields
+
 
 class Translation(db.Model):
     id = db.Column(UUID, primary_key=True)
@@ -37,6 +40,7 @@ class Translation(db.Model):
     def serialize(self):
         return serialize(self)
 
+
 class Rating(db.Model):
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
@@ -45,3 +49,32 @@ class Rating(db.Model):
     remote_address = db.Column(db.String(64))
     rating = db.Column(db.Integer)
     token = db.Column(db.String(128))
+
+
+class User(db.Model):
+    __table_args__ = ( db.UniqueConstraint('oauth_provider', 'oauth_id'), {} )
+
+    id = db.Column(UUID, primary_key=True)
+
+    oauth_provider = db.Column(db.String(255))
+    oauth_id = db.Column(db.String(255))
+    oauth_username = db.Column(db.String(255))
+
+    family_name = db.Column(db.String(255))
+    given_name = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+
+    gender = db.Column(db.String(6))
+    locale = db.Column(db.String(16))
+
+    @staticmethod
+    def insert(payload={}):
+        user = User(id=str(uuid.uuid4()))
+        for key in payload:
+            user.__setattr__(key, payload[key])
+
+        db.session.add(user)
+        db.session.commit()
+
+    def serialize(self):
+        return serialize(self)

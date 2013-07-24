@@ -5,6 +5,8 @@ from flaskext.babel import Babel, gettext as _
 from flask_oauth import OAuth
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
+from sqlalchemy.exc import IntegrityError
+
 from __init__ import __version__, app, logger
 from models import *
 
@@ -508,6 +510,29 @@ def facebook_authorized(resp):
     #session['oauth_data'] = me.data
 
     print me.data
+
+    key_mappings = {
+        # User model : Facebook OAuth
+        'oauth_id': 'id',
+        'oauth_username': 'username',
+        'given_name': 'first_name',
+        'family_name': 'last_name',
+        'email': 'email',
+        'locale': 'locale',
+    }
+
+    payload = {}
+
+    for key in key_mappings:
+        oauth_key = key_mappings[key]
+        payload[key] = me.data[oauth_key]
+
+    try:
+        User.insert(payload)
+    except IntegrityError as e:
+        logger.info(str(e))
+        #logger.info('User %s (%s) already exists.' % (payload['oauth_username'],
+        #    payload['oauth_id']))
     
     keys = ('id', 'username', 'first_name', 'last_name', 'email', 'locale', 'gender',)
     for key in keys:

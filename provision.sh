@@ -12,6 +12,9 @@ if [ ! -a /vagrant/.provisioned ]; then
     sudo pip install sphinx sphinxcontrib-httpdomain
     sudo pip install psycopg2
     sudo pip install nilsimsa
+    sudo pip install flask_oauthlib
+    sudo pip install facebook-sdk
+    sudo pip install hallucination
 
     su - postgres
     #echo "createuser -s vagrant" | psql

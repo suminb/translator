@@ -187,7 +187,7 @@ function performTranslation() {
 
                 if (global.serial) {
                     //$("#request-permalink").show("medium");
-                    askForRating();
+                    askForRating(response.id_b62);
                     displayPermalink(global.serial);
                 }
 
@@ -415,9 +415,10 @@ function skipAlternativeTranslation() {
     expressAppreciation();
 }
 
-function askForRating() {
+function askForRating(id_b62) {
     $("#appreciation").hide("medium");
     $("#rating").show("medium");
+    $("#rating a.facebook-post").attr("href", $.sprintf("translation/%s/request", id_b62));
 }
 
 function askForAlternativeTranslation() {

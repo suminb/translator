@@ -415,6 +415,7 @@ def translate():
         db.session.commit()
 
     return dict(
+        id_b62='0z'+base62.encode(uuid.UUID(translation.id).int),
         serial_b62='0z'+base62.encode(translation.serial),
         intermediate_text=translation.intermediate_text,
         translated_text=translation.translated_text)
@@ -484,6 +485,20 @@ def test():
 def maintenance():
     return render_template('maintenance.html', version=__version__), 503
 
+
+@app.route('/translation/<translation_id>/request')
+def translation_request(translation_id):
+    # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
+    translation_id = base62.decode(translation_id)
+    translation = Translation.query.get(str(uuid.UUID(int=translation_id)))
+
+    context = dict(
+        referrer=request.referrer,
+        locale=get_locale(),
+        translation=translation
+    )
+
+    return render_template('translation_request.html', **context)
 
 @app.route('/translation/<translation_id>/post')
 def translation_post(translation_id):

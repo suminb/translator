@@ -5,10 +5,6 @@
       global.serial = "{{ serial }}";
       {% if translation %}global.translation = {{ translation | safe }}; {% endif %}
   </script>
-  <h1>
-      <img src="/static/icon_32.png" alt="" style="vertical-align: text-bottom"/>
-      {{ _("app-title") }}
-  </h1>
 
   <!--
   <p class="notification">접속자 폭주로 인해 구글에서 일시적으로 접근을 금지시켰습니다. 나중에 다시 찾아주세요.<br/>
@@ -24,36 +20,44 @@
   </p>
   
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
-  <div class="column1">
-      <div class="translation-options">
-          <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
-          <span class="action" onclick="swapLanguages()">{{ _("Swap languages") }}</span>
-          <input type="submit" value="{{ _("Translate") }}"/>
-      </div>
-      <div>
-          <select name="sl" onchange="performTranslation()">
-              {{ language_options | safe }}
-          </select>
-      </div>
-      <textarea id="text" name="t"></textarea>
+  <div class="column column1">
+    <div class="translation-options">
+      <select name="sl" style="position:absolute;left:0;" onchange="performTranslation()">
+        {{ language_options | safe }}
+      </select>
+      <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
+      <span class="action" onclick="swapLanguages()">{{ _("Swap languages") }}</span>
+      <!--<input type="submit" value="{{ _("Translate") }}"/>-->
+      <button class="btn">{{ _("Translate") }}</button>
+    </div>
+      
+    <textarea id="text" name="t"></textarea>
   </div>
-  <div class="column2">
+  <div class="column column2" style="position:relative;">
+      <!--
       <div class="translation-options">
           <input id="radio-mode-1" type="radio" name="m" value="1" onclick="performTranslation()"/>
           <label for="radio-mode-1">{{ _("Direct translation") }}</label>
           <input id="radio-mode-2" type="radio" name="m" value="2" onclick="performTranslation()"/>
           <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
       </div>
-      <select name="tl" onchange="performTranslation()">
+    -->
+    <div class="translation-options">
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button type="button" class="btn">{{ _("Direct translation") }}</button>
+        <button type="button" class="btn">{{ _("Use Japanese as an intermediate langauge") }}</button>
+      </div>
+      <select name="tl" style="position:absolute;right:0;" onchange="performTranslation()">
           {{ language_options | safe }}
       </select>
-      <div style="margin: .75em 0 .75em 0">
-          <div id="error-message"></div>
-          <div id="progress-message">
-              {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
-          </div>
-          <pre id="result"></pre>
-      </div>
+    </div>
+    <div style="margin: .75em 0 .75em 0">
+        <div id="error-message"></div>
+        <div id="progress-message">
+            {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+        </div>
+        <pre id="result"></pre>
+    </div>
   </div>
   </form>
   <div style="clear:both;"></div>

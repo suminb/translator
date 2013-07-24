@@ -8,6 +8,7 @@ body {
 
 h1, h2, h3 {
     font-family: Helvetica, Arial, sans-serif;
+    margin: 0.5em 0;
 }
 
 h1 a {
@@ -25,14 +26,26 @@ a:hover, span.action:hover {
     /*background-color: #efcc2f;*/
 }
 
+table, th, td {
+    border-collapse: collapse;
+    border: 1px solid #c0c0c0;
+}
+th, td {
+    padding: .5em 1em;
+}
+
 input[type=submit] {
     font-size: 13pt;
 }
 
-.notification {
+p.notification {
     border: 1px solid #ddd;
     background-color: #f0f0f0;
     padding: 0.5em 1em;
+}
+
+div.navigation {
+    margin: 1em 0;
 }
 
 .hidden {

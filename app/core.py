@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*- 
 
-from flask import Flask, jsonify, request, render_template, url_for, redirect
+from flask import Flask, jsonify, request, render_template, url_for, redirect, session
 from flaskext.babel import Babel, gettext as _
+from flask.ext.login import login_required, login_user, current_user
+from flask_oauthlib.client import OAuth
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
-from __init__ import __version__, app, logger
+from sqlalchemy.exc import IntegrityError
+
+from __init__ import __version__, app, logger, login_manager
 from models import *
+from utils import *
 
 import requests
 import json
@@ -16,10 +21,12 @@ import re
 import nilsimsa # Locality Sensitive Hash
 import base62
 import os, sys
+import facebook
 
 import config
 
 babel = Babel(app)
+oauth = OAuth()
 
 VALID_LANGUAGES = {
     'en': 'English',
@@ -43,30 +50,23 @@ VALID_LANGUAGES = {
     'sv': 'Swedish',
     'tr': 'Turkish',
 }
-# print '\n'.join(["{{ _('%s') }}" % v for v in VALID_LANGUAGES.values()])
 
-# FIXME: This is a temporary solution to deal with burst peak of traffic
-TR_CACHE = {
-    u'여러분이 몰랐던 구글 번역기': ['You did not know Google translator', 'Google translation that you did not know'],
-    u'청년들을 타락시킨 죄로 독콜라를 마시는 홍민희': ['Poison drinking cola sin corrupting the youth hongminhui', 'Honminfui cola drink poison sin was to corrupt the youth'],
-    u'샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근': ['Keun Mossi live in San Diego energetic to work today', 'Mr. Gimugun who lives in San Diego today healthy attendance'],
-    u'구글은 세계 정복을 꿈꾸고 있다.': ['I dream of world conquest.', 'Google have a dream to conquer the world.'],
-    u'호준이는 비싼 학비 때문에 허리가 휘어집니다.': ['Because the waist is bent. Hojun expensive tuition', 'Hojun will stoop for expensive tuition.'],
-    u'강선구 이사님은 오늘도 새로운 기술을 찾아나선다.': ['Sets out to find a new technology today. Gangseongu Shirley', 'Gansongu director leaves to find a new technology today.'],
-}
+DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'
 
-class HTTPException(RuntimeError):
-    """HTTPError does not take keyword arguments, so we are defining a custom exception class."""
-    def __init__(self, message, status_code):
-        self.message = message
-        self.status_code = status_code
-        super(HTTPException, self).__init__()
+facebook_app = oauth.remote_app('facebook',
+    base_url='https://graph.facebook.com/',
+    request_token_url=None,
+    access_token_url='/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    consumer_key=config.FACEBOOK_APP_ID,
+    consumer_secret=config.FACEBOOK_APP_SECRET,
+    request_token_params={'scope': 'email, publish_stream'}
+)
 
-def get_remote_address(req):
-    if not req.headers.getlist('X-Forwarded-For'):
-        return req.remote_addr
-    else:
-        return req.headers.getlist('X-Forwarded-For')[0]
+# DO NOT MOVE THIS TO __init__.py
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 
 @babel.localeselector
@@ -81,7 +81,7 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 
-def __translate__(text, source, target, user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'):
+def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     """
     text: text to be translated
     source: source language
@@ -150,11 +150,11 @@ def __language_options__():
     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
 
 
-@app.before_request
-def check_for_maintenance():
-    maintenance_mode = bool(os.environ.get('MAINTENANCE', 0))
-    if maintenance_mode and request.path != url_for('maintenance'): 
-        return redirect(url_for('maintenance'))
+# @app.before_request
+# def check_for_maintenance():
+#     maintenance_mode = bool(os.environ.get('MAINTENANCE', 0))
+#     if maintenance_mode and request.path != url_for('maintenance'): 
+#         return redirect(url_for('maintenance'))
 
 #
 # Request handlers
@@ -182,19 +182,17 @@ def index(serial=''):
         context['og_description'] = row.original_text
         context['translation'] = json.dumps(row.serialize())
     else:
-        context['og_description'] = _("app-description-text")
+        context['og_description'] = _('app-description-text')
 
-    print __version__
-
-    return render_template("index.html", **context)
+    return render_template('index.html', **context)
 
 
-@app.route("/locale", methods=['POST'])
+@app.route('/locale', methods=['POST'])
 def set_locale():
     """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
-    locale = request.form["locale"]
-    response = redirect(url_for("index"))
-    response.set_cookie("locale", locale, 60 * 60 * 24 * 14)
+    locale = request.form['locale']
+    response = redirect(url_for('index'))
+    response.set_cookie('locale', locale, 60 * 60 * 24 * 14)
     return response
 
 
@@ -202,7 +200,7 @@ def set_locale():
 @app.route('/v1.0/languages')
 def languages():
     """Returns a list of supported languages."""
-    locale = request.args["locale"]
+    locale = request.args['locale']
     langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(), VALID_LANGUAGES.values())}
 
     return jsonify(langs)
@@ -361,10 +359,8 @@ def translate_1_0():
         return str(e), 500
 
 def translate():
-    text = request.form['t'].strip()
-    mode = request.form['m'].strip()
-    source = request.form['sl'].strip()
-    target = request.form['tl'].strip()
+    keys = ('t', 'm', 'sl', 'tl')
+    text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
     if source == target:
         return text
@@ -376,13 +372,12 @@ def translate():
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
-    translation = Translation.query.filter_by(
-        original_text_hash=original_text_hash,
-        source=source, target=target, mode=mode).first()
+    translation = Translation.fetch(original_text_hash, source, target, mode)
 
     if translation == None:
         user_agent = request.headers.get('User-Agent')
 
+        # NOTE: The following is time consuming operations
         if mode == '2':
             intermediate = __translate__(text, source, 'ja', user_agent)
             translated = __translate__(intermediate, 'ja', target, user_agent)
@@ -390,23 +385,28 @@ def translate():
             intermediate = None
             translated = __translate__(text, source, target, user_agent)
 
-        # TODO: Refactor this section
-        translation = Translation(id=str(uuid.uuid4()))
-        translation.timestamp = datetime.datetime.now()
-        translation.user_agent = user_agent
-        translation.remote_address = get_remote_address(request)
-        translation.source = source
-        translation.target = target
-        translation.mode = mode
-        translation.original_text = text
-        translation.translated_text = translated
-        translation.intermediate_text = intermediate
-        translation.original_text_hash = original_text_hash
+        # NOTE: Therefore check one more time if a record exists
+        translation = Translation.fetch(original_text_hash, source, target, mode)
 
-        db.session.add(translation)
-        db.session.commit()
+        if translation is None:
+            # TODO: Refactor this section
+            translation = Translation(id=str(uuid.uuid4()))
+            translation.timestamp = datetime.datetime.now()
+            translation.user_agent = user_agent
+            translation.remote_address = get_remote_address(request)
+            translation.source = source
+            translation.target = target
+            translation.mode = mode
+            translation.original_text = text
+            translation.translated_text = translated
+            translation.intermediate_text = intermediate
+            translation.original_text_hash = original_text_hash
+
+            db.session.add(translation)
+            db.session.commit()
 
     return dict(
+        id_b62='0z'+base62.encode(uuid.UUID(translation.id).int),
         serial_b62='0z'+base62.encode(translation.serial),
         intermediate_text=translation.intermediate_text,
         translated_text=translation.translated_text)
@@ -428,47 +428,6 @@ def fetch(serial):
         return 'Requested resource does not exist\n', 404
 
     return jsonify(row.serialize())
-
-
-@app.route('/v0.9/store', methods=['POST'])
-def store():
-    """Stores a translation and generates a permalink.
-    """
-
-    # TODO: Clean up the following code
-    original = request.form['t']
-    translated = request.form['s']
-    mode = request.form['m']
-    source = request.form['sl']
-    target = request.form['tl']
-
-    if source not in VALID_LANGUAGES:
-        return 'Invalid source language\n', 400
-    if target not in VALID_LANGUAGES:
-        return 'Invalid target language\n', 400
-
-    import psycopg2.extras
-
-    psycopg2.extras.register_uuid()
-
-    t = Translation(id=uuid.uuid4(), timestamp=datetime.datetime.now())
-    t.source = source
-    t.target = target
-    t.mode = mode
-    t.original_text = original
-    t.translated_text = translated
-    t.is_sample = False
-
-    try:
-        db.session.add(t)
-        db.session.commit()
-
-        # FIXME: Base62 encoding must be done in the frontend
-        # NOTE: UUID is not JSON serializable
-        return jsonify(id=str(t.id), serial=t.serial, base62='0z'+base62.encode(t.serial))
-    
-    except Exception as e:
-        return str(e), 500
 
 
 @app.route('/v0.9/rate/<serial>', methods=['POST'])
@@ -516,6 +475,127 @@ def test():
 @app.route('/maintenance')
 def maintenance():
     return render_template('maintenance.html', version=__version__), 503
+
+
+@app.route('/translation/<translation_id>/request')
+@login_required
+def translation_request(translation_id):
+    # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
+    translation_id = base62.decode(translation_id)
+    translation = Translation.query.get(str(uuid.UUID(int=translation_id)))
+
+    context = dict(
+        referrer=request.referrer,
+        locale=get_locale(),
+        translation=translation,
+    )
+
+    return render_template('translation_request.html', **context)
+
+
+@app.route('/translation/<translation_id>/response', methods=['GET', 'POST'])
+@login_required
+def translation_response(translation_id):
+    # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
+    translation_id = uuid.UUID(int=base62.decode(translation_id))
+
+    if request.method == 'POST':
+        TranslationResponse.insert_or_update(translation_id, current_user.id, request.form)
+
+        return redirect(url_for('translation_response',
+            translation_id='0z'+base62.encode(translation_id.int)))
+    else:
+        translation = Translation.query.get(str(translation_id))
+        tresponse = TranslationResponse.fetch(translation_id, current_user.id)
+
+        context = dict(
+            referrer=request.referrer,
+            locale=get_locale(),
+            translation=translation,
+            tresponse=tresponse,
+        )
+
+        return render_template('translation_response.html', **context)
+
+
+@app.route('/translation/<translation_id>/post')
+def translation_post(translation_id):
+    print session.get('oauth_token')
+    graph = facebook.GraphAPI(session.get('oauth_token')[0])
+    #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
+    post_id = graph.put_wall_post('message body', dict(
+        name='Link name',
+        link='http://translator.suminb.com',
+        caption='{*actor*} posted a new stuff',
+        description='This is a longer description of the attachment',
+        picture='http://translator.suminb.com/static/icon_256.png',
+    ))
+    return str(post_id)
+
+
+@app.route('/login')
+def login():
+    session['login'] = True
+    return facebook_app.authorize(callback=url_for('facebook_authorized',
+        next=request.args.get('next') or request.referrer or None,
+        _external=True))
+
+
+@app.route('/login/authorized')
+@facebook_app.authorized_handler
+def facebook_authorized(resp):
+    if resp is None:
+        return 'Access denied: reason=%s error=%s' % (
+            request.args['error_reason'],
+            request.args['error_description']
+        ), 401
+
+    session['oauth_token'] = (resp['access_token'], '')
+
+    me = facebook_app.get('/me')
+
+    # Somehow this not only is disfunctional, but also it prevents other 
+    # session values to be set
+    #session['oauth_data'] = me.data
+
+    key_mappings = {
+        # User model : Facebook OAuth
+        'oauth_id': 'id',
+        'oauth_username': 'username',
+        'given_name': 'first_name',
+        'family_name': 'last_name',
+        'email': 'email',
+        'locale': 'locale',
+    }
+
+    payload = {}
+
+    for key in key_mappings:
+        oauth_key = key_mappings[key]
+        payload[key] = me.data[oauth_key]
+
+    try:
+        user = User.insert(payload)
+        login_user(user)
+
+    except IntegrityError as e:
+        logger.info(str(e))
+        #logger.info('User %s (%s) already exists.' % (payload['oauth_username'],
+        #    payload['oauth_id']))
+    
+    keys = ('id', 'username', 'first_name', 'last_name', 'email', 'locale', 'gender',)
+    for key in keys:
+        session['oauth_%s' % key] = me.data[key]
+
+    return redirect('/')
+
+    #return 'Logged in as id=%s name=%s, email=%s, redirect=%s' % \
+    #    (me.data['id'], me.data['name'], me.data['email'], request.args.get('next'))
+
+
+@facebook_app.tokengetter
+def get_facebook_oauth_token():
+    return session.get('oauth_token')
 
 
 @app.errorhandler(404)

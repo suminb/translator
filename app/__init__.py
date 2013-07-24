@@ -10,6 +10,7 @@ import config
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
+app.secret_key = config.SECRET_KEY
 
 logger = logging.getLogger('translator')
 logger.addHandler(logging.FileHandler('translator.log')) 

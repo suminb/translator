@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*- 
 
-from flask import Flask, jsonify, request, render_template, url_for, redirect
+from flask import Flask, jsonify, request, render_template, url_for, redirect, session
 from flaskext.babel import Babel, gettext as _
+from flask_oauth import OAuth
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 from __init__ import __version__, app, logger
@@ -20,6 +21,7 @@ import os, sys
 import config
 
 babel = Babel(app)
+oauth = OAuth()
 
 VALID_LANGUAGES = {
     'en': 'English',
@@ -43,17 +45,16 @@ VALID_LANGUAGES = {
     'sv': 'Swedish',
     'tr': 'Turkish',
 }
-# print '\n'.join(["{{ _('%s') }}" % v for v in VALID_LANGUAGES.values()])
 
-# FIXME: This is a temporary solution to deal with burst peak of traffic
-TR_CACHE = {
-    u'여러분이 몰랐던 구글 번역기': ['You did not know Google translator', 'Google translation that you did not know'],
-    u'청년들을 타락시킨 죄로 독콜라를 마시는 홍민희': ['Poison drinking cola sin corrupting the youth hongminhui', 'Honminfui cola drink poison sin was to corrupt the youth'],
-    u'샌디에고에 살고 있는 김근모씨는 오늘도 힘찬 출근': ['Keun Mossi live in San Diego energetic to work today', 'Mr. Gimugun who lives in San Diego today healthy attendance'],
-    u'구글은 세계 정복을 꿈꾸고 있다.': ['I dream of world conquest.', 'Google have a dream to conquer the world.'],
-    u'호준이는 비싼 학비 때문에 허리가 휘어집니다.': ['Because the waist is bent. Hojun expensive tuition', 'Hojun will stoop for expensive tuition.'],
-    u'강선구 이사님은 오늘도 새로운 기술을 찾아나선다.': ['Sets out to find a new technology today. Gangseongu Shirley', 'Gansongu director leaves to find a new technology today.'],
-}
+facebook = oauth.remote_app('facebook',
+    base_url='https://graph.facebook.com/',
+    request_token_url=None,
+    access_token_url='/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    consumer_key=config.FACEBOOK_APP_ID,
+    consumer_secret=config.FACEBOOK_APP_SECRET,
+    request_token_params={'scope': 'email'}
+)
 
 class HTTPException(RuntimeError):
     """HTTPError does not take keyword arguments, so we are defining a custom exception class."""
@@ -150,11 +151,11 @@ def __language_options__():
     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
 
 
-@app.before_request
-def check_for_maintenance():
-    maintenance_mode = bool(os.environ.get('MAINTENANCE', 0))
-    if maintenance_mode and request.path != url_for('maintenance'): 
-        return redirect(url_for('maintenance'))
+# @app.before_request
+# def check_for_maintenance():
+#     maintenance_mode = bool(os.environ.get('MAINTENANCE', 0))
+#     if maintenance_mode and request.path != url_for('maintenance'): 
+#         return redirect(url_for('maintenance'))
 
 #
 # Request handlers
@@ -516,6 +517,32 @@ def test():
 @app.route('/maintenance')
 def maintenance():
     return render_template('maintenance.html', version=__version__), 503
+
+
+@app.route('/login')
+def login():
+    return facebook.authorize(callback=url_for('facebook_authorized',
+        next=request.args.get('next') or request.referrer or None,
+        _external=True))
+
+
+@app.route('/login/authorized')
+@facebook.authorized_handler
+def facebook_authorized(resp):
+    if resp is None:
+        return 'Access denied: reason=%s error=%s' % (
+            request.args['error_reason'],
+            request.args['error_description']
+        ), 401
+    session['oauth_token'] = (resp['access_token'], '')
+    me = facebook.get('/me')
+    return 'Logged in as id=%s name=%s redirect=%s' % \
+        (me.data['id'], me.data['name'], request.args.get('next'))
+
+
+@facebook.tokengetter
+def get_facebook_oauth_token():
+    return session.get('oauth_token')
 
 
 @app.errorhandler(404)

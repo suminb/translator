@@ -7,6 +7,7 @@ from datetime import datetime
 from __init__ import app
 
 import uuid
+import base62
 
 db = SQLAlchemy(app)
 
@@ -41,13 +42,21 @@ class Translation(db.Model):
     original_text_hash = db.Column(db.String(255))
 
     def serialize(self):
+        # Synthesized property
+        self.id_b62 = '0z' + base62.encode(uuid.UUID(self.id).int)
+
         return serialize(self)
 
     @staticmethod
-    def fetch(original_text_hash, source, target, mode):
-        return Translation.query.filter_by(
-            original_text_hash=original_text_hash,
-            source=source, target=target, mode=mode).first()
+    def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
+        if id_b62 != None:
+            translation_id = base62.decode(id_b62)
+            return Translation.query.get(str(uuid.UUID(int=translation_id)))
+
+        else:
+            return Translation.query.filter_by(
+                original_text_hash=original_text_hash,
+                source=source, target=target, mode=mode).first()
 
 
 class TranslationResponse(db.Model):

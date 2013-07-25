@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-24 06:38+0000\n"
+"POT-Creation-Date: 2013-07-25 00:12+0000\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:189
+#: app/core.py:187
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/core.py:195
+#: app/core.py:194
 msgid "app-description-text"
 msgstr ""
 "Лучший переводчик – языкового переводчика на идее, что перевод через "
@@ -38,29 +38,32 @@ msgid ""
 msgstr ""
 
 #: app/templates/base.html:4 app/templates/base.html:7
-#: app/templates/base.html:10 app/templates/index.html:10
+#: app/templates/base.html:10 app/templates/base.html:48
 msgid "app-title"
 msgstr "Лучший переводчик"
 
-#: app/templates/base.html:70 app/templates/credits.html:3
+#: app/templates/base.html:51
+msgid "Home"
+msgstr ""
+
+#: app/templates/base.html:52 app/templates/discuss.html:3
+msgid "Discussions"
+msgstr ""
+
+#: app/templates/base.html:94 app/templates/credits.html:3
 msgid "Credits"
 msgstr "Титры"
 
-#: app/templates/base.html:71 app/templates/discuss.html:3
+#: app/templates/base.html:95
 msgid "Bug reporting"
 msgstr "Сообщить об ошибке"
-
-#: app/templates/credits.html:4 app/templates/discuss.html:4
-#: app/templates/statistics.html:5
-msgid "Go back to home"
-msgstr "Перейти на главную страницу"
 
 #: app/templates/credits.html:6
 msgid "Lead Developer"
 msgstr "Ведущий программист"
 
 #: app/templates/credits.html:9 app/templates/credits.html:18
-#: app/templates/credits.html:31 app/templates/credits.html:36
+#: app/templates/credits.html:32 app/templates/credits.html:37
 msgid "Web"
 msgstr ""
 
@@ -68,32 +71,32 @@ msgstr ""
 msgid "Blog"
 msgstr ""
 
-#: app/templates/credits.html:16 app/templates/credits.html:20
-#: app/templates/credits.html:24
+#: app/templates/credits.html:16 app/templates/credits.html:21
+#: app/templates/credits.html:25
 msgid "Localization"
 msgstr "Локализации"
 
-#: app/templates/credits.html:16 app/templates/index.html:106
+#: app/templates/credits.html:16 app/templates/index.html:99
 msgid "French"
 msgstr "Французский"
 
-#: app/templates/credits.html:20 app/templates/index.html:124
+#: app/templates/credits.html:21 app/templates/index.html:117
 msgid "Spanish"
 msgstr "Испанский"
 
-#: app/templates/credits.html:24 app/templates/index.html:105
+#: app/templates/credits.html:25 app/templates/index.html:98
 msgid "Russian"
 msgstr "Pусский"
 
-#: app/templates/credits.html:29
+#: app/templates/credits.html:30
 msgid "App Icon"
 msgstr ""
 
-#: app/templates/credits.html:34
+#: app/templates/credits.html:35
 msgid "Loading Icon"
 msgstr ""
 
-#: app/templates/index.html:18
+#: app/templates/index.html:12
 msgid "app-description-html"
 msgstr ""
 "Лучший переводчик – языкового переводчика на <a href=\"#\" "
@@ -103,147 +106,144 @@ msgstr ""
 " как и все в мире пытается перевести японские порно на свой язык, и, "
 "таким образом Google Translate работает лучше с японцами."
 
-#: app/templates/index.html:20
+#: app/templates/index.html:14
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
 "below. We encourage you to try modern browsers such as Firefox, Chrome "
 "and Safari."
 msgstr ""
 
-#: app/templates/index.html:29
+#: app/templates/index.html:26
 msgid "Show another example"
 msgstr "Показать другим пример"
 
-#: app/templates/index.html:30
+#: app/templates/index.html:27
 msgid "Swap languages"
 msgstr ""
 
-#: app/templates/index.html:31
+#: app/templates/index.html:28
 msgid "Translate"
 msgstr "Перевести"
 
-#: app/templates/index.html:43
+#: app/templates/index.html:36
 msgid "Direct translation"
 msgstr "Прямой перевод"
 
-#: app/templates/index.html:45
-msgid "Use Japanese as an intermediate langauge"
-msgstr "Перевод через Японский"
+#: app/templates/index.html:37
+#, fuzzy
+msgid "Better translation"
+msgstr "Прямой перевод"
 
-#: app/templates/index.html:53
+#: app/templates/index.html:46
 msgid "Translation in progress..."
 msgstr ""
 
-#: app/templates/index.html:62
+#: app/templates/index.html:55
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:64
-msgid "URL for this page"
-msgstr "Постоянная ссылка"
-
-#: app/templates/index.html:78
+#: app/templates/index.html:70
 msgid "How did you like this translation?"
 msgstr ""
 
-#: app/templates/index.html:79
+#: app/templates/index.html:71
 msgid "Poor"
 msgstr ""
 
-#: app/templates/index.html:80
+#: app/templates/index.html:72
 msgid "Acceptable"
 msgstr ""
 
-#: app/templates/index.html:81
+#: app/templates/index.html:73
 msgid "Excellent"
 msgstr ""
 
-#: app/templates/index.html:84
+#: app/templates/index.html:76 app/templates/translation_request.html:17
 msgid "Post a translation challenge on Facebook"
 msgstr ""
 
-#: app/templates/index.html:88
+#: app/templates/index.html:81
 msgid "How would you translate it?"
 msgstr ""
 
-#: app/templates/index.html:91
+#: app/templates/index.html:84
 msgid "Skip"
 msgstr ""
 
-#: app/templates/index.html:92
+#: app/templates/index.html:85 app/templates/translation_response.html:22
 msgid "Submit"
 msgstr ""
 
-#: app/templates/index.html:96
+#: app/templates/index.html:89
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:107
+#: app/templates/index.html:100
 msgid "English"
 msgstr "Английский"
 
-#: app/templates/index.html:108
+#: app/templates/index.html:101
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/index.html:109
+#: app/templates/index.html:102
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/index.html:110
+#: app/templates/index.html:103
 msgid "German"
 msgstr ""
 
-#: app/templates/index.html:111
+#: app/templates/index.html:104
 msgid "Korean"
 msgstr "Корейский"
 
-#: app/templates/index.html:112
+#: app/templates/index.html:105
 msgid "Italian"
 msgstr ""
 
-#: app/templates/index.html:113
+#: app/templates/index.html:106
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/index.html:114
+#: app/templates/index.html:107
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:115
+#: app/templates/index.html:108
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/index.html:116
+#: app/templates/index.html:109
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/index.html:117
+#: app/templates/index.html:110
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/index.html:118
+#: app/templates/index.html:111
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/index.html:119
+#: app/templates/index.html:112
 #, fuzzy
 msgid "Polish"
 msgstr "Испанский"
 
-#: app/templates/index.html:120
+#: app/templates/index.html:113
 msgid "Thai"
 msgstr ""
 
-#: app/templates/index.html:121
+#: app/templates/index.html:114
 msgid "Czech"
 msgstr ""
 
-#: app/templates/index.html:122
+#: app/templates/index.html:115
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/index.html:123
+#: app/templates/index.html:116
 msgid "Japanese"
 msgstr "Японский"
 
@@ -254,4 +254,31 @@ msgstr ""
 #: app/templates/statistics.html:4
 msgid "Statistics"
 msgstr ""
+
+#: app/templates/statistics.html:5
+msgid "Go back to home"
+msgstr "Перейти на главную страницу"
+
+#: app/templates/translation_request.html:4
+msgid "Post a Translation Challenge"
+msgstr ""
+
+#: app/templates/translation_request.html:8
+#: app/templates/translation_response.html:9
+msgid "Original text"
+msgstr ""
+
+#: app/templates/translation_request.html:12
+#: app/templates/translation_response.html:13
+msgid "Translation by Better Translator"
+msgstr ""
+
+#: app/templates/translation_response.html:4
+msgid "Response to a Challenge"
+msgstr ""
+
+#: app/templates/translation_response.html:17
+#, fuzzy
+msgid "Professional translation"
+msgstr "Прямой перевод"
 

@@ -1,5 +1,6 @@
 body {
-    margin: 1.5em;
+    margin: 0;
+    padding: 0;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     color: #505050;
@@ -15,14 +16,15 @@ h1 a {
     text-decoration: none;
 }
 
-a, a:visited, span.action {
+/*a, a:visited,*/ span.action {
     cursor: pointer;
     padding: 1px;
-    color: #1033d0;
+    color: #08c;
     text-decoration: none;
 }
-a:hover, span.action:hover {
-    color: #183cff;
+/*a:hover,*/ span.action:hover {
+    color: #005580;
+    text-decoration: underline;
     /*background-color: #efcc2f;*/
 }
 
@@ -48,9 +50,11 @@ div.navigation {
     margin: 1em 0;
 }
 
+/*
 .hidden {
-    display: none;
+  display: none;
 }
+*/
 
 .credits {
     max-width: 800px;
@@ -69,10 +73,15 @@ div.navigation {
     font-weight: bold;
 }
 
-.column1, .column2 {
-    float: left;
-    width: 47%;
-    margin: 0 1%;
+.column {
+  float: left;
+  width: 47%;
+  margin: 2px 14px;
+  min-width: 400px;
+  max-width: 700px;
+}
+.column1, .column2 {  
+
 }
 
 #google-translate {
@@ -80,31 +89,57 @@ div.navigation {
     text-align: center;
 }
 
+.translation-options {
+  position: relative;
+  margin: 6px 0;
+  width: 100%;
+}
 .column1 .translation-options {
-    width: 100%;
-    text-align: right;
+  text-align: right;
 }
 
 textarea {
-    padding: .5em;
-    font-family: Helvetica, Arial, sans-serif;
+    /*padding: .5em;*/
+    /*font-family: Helvetica, Arial, sans-serif;*/
     font-size: 11pt;
     color: #303030;
-    border: 1px solid #aaa;
 }
 textarea[disabled=disabled] {
     color: #999;
     background-color: #eee;
 }
 
+button.translate {
+  min-width: 7em;
+}
+
+#content {
+  margin: 60px auto;
+  width: 92%;
+  min-width: 400px;
+  max-width: 1400px;
+}
+#content .section {
+    margin: 0 0 2em 0;
+}
+#content input, select {
+  margin: 0;
+}
+#content label {
+  display: inline;
+  margin: 0;
+}
+
+
 #text {
-    display: block;
-    width: 99%;
-    height: 8em;
+  display: block;
+  width: 98%; /* FIXME: Temporary solution */
+  height: 10em;
 }
 
 #result {
     margin: 0;
+    min-height: 12em;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     white-space: pre-wrap;
@@ -112,11 +147,15 @@ textarea[disabled=disabled] {
 }
 
 #error-message {
-    color: #F03300;
+  position: absolute;
+  padding: 10px;
+  color: #F03300;
 }
 #progress-message {
-    display: none;
-    color: #ccc;
+  position: absolute;
+  padding: 10px;
+  display: none;
+  color: #ccc;
 }
 
 #feedback {
@@ -176,11 +215,14 @@ div.addthis_toolbox {
     font-size: 2em;
 }
 
+.container {
+  width: 100%;
+}
+
+/*
 .content {
     max-width: 1000px;
     min-width: 640px;
     margin: 0 auto;
 }
-.content .section {
-    margin: 0 0 2em 0;
-}
+*/

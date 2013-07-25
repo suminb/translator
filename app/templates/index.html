@@ -1,14 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
   <script type="text/javascript">
-      global.ei = -1;
-      global.serial = "{{ serial }}";
-      {% if translation %}global.translation = {{ translation | safe }}; {% endif %}
+    {% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
   </script>
-  <h1>
-      <img src="/static/icon_32.png" alt="" style="vertical-align: text-bottom"/>
-      {{ _("app-title") }}
-  </h1>
 
   <!--
   <p class="notification">접속자 폭주로 인해 구글에서 일시적으로 접근을 금지시켰습니다. 나중에 다시 찾아주세요.<br/>
@@ -17,53 +11,57 @@
   
   <p>{{ _("app-description-html") }}</p>
 
+  {% if is_msie %}
   <p class="notification">{{ _("Better Translator may not work properly with Internet Explorer 9 and below. We encourage you to try modern browsers such as Firefox, Chrome and Safari.") }}</p>
+  {% endif %}
 
   <p id="google-translate">
       <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
   </p>
   
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
-  <div class="column1">
-      <div class="translation-options">
-          <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
-          <span class="action" onclick="swapLanguages()">{{ _("Swap languages") }}</span>
-          <input type="submit" value="{{ _("Translate") }}"/>
-      </div>
-      <div>
-          <select name="sl" onchange="performTranslation()">
-              {{ language_options | safe }}
-          </select>
-      </div>
-      <textarea id="text" name="t"></textarea>
+  <div class="column column1">
+    <div class="translation-options">
+      <select name="sl" style="position:absolute;left:0;" onchange="state.selectSource(this.value)">
+        {{ language_options | safe }}
+      </select>
+      <button class="btn" onclick="refreshExample()">
+        <img src="/static/refresh.png" alt="{{ _("Show another example" )}}"/>
+      </button>
+      <button class="btn" onclick="state.swapLanguages()">
+        <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
+      </button>
+      <button class="btn btn-primary translate">{{ _("Translate") }}</button>
+    </div>
+      
+    <textarea id="text" name="t"></textarea>
   </div>
-  <div class="column2">
-      <div class="translation-options">
-          <input id="radio-mode-1" type="radio" name="m" value="1" onclick="performTranslation()"/>
-          <label for="radio-mode-1">{{ _("Direct translation") }}</label>
-          <input id="radio-mode-2" type="radio" name="m" value="2" onclick="performTranslation()"/>
-          <label for="radio-mode-2">{{ _("Use Japanese as an intermediate langauge") }}</label>
+  <div class="column column2" style="position:relative;">
+    <div class="translation-options">
+      <div class="btn-group to-mode" data-toggle="buttons-radio">
+        <button type="button" class="btn to-mode" value="1">{{ _("Direct translation") }}</button>
+        <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
       </div>
-      <select name="tl" onchange="performTranslation()">
+      <select name="tl" style="position:absolute;right:0;" onchange="state.selectTarget(this.value)">
           {{ language_options | safe }}
       </select>
-      <div style="margin: .75em 0 .75em 0">
-          <div id="error-message"></div>
-          <div id="progress-message">
-              {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
-          </div>
-          <pre id="result"></pre>
-      </div>
+    </div>
+    <div>
+        <div id="error-message"></div>
+        <div id="progress-message" style="float:left;">
+            {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+        </div>
+        <pre id="result"></pre>
+    </div>
   </div>
   </form>
   <div style="clear:both;"></div>
 
-  <div class="column1">
-      <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(global.serial)">{{ _("Request a permalink") }}</span>
+  <div class="column column1">
+      <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
       <div id="page-url">
-          <h3>{{ _("URL for this page") }}</h3>
           <div id="page-url-value" style="float:left;"></div>
-          <div class="addthis_toolbox addthis_default_style " style="float:left;">
+          <div class="addthis_default_style " style="float:left;margin-left:.75em;">
               <a class="addthis_button_facebook"></a>
               <a class="addthis_button_twitter"></a>
               <a class="addthis_button_compact"></a>
@@ -72,9 +70,9 @@
       </div>
       &nbsp;
   </div>
-  <div class="column2">
+  <div class="column column2">
       <div id="feedback">
-          <div id="rating" class="hidden">
+          <div id="rating" style="display:none;">
               {{ _("How did you like this translation?") }}
               <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
               <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
@@ -85,7 +83,7 @@
               </div>
               -->
           </div>
-          <form id="alternative-translation-form" class="hidden" onsubmit="return submitAlternativeTranslation()">
+          <form id="alternative-translation-form" style="display:none;" onsubmit="return submitAlternativeTranslation()">
               {{ _("How would you translate it?") }}
               <textarea name="alt"></textarea>
               <div style="width:100%; text-align:right;">
@@ -93,7 +91,7 @@
                   <input type="submit" value="{{ _("Submit") }}"/>
               </div>
           </form>
-          <div id="appreciation" class="hidden">
+          <div id="appreciation" style="display:none;">
               {{ _("Thank you for your feedback.") }}
           </div>
       </div>

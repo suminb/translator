@@ -160,25 +160,36 @@ def __language_options__():
 # Request handlers
 #
 @app.route('/')
-@app.route('/sr/<serial>')
-def index(serial=''):
+@app.route('/sr/<serial>') # Deprecated (2013-07-24)
+@app.route('/tr/<translation_id>')
+def index(translation_id=None, serial=None):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
+    is_msie = 'MSIE' in user_agent
 
     context = dict(
         version=__version__,
         locale=get_locale(),
         serial=serial,
         is_android=is_android,
+        is_msie=is_msie,
         language_options=__language_options__())
 
-    if serial != '':
+    row = None
+
+    if translation_id != None:
+        # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
+        translation_id = base62.decode(translation_id)
+        row = Translation.query.get(str(uuid.UUID(int=translation_id)))
+
+    elif serial != None:
         row = Translation.query.filter_by(serial=base62.decode(serial)).first()
 
-        if row == None:
-            context['message'] = _('Requrested resource does not exist')
-            return render_template("404.html", **context)
+    if (translation_id != None or serial != None) and row == None:
+        context['message'] = _('Requrested resource does not exist')
+        return render_template("404.html", **context)
 
+    if row != None:
         context['og_description'] = row.original_text
         context['translation'] = json.dumps(row.serialize())
     else:
@@ -232,6 +243,8 @@ def statistics():
 @app.route('/v0.9/translate', methods=['POST'])
 def translate_0_9():
     """
+    Deprecated
+    
     :param sl: source language
     :type sl: string
     :param tl: target language
@@ -372,7 +385,7 @@ def translate():
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
-    translation = Translation.fetch(original_text_hash, source, target, mode)
+    translation = Translation.fetch(None, original_text_hash, source, target, mode)
 
     if translation == None:
         user_agent = request.headers.get('User-Agent')
@@ -386,7 +399,7 @@ def translate():
             translated = __translate__(text, source, target, user_agent)
 
         # NOTE: Therefore check one more time if a record exists
-        translation = Translation.fetch(original_text_hash, source, target, mode)
+        translation = Translation.fetch(None, original_text_hash, source, target, mode)
 
         if translation is None:
             # TODO: Refactor this section
@@ -406,6 +419,7 @@ def translate():
             db.session.commit()
 
     return dict(
+        id=translation.id,
         id_b62='0z'+base62.encode(uuid.UUID(translation.id).int),
         serial_b62='0z'+base62.encode(translation.serial),
         intermediate_text=translation.intermediate_text,
@@ -433,6 +447,7 @@ def fetch(serial):
 @app.route('/v0.9/rate/<serial>', methods=['POST'])
 def rate(serial):
     """
+    Deprecated (2013-07-24)
     :param id: Translation serial
     :type id: string (base62 representation)
     """
@@ -446,6 +461,34 @@ def rate(serial):
 
     r = Rating(id=str(uuid.uuid4()), translation_id=t.id, timestamp=datetime.datetime.now())
     r.rating = int(rating)
+    r.user_agent = request.headers.get('User-Agent')
+    r.remote_address = get_remote_address(request)
+
+    try:
+        db.session.add(r)
+        db.session.commit()
+
+        # NOTE: UUID is not JSON serializable
+        return jsonify(id=str(r.id))
+    
+    except Exception as e:
+        return str(e), 500
+
+
+@app.route('/v1.0/rate/<translation_id>', methods=['POST'])
+def rate_v1_0(translation_id):
+    """
+    :param id: Translation id
+    :type id: string (base62 representation)
+    """
+
+    t = Translation.fetch(id_b62=translation_id)
+
+    if t == None:
+        return 'Requested resource does not exist\n', 404
+
+    r = Rating(id=str(uuid.uuid4()), translation_id=t.id, timestamp=datetime.datetime.now())
+    r.rating = int(request.form['r'])
     r.user_agent = request.headers.get('User-Agent')
     r.remote_address = get_remote_address(request)
 
@@ -477,7 +520,7 @@ def maintenance():
     return render_template('maintenance.html', version=__version__), 503
 
 
-@app.route('/translation/<translation_id>/request')
+@app.route('/tr/<translation_id>/request')
 @login_required
 def translation_request(translation_id):
     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
@@ -493,7 +536,7 @@ def translation_request(translation_id):
     return render_template('translation_request.html', **context)
 
 
-@app.route('/translation/<translation_id>/response', methods=['GET', 'POST'])
+@app.route('/tr/<translation_id>/response', methods=['GET', 'POST'])
 @login_required
 def translation_response(translation_id):
     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
@@ -518,7 +561,7 @@ def translation_response(translation_id):
         return render_template('translation_response.html', **context)
 
 
-@app.route('/translation/<translation_id>/post')
+@app.route('/tr/<translation_id>/post')
 def translation_post(translation_id):
     print session.get('oauth_token')
     graph = facebook.GraphAPI(session.get('oauth_token')[0])

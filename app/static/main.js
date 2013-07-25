@@ -464,7 +464,9 @@ function rate(rating) {
 
 
 function displayPermalink(id_b62) {
-    var url = $.sprintf("%s/tr/%s", window.location.origin, id_b62);
+    var origin = window.location.origin ? window.location.origin
+        : window.location.protocol+"//"+window.location.host;
+    var url = $.sprintf("%s/tr/%s", origin, id_b62);
 
     $("#request-permalink").hide();
     $("#page-url").show();

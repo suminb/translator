@@ -17,24 +17,12 @@
   <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
   <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
   <script type="text/javascript" src="/static/main.js?v={{ version }}"></script>
-  {% if locale == "ko" %}
-  <!-- Webfont provided by fontface.kr -->
-  <script src="http://www.google.com/jsapi"></script>
-  <script type="text/javascript">
-  google.load( "webfont", "1" );
-  google.setOnLoadCallback(function() {
-    WebFont.load({ custom: {
-     families: [ "NanumGothic", "NanumGothicBold" ],
-     urls: [ "http://fontface.kr/NanumGothic/css", "http://fontface.kr/NanumGothicBold/css" ]
-    }});
-  });
-  </script>
-  {% endif %}
-  
+
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/static/frontend.css?v={{ version }}"/>
+  
 </head>
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top">

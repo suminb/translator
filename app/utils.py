@@ -1,6 +1,7 @@
 from functools import wraps
 from flask import g, request, redirect, url_for
 
+import uuid, base62
 
 class HTTPException(RuntimeError):
     """HTTPError does not take keyword arguments, so we are defining a custom exception class."""
@@ -15,3 +16,7 @@ def get_remote_address(req):
         return req.remote_addr
     else:
         return req.headers.getlist('X-Forwarded-For')[0]
+
+
+def uuid_to_b62(value):
+    return '0z' + base62.encode(uuid.UUID(value).int)

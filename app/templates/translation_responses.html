@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h1>{{ _("Response to a Challenge") }}</h1>
+
+  <table style="width:100%;">
+    <tr>
+      <td style="width:140px;">{{ _("Original text") }} ({{ translation.source }})</td>
+      <td>{{ translation.original_text }}</td>
+    </tr>
+    <tr>
+      <td>{{ _("Translated text") }} ({{ translation.target }})</td>
+      <td>{{ translation.translated_text }}</td>
+    </tr>
+
+    {% for trevision in trevisions %}
+    <tr>
+      <td>{{ _("Revision") }} {{ trevision.timestamp }}</td>
+      <td>
+        <div>{{ trevision.text }}</div>
+        <div style="text-align:right">
+          <button class="btn" style="min-width:7em;"
+            onclick="$.post('/tr/{{ tresponse.id | uuid_to_b62 }}/post')">{{ _("Post") }}</button>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  
+
+{% endblock %}

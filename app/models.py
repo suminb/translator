@@ -82,7 +82,7 @@ class TranslationResponse(db.Model):
         return TranslationResponse.query.filter(and_(
             TranslationResponse.translation_id == str(translation_id),
             TranslationResponse.user_id == str(user_id)
-        )).order_by(TranslationResponse.timestamp.desc()).all()
+        )).order_by(TranslationResponse.timestamp.desc())
 
     @staticmethod
     def insert(translation_id, user_id, values):
@@ -99,6 +99,14 @@ class TranslationResponse(db.Model):
         db.session.commit()
 
         return tresponse
+
+
+class TranslationResponseLatest(db.Model):
+    id = db.Column(UUID, primary_key=True)
+    translation_id = db.Column(UUID)
+    user_id = db.Column(UUID)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    text = db.Column(db.Text)
 
 
 class Rating(db.Model):

@@ -8,7 +8,7 @@ from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
 
-from __init__ import __version__, app, logger, login_manager
+from __init__ import __version__, app, logger, login_manager, uuid_to_b62
 from models import *
 from utils import *
 
@@ -552,35 +552,49 @@ def translation_response(translation_id):
         tresponses = TranslationResponse.fetch_all(translation_id, current_user.id)
 
         context = dict(
-            referrer=request.referrer,
             locale=get_locale(),
             translation=translation,
-            tresponse=tresponses[0] if len(tresponses) > 0 else None,
-            trevisions=tresponses if len(tresponses) > 0 else [],
+            tresponse=tresponses.first(),
+            trevisions=tresponses,
         )
 
         return render_template('translation_response.html', **context)
 
 
+@app.route('/tr/<translation_id>/responses')
+@login_required
+def translation_responses(translation_id):
+
+    translation_id = uuid.UUID(int=base62.decode(translation_id))
+
+    # TODO: Join user information with translation_response_latest
+
+    translation = Translation.query.get(str(translation_id))
+    tresponses = TranslationResponseLatest.query.filter_by(translation_id=str(translation_id))
+
+    context = dict(
+        locale=get_locale(),
+        translation=translation,
+        tresponses=tresponses,
+    )
+
+    return render_template('translation_responses.html', **context)
+
 @app.route('/tr/<tresponse_id>/post', methods=['GET', 'POST'])
 def translation_post(tresponse_id):
     tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
 
-    # FIXME: Inefficient
     translation = Translation.query.get(tresponse.translation_id)
     target_language = VALID_LANGUAGES[translation.target]
 
-    # FIXME: Inefficient
     user = User.query.get(tresponse.user_id)
 
-    print translation.original_text
-    
     graph = facebook.GraphAPI(session.get('oauth_token')[0])
     #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
     post_id = graph.put_wall_post('', dict(
         name='Better Translator',
-        link='http://translator.suminb.com/tr/%s' % tresponse_id,
-        caption='%s has completed a translation challenge' % user.given_name,
+        link='http://translator.suminb.com/tr/{}/responses'.format(uuid_to_b62(translation.id)),
+        caption='{} has completed a translation challenge'.format(user.given_name),
         description='How do you say "{}" in {}?'.format(translation.original_text.encode('utf-8'), target_language),
         picture='http://translator.suminb.com/static/icon_256.png',
     ))

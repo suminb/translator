@@ -136,6 +136,18 @@ ALTER TABLE ONLY rating
     ADD CONSTRAINT translation FOREIGN KEY (translation_id) REFERENCES translation(id);
 
 
+
+create view translation_response_latest as 
+    with current_ver as (
+        select translation_id, user_id, max(timestamp) as timestamp
+            from translation_response
+            group by translation_id, user_id
+    )
+    select tr.id, tr.translation_id, tr.user_id, tr.timestamp, text
+        from translation_response tr
+        inner join current_ver cv on cv.translation_id = tr.translation_id
+            and cv.user_id = tr.user_id and cv.timestamp = tr.timestamp;
+
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --

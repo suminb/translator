@@ -472,6 +472,9 @@ function displayPermalink(id_b62) {
     $("#page-url").show();
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
+    // Doesn't seem to work
+    //$("#addthis-share").attr("addthis:url", url);
+
     //window.history.pushState(serializeCurrentState(), "", $.sprintf("/tr/%s", id_b62));
 }
 

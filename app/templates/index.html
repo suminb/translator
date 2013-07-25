@@ -25,8 +25,12 @@
       <select name="sl" style="position:absolute;left:0;" onchange="state.selectSource(this.value)">
         {{ language_options | safe }}
       </select>
-      <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
-      <span class="action" onclick="state.swapLanguages()">{{ _("Swap languages") }}</span>
+      <button class="btn" onclick="refreshExample()">
+        <img src="/static/refresh.png" alt="{{ _("Show another example" )}}"/>
+      </button>
+      <button class="btn" onclick="state.swapLanguages()">
+        <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
+      </button>
       <button class="btn btn-primary translate">{{ _("Translate") }}</button>
     </div>
       

@@ -21,6 +21,12 @@ logger = logging.getLogger('translator')
 logger.addHandler(logging.FileHandler('translator.log')) 
 logger.setLevel(logging.INFO)
 
+def uuid_to_b62(value):
+	import uuid, base62
+	return '0z' + base62.encode(uuid.UUID(value).int)
+
+app.jinja_env.filters['uuid_to_b62'] = uuid_to_b62
+
 from core import *
 
 if __name__ == '__main__':

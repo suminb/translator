@@ -73,7 +73,12 @@ class TranslationResponse(db.Model):
         return serialize(self)
 
     @staticmethod
-    def fetch(translation_id, user_id):
+    def fetch(id_b62):
+        tresponse_id = base62.decode(id_b62)
+        return TranslationResponse.query.get(str(uuid.UUID(int=tresponse_id)))
+
+    @staticmethod
+    def fetch_all(translation_id, user_id):
         return TranslationResponse.query.filter(and_(
             TranslationResponse.translation_id == str(translation_id),
             TranslationResponse.user_id == str(user_id)

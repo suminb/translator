@@ -30,7 +30,8 @@
       <td>
         <div>{{ trevision.text }}</div>
         <div style="text-align:right">
-          <button class="btn" style="min-width:7em;">{{ _("Post") }}</button>
+          <button class="btn" style="min-width:7em;"
+            onclick="$.post('/tr/{{ tresponse.id | uuid_to_b62 }}/post')">{{ _("Post") }}</button>
         </div>
       </td>
     </tr>

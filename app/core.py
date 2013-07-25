@@ -549,7 +549,7 @@ def translation_response(translation_id):
             translation_id='0z'+base62.encode(translation_id.int)))
     else:
         translation = Translation.query.get(str(translation_id))
-        tresponses = TranslationResponse.fetch(translation_id, current_user.id)
+        tresponses = TranslationResponse.fetch_all(translation_id, current_user.id)
 
         context = dict(
             referrer=request.referrer,
@@ -562,16 +562,26 @@ def translation_response(translation_id):
         return render_template('translation_response.html', **context)
 
 
-@app.route('/tr/<translation_id>/post')
-def translation_post(translation_id):
-    print session.get('oauth_token')
+@app.route('/tr/<tresponse_id>/post', methods=['GET', 'POST'])
+def translation_post(tresponse_id):
+    tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
+
+    # FIXME: Inefficient
+    translation = Translation.query.get(tresponse.translation_id)
+    target_language = VALID_LANGUAGES[translation.target]
+
+    # FIXME: Inefficient
+    user = User.query.get(tresponse.user_id)
+
+    print translation.original_text
+    
     graph = facebook.GraphAPI(session.get('oauth_token')[0])
     #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
-    post_id = graph.put_wall_post('message body', dict(
-        name='Link name',
-        link='http://translator.suminb.com',
-        caption='{*actor*} posted a new stuff',
-        description='This is a longer description of the attachment',
+    post_id = graph.put_wall_post('', dict(
+        name='Better Translator',
+        link='http://translator.suminb.com/tr/%s' % tresponse_id,
+        caption='%s has completed a translation challenge' % user.given_name,
+        description='How do you say "{}" in {}?'.format(translation.original_text.encode('utf-8'), target_language),
         picture='http://translator.suminb.com/static/icon_256.png',
     ))
     return str(post_id)

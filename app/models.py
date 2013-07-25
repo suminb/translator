@@ -61,7 +61,7 @@ class Translation(db.Model):
 
 class TranslationResponse(db.Model):
     # Users may submit a translation response only once
-    __table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), {} )
+    #__table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), {} )
 
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
@@ -77,27 +77,20 @@ class TranslationResponse(db.Model):
         return TranslationResponse.query.filter(and_(
             TranslationResponse.translation_id == str(translation_id),
             TranslationResponse.user_id == str(user_id)
-        )).first()
+        )).order_by(TranslationResponse.timestamp.desc()).all()
 
     @staticmethod
-    def insert_or_update(translation_id, user_id, values):
-        tresponse = TranslationResponse.fetch(translation_id, user_id)
+    def insert(translation_id, user_id, values):
         text = values['text'].strip()
 
-        if tresponse == None:
-            tresponse = TranslationResponse(
-                id=str(uuid.uuid4()),
-                translation_id=translation_id,
-                user_id=user_id,
-                timestamp=datetime.now(),
-                text=text,
-            )
-            db.session.add(tresponse)
-
-        else:
-            #tresponse.timestamp = datetime.now()
-            tresponse.text = text
-
+        tresponse = TranslationResponse(
+            id=str(uuid.uuid4()),
+            translation_id=str(translation_id),
+            user_id=user_id,
+            timestamp=datetime.now(),
+            text=text,
+        )
+        db.session.add(tresponse)
         db.session.commit()
 
         return tresponse

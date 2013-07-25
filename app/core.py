@@ -543,19 +543,20 @@ def translation_response(translation_id):
     translation_id = uuid.UUID(int=base62.decode(translation_id))
 
     if request.method == 'POST':
-        TranslationResponse.insert_or_update(translation_id, current_user.id, request.form)
+        TranslationResponse.insert(translation_id, current_user.id, request.form)
 
         return redirect(url_for('translation_response',
             translation_id='0z'+base62.encode(translation_id.int)))
     else:
         translation = Translation.query.get(str(translation_id))
-        tresponse = TranslationResponse.fetch(translation_id, current_user.id)
+        tresponses = TranslationResponse.fetch(translation_id, current_user.id)
 
         context = dict(
             referrer=request.referrer,
             locale=get_locale(),
             translation=translation,
-            tresponse=tresponse,
+            tresponse=tresponses[0] if len(tresponses) > 0 else None,
+            trevisions=tresponses if len(tresponses) > 0 else [],
         )
 
         return render_template('translation_response.html', **context)

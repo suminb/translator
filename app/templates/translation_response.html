@@ -3,23 +3,39 @@
 
   <h1>{{ _("Response to a Challenge") }}</h1>
 
-  <form method="post" action="">
-    <table style="width:100%;">
-      <tr>
-        <td style="width:140px;">{{ _("Original text") }} ({{ translation.source }})</td>
-        <td>{{ translation.original_text }}</td>
-      </tr>
-      <tr>
-        <td>{{ _("Translation by Better Translator") }} ({{ translation.target }})</td>
-        <td>{{ translation.translated_text }}</td>
-      </tr>
-       <tr>
-        <td>{{ _("Professional translation") }}</td>
-        <td><textarea name="text" style="width:98%;height:10em;">{{ tresponse.text }}</textarea></td>
-      </tr>
-    </table>
+  <table style="width:100%;">
+    <tr>
+      <td style="width:140px;">{{ _("Original text") }} ({{ translation.source }})</td>
+      <td>{{ translation.original_text }}</td>
+    </tr>
+    <tr>
+      <td>{{ _("Translated text") }} ({{ translation.target }})</td>
+      <td>{{ translation.translated_text }}</td>
+    </tr>
+    <tr>
+      <td>{{ _("Your translation") }}</td>
+      <td>
+        <form method="post" action="">
+          <textarea name="text" style="width:99%;height:10em;">{{ tresponse.text }}</textarea>
+          <div style="text-align:right">
+            <button class="btn btn-primary" style="min-width:7em;">{{ _("Save") }}</button>
+          </div>
+        </form>
+      </td>
+    </tr>
 
-    <input type="submit" text="{{ _("Submit") }}"/>
-  </form>
+    {% for trevision in trevisions %}
+    <tr>
+      <td>{{ _("Revision") }} {{ trevision.timestamp }}</td>
+      <td>
+        <div>{{ trevision.text }}</div>
+        <div style="text-align:right">
+          <button class="btn" style="min-width:7em;">{{ _("Post") }}</button>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  
 
 {% endblock %}

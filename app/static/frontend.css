@@ -19,11 +19,12 @@ h1 a {
 /*a, a:visited,*/ span.action {
     cursor: pointer;
     padding: 1px;
-    color: #1033d0;
+    color: #08c;
     text-decoration: none;
 }
 /*a:hover,*/ span.action:hover {
-    color: #183cff;
+    color: #005580;
+    text-decoration: underline;
     /*background-color: #efcc2f;*/
 }
 
@@ -75,7 +76,7 @@ div.navigation {
 .column {
   float: left;
   width: 47%;
-  margin: 2px 16px;
+  margin: 2px 14px;
   min-width: 400px;
   max-width: 700px;
 }
@@ -108,8 +109,13 @@ textarea[disabled=disabled] {
     background-color: #eee;
 }
 
+button.translate {
+  min-width: 7em;
+}
+
 #content {
-  margin-top: 60px;
+  margin: 60px auto;
+  width: 92%;
   min-width: 400px;
   max-width: 1400px;
 }
@@ -133,7 +139,7 @@ textarea[disabled=disabled] {
 
 #result {
     margin: 0;
-    min-height: 10em;
+    min-height: 12em;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     white-space: pre-wrap;
@@ -141,11 +147,15 @@ textarea[disabled=disabled] {
 }
 
 #error-message {
-    color: #F03300;
+  position: absolute;
+  padding: 10px;
+  color: #F03300;
 }
 #progress-message {
-    display: none;
-    color: #ccc;
+  position: absolute;
+  padding: 10px;
+  display: none;
+  color: #ccc;
 }
 
 #feedback {

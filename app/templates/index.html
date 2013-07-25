@@ -11,7 +11,9 @@
   
   <p>{{ _("app-description-html") }}</p>
 
+  {% if is_msie %}
   <p class="notification">{{ _("Better Translator may not work properly with Internet Explorer 9 and below. We encourage you to try modern browsers such as Firefox, Chrome and Safari.") }}</p>
+  {% endif %}
 
   <p id="google-translate">
       <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
@@ -25,8 +27,7 @@
       </select>
       <span class="action" onclick="refreshExample()">{{ _("Show another example" )}}</span> |
       <span class="action" onclick="state.swapLanguages()">{{ _("Swap languages") }}</span>
-      <!--<input type="submit" value="{{ _("Translate") }}"/>-->
-      <button class="btn">{{ _("Translate") }}</button>
+      <button class="btn btn-primary translate">{{ _("Translate") }}</button>
     </div>
       
     <textarea id="text" name="t"></textarea>
@@ -41,9 +42,9 @@
           {{ language_options | safe }}
       </select>
     </div>
-    <div style="margin: .75em 0 .75em 0">
+    <div>
         <div id="error-message"></div>
-        <div id="progress-message">
+        <div id="progress-message" style="float:left;">
             {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
         </div>
         <pre id="result"></pre>

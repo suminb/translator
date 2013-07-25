@@ -25,6 +25,12 @@ var examples = {
 // URL encoded length, exclsively less than
 var SHORT_TRANSLATION_THRESHOLD = 256;
 
+var TAGS_TO_REPLACE = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;'
+};
+
 var state = {
     source: 'ko',
     target: 'en',
@@ -59,7 +65,7 @@ var state = {
     },
 
     setResult: function(v) {
-        $("#result").html(v);
+        $("#result").text(v);
     },
 
     selectSource: function(v) {
@@ -80,7 +86,6 @@ var state = {
     },
 
     initWithParameters: function() {
-        console.log("initWithParameters");
         this.setSource(getParameterByName("sl"));
         this.setTarget(getParameterByName("tl"));
         this.setMode(getParameterByName("m"));
@@ -88,7 +93,6 @@ var state = {
     },
 
     initWithTranslation: function(t) {
-        console.log(t);
         this.id = t.id;
         this.id_b62 = t.id_b62;
         this.serial = t.serial;
@@ -100,7 +104,6 @@ var state = {
     },
 
     updateWithTranslation: function(t) {
-        console.log(t);
         this.id = t.id;
         this.id_b62 = t.id_b62;
         this.result = t.translated_text;
@@ -108,11 +111,11 @@ var state = {
 
     swapLanguages: function() {
         var source = this.source;
-        var target = this.target
+        var target = this.target;
 
         this.setSource(target);
         this.setTarget(source);
-        this.setText($("#result").html());
+        this.setText($("#result").text());
 
         performTranslation();
     },
@@ -124,7 +127,9 @@ var state = {
         $($.sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
         $("#text").val(this.text);
 
-        if (this.result) $("#result").html(this.result);
+        if (this.result) {
+            $("#result").text(this.result);
+        }
         if (this.id) {
             displayPermalink(this.id_b62);
             askForRating(this.id_b62);
@@ -224,6 +229,16 @@ window.onpopstate = function(event) {
 
 
 /**
+ * Copied from http://stackoverflow.com/questions/5499078/fastest-method-to-escape-html-tags-as-html-entities
+ */
+function replaceTag(tag) {
+    return TAGS_TO_REPLACE[tag] || tag;
+}
+function replaceTags(str) {
+    return str.replace(/[&<>]/g, replaceTag);
+}
+
+/**
  * Parsing a URL query string
  * http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
  */
@@ -232,10 +247,12 @@ function getParameterByName(name) {
     var regexS = "[\\?&]" + name + "=([^&#]*)";
     var regex = new RegExp(regexS);
     var results = regex.exec(window.location.search);
-    if(results == null)
+    if(results == null) {
         return "";
-    else
+    }
+    else {
         return decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 }
 
 /**
@@ -390,7 +407,6 @@ function toggleScreenshot() {
 toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
-    console.log('fetchTranslation');
     //$("#progress-message").html("Fetching requested resources...");
     $("#progress-message").show();
 
@@ -405,7 +421,6 @@ function fetchTranslation(serial) {
         var mode = response.mode == "1";
         $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
-        console.log("Replacing current history");
         window.history.replaceState(serializeCurrentState(), "", window.location.href);
 
         askForRating();
@@ -470,7 +485,7 @@ function skipAlternativeTranslation() {
 function askForRating(id_b62) {
     $("#appreciation").hide();
     $("#rating").show();
-    //$("#rating a.facebook-post").attr("href", $.sprintf("/translation/%s/request", id_b62));
+    //$("#rating a.facebook-post").attr("href", $.sprintf("/tr/%s/request", id_b62));
 }
 
 function askForAlternativeTranslation() {
@@ -494,9 +509,11 @@ function enableControls(state) {
     if (state) {
         $("form input").removeAttr("disabled");
         $("form select").removeAttr("disabled");
+        $("form button").removeAttr("disabled");
     }
     else {
         $("form input").attr("disabled", "disabled");
         $("form select").attr("disabled", "disabled");
+        $("form button").attr("disabled", "disabled");
     }
 }

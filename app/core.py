@@ -160,17 +160,19 @@ def __language_options__():
 # Request handlers
 #
 @app.route('/')
-@app.route('/sr/<serial>')
+@app.route('/sr/<serial>') # Deprecated (2013-07-24)
 @app.route('/tr/<translation_id>')
 def index(translation_id=None, serial=None):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
+    is_msie = 'MSIE' in user_agent
 
     context = dict(
         version=__version__,
         locale=get_locale(),
         serial=serial,
         is_android=is_android,
+        is_msie=is_msie,
         language_options=__language_options__())
 
     row = None
@@ -241,6 +243,8 @@ def statistics():
 @app.route('/v0.9/translate', methods=['POST'])
 def translate_0_9():
     """
+    Deprecated
+    
     :param sl: source language
     :type sl: string
     :param tl: target language
@@ -443,6 +447,7 @@ def fetch(serial):
 @app.route('/v0.9/rate/<serial>', methods=['POST'])
 def rate(serial):
     """
+    Deprecated (2013-07-24)
     :param id: Translation serial
     :type id: string (base62 representation)
     """
@@ -515,7 +520,7 @@ def maintenance():
     return render_template('maintenance.html', version=__version__), 503
 
 
-@app.route('/translation/<translation_id>/request')
+@app.route('/tr/<translation_id>/request')
 @login_required
 def translation_request(translation_id):
     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
@@ -531,7 +536,7 @@ def translation_request(translation_id):
     return render_template('translation_request.html', **context)
 
 
-@app.route('/translation/<translation_id>/response', methods=['GET', 'POST'])
+@app.route('/tr/<translation_id>/response', methods=['GET', 'POST'])
 @login_required
 def translation_response(translation_id):
     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
@@ -556,7 +561,7 @@ def translation_response(translation_id):
         return render_template('translation_response.html', **context)
 
 
-@app.route('/translation/<translation_id>/post')
+@app.route('/tr/<translation_id>/post')
 def translation_post(translation_id):
     print session.get('oauth_token')
     graph = facebook.GraphAPI(session.get('oauth_token')[0])

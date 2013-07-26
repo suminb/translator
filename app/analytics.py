@@ -1,13 +1,25 @@
 from sqlalchemy import create_engine, MetaData
+from datetime import datetime, timedelta, date
 from math import log
+
+from __init__ import db
+from models import GeoIP
 
 import json
 import requests
 import os, sys
 import config
+import re
+import logging
+
 
 engine = create_engine(config.DB_URI, convert_unicode=True)
 metadata = MetaData(bind=engine)
+
+logger = logging.getLogger('translator')
+logger.addHandler(logging.StreamHandler(sys.stderr)) 
+logger.setLevel(logging.INFO)
+
 
 def jsonify_list(rows, keys=None):
     results = []
@@ -37,42 +49,49 @@ def geolocation(conn):
     def ip_lookup(ip):
         import time
 
-        f = open('/tmp/geoip.json', 'r')
-        try:
-            geoipdb = json.loads(f.read())
-        except ValueError:
-            geoipdb = {}
-        f.close()
+        geoip = GeoIP.query.filter_by(address=ip).first()
 
-        if ip in geoipdb:
-            return geoipdb[ip]
-        # A naive conditional statement to look for a valid IP address. This shall be replaced with a regular expression.
-        elif len(ip.split('.')) == 4:
-            sys.stderr.write('Locating %s...\n' % ip)
+        if geoip != None:
+            return geoip
+        else:
+            logger.info('Locating {}...'.format(ip))
+
             r = requests.get('http://freegeoip.net/json/' + ip)
+
             if r.status_code == 200:
                 record = json.loads(r.content)
-                geoipdb[ip] = {'latitude':record['latitude'], 'longitude':record['longitude']}
 
-                f = open('/tmp/geoip.json', 'w+')
-                f.write(json.dumps(geoipdb))
-                f.close()
+                geoip = GeoIP(
+                    address=ip,
+                    timestamp=datetime.now(),
+                    latitude=record['latitude'],
+                    longitude=record['longitude']
+                )
+
+                try:
+                    db.session.add(geoip)
+                    db.session.commit()
+                except Exception as e:
+                    logger.exception(e)
+                    db.session.rollback()
 
                 time.sleep(0.3)
-                return record
+
+                return geoip
             else:
-                sys.stderr.write('Geo-location of %s is unknown (HTTP %d)\n' % (ip, r.status_code))
+                logger.error('Geo-location of {} is unknown (HTTP {}})'.format(ip, r.status_code))
+
                 return None
 
     def lookup_records():
-        geoip = {}
-        for row in conn.execute('SELECT remote_address, count(remote_address) FROM translation GROUP BY remote_address'):
+        qdate = date.today() - timedelta(days=30)
+        for row in conn.execute('SELECT remote_address, count(remote_address) FROM translation WHERE "timestamp" >= date(\'{}\') GROUP BY remote_address'.format(qdate.isoformat())):
             ip, count = row[0], row[1]
 
             if ip != None:
                 record = ip_lookup(ip)
                 if record != None:
-                    yield {'lat':record['latitude'], 'lng':record['longitude'], 'count':count}
+                    yield {'lat':record.latitude, 'lng':record.longitude, 'count':count}
 
     mx = 0
     data = []

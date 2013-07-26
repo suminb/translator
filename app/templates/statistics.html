@@ -12,7 +12,7 @@
   </div>
 
   <h2>Heatmap</h2>
-  <p>Shows Better Translator users' geographical distribution.</p>
+  <p>Shows Better Translator users' geographical distribution for the last seven days.</p>
   <div id="heatmap" class="section" style="height:400px;"></div>
 
   <!--
@@ -34,7 +34,7 @@ window.onload = function() {
     $("#stat-rating-stddev").html($.sprintf("%.3f", stat_rating[2]));
 
     var heapmapOptions = {
-      zoom: 2,
+      zoom: 3,
       center: new google.maps.LatLng(24, 0),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: false,

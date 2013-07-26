@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, date
 from math import log
 
 from __init__ import db
-from models import GeoIP
+from models import Translation, GeoIP
 
 import json
 import requests
@@ -49,6 +49,12 @@ def geolocation(conn):
     def ip_lookup(ip):
         import time
 
+        ip = ip.strip()
+
+        # FIXME: Temporary cheating
+        if len(ip) > 15:
+            return None
+
         geoip = GeoIP.query.filter_by(address=ip).first()
 
         if geoip != None:
@@ -84,7 +90,7 @@ def geolocation(conn):
                 return None
 
     def lookup_records():
-        qdate = date.today() - timedelta(days=30)
+        qdate = date.today() - timedelta(days=7)
         query = """
             SELECT address, latitude, longitude, count FROM (
                 SELECT remote_address, count(remote_address) AS count
@@ -96,6 +102,13 @@ def geolocation(conn):
         for row in conn.execute(query):
             ip, latitude, longitude, count = row
             yield {'lat':latitude, 'lng':longitude, 'count':count}
+
+    # FIXME: Temporary solution for pre-geocoding
+    qdate = date.today() - timedelta(days=7)
+    for row in db.session.query(Translation.remote_address) \
+            .filter(Translation.timestamp >= qdate) \
+            .group_by(Translation.remote_address):
+        ip_lookup(row.remote_address)
 
     mx = 0
     data = []

@@ -22,7 +22,7 @@
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
   <div class="column column1">
     <div class="translation-options">
-      <select name="sl" style="position:absolute;left:0;" onchange="state.selectSource(this.value)">
+      <select name="sl" onchange="state.selectSource(this.value)">
         {{ language_options | safe }}
       </select>
       <button class="btn" onclick="refreshExample()">
@@ -35,6 +35,19 @@
     </div>
       
     <textarea id="text" name="t"></textarea>
+
+    <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
+    <div id="page-url">
+        <div id="page-url-value"></div>
+        <!--
+        <div id="addthis-share" class="addthis_default_style" style="float:left;margin-left:.75em;">
+            <a class="addthis_button_facebook"></a>
+            <a class="addthis_button_twitter"></a>
+            <a class="addthis_button_compact"></a>
+        </div>
+        -->
+        <div style="clear:both;"></div>
+    </div>
   </div>
   <div class="column column2" style="position:relative;">
     <div class="translation-options">
@@ -42,7 +55,7 @@
         <button type="button" class="btn to-mode" value="1">{{ _("Regular translation") }}</button>
         <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
       </div>
-      <select name="tl" style="position:absolute;right:0;" onchange="state.selectTarget(this.value)">
+      <select name="tl" onchange="state.selectTarget(this.value)">
           {{ language_options | safe }}
       </select>
     </div>
@@ -53,52 +66,27 @@
         </div>
         <pre id="result"></pre>
     </div>
+
+    <div id="feedback">
+        <div id="rating" style="display:none;">
+            {{ _("How did you like this translation?") }}
+            <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
+            <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
+            <span class="action" onclick="rate(1)">{{ _("Excellent") }}</span>
+            <!--
+            <div>
+                <a href="#" class="facebook-post">{{ _("Post a translation challenge on Facebook") }}</a>
+            </div>
+            -->
+        </div>
+        <div id="appreciation" style="display:none;">
+            {{ _("Thank you for your feedback.") }}
+        </div>
+    </div>
   </div>
   </form>
   <div style="clear:both;"></div>
 
-  <div class="column column1">
-      <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
-      <div id="page-url">
-          <div id="page-url-value" style="float:left;"></div>
-          <!--
-          <div id="addthis-share" class="addthis_default_style" style="float:left;margin-left:.75em;">
-              <a class="addthis_button_facebook"></a>
-              <a class="addthis_button_twitter"></a>
-              <a class="addthis_button_compact"></a>
-          </div>
-          -->
-          <div style="clear:both;"></div>
-      </div>
-      &nbsp;
-  </div>
-  <div class="column column2">
-      <div id="feedback">
-          <div id="rating" style="display:none;">
-              {{ _("How did you like this translation?") }}
-              <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
-              <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
-              <span class="action" onclick="rate(1)">{{ _("Excellent") }}</span>
-              <!--
-              <div>
-                  <a href="#" class="facebook-post">{{ _("Post a translation challenge on Facebook") }}</a>
-              </div>
-              -->
-          </div>
-          <form id="alternative-translation-form" style="display:none;" onsubmit="return submitAlternativeTranslation()">
-              {{ _("How would you translate it?") }}
-              <textarea name="alt"></textarea>
-              <div style="width:100%; text-align:right;">
-                  <span class="action" onclick="skipAlternativeTranslation()">{{ _("Skip") }}</span>
-                  <input type="submit" value="{{ _("Submit") }}"/>
-              </div>
-          </form>
-          <div id="appreciation" style="display:none;">
-              {{ _("Thank you for your feedback.") }}
-          </div>
-      </div>
-  </div>
-  <div style="clear:both;"></div>
 
 <!--
 This section is reserved for gettext string extraction purposes

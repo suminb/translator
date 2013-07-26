@@ -47,7 +47,7 @@ window.onload = function() {
     };
     map = new google.maps.Map(document.getElementById("heatmap"), heapmapOptions);
     
-    heatmap = new HeatmapOverlay(map, {"radius":15, "visible":true, "opacity":60});
+    heatmap = new HeatmapOverlay(map, {"radius":15, "visible":true, "opacity":50});
     google.maps.event.addListenerOnce(map, "idle", function(){
         heatmap.setDataSet(stat_heatmap);
     });

@@ -45,6 +45,13 @@ def get_language_count(conn):
 def get_char_length(conn):
     return conn.execute('SELECT sum(char_length(original_text)) FROM translation').first()[0]
 
+def pregeocoding():
+    # FIXME: Temporary solution for pre-geocoding
+    for row in db.session.query(Translation.remote_address) \
+            .filter(Translation.remote_address != None) \
+            .group_by(Translation.remote_address):
+        ip_lookup(row.remote_address)
+
 def geolocation(conn):
     def ip_lookup(ip):
         import time
@@ -99,14 +106,8 @@ def geolocation(conn):
             GROUP BY t.latitude, t.longitude
         """.format(qdate.isoformat())
         for row in conn.execute(query):
-            ip, latitude, longitude, count = row
+            latitude, longitude, count = row
             yield {'lat':latitude, 'lng':longitude, 'count':count}
-
-    # FIXME: Temporary solution for pre-geocoding
-    for row in db.session.query(Translation.remote_address) \
-            .filter(Translation.remote_address != None) \
-            .group_by(Translation.remote_address):
-        ip_lookup(row.remote_address)
 
     mx = 0
     data = []

@@ -79,7 +79,7 @@ def geolocation(conn):
 
                 return geoip
             else:
-                logger.error('Geo-location of {} is unknown (HTTP {}})'.format(ip, r.status_code))
+                logger.error('Geo-location of {} is unknown (HTTP {})'.format(ip, r.status_code))
 
                 return None
 

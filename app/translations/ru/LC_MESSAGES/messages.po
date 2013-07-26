@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-25 02:33+0000\n"
+"POT-Creation-Date: 2013-07-26 07:22+0000\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -38,19 +38,23 @@ msgid ""
 msgstr ""
 
 #: app/templates/base.html:4 app/templates/base.html:7
-#: app/templates/base.html:10 app/templates/base.html:48
+#: app/templates/base.html:10 app/templates/base.html:36
 msgid "app-title"
 msgstr "Лучший переводчик"
 
-#: app/templates/base.html:51 app/templates/discuss.html:3
+#: app/templates/base.html:39 app/templates/discuss.html:3
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:93 app/templates/credits.html:3
+#: app/templates/base.html:40 app/templates/statistics.html:4
+msgid "Statistics"
+msgstr ""
+
+#: app/templates/base.html:82 app/templates/credits.html:3
 msgid "Credits"
 msgstr "Титры"
 
-#: app/templates/base.html:94
+#: app/templates/base.html:83
 msgid "Bug reporting"
 msgstr "Сообщить об ошибке"
 
@@ -72,15 +76,15 @@ msgstr ""
 msgid "Localization"
 msgstr "Локализации"
 
-#: app/templates/credits.html:16 app/templates/index.html:105
+#: app/templates/credits.html:16 app/templates/index.html:107
 msgid "French"
 msgstr "Французский"
 
-#: app/templates/credits.html:21 app/templates/index.html:123
+#: app/templates/credits.html:21 app/templates/index.html:125
 msgid "Spanish"
 msgstr "Испанский"
 
-#: app/templates/credits.html:25 app/templates/index.html:104
+#: app/templates/credits.html:25 app/templates/index.html:106
 msgid "Russian"
 msgstr "Pусский"
 
@@ -139,122 +143,114 @@ msgstr ""
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:76
+#: app/templates/index.html:78
 msgid "How did you like this translation?"
 msgstr ""
 
-#: app/templates/index.html:77
+#: app/templates/index.html:79
 msgid "Poor"
 msgstr ""
 
-#: app/templates/index.html:78
+#: app/templates/index.html:80
 msgid "Acceptable"
 msgstr ""
 
-#: app/templates/index.html:79
+#: app/templates/index.html:81
 msgid "Excellent"
 msgstr ""
 
-#: app/templates/index.html:82 app/templates/translation_request.html:17
+#: app/templates/index.html:84 app/templates/translation_request.html:17
 msgid "Post a translation challenge on Facebook"
 msgstr ""
 
-#: app/templates/index.html:87
+#: app/templates/index.html:89
 msgid "How would you translate it?"
 msgstr ""
 
-#: app/templates/index.html:90
+#: app/templates/index.html:92
 msgid "Skip"
 msgstr ""
 
-#: app/templates/index.html:91 app/templates/translation_response.html:22
+#: app/templates/index.html:93 app/templates/translation_response.html:22
 msgid "Submit"
 msgstr ""
 
-#: app/templates/index.html:95
+#: app/templates/index.html:97
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:106
+#: app/templates/index.html:108
 msgid "English"
 msgstr "Английский"
 
-#: app/templates/index.html:107
+#: app/templates/index.html:109
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/index.html:108
+#: app/templates/index.html:110
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/index.html:109
+#: app/templates/index.html:111
 msgid "German"
 msgstr ""
 
-#: app/templates/index.html:110
+#: app/templates/index.html:112
 msgid "Korean"
 msgstr "Корейский"
 
-#: app/templates/index.html:111
+#: app/templates/index.html:113
 msgid "Italian"
 msgstr ""
 
-#: app/templates/index.html:112
+#: app/templates/index.html:114
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/index.html:113
+#: app/templates/index.html:115
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:114
+#: app/templates/index.html:116
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/index.html:115
+#: app/templates/index.html:117
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/index.html:116
+#: app/templates/index.html:118
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/index.html:117
+#: app/templates/index.html:119
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/index.html:118
+#: app/templates/index.html:120
 #, fuzzy
 msgid "Polish"
 msgstr "Испанский"
 
-#: app/templates/index.html:119
+#: app/templates/index.html:121
 msgid "Thai"
 msgstr ""
 
-#: app/templates/index.html:120
+#: app/templates/index.html:122
 msgid "Czech"
 msgstr ""
 
-#: app/templates/index.html:121
+#: app/templates/index.html:123
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/index.html:122
+#: app/templates/index.html:124
 msgid "Japanese"
 msgstr "Японский"
 
 #: app/templates/maintenance.html:3
 msgid "Maintenance"
 msgstr ""
-
-#: app/templates/statistics.html:4
-msgid "Statistics"
-msgstr ""
-
-#: app/templates/statistics.html:5
-msgid "Go back to home"
-msgstr "Перейти на главную страницу"
 
 #: app/templates/translation_request.html:4
 msgid "Post a Translation Challenge"
@@ -278,4 +274,7 @@ msgstr ""
 #, fuzzy
 msgid "Professional translation"
 msgstr "Прямой перевод"
+
+#~ msgid "Go back to home"
+#~ msgstr "Перейти на главную страницу"
 

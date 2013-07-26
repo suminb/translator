@@ -148,3 +148,15 @@ class User(db.Model, UserMixin):
 
     def serialize(self):
         return serialize(self)
+
+
+class GeoIP(db.Model):
+    """The primary purpose of this table is to hold IP-geolocation pairs.
+    The table name itself is pretty mucy self-explanatory."""
+
+    __tablename__ = 'geoip'
+
+    address = db.Column(db.String(40), primary_key=True) # We may hold IPv6 addresses as well
+    timestamp = db.Column(db.DateTime(timezone=True))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)

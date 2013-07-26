@@ -107,6 +107,11 @@ div.navigation {
   text-align: right;
 }
 
+img {
+  /* To override bootstrap.css */
+  max-width: none;
+}
+
 textarea {
     /*padding: .5em;*/
     /*font-family: Helvetica, Arial, sans-serif;*/

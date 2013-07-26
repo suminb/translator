@@ -85,13 +85,17 @@ def geolocation(conn):
 
     def lookup_records():
         qdate = date.today() - timedelta(days=30)
-        for row in conn.execute('SELECT remote_address, count(remote_address) FROM translation WHERE "timestamp" >= date(\'{}\') GROUP BY remote_address'.format(qdate.isoformat())):
-            ip, count = row[0], row[1]
-
-            if ip != None:
-                record = ip_lookup(ip)
-                if record != None:
-                    yield {'lat':record.latitude, 'lng':record.longitude, 'count':count}
+        query = """
+            SELECT address, latitude, longitude, count FROM (
+                SELECT remote_address, count(remote_address) AS count
+                    FROM translation
+                    WHERE "timestamp" >= date('{}')
+                    GROUP BY remote_address) AS t
+                INNER JOIN geoip ON t.remote_address = geoip.address
+        """.format(qdate.isoformat())
+        for row in conn.execute(query):
+            ip, latitude, longitude, count = row
+            yield {'lat':latitude, 'lng':longitude, 'count':count}
 
     mx = 0
     data = []

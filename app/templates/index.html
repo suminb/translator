@@ -20,72 +20,81 @@
   </p>
   
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
-  <div class="column column1">
-    <div class="translation-options">
-      <select name="sl" onchange="state.selectSource(this.value)">
-        {{ language_options | safe }}
-      </select>
-      <button class="btn" onclick="refreshExample()">
-        <img src="/static/refresh.png" alt="{{ _("Show another example" )}}"/>
-      </button>
-      <button class="btn" onclick="state.swapLanguages()">
-        <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
-      </button>
-      <button class="btn btn-primary translate">{{ _("Translate") }}</button>
-    </div>
-      
-    <textarea id="text" name="t"></textarea>
-
-    <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
-    <div id="page-url">
-        <div id="page-url-value"></div>
-        <!--
-        <div id="addthis-share" class="addthis_default_style" style="float:left;margin-left:.75em;">
-            <a class="addthis_button_facebook"></a>
-            <a class="addthis_button_twitter"></a>
-            <a class="addthis_button_compact"></a>
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="row-fluid translation-options">
+        <div class="span6">
+          <select name="sl" onchange="state.selectSource(this.value)">
+            {{ language_options | safe }}
+          </select>
         </div>
-        -->
-        <div style="clear:both;"></div>
-    </div>
-  </div>
-  <div class="column column2" style="position:relative;">
-    <div class="translation-options">
-      <div class="btn-group to-mode" data-toggle="buttons-radio">
-        <button type="button" class="btn to-mode" value="1">{{ _("Regular translation") }}</button>
-        <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
+        <div class="span6" style="text-align:right;">
+          <button class="btn" onclick="refreshExample()">
+            <img src="/static/refresh.png" alt="{{ _("Show another example" )}}"/>
+          </button>
+          <button class="btn" onclick="state.swapLanguages()">
+            <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
+          </button>
+          <button class="btn btn-primary translate">{{ _("Translate") }}</button>
+        </div>
       </div>
-      <select name="tl" onchange="state.selectTarget(this.value)">
-          {{ language_options | safe }}
-      </select>
-    </div>
-    <div>
-        <div id="error-message"></div>
-        <div id="progress-message" style="float:left;">
-            {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
-        </div>
-        <pre id="result"></pre>
-    </div>
+        
+      <textarea id="text" name="t"></textarea>
 
-    <div id="feedback">
-        <div id="rating" style="display:none;">
-            {{ _("How did you like this translation?") }}
-            <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
-            <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
-            <span class="action" onclick="rate(1)">{{ _("Excellent") }}</span>
-            <!--
-            <div>
-                <a href="#" class="facebook-post">{{ _("Post a translation challenge on Facebook") }}</a>
-            </div>
-            -->
+      <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
+      <div id="page-url">
+          <div id="page-url-value"></div>
+          <!--
+          <div id="addthis-share" class="addthis_default_style" style="float:left;margin-left:.75em;">
+              <a class="addthis_button_facebook"></a>
+              <a class="addthis_button_twitter"></a>
+              <a class="addthis_button_compact"></a>
+          </div>
+          -->
+          <div style="clear:both;"></div>
+      </div>
+    </div>
+    <div class="span6">
+      <div class="row-fluid translation-options">
+        <div class="span5">
+          <div class="btn-group to-mode" data-toggle="buttons-radio">
+            <button type="button" class="btn to-mode" value="1">{{ _("Regular translation") }}</button>
+            <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
+          </div>
         </div>
-        <div id="appreciation" style="display:none;">
-            {{ _("Thank you for your feedback.") }}
+        <div class="span7" style="text-align:right;">
+          <select name="tl" onchange="state.selectTarget(this.value)">
+              {{ language_options | safe }}
+          </select>
         </div>
+      </div>
+      <div>
+          <div id="error-message"></div>
+          <div id="progress-message" style="float:left;">
+              {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+          </div>
+          <pre id="result"></pre>
+      </div>
+
+      <div id="feedback">
+          <div id="rating" style="display:none;">
+              {{ _("How did you like this translation?") }}
+              <span class="action" onclick="rate(-1)">{{ _("Poor") }}</span> |
+              <span class="action" onclick="rate(0)">{{ _("Acceptable") }}</span> |
+              <span class="action" onclick="rate(1)">{{ _("Excellent") }}</span>
+              <!--
+              <div>
+                  <a href="#" class="facebook-post">{{ _("Post a translation challenge on Facebook") }}</a>
+              </div>
+              -->
+          </div>
+          <div id="appreciation" style="display:none;">
+              {{ _("Thank you for your feedback.") }}
+          </div>
+      </div>
     </div>
   </div>
   </form>
-  <div style="clear:both;"></div>
 
 
 <!--

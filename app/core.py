@@ -420,8 +420,8 @@ def translate():
 
     return dict(
         id=translation.id,
-        id_b62='0z'+base62.encode(uuid.UUID(translation.id).int),
-        serial_b62='0z'+base62.encode(translation.serial),
+        id_b62=base62.encode(uuid.UUID(translation.id).int),
+        serial_b62=base62.encode(translation.serial),
         intermediate_text=translation.intermediate_text,
         translated_text=translation.translated_text)
 
@@ -431,10 +431,7 @@ def translate():
 def fetch(serial):
     import base62
 
-    if not serial.startswith('0z'):
-        return 'Invalid serial format\n', 400
-
-    serial = base62.decode(serial[2:])
+    serial = base62.decode(serial)
 
     row = Translation.query.filter_by(serial=serial).first()
 
@@ -546,7 +543,7 @@ def translation_response(translation_id):
         TranslationResponse.insert_or_update(translation_id, current_user.id, request.form)
 
         return redirect(url_for('translation_response',
-            translation_id='0z'+base62.encode(translation_id.int)))
+            translation_id=base62.encode(translation_id.int)))
     else:
         translation = Translation.query.get(str(translation_id))
         tresponse = TranslationResponse.fetch(translation_id, current_user.id)

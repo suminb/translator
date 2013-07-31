@@ -1,6 +1,6 @@
 {% macro render_nav_item(name, endpoint) %}
   <li class="{% if request.endpoint == endpoint %}active{% endif%}">
-    <a href="{{url_for(endpoint)}}">{{ name }}</a>
+    <a href="{{ url_for(endpoint) }}">{{ name }}</a>
   </li>
 {% endmacro %}
 <!DOCTYPE html>
@@ -44,6 +44,9 @@
         <div class="nav-collapse collapse">
           <ul class="nav">
             {{ render_nav_item(_("Discussions"), "discuss") }}
+            <li class="{% if request.endpoint == endpoint %}active{% endif%}">
+              <a href="https://twitter.com/btrtranslator" target="_blank">{{ _("Follow us on Twitter") }}</a>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

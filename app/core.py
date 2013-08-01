@@ -9,7 +9,7 @@ from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
 
 from __init__ import __version__, app, logger, login_manager
-from models import *
+from models import Translation, TranslationResponse, Rating, User
 from utils import *
 
 import requests
@@ -115,9 +115,11 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
 
     r = None
     try:
-        r = proxy_factory.make_request(url, headers=headers, params=payload, req_type=requests.post)
+        r = proxy_factory.make_request(url, headers=headers, params=payload,
+            req_type=requests.post, timeout=3)
     except Exception as e:
-        logger.error(str(e))
+        pass
+        #logger.exception(e)
 
     if r == None:
         # if request via proxy fails
@@ -414,6 +416,8 @@ def translate():
             translation.translated_text = translated
             translation.intermediate_text = intermediate
             translation.original_text_hash = original_text_hash
+
+            from models import db
 
             db.session.add(translation)
             db.session.commit()

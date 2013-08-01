@@ -9,7 +9,7 @@ from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
 
 from __init__ import __version__, app, logger, login_manager
-from models import Translation, TranslationResponse, Rating, User
+from models import *
 from utils import *
 
 import requests
@@ -116,10 +116,9 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     r = None
     try:
         r = proxy_factory.make_request(url, headers=headers, params=payload,
-            req_type=requests.post, timeout=3)
+            req_type=requests.post, timeout=2, pool_size=10)
     except Exception as e:
-        pass
-        #logger.exception(e)
+        logger.exception(e)
 
     if r == None:
         # if request via proxy fails
@@ -417,8 +416,6 @@ def translate():
             translation.intermediate_text = intermediate
             translation.original_text_hash = original_text_hash
 
-            from models import db
-
             db.session.add(translation)
             db.session.commit()
 
@@ -640,6 +637,13 @@ def facebook_authorized(resp):
 @facebook_app.tokengetter
 def get_facebook_oauth_token():
     return session.get('oauth_token')
+
+
+@app.teardown_request
+def teardown_request(exception):
+    """Refer http://flask.pocoo.org/docs/tutorial/dbcon/ for more details."""
+    if db is not None:
+        db.session.close()
 
 
 @app.errorhandler(404)

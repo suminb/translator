@@ -29,6 +29,7 @@ def serialize(obj):
 
 class Translation(db.Model):
     id = db.Column(UUID, primary_key=True)
+    user_id = db.Column(UUID)
     serial = db.Column(db.Integer, db.Sequence('translation_serial_seq'))
     timestamp = db.Column(db.DateTime(timezone=True))
     user_agent = db.Column(db.String(255))
@@ -112,6 +113,7 @@ class TranslationResponseLatest(db.Model):
 class Rating(db.Model):
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
+    user_id = db.Column(UUID)
     timestamp = db.Column(db.DateTime(timezone=True))
     user_agent = db.Column(db.String(255))
     remote_address = db.Column(db.String(64))

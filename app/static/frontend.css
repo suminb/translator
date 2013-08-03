@@ -59,11 +59,6 @@ p.notification {
 }
 */
 
-.credits {
-  max-width: 800px;
-  min-width: 300px;
-  margin: 0 auto;
-}
 .credits h3 {
   margin: 2em 0 .5em 0;
   padding: 0 0 .2em 0;
@@ -231,4 +226,9 @@ div.table .header {
   -mox-border-radius: 3px;
   border-radius: 3px;
   background-color: #eee;
+}
+
+div.subcontainer {
+  margin: 0 auto;
+  max-width: 1000px;
 }

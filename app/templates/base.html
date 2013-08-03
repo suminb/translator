@@ -1,6 +1,6 @@
 {% macro render_nav_item(name, endpoint) %}
   <li class="{% if request.endpoint == endpoint %}active{% endif%}">
-    <a href="{{url_for(endpoint)}}">{{ name }}</a>
+    <a href="{{ url_for(endpoint) }}">{{ name }}</a>
   </li>
 {% endmacro %}
 <!DOCTYPE html>
@@ -16,6 +16,8 @@
   <meta property="fb:admins" content="10132775"/>
   <meta property="og:description"
         content="{{ og_description }}"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://static.suminb.com/jquery.sprintf.js"></script>
@@ -42,7 +44,9 @@
         <div class="nav-collapse collapse">
           <ul class="nav">
             {{ render_nav_item(_("Discussions"), "discuss") }}
-            {{ render_nav_item(_("Statistics"), "statistics") }}
+            <li class="{% if request.endpoint == endpoint %}active{% endif%}">
+              <a href="https://twitter.com/btrtranslator" target="_blank">{{ _("Follow us on Twitter") }}</a>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -52,7 +56,7 @@
   <div id="content" class="container">
 {% block content %}{% endblock %}
 
-    <div style="margin-top:40px;">
+    <div class="locales">
         <span class="action" onclick="$.cookie('locale', 'ko'); location.href='?locale=ko'">한국어</span> |
         <span class="action" onclick="$.cookie('locale', 'en'); location.href='?locale=en'">English</span> |
         <span class="action" onclick="$.cookie('locale', 'fr'); location.href='?locale=fr'">Français</span> |

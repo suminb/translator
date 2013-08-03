@@ -20,47 +20,30 @@
   </p>
   
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
-  <div class="column column1">
-    <div class="translation-options">
-      <select name="sl" style="position:absolute;left:0;" onchange="state.selectSource(this.value)">
-        {{ language_options | safe }}
-      </select>
-      <button class="btn" onclick="refreshExample()">
-        <img src="/static/refresh.png" alt="{{ _("Show another example" )}}"/>
-      </button>
-      <button class="btn" onclick="state.swapLanguages()">
-        <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
-      </button>
-      <button class="btn btn-primary translate">{{ _("Translate") }}</button>
-    </div>
-      
-    <textarea id="text" name="t"></textarea>
-  </div>
-  <div class="column column2" style="position:relative;">
-    <div class="translation-options">
-      <div class="btn-group to-mode" data-toggle="buttons-radio">
-        <button type="button" class="btn to-mode" value="1">{{ _("Regular translation") }}</button>
-        <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
-      </div>
-      <select name="tl" style="position:absolute;right:0;" onchange="state.selectTarget(this.value)">
-          {{ language_options | safe }}
-      </select>
-    </div>
-    <div>
-        <div id="error-message"></div>
-        <div id="progress-message" style="float:left;">
-            {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="row-fluid translation-options">
+        <div class="span6">
+          <select name="sl" onchange="state.selectSource(this.value)">
+            {{ language_options | safe }}
+          </select>
         </div>
-        <pre id="result"></pre>
-    </div>
-  </div>
-  </form>
-  <div style="clear:both;"></div>
+        <div class="span6" style="text-align:right;">
+          <button class="btn" onclick="refreshExample()">
+            <img src="/static/refresh.png" alt="{{ _("Show another example" )}}"/>
+          </button>
+          <button class="btn" onclick="state.swapLanguages()">
+            <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
+          </button>
+          <button class="btn btn-primary translate">{{ _("Translate") }}</button>
+        </div>
+      </div>
+        
+      <textarea id="text" name="t"></textarea>
 
-  <div class="column column1">
       <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
       <div id="page-url">
-          <div id="page-url-value" style="float:left;"></div>
+          <div id="page-url-value"></div>
           <!--
           <div id="addthis-share" class="addthis_default_style" style="float:left;margin-left:.75em;">
               <a class="addthis_button_facebook"></a>
@@ -70,9 +53,29 @@
           -->
           <div style="clear:both;"></div>
       </div>
-      &nbsp;
-  </div>
-  <div class="column column2">
+    </div>
+    <div class="span6">
+      <div class="row-fluid translation-options">
+        <div class="span5">
+          <div class="btn-group to-mode" data-toggle="buttons-radio">
+            <button type="button" class="btn to-mode" value="1">{{ _("Regular translation") }}</button>
+            <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
+          </div>
+        </div>
+        <div class="span7" style="text-align:right;">
+          <select name="tl" onchange="state.selectTarget(this.value)">
+              {{ language_options | safe }}
+          </select>
+        </div>
+      </div>
+      <div>
+          <div id="error-message"></div>
+          <div id="progress-message" style="float:left;">
+              {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+          </div>
+          <pre id="result"></pre>
+      </div>
+
       <div id="feedback">
           <div id="rating" style="display:none;">
               {{ _("How did you like this translation?") }}
@@ -85,20 +88,14 @@
               </div>
               -->
           </div>
-          <form id="alternative-translation-form" style="display:none;" onsubmit="return submitAlternativeTranslation()">
-              {{ _("How would you translate it?") }}
-              <textarea name="alt"></textarea>
-              <div style="width:100%; text-align:right;">
-                  <span class="action" onclick="skipAlternativeTranslation()">{{ _("Skip") }}</span>
-                  <input type="submit" value="{{ _("Submit") }}"/>
-              </div>
-          </form>
           <div id="appreciation" style="display:none;">
               {{ _("Thank you for your feedback.") }}
           </div>
       </div>
+    </div>
   </div>
-  <div style="clear:both;"></div>
+  </form>
+
 
 <!--
 This section is reserved for gettext string extraction purposes

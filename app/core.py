@@ -63,6 +63,15 @@ facebook_app = oauth.remote_app('facebook',
     request_token_params={'scope': 'email, publish_stream'}
 )
 
+@app.template_filter('date')
+def _jinja2_filter_datetime(date, fmt=None):
+    """Copied from http://monocaffe.blogspot.com/2013/03/jinja2-template-datetime-filters-in.html"""
+    if fmt:
+        return date.strftime(fmt)
+    else:
+        return date.strftime(_('%%m/%%d/%%Y'))
+
+
 # DO NOT MOVE THIS TO __init__.py
 @login_manager.user_loader
 def load_user(user_id):
@@ -115,9 +124,10 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
 
     r = None
     try:
-        r = proxy_factory.make_request(url, headers=headers, params=payload, req_type=requests.post)
+        r = proxy_factory.make_request(url, headers=headers, params=payload,
+            req_type=requests.post, timeout=2, pool_size=10)
     except Exception as e:
-        logger.error(str(e))
+        logger.exception(e)
 
     if r == None:
         # if request via proxy fails
@@ -420,8 +430,8 @@ def translate():
 
     return dict(
         id=translation.id,
-        id_b62='0z'+base62.encode(uuid.UUID(translation.id).int),
-        serial_b62='0z'+base62.encode(translation.serial),
+        id_b62=base62.encode(uuid.UUID(translation.id).int),
+        serial_b62=base62.encode(translation.serial),
         intermediate_text=translation.intermediate_text,
         translated_text=translation.translated_text)
 
@@ -431,10 +441,7 @@ def translate():
 def fetch(serial):
     import base62
 
-    if not serial.startswith('0z'):
-        return 'Invalid serial format\n', 400
-
-    serial = base62.decode(serial[2:])
+    serial = base62.decode(serial)
 
     row = Translation.query.filter_by(serial=serial).first()
 
@@ -546,7 +553,7 @@ def translation_response(translation_id):
         TranslationResponse.insert(translation_id, current_user.id, request.form)
 
         return redirect(url_for('translation_response',
-            translation_id='0z'+base62.encode(translation_id.int)))
+            translation_id=base62.encode(translation_id.int)))
     else:
         translation = Translation.query.get(str(translation_id))
         tresponses = TranslationResponse.fetch_all(translation_id, current_user.id)
@@ -581,7 +588,7 @@ def translation_responses(translation_id):
     return render_template('translation_responses.html', **context)
 
 @app.route('/tr/<tresponse_id>/post', methods=['GET', 'POST'])
-def translation_post(tresponse_id):
+def tresponse_post(tresponse_id):
     tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
 
     translation = Translation.query.get(tresponse.translation_id)
@@ -600,6 +607,13 @@ def translation_post(tresponse_id):
     ))
     return str(post_id)
 
+
+@app.route('/tr/<tresponse_id>/rate/<int:rate>', methods=['GET', 'POST'])
+@login_required
+def tresponse_rate(tresponse_id, rate):
+    tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
+
+    return ''
 
 @app.route('/login')
 def login():
@@ -664,6 +678,13 @@ def facebook_authorized(resp):
 @facebook_app.tokengetter
 def get_facebook_oauth_token():
     return session.get('oauth_token')
+
+
+@app.teardown_request
+def teardown_request(exception):
+    """Refer http://flask.pocoo.org/docs/tutorial/dbcon/ for more details."""
+    if db is not None:
+        db.session.close()
 
 
 @app.errorhandler(404)

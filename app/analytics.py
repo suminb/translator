@@ -45,13 +45,19 @@ def get_language_count(conn):
 def get_char_length(conn):
     return conn.execute('SELECT sum(char_length(original_text)) FROM translation').first()[0]
 
+def pregeocoding():
+    # FIXME: Temporary solution for pre-geocoding
+    for row in db.session.query(Translation.remote_address) \
+            .filter(Translation.remote_address != None) \
+            .group_by(Translation.remote_address):
+        ip_lookup(row.remote_address)
+
 def geolocation(conn):
     def ip_lookup(ip):
         import time
 
-        ip = ip.strip()
-
         # FIXME: Temporary cheating
+        ip = ip.strip()
         if len(ip) > 15:
             return None
 
@@ -92,23 +98,16 @@ def geolocation(conn):
     def lookup_records():
         qdate = date.today() - timedelta(days=7)
         query = """
-            SELECT address, latitude, longitude, count FROM (
-                SELECT remote_address, count(remote_address) AS count
-                    FROM translation
-                    WHERE "timestamp" >= date('{}')
-                    GROUP BY remote_address) AS t
-                INNER JOIN geoip ON t.remote_address = geoip.address
+            SELECT *, count(*) FROM (
+                SELECT latitude, longitude FROM translation
+                INNER JOIN geoip ON translation.remote_address = geoip.address
+                WHERE translation.timestamp >= date('{}')
+            ) AS t
+            GROUP BY t.latitude, t.longitude
         """.format(qdate.isoformat())
         for row in conn.execute(query):
-            ip, latitude, longitude, count = row
+            latitude, longitude, count = row
             yield {'lat':latitude, 'lng':longitude, 'count':count}
-
-    # FIXME: Temporary solution for pre-geocoding
-    qdate = date.today() - timedelta(days=7)
-    for row in db.session.query(Translation.remote_address) \
-            .filter(Translation.timestamp >= qdate) \
-            .group_by(Translation.remote_address):
-        ip_lookup(row.remote_address)
 
     mx = 0
     data = []

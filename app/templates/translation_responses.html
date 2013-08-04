@@ -21,10 +21,10 @@
       <div class="span3 header">{{ tresponse.user_id }} {{ tresponse.timestamp | date }}</div>
       <div class="span7">{{ tresponse.translated_text }}</div>
       <div class="span2" style="text-align:right">
-        <button class="btn" onclick="$.post('/tr/{{ tresponse.id | uuid_to_b62 }}/rate/-1')">
+        <button class="btn" onclick="$.post('/v1.0/tr/{{ tresponse.id | uuid_to_b62 }}/rate', {r:-1})">
           <i class="icon-minus"></i>
         </button>
-        <button class="btn" onclick="$.post('/tr/{{ tresponse.id | uuid_to_b62 }}/rate/1')">
+        <button class="btn" onclick="$.post('/v1.0/tr/{{ tresponse.id | uuid_to_b62 }}/rate', {r:1})">
           <i class="icon-plus"></i>
         </button>
       </div>

@@ -490,7 +490,7 @@ function skipAlternativeTranslation() {
 function askForRating(id_b62) {
     $("#appreciation").hide();
     $("#rating").show();
-    //$("#rating a.facebook-post").attr("href", $.sprintf("/tr/%s/request", id_b62));
+    $("#rating a.translation-challenge").attr("href", $.sprintf("/tr/%s/response", id_b62));
 }
 
 function askForAlternativeTranslation() {

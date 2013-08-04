@@ -31,8 +31,6 @@ class TranslationRequest(db.Model):
     id = db.Column(UUID, primary_key=True)
     user_id = db.Column(UUID)
     timestamp = db.Column(db.DateTime(timezone=True))
-    user_agent = db.Column(db.String(255))
-    remote_address = db.Column(db.String(64))
     source = db.Column(db.String(16))
     target = db.Column(db.String(16))
     original_text = db.Column(db.Text)
@@ -70,7 +68,7 @@ class TranslationRequest(db.Model):
 
 
 class TranslationResponse(db.Model):
-    _table_args__ = ( db.UniqueConstraint('source', 'target', 'mode', 'original_text_hash'), )
+    __table_args__ = ( db.UniqueConstraint('source', 'target', 'mode', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
     user_id = db.Column(UUID)
@@ -79,8 +77,8 @@ class TranslationResponse(db.Model):
     target = db.Column(db.String(16))
     mode = db.Column(db.Integer)
     original_text_hash = db.Column(db.String(255))
-    translated_text = db.Column(db.Text)
     intermediate_text = db.Column(db.Text)
+    translated_text = db.Column(db.Text)
 
     def serialize(self):
         # Synthesized property
@@ -111,6 +109,35 @@ class TranslationResponse(db.Model):
         db.session.commit()
 
         return tresp
+
+class Translation(db.Model):
+    """
+    CREATE VIEW translation AS
+        SELECT tres.id, tres.user_id, tres.timestamp,
+            tres.source, tres.target, tres.mode,
+            treq.original_text, tres.original_text_hash, tres.intermediate_text,
+            tres.translated_text FROM translation_response AS tres
+        JOIN translation_request AS treq ON
+            tres.source = treq.source AND
+            tres.target = treq.target AND
+            tres.original_text_hash = treq.original_text_hash
+    """
+    id = db.Column(UUID, primary_key=True)
+    user_id = db.Column(UUID)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    source = db.Column(db.String(16))
+    target = db.Column(db.String(16))
+    mode = db.Column(db.Integer)
+    original_text = db.Column(db.Text)
+    original_text_hash = db.Column(db.String(255))
+    intermediate_text = db.Column(db.Text)
+    translated_text = db.Column(db.Text)
+
+    def serialize(self):
+        # Synthesized property
+        self.id_b62 = base62.encode(uuid.UUID(self.id).int)
+
+        return serialize(self)
 
 """
 class TranslationResponse(db.Model):

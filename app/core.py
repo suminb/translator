@@ -175,6 +175,7 @@ def __language_options__():
 def index(translation_id=None, serial=None):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
+    is_iphone = 'iPhone' in user_agent
     is_msie = 'MSIE' in user_agent
 
     context = dict(
@@ -190,10 +191,10 @@ def index(translation_id=None, serial=None):
     if translation_id != None:
         # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
         translation_id = base62.decode(translation_id)
-        row = TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
+        row = Translation.query.get(str(uuid.UUID(int=translation_id)))
 
     elif serial != None:
-        row = TranslationResponse.query.filter_by(serial=base62.decode(serial)).first()
+        row = Translation.query.filter_by(serial=base62.decode(serial)).first()
 
     if (translation_id != None or serial != None) and row == None:
         context['message'] = _('Requrested resource does not exist')

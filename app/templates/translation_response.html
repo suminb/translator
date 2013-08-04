@@ -1,42 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="subcontainer">
+
   <h1>{{ _("Response to a Challenge") }}</h1>
 
-  <table style="width:100%;">
-    <tr>
-      <td style="width:140px;">{{ _("Original text") }} ({{ translation.source }})</td>
-      <td>{{ translation.original_text }}</td>
-    </tr>
-    <tr>
-      <td>{{ _("Translated text") }} ({{ translation.target }})</td>
-      <td>{{ translation.translated_text }}</td>
-    </tr>
-    <tr>
-      <td>{{ _("Your translation") }}</td>
-      <td>
+  <div class="table">
+    <div class="row-fluid">
+      <div class="span3 header">{{ _("Original text") }} ({{ translation.source }})</div>
+      <div class="span9">{{ translation.original_text }}</div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span3 header">{{ _("Translated text") }} ({{ translation.target }})</div>
+      <div class="span9">{{ translation.translated_text }}</div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span3 header"></div>
+      <div class="span9">
+{% if tresponse %}
+        {{ tresponse.text }}
+        <button class="btn btn-primary" style="min-width:7em;">{{ _("Delete") }}</button>
+{% else %}
         <form method="post" action="">
           <textarea name="text" style="width:99%;height:10em;">{{ tresponse.text }}</textarea>
           <div style="text-align:right">
             <button class="btn btn-primary" style="min-width:7em;">{{ _("Save") }}</button>
           </div>
         </form>
-      </td>
-    </tr>
-
-    {% for trevision in trevisions %}
-    <tr>
-      <td>{{ _("Revision") }} {{ trevision.timestamp }}</td>
-      <td>
-        <div>{{ trevision.text }}</div>
-        <div style="text-align:right">
-          <button class="btn" style="min-width:7em;"
-            onclick="$.post('/tr/{{ tresponse.id | uuid_to_b62 }}/post')">{{ _("Post") }}</button>
-        </div>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-  
+{% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

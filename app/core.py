@@ -190,10 +190,10 @@ def index(translation_id=None, serial=None):
     if translation_id != None:
         # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
         translation_id = base62.decode(translation_id)
-        row = Translation.query.get(str(uuid.UUID(int=translation_id)))
+        row = TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
 
     elif serial != None:
-        row = Translation.query.filter_by(serial=base62.decode(serial)).first()
+        row = TranslationResponse.query.filter_by(serial=base62.decode(serial)).first()
 
     if (translation_id != None or serial != None) and row == None:
         context['message'] = _('Requrested resource does not exist')
@@ -386,54 +386,62 @@ def translate():
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
     if source == target:
-        return text
+        return dict(
+            id=None,
+            id_b62=None,
+            intermediate_text=None,
+            translated_text=text)
 
     if source not in VALID_LANGUAGES.keys():
         return 'Invalid source language\n', 400
     if target not in VALID_LANGUAGES.keys():
-        return 'Invalid target language\n', 400
+        return 'Invalid target language\n', 400      
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
+    user_agent = request.headers.get('User-Agent')
 
-    translation = Translation.fetch(None, original_text_hash, source, target, mode)
+    treq = TranslationRequest.fetch(None, original_text_hash, source, target)
 
-    if translation == None:
-        user_agent = request.headers.get('User-Agent')
+    if treq == None:
+        treq = TranslationRequest.insert(
+            user_id=None,
+            user_agent=user_agent,
+            remote_address=get_remote_address(request),
+            source=source,
+            target=target,
+            original_text=text,
+            original_text_hash=original_text_hash,
+        )
 
-        # NOTE: The following is time consuming operations
-        if mode == '2':
+    tresp = TranslationResponse.fetch(None, original_text_hash, source, target, mode)
+
+    if tresp == None:
+        # NOTE: The following may be time consuming operations
+        if mode == '1':
+            intermediate = None
+            translated = __translate__(text, source, target, user_agent)
+        elif mode == '2':
             intermediate = __translate__(text, source, 'ja', user_agent)
             translated = __translate__(intermediate, 'ja', target, user_agent)
         else:
-            intermediate = None
-            translated = __translate__(text, source, target, user_agent)
+            return 'Invalid mode\n', 400
 
-        # NOTE: Therefore check one more time if a record exists
-        translation = Translation.fetch(None, original_text_hash, source, target, mode)
-
-        if translation is None:
-            # TODO: Refactor this section
-            translation = Translation(id=str(uuid.uuid4()))
-            translation.timestamp = datetime.datetime.now()
-            translation.user_agent = user_agent
-            translation.remote_address = get_remote_address(request)
-            translation.source = source
-            translation.target = target
-            translation.mode = mode
-            translation.original_text = text
-            translation.translated_text = translated
-            translation.intermediate_text = intermediate
-            translation.original_text_hash = original_text_hash
-
-            db.session.add(translation)
-            db.session.commit()
+        tresp = TranslationResponse.insert(
+            user_agent=user_agent,
+            remote_address=get_remote_address(request),
+            source=source,
+            target=target,
+            mode=mode,
+            original_text_hash=original_text_hash,
+            intermediate_text=intermediate,
+            translated_text=translated,
+        )
 
     return dict(
-        id=translation.id,
-        id_b62=base62.encode(uuid.UUID(translation.id).int),
-        serial_b62=base62.encode(translation.serial),
-        intermediate_text=translation.intermediate_text,
-        translated_text=translation.translated_text)
+        id=tresp.id,
+        id_b62=base62.encode(uuid.UUID(tresp.id).int),
+        intermediate_text=tresp.intermediate_text,
+        translated_text=tresp.translated_text)
 
 
 
@@ -443,7 +451,7 @@ def fetch(serial):
 
     serial = base62.decode(serial)
 
-    row = Translation.query.filter_by(serial=serial).first()
+    row = TranslationResponse.query.filter_by(serial=serial).first()
 
     if row == None:
         return 'Requested resource does not exist\n', 404
@@ -461,7 +469,7 @@ def rate(serial):
 
     rating = request.form['r']
 
-    t = Translation.query.filter_by(serial=base62.decode(serial)).first()
+    t = TranslationResponse.query.filter_by(serial=base62.decode(serial)).first()
 
     if t == None:
         return 'Requested resource does not exist\n', 404
@@ -489,7 +497,7 @@ def rate_v1_0(translation_id):
     :type id: string (base62 representation)
     """
 
-    t = Translation.fetch(id_b62=translation_id)
+    t = TranslationResponse.fetch(id_b62=translation_id)
 
     if t == None:
         return 'Requested resource does not exist\n', 404
@@ -532,7 +540,7 @@ def maintenance():
 def translation_request(translation_id):
     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
     translation_id = base62.decode(translation_id)
-    translation = Translation.query.get(str(uuid.UUID(int=translation_id)))
+    translation = TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
 
     context = dict(
         referrer=request.referrer,
@@ -555,14 +563,17 @@ def translation_response(translation_id):
         return redirect(url_for('translation_response',
             translation_id=base62.encode(translation_id.int)))
     else:
-        translation = Translation.query.get(str(translation_id))
-        tresponses = TranslationResponse.fetch_all(translation_id, current_user.id)
+        translation = TranslationResponse.query.get(str(translation_id))
+        tresponse = TranslationResponse.query.filter_by(
+            original_text_hash=translation.original_text_hash,
+            source=translation.source,
+            target=translation.target,
+            mode=3).first()
 
         context = dict(
             locale=get_locale(),
             translation=translation,
-            tresponse=tresponses.first(),
-            trevisions=tresponses,
+            tresponse=tresponse,
         )
 
         return render_template('translation_response.html', **context)
@@ -576,7 +587,7 @@ def translation_responses(translation_id):
 
     # TODO: Join user information with translation_response_latest
 
-    translation = Translation.query.get(str(translation_id))
+    translation = TranslationResponse.query.get(str(translation_id))
     tresponses = TranslationResponseLatest.query.filter_by(translation_id=str(translation_id))
 
     context = dict(
@@ -591,7 +602,7 @@ def translation_responses(translation_id):
 def tresponse_post(tresponse_id):
     tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
 
-    translation = Translation.query.get(tresponse.translation_id)
+    translation = TranslationResponse.query.get(tresponse.translation_id)
     target_language = VALID_LANGUAGES[translation.target]
 
     user = User.query.get(tresponse.user_id)

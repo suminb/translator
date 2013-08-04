@@ -27,24 +27,64 @@ def serialize(obj):
         return fields
 
 
-class Translation(db.Model):
+class TranslationRequest(db.Model):
     id = db.Column(UUID, primary_key=True)
     user_id = db.Column(UUID)
-    serial = db.Column(db.Integer, db.Sequence('translation_serial_seq'))
     timestamp = db.Column(db.DateTime(timezone=True))
     user_agent = db.Column(db.String(255))
     remote_address = db.Column(db.String(64))
     source = db.Column(db.String(16))
     target = db.Column(db.String(16))
-    mode = db.Column(db.Integer)
     original_text = db.Column(db.Text)
-    translated_text = db.Column(db.Text)
-    intermediate_text = db.Column(db.Text)
     original_text_hash = db.Column(db.String(255))
 
     def serialize(self):
         # Synthesized property
-        self.id_b62 = '0z' + base62.encode(uuid.UUID(self.id).int)
+        self.id_b62 = base62.encode(uuid.UUID(self.id).int)
+
+        return serialize(self)
+
+    @staticmethod
+    def fetch(id_b62=None, original_text_hash=None, source=None, target=None):
+        if id_b62 != None:
+            translation_id = base62.decode(id_b62)
+            return TranslationRequest.query.get(str(uuid.UUID(int=translation_id)))
+
+        else:
+            return TranslationRequest.query.filter_by(
+                original_text_hash=original_text_hash,
+                source=source, target=target).first()
+
+    @staticmethod
+    def insert(**kwargs):
+        treq = TranslationRequest(id=str(uuid.uuid4()))
+        treq.timestamp = datetime.now()
+
+        for key, value in kwargs.iteritems():
+            setattr(treq, key, value);
+
+        db.session.add(treq)
+        db.session.commit()
+
+        return treq
+
+
+class TranslationResponse(db.Model):
+    _table_args__ = ( db.UniqueConstraint('source', 'target', 'mode', 'original_text_hash'), )
+
+    id = db.Column(UUID, primary_key=True)
+    user_id = db.Column(UUID)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    source = db.Column(db.String(16))
+    target = db.Column(db.String(16))
+    mode = db.Column(db.Integer)
+    original_text_hash = db.Column(db.String(255))
+    translated_text = db.Column(db.Text)
+    intermediate_text = db.Column(db.Text)
+
+    def serialize(self):
+        # Synthesized property
+        self.id_b62 = base62.encode(uuid.UUID(self.id).int)
 
         return serialize(self)
 
@@ -52,17 +92,30 @@ class Translation(db.Model):
     def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
         if id_b62 != None:
             translation_id = base62.decode(id_b62)
-            return Translation.query.get(str(uuid.UUID(int=translation_id)))
+            return TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
 
         else:
-            return Translation.query.filter_by(
+            return TranslationResponse.query.filter_by(
                 original_text_hash=original_text_hash,
                 source=source, target=target, mode=mode).first()
 
+    @staticmethod
+    def insert(**kwargs):
+        tresp = TranslationResponse(id=str(uuid.uuid4()))
+        tresp.timestamp = datetime.now()
 
+        for key, value in kwargs.iteritems():
+            setattr(tresp, key, value);
+
+        db.session.add(tresp)
+        db.session.commit()
+
+        return tresp
+
+"""
 class TranslationResponse(db.Model):
     # Users may submit a translation response only once
-    #__table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), {} )
+    _table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), {} )
 
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
@@ -108,7 +161,7 @@ class TranslationResponseLatest(db.Model):
     user_id = db.Column(UUID)
     timestamp = db.Column(db.DateTime(timezone=True))
     text = db.Column(db.Text)
-
+"""
 
 class Rating(db.Model):
     id = db.Column(UUID, primary_key=True)

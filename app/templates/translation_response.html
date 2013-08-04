@@ -22,6 +22,7 @@
 {% if tresponse %}
         <p>{{ tresponse.translated_text }}</p>
         <button class="btn" style="min-width:7em;">{{ _("Delete") }}</button>
+        <button class="btn" style="min-width:7em;">{{ _("Post on Facebook") }}</button>
 {% else %}
         <form method="post" action="">
           <textarea name="text" style="width:99%;height:10em;">{{ tresponse.text }}</textarea>

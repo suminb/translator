@@ -191,14 +191,13 @@ class TranslationResponseLatest(db.Model):
 """
 
 class Rating(db.Model):
+    __table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), )
+
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
     user_id = db.Column(UUID)
     timestamp = db.Column(db.DateTime(timezone=True))
-    user_agent = db.Column(db.String(255))
-    remote_address = db.Column(db.String(64))
     rating = db.Column(db.Integer)
-    token = db.Column(db.String(128))
 
 
 class User(db.Model, UserMixin):
@@ -242,3 +241,10 @@ class GeoIP(db.Model):
     timestamp = db.Column(db.DateTime(timezone=True))
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
+
+
+#
+# Generating SQL from declarative model definitions:
+#
+#     print CreateTable(User.__table__).compile(db.engine)
+#

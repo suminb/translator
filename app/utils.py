@@ -19,4 +19,4 @@ def get_remote_address(req):
 
 
 def uuid_to_b62(value):
-    return '0z' + base62.encode(uuid.UUID(value).int)
+    return base62.encode(uuid.UUID(value).int)

@@ -580,7 +580,7 @@ def translation_response(translation_id):
 
         return redirect(url_for('translation_response',
             translation_id=base62.encode(translation_id.int)))
-        
+
     else:
         tres = TranslationResponse.query.filter_by(
             user_id=current_user.id,
@@ -606,16 +606,21 @@ def translation_responses(translation_id):
 
     # TODO: Join user information with translation_response_latest
 
-    translation = TranslationResponse.query.get(str(translation_id))
-    tresponses = TranslationResponseLatest.query.filter_by(translation_id=str(translation_id))
+    translation = Translation.query.get(str(translation_id))
+    treses = TranslationResponse.query.filter_by(
+        source=translation.source,
+        target=translation.target,
+        mode=3,
+        original_text_hash=translation.original_text_hash)
 
     context = dict(
         locale=get_locale(),
         translation=translation,
-        tresponses=tresponses,
+        tresponses=treses,
     )
 
     return render_template('translation_responses.html', **context)
+
 
 @app.route('/tr/<tresponse_id>/post', methods=['GET', 'POST'])
 def tresponse_post(tresponse_id):

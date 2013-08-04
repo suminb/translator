@@ -8,7 +8,7 @@ from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
 
-from __init__ import __version__, app, logger, login_manager, uuid_to_b62
+from __init__ import __version__, app, logger, login_manager, VALID_LANGUAGES, DEFAULT_USER_AGENT
 from models import *
 from utils import *
 
@@ -28,31 +28,6 @@ import config
 babel = Babel(app)
 oauth = OAuth()
 
-VALID_LANGUAGES = {
-    'en': 'English',
-    'es': 'Spanish',
-    'fr': 'French',
-    'ja': 'Japanese',
-    'ko': 'Korean',
-    'ru': 'Russian',
-    'zh-CN': 'Chinese',
-    'id': 'Indonesian',
-    'vi': 'Vietnamese',
-    'th': 'Thai',
-    'it': 'Italian',
-    'de': 'German',
-    'tl': 'Filipino',
-    'ar': 'Arabic',
-    'cs': 'Czech',
-    'iw': 'Hebrew',
-    'pl': 'Polish',
-    'pt': 'Portuguese',
-    'sv': 'Swedish',
-    'tr': 'Turkish',
-}
-
-DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'
-
 facebook_app = oauth.remote_app('facebook',
     base_url='https://graph.facebook.com/',
     request_token_url=None,
@@ -62,14 +37,6 @@ facebook_app = oauth.remote_app('facebook',
     consumer_secret=config.FACEBOOK_APP_SECRET,
     request_token_params={'scope': 'email, publish_stream'}
 )
-
-@app.template_filter('date')
-def _jinja2_filter_datetime(date, fmt=None):
-    """Copied from http://monocaffe.blogspot.com/2013/03/jinja2-template-datetime-filters-in.html"""
-    if fmt:
-        return date.strftime(fmt)
-    else:
-        return date.strftime(_('%%m/%%d/%%Y'))
 
 
 # DO NOT MOVE THIS TO __init__.py

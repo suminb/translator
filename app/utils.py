@@ -1,5 +1,8 @@
 from functools import wraps
+from flaskext.babel import gettext as _
 from flask import g, request, redirect, url_for
+
+from __init__ import app, VALID_LANGUAGES
 
 import uuid, base62
 
@@ -18,5 +21,23 @@ def get_remote_address(req):
         return req.headers.getlist('X-Forwarded-For')[0]
 
 
-def uuid_to_b62(value):
+@app.template_filter('uuid_to_b62')
+def _jinja2_filter_uuid_to_b62(value):
     return base62.encode(uuid.UUID(value).int)
+
+
+@app.template_filter('date')
+def _jinja2_filter_datetime(date, fmt=None):
+    """Copied from http://monocaffe.blogspot.com/2013/03/jinja2-template-datetime-filters-in.html"""
+    if fmt:
+        return date.strftime(fmt)
+    else:
+        return date.strftime(_('%%m/%%d/%%Y'))
+
+
+@app.template_filter('language_name')
+def _jinja2_filter_language_name(value):
+    if value in VALID_LANGUAGES:
+        return _(VALID_LANGUAGES[value])
+    else:
+        return value

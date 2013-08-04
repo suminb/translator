@@ -202,6 +202,19 @@ class Rating(db.Model):
     def serialize(self):
         return serialize(self)
 
+    @staticmethod
+    def insert(commit=True, **kwargs):
+        rating = Rating(id=str(uuid.uuid4()))
+        rating.timestamp = datetime.now()
+
+        for key, value in kwargs.iteritems():
+            setattr(rating, key, value);
+
+        db.session.add(rating)
+        if commit: db.session.commit()
+
+        return rating
+
 
 class User(db.Model, UserMixin):
     __table_args__ = ( db.UniqueConstraint('oauth_provider', 'oauth_id'), {} )

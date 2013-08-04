@@ -7,6 +7,7 @@ from flask_oauthlib.client import OAuth
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
+from datetime import datetime
 
 from __init__ import __version__, app, logger, login_manager, VALID_LANGUAGES, DEFAULT_USER_AGENT
 from models import *
@@ -16,11 +17,11 @@ import requests
 import json
 import urllib
 import uuid
-import datetime
 import re
 import nilsimsa # Locality Sensitive Hash
 import base62
 import os, sys
+import pytz
 import facebook
 
 import config
@@ -212,7 +213,7 @@ def statistics():
     else:
         context = dict(
             version=__version__,
-            timestamp=datetime.datetime.now().strftime('%Y%m%d%H%M')
+            timestamp=datetime.now().strftime('%Y%m%d%H%M')
         )
         return render_template('statistics.html', **context)
 
@@ -566,16 +567,15 @@ def tresponse_rate(tresponse_id):
     r = Rating.query.filter_by(translation_id=tresponse.id, user_id=current_user.id).first()
 
     if r == None:
-        r = Rating(
-            id=str(uuid.uuid4()),
+        r = Rating.insert(
+            commit=False,
             translation_id=tresponse.id,
             user_id=current_user.id,
-            timestamp=datetime.datetime.now()
+            rating=rv
         )
-
-        db.session.add(r)
-
-    r.rating = rv
+    else:
+        r.timestamp = datetime.now(tz=pytz.utc)
+        r.rating = rv
 
     try:
         db.session.commit()

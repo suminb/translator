@@ -199,6 +199,9 @@ class Rating(db.Model):
     timestamp = db.Column(db.DateTime(timezone=True))
     rating = db.Column(db.Integer)
 
+    def serialize(self):
+        return serialize(self)
+
 
 class User(db.Model, UserMixin):
     __table_args__ = ( db.UniqueConstraint('oauth_provider', 'oauth_id'), {} )

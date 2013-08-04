@@ -554,28 +554,33 @@ def tresponse_post(tresponse_id):
 @app.route('/v1.0/tr/<tresponse_id>/rate', methods=['GET', 'POST'])
 @login_required
 def tresponse_rate(tresponse_id):
+    rv = int(request.form['r'])
+    if not (rv == -1 or rv == 1):
+        return 'Invalid rating\n', 400
+
     tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
 
     if tresponse == None:
         return 'Requested resource does not exist\n', 404
 
-    r = Rating(
-        id=str(uuid.uuid4()),
-        translation_id=tresponse.id,
-        user_id=current_user.id,
-        timestamp=datetime.datetime.now()
-    )
-    r.rating = int(request.form['r'])
+    r = Rating.query.filter_by(translation_id=tresponse.id, user_id=current_user.id).first()
 
-    if not (r.rating == -1 or r.rating == 1):
-        return 'Invalid rating\n', 400
+    if r == None:
+        r = Rating(
+            id=str(uuid.uuid4()),
+            translation_id=tresponse.id,
+            user_id=current_user.id,
+            timestamp=datetime.datetime.now()
+        )
+
+        db.session.add(r)
+
+    r.rating = rv
 
     try:
-        db.session.add(r)
         db.session.commit()
 
-        # NOTE: UUID is not JSON serializable
-        return jsonify(id=str(r.id))
+        return jsonify(r.serialize())
     
     except Exception as e:
         logger.exception(e)

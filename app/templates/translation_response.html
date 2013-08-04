@@ -17,11 +17,11 @@
     </div>
 
     <div class="row-fluid">
-      <div class="span3 header"></div>
+      <div class="span3 header">{{ _("Your translation") }}</div>
       <div class="span9">
 {% if tresponse %}
-        {{ tresponse.text }}
-        <button class="btn btn-primary" style="min-width:7em;">{{ _("Delete") }}</button>
+        <p>{{ tresponse.translated_text }}</p>
+        <button class="btn" style="min-width:7em;">{{ _("Delete") }}</button>
 {% else %}
         <form method="post" action="">
           <textarea name="text" style="width:99%;height:10em;">{{ tresponse.text }}</textarea>

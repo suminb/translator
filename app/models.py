@@ -68,7 +68,7 @@ class TranslationRequest(db.Model):
 
 
 class TranslationResponse(db.Model):
-    __table_args__ = ( db.UniqueConstraint('source', 'target', 'mode', 'original_text_hash'), )
+    __table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'mode', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
     user_id = db.Column(UUID)

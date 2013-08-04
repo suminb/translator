@@ -552,20 +552,38 @@ def translation_request(translation_id):
     return render_template('translation_request.html', **context)
 
 
-@app.route('/tr/<translation_id>/response', methods=['GET', 'POST'])
+@app.route('/tr/<translation_id>/response', methods=['GET', 'POST', 'DELETE'])
 @login_required
 def translation_response(translation_id):
     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
     translation_id = uuid.UUID(int=base62.decode(translation_id))
+    translation = Translation.query.get(str(translation_id))
 
     if request.method == 'POST':
-        TranslationResponse.insert(translation_id, current_user.id, request.form)
+        tres = TranslationResponse.insert(
+            user_id=current_user.id,
+            source=translation.source,
+            target=translation.target,
+            mode=3,
+            original_text_hash=translation.original_text_hash,
+            translated_text=request.form['text']
+        )
 
         return redirect(url_for('translation_response',
             translation_id=base62.encode(translation_id.int)))
+
+    elif request.method == 'DELETE':
+        tres = TranslationResponse.query.get(str(translation_id))
+
+        db.session.delete(tres)
+        db.session.commit()
+
+        return redirect(url_for('translation_response',
+            translation_id=base62.encode(translation_id.int)))
+        
     else:
-        translation = TranslationResponse.query.get(str(translation_id))
-        tresponse = TranslationResponse.query.filter_by(
+        tres = TranslationResponse.query.filter_by(
+            user_id=current_user.id,
             original_text_hash=translation.original_text_hash,
             source=translation.source,
             target=translation.target,
@@ -574,7 +592,7 @@ def translation_response(translation_id):
         context = dict(
             locale=get_locale(),
             translation=translation,
-            tresponse=tresponse,
+            tresponse=tres,
         )
 
         return render_template('translation_response.html', **context)

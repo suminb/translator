@@ -354,10 +354,16 @@ function fetchTranslation(serial) {
     });
 }
 
-function rate(rating) {
+function rate(id, rating) {
     //var original = $("text").val();
     //var encoded = encodeURIComponent(original);
 
+    var url = $.sprintf("/v1.0/tr/%s/rate", id);
+    $.post(url, {r:rating}, function(response) {
+        
+    });
+
+/*
     if (state.id) {
         $.post("/v1.0/rate/"+state.id_b62, {r:rating}, function(response) {
             expressAppreciation();
@@ -369,18 +375,7 @@ function rate(rating) {
 
         });
     }
-
-    // TODO: I'll do this later
-    // if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
-
-    //     // If negative or neutral rating
-    //     if (r < 1) {
-    //         askForAlternativeTranslation();
-    //     }
-    //     else {
-    //         expressAppreciation();
-    //     }
-    // }
+*/
 }
 
 

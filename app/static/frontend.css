@@ -232,3 +232,10 @@ div.subcontainer {
   margin: 0 auto;
   max-width: 1000px;
 }
+
+span.rating-plus {
+  color: #03e;
+}
+span.rating-minus {
+  color: #c30;
+}

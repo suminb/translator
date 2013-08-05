@@ -629,7 +629,7 @@ def facebook_authorized(resp):
         payload[key] = me.data[oauth_key]
 
     try:
-        user = User.insert(payload)
+        user = User.insert(**payload)
         login_user(user)
 
     except IntegrityError as e:

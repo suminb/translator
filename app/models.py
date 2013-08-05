@@ -89,6 +89,16 @@ class TranslationResponse(db.Model):
 
         return serialize(self)
 
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def plus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.id, rating=1).count()
+
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def minus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
+
     @staticmethod
     def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
         if id_b62 != None:
@@ -227,7 +237,7 @@ class User(db.Model, UserMixin):
     id = db.Column(UUID, primary_key=True)
 
     oauth_provider = db.Column(db.String(255))
-    oauth_id = db.Column(db.String(255))
+    oauth_id = db.Column(db.String(255), unique=True)
     oauth_username = db.Column(db.String(255))
 
     family_name = db.Column(db.String(255))
@@ -238,13 +248,18 @@ class User(db.Model, UserMixin):
     locale = db.Column(db.String(16))
 
     @staticmethod
-    def insert(payload={}):
-        user = User(id=str(uuid.uuid4()))
-        for key in payload:
-            user.__setattr__(key, payload[key])
+    def insert(**kwargs):
+        user = User.query.filter_by(oauth_id=kwargs['oauth_id']).first()
 
-        db.session.add(user)
-        db.session.commit()
+        if user == None:
+            user = User(id=str(uuid.uuid4()))
+            #user.timestamp = datetime.now()
+
+            for key, value in kwargs.iteritems():
+                setattr(user, key, value);
+
+            db.session.add(user)
+            db.session.commit()
 
         return user
 

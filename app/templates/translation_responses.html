@@ -18,15 +18,23 @@
 
     {% for tresponse in tresponses %}
     <div class="row-fluid">
-      <div class="span3 header">{{ tresponse.user.given_name }} {{ tresponse.timestamp | date }}</div>
-      <div class="span7">{{ tresponse.translated_text }}</div>
-      <div class="span2" style="text-align:right">
-        <button class="btn" onclick="$.post('/v1.0/tr/{{ tresponse.id | uuid_to_b62 }}/rate', {r:-1})">
-          <i class="icon-minus"></i>
-        </button>
-        <button class="btn" onclick="$.post('/v1.0/tr/{{ tresponse.id | uuid_to_b62 }}/rate', {r:1})">
-          <i class="icon-plus"></i>
-        </button>
+      <div class="span3"></div>
+      <div class="span7">
+        <div>
+          {{ tresponse.user.given_name }} &middot;
+          {{ tresponse.timestamp | date }} &middot;
+          <span class="rating-plus">{{ tresponse.plus_ratings }}</span> /
+          <span class="rating-minus">{{ tresponse.minus_ratings }}</span> &nbsp;
+          <div class="btn-group">
+            <button class="btn btn-mini" onclick="rate('{{ tresponse.id | uuid_to_b62 }}', 1)">
+              <i class="icon-plus"></i>
+            </button>
+            <button class="btn btn-mini" onclick="rate('{{ tresponse.id | uuid_to_b62 }}', -1)">
+              <i class="icon-minus"></i>
+            </button>
+          </div>
+        </div>
+        <p>{{ tresponse.translated_text }}</p>
       </div>
     </div>
     {% endfor %}

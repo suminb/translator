@@ -463,19 +463,34 @@ def translation_response(translation_id):
     translation_id = uuid.UUID(int=base62.decode(translation_id))
     translation = Translation.query.get(str(translation_id))
 
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        translation=translation,
+    )
+    status_code = 200
+
     if request.method == 'POST':
-        tres = TranslationResponse.insert(
-            user_id=current_user.id,
-            source=translation.source,
-            target=translation.target,
-            mode=3,
-            original_text_hash=translation.original_text_hash,
-            translated_text=request.form['text']
-        )
+        translated_text = request.form['text'].strip()
 
-        return redirect(url_for('translation_response',
-            translation_id=base62.encode(translation_id.int)))
+        # FIXME: Temporary
+        if len(translated_text) <= 0:
+            context['error'] = _('Please provide a non-empty translation.')
+            status_code = 400
+        else:
+            tres = TranslationResponse.insert(
+                user_id=current_user.id,
+                source=translation.source,
+                target=translation.target,
+                mode=3,
+                original_text_hash=translation.original_text_hash,
+                translated_text=translated_text,
+            )
+            context['tresponse'] = tres
+            context['success'] = _('Thanks for your submission.')
 
+
+    # FIXME: This must be a REST-ful API
     elif request.method == 'DELETE':
         tres = TranslationResponse.query.get(str(translation_id))
 
@@ -489,8 +504,6 @@ def translation_response(translation_id):
             logger.exception(e)
             return str(e), 500
 
-        
-
     else:
         tres = TranslationResponse.query.filter_by(
             user_id=current_user.id,
@@ -499,14 +512,9 @@ def translation_response(translation_id):
             target=translation.target,
             mode=3).first()
 
-        context = dict(
-            version=__version__,
-            locale=get_locale(),
-            translation=translation,
-            tresponse=tres,
-        )
+        context['tresponse'] = tres
 
-        return render_template('translation_response.html', **context)
+    return render_template('translation_response.html', **context), status_code
 
 
 @app.route('/tr/<translation_id>/responses')

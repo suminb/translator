@@ -5,6 +5,19 @@
 
   <h1>{{ _("Response to a Challenge") }} <span style="font-weight:normal">({{ _("Beta") }})</span></h1>
 
+{% if success %}
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ success }}
+  </div>
+{% endif %}
+{% if error %}
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ error }}
+  </div>
+{% endif %}
+
   <div class="table">
     <div class="row-fluid">
       <div class="span3 header">{{ _("Original text") }} ({{ translation.source | language_name }})</div>
@@ -30,7 +43,8 @@
         <button class="btn btn-danger" style="min-width:7em;" onclick="deleteTranslation('{{ tres_id_b62 }}')">{{ _("Delete") }}</button>
 {% else %}
         <form method="post" action="">
-          <textarea name="text" style="width:99%;height:10em;">{{ tresponse.text }}</textarea>
+          <input type="hidden" name="alert_flag" value="1"/>
+          <textarea name="text" style="width:99%;height:10em;"></textarea>
           <div style="text-align:right">
             <button class="btn btn-primary" style="min-width:7em;">{{ _("Save") }}</button>
           </div>

@@ -16,28 +16,32 @@
       <div class="span9">{{ translation.translated_text }}</div>
     </div>
 
-    {% for tresponse in tresponses %}
     <div class="row-fluid">
       <div class="span3"></div>
       <div class="span7">
-        <div>
-          {{ tresponse.user.name }} &middot;
-          {{ tresponse.timestamp | date }} &middot;
-          <span class="rating-plus">{{ tresponse.plus_ratings }}</span> /
-          <span class="rating-minus">{{ tresponse.minus_ratings }}</span> &nbsp;
-          <div class="btn-group">
-            <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', 1)">
-              <i class="icon-plus"></i>
-            </button>
-            <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', -1)">
-              <i class="icon-minus"></i>
-            </button>
-          </div>
-        </div>
-        <p>{{ tresponse.translated_text }}</p>
+        <ul class="media-list">
+        {% for tresponse in tresponses %}
+          <li class="{% if tresponse.user_id == current_user.id %}highlight{% endif %}">
+            <div>
+              {{ tresponse.user.name }} &middot;
+              {{ tresponse.timestamp | date }} &middot;
+              <span class="rating-plus">{{ tresponse.plus_ratings }}</span> /
+              <span class="rating-minus">{{ tresponse.minus_ratings }}</span> &nbsp;
+              <div class="btn-group">
+                <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', 1)">
+                  <i class="icon-plus"></i>
+                </button>
+                <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', -1)">
+                  <i class="icon-minus"></i>
+                </button>
+              </div>
+            </div>
+            <p>{{ tresponse.translated_text }}</p>
+          </li>
+        {% endfor %}
+      </li>
       </div>
     </div>
-    {% endfor %}
   </div>
 
 </div>

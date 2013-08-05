@@ -247,6 +247,14 @@ class User(db.Model, UserMixin):
     gender = db.Column(db.String(6))
     locale = db.Column(db.String(16))
 
+    def serialize(self):
+        return serialize(self)
+
+    @property
+    def name(self):
+        # FIXME: i18n
+        return '{} {}'.format(self.given_name, self.family_name)
+
     @staticmethod
     def insert(**kwargs):
         user = User.query.filter_by(oauth_id=kwargs['oauth_id']).first()
@@ -262,9 +270,6 @@ class User(db.Model, UserMixin):
             db.session.commit()
 
         return user
-
-    def serialize(self):
-        return serialize(self)
 
 
 class GeoIP(db.Model):

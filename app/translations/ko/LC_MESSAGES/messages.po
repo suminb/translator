@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-04 18:25+0000\n"
+"POT-Creation-Date: 2013-08-05 08:32+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:167
+#: app/core.py:168
 msgid "Requrested resource does not exist"
 msgstr "요청하신 페이지가 존재하지 않습니다"
 
-#: app/core.py:174
+#: app/core.py:175
 msgid "app-description-text"
 msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
 
@@ -49,11 +49,11 @@ msgstr "건의 &amp; 토론"
 msgid "Follow us on Twitter"
 msgstr ""
 
-#: app/templates/base.html:91 app/templates/credits.html:4
+#: app/templates/base.html:98 app/templates/credits.html:4
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: app/templates/base.html:92
+#: app/templates/base.html:99
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -255,15 +255,19 @@ msgstr "번역문"
 msgid "Your translation"
 msgstr "나의 번역"
 
-#: app/templates/translation_response.html:24
-msgid "Delete"
-msgstr "삭제"
-
 #: app/templates/translation_response.html:25
+msgid "See how others did"
+msgstr "다른 사람들이 한 번역 보기"
+
+#: app/templates/translation_response.html:26
 msgid "Post on Facebook"
 msgstr "페이스북에 자랑하기"
 
-#: app/templates/translation_response.html:30
+#: app/templates/translation_response.html:27
+msgid "Delete"
+msgstr "삭제"
+
+#: app/templates/translation_response.html:32
 msgid "Save"
 msgstr "저장"
 

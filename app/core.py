@@ -413,21 +413,6 @@ def translate():
         translated_text=tresp.translated_text)
 
 
-
-@app.route('/v0.9/fetch/<serial>', methods=['GET'])
-def fetch(serial):
-    import base62
-
-    serial = base62.decode(serial)
-
-    row = TranslationResponse.query.filter_by(serial=serial).first()
-
-    if row == None:
-        return 'Requested resource does not exist\n', 404
-
-    return jsonify(row.serialize())
-
-
 @app.route('/v1.0/test')
 def test():
     """Produces arbitrary HTTP responses for debugging purposes."""
@@ -453,6 +438,7 @@ def translation_request(translation_id):
     translation = TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
 
     context = dict(
+        version=__version__,
         referrer=request.referrer,
         locale=get_locale(),
         translation=translation,
@@ -484,11 +470,17 @@ def translation_response(translation_id):
     elif request.method == 'DELETE':
         tres = TranslationResponse.query.get(str(translation_id))
 
-        db.session.delete(tres)
-        db.session.commit()
+        try:
+            db.session.delete(tres)
+            db.session.commit()
 
-        return redirect(url_for('translation_response',
-            translation_id=base62.encode(translation_id.int)))
+            return ''
+
+        except Exception as e:
+            logger.exception(e)
+            return str(e), 500
+
+        
 
     else:
         tres = TranslationResponse.query.filter_by(
@@ -499,6 +491,7 @@ def translation_response(translation_id):
             mode=3).first()
 
         context = dict(
+            version=__version__,
             locale=get_locale(),
             translation=translation,
             tresponse=tres,
@@ -508,9 +501,7 @@ def translation_response(translation_id):
 
 
 @app.route('/tr/<translation_id>/responses')
-@login_required
 def translation_responses(translation_id):
-
     translation_id = uuid.UUID(int=base62.decode(translation_id))
 
     # TODO: Join user information with translation_response_latest
@@ -532,6 +523,7 @@ def translation_responses(translation_id):
 
 
 @app.route('/v1.0/tr/<tresponse_id>/post', methods=['GET', 'POST'])
+@login_required
 def tresponse_post(tresponse_id):
     tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
 

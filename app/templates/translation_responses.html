@@ -21,15 +21,15 @@
       <div class="span3"></div>
       <div class="span7">
         <div>
-          {{ tresponse.user.given_name }} &middot;
+          {{ tresponse.user.name }} &middot;
           {{ tresponse.timestamp | date }} &middot;
           <span class="rating-plus">{{ tresponse.plus_ratings }}</span> /
           <span class="rating-minus">{{ tresponse.minus_ratings }}</span> &nbsp;
           <div class="btn-group">
-            <button class="btn btn-mini" onclick="rate('{{ tresponse.id | uuid_to_b62 }}', 1)">
+            <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', 1)">
               <i class="icon-plus"></i>
             </button>
-            <button class="btn btn-mini" onclick="rate('{{ tresponse.id | uuid_to_b62 }}', -1)">
+            <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', -1)">
               <i class="icon-minus"></i>
             </button>
           </div>

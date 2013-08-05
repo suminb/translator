@@ -31,6 +31,32 @@ var TAGS_TO_REPLACE = {
     '>': '&gt;'
 };
 
+/**
+ * Copied from http://homework.nwsnet.de/releases/9132/
+ */
+ function _ajax_request(url, data, callback, type, method) {
+    if (jQuery.isFunction(data)) {
+        callback = data;
+        data = {};
+    }
+    return jQuery.ajax({
+        type: method,
+        url: url,
+        data: data,
+        success: callback,
+        dataType: type
+        });
+}
+jQuery.extend({
+    put: function(url, data, callback, type) {
+        return _ajax_request(url, data, callback, type, 'PUT');
+    },
+    delete_: function(url, data, callback, type) {
+        return _ajax_request(url, data, callback, type, 'DELETE');
+    }
+});
+///////////////////////////////////////////////////////////
+
 var state = {
     source: 'ko',
     target: 'en',
@@ -354,13 +380,13 @@ function fetchTranslation(serial) {
     });
 }
 
-function rate(id, rating) {
+function rateTranslation(id, rating) {
     //var original = $("text").val();
     //var encoded = encodeURIComponent(original);
 
     var url = $.sprintf("/v1.0/tr/%s/rate", id);
     $.post(url, {r:rating}, function(response) {
-        
+
     });
 
 /*
@@ -376,6 +402,12 @@ function rate(id, rating) {
         });
     }
 */
+}
+
+function deleteTranslation(id) {
+    $.delete_($.sprintf("/tr/%s/response", id), function(response) {
+        location.reload();
+    });
 }
 
 

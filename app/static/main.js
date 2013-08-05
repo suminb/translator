@@ -410,7 +410,6 @@ function deleteTranslation(id) {
     });
 }
 
-
 function displayPermalink(id_b62) {
     var origin = window.location.origin ? window.location.origin
         : window.location.protocol+"//"+window.location.host;

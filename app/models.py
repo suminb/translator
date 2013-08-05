@@ -76,6 +76,10 @@ class TranslationResponse(db.Model):
     timestamp = db.Column(db.DateTime(timezone=True))
     source = db.Column(db.String(16))
     target = db.Column(db.String(16))
+    # mode
+    # 1: regular translation
+    # 2: better translation (use Japanese as an intermediate langauge)
+    # 3: human translation
     mode = db.Column(db.Integer)
     original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
@@ -88,16 +92,6 @@ class TranslationResponse(db.Model):
         self.id_b62 = base62.encode(uuid.UUID(self.id).int)
 
         return serialize(self)
-
-    # FIXME: This may be a cause for degraded performance 
-    @property
-    def plus_ratings(self):
-        return Rating.query.filter_by(translation_id=self.id, rating=1).count()
-
-    # FIXME: This may be a cause for degraded performance 
-    @property
-    def minus_ratings(self):
-        return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
 
     @staticmethod
     def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
@@ -129,11 +123,13 @@ class Translation(db.Model):
         SELECT tres.id, tres.user_id, tres.timestamp,
             tres.source, tres.target, tres.mode,
             treq.original_text, tres.original_text_hash, tres.intermediate_text,
-            tres.translated_text FROM translation_response AS tres
-        JOIN translation_request AS treq ON
+            tres.translated_text, r.rating, r.count FROM translation_response AS tres
+        LEFT JOIN translation_request AS treq ON
             tres.source = treq.source AND
             tres.target = treq.target AND
             tres.original_text_hash = treq.original_text_hash
+        LEFT JOIN (SELECT translation_id, sum(rating) AS rating, count(id) AS count FROM rating GROUP BY translation_id) AS r ON
+            r.translation_id = tres.id
     """
     id = db.Column(UUID, primary_key=True)
     user_id = db.Column(UUID, db.ForeignKey('user.id'))
@@ -145,6 +141,7 @@ class Translation(db.Model):
     original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
+    rating = db.Column(db.Integer)
 
     user = relationship('User')
 
@@ -153,6 +150,16 @@ class Translation(db.Model):
         self.id_b62 = base62.encode(uuid.UUID(self.id).int)
 
         return serialize(self)
+
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def plus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.id, rating=1).count()
+
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def minus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
 
     @staticmethod
     def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):

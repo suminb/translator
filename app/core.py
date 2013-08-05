@@ -138,7 +138,6 @@ def __language_options__():
 # Request handlers
 #
 @app.route('/')
-@app.route('/sr/<serial>') # Deprecated (2013-07-24)
 @app.route('/tr/<translation_id>')
 def index(translation_id=None, serial=None):
     user_agent = request.headers.get('User-Agent')
@@ -149,7 +148,6 @@ def index(translation_id=None, serial=None):
     context = dict(
         version=__version__,
         locale=get_locale(),
-        serial=serial,
         is_android=is_android,
         is_msie=is_msie,
         language_options=__language_options__())
@@ -524,11 +522,12 @@ def translation_responses(translation_id):
     # TODO: Join user information with translation_response_latest
 
     translation = Translation.query.get(str(translation_id))
-    treses = TranslationResponse.query.filter_by(
+    treses = Translation.query.filter_by(
         source=translation.source,
         target=translation.target,
         mode=3,
-        original_text_hash=translation.original_text_hash)
+        original_text_hash=translation.original_text_hash) \
+        .order_by(Translation.rating.desc())
 
     context = dict(
         locale=get_locale(),

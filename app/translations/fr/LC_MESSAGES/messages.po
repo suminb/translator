@@ -24,7 +24,7 @@ msgstr "Il n'existe pas la source de la demande."
 #: app/core.py:196
 msgid "app-description-text"
 msgstr ""
-"La traduction de mieux est un service qui permet d'effectuer des "
+"La traduction aumieux est un service qui permet d'effectuer des "
 "traductions de la langue envers le japonais. Le motif déterminant de ce "
 "service est cela, il y a des donnés accumulés par utilisateurs partout "
 "dans le monde qui essaient de traduire le porno japonais dans leur propre"
@@ -43,11 +43,11 @@ msgstr ""
 #: app/templates/base.html:4 app/templates/base.html:7
 #: app/templates/base.html:10 app/templates/base.html:36
 msgid "app-title"
-msgstr "Traduction de mieux "
+msgstr "traduction aumieux "
 
 #: app/templates/base.html:39 app/templates/discuss.html:3
 msgid "Discussions"
-msgstr ""
+msgstr "Discussion"
 
 #: app/templates/base.html:40 app/templates/statistics.html:4
 msgid "Statistics"
@@ -59,7 +59,7 @@ msgstr "Crédit"
 
 #: app/templates/base.html:83
 msgid "Bug reporting"
-msgstr "Rapport de bogues"
+msgstr "Rapports"
 
 #: app/templates/credits.html:6
 msgid "Lead Developer"
@@ -68,11 +68,11 @@ msgstr "Développeur"
 #: app/templates/credits.html:9 app/templates/credits.html:18
 #: app/templates/credits.html:32 app/templates/credits.html:37
 msgid "Web"
-msgstr ""
+msgstr "Web"
 
 #: app/templates/credits.html:10
 msgid "Blog"
-msgstr ""
+msgstr "Blog"
 
 #: app/templates/credits.html:16 app/templates/credits.html:21
 #: app/templates/credits.html:25
@@ -93,16 +93,16 @@ msgstr "Russe"
 
 #: app/templates/credits.html:30
 msgid "App Icon"
-msgstr ""
+msgstr "icône web"
 
 #: app/templates/credits.html:35
 msgid "Loading Icon"
-msgstr ""
+msgstr "icône de chargement"
 
 #: app/templates/index.html:12
 msgid "app-description-html"
 msgstr ""
-"La traduction de mieux est un service qui permet d'effectuer des "
+"La traduction aumieux est un service qui permet d'effectuer des "
 "traductions de la langue envers le japonais. Le motif déterminant de ce "
 "service est <a href=\"#\" onclick=\"toggle_screenshot()\">cela</a>, il y "
 "a des donnés accumulés par utilisateurs partout dans le monde qui "
@@ -117,7 +117,7 @@ msgid ""
 "below. We encourage you to try modern browsers such as Firefox, Chrome "
 "and Safari."
 msgstr ""
-"La traduction de mieux ne peut pas fonctionner correctement avec ancien "
+"La traduction aumieux ne peut pas fonctionner correctement avec ancien "
 "navigateur."
 
 #: app/templates/index.html:29
@@ -168,7 +168,7 @@ msgstr "Très bien"
 
 #: app/templates/index.html:84 app/templates/translation_request.html:17
 msgid "Post a translation challenge on Facebook"
-msgstr ""
+msgstr "Publier une tranduction proposée sur Facebook"
 
 #: app/templates/index.html:89
 msgid "How would you translate it?"
@@ -188,94 +188,94 @@ msgstr "Merci pour vos commentaires."
 
 #: app/templates/index.html:108
 msgid "English"
-msgstr "Anglais"
+msgstr "anglais"
 
 #: app/templates/index.html:109
 msgid "Portuguese"
-msgstr ""
+msgstr "portugais"
 
 #: app/templates/index.html:110
 msgid "Vietnamese"
-msgstr ""
+msgstr "vietnamien"
 
 #: app/templates/index.html:111
 msgid "German"
-msgstr ""
+msgstr "allemand"
 
 #: app/templates/index.html:112
 msgid "Korean"
-msgstr "Coréen"
+msgstr "coréen"
 
 #: app/templates/index.html:113
 msgid "Italian"
-msgstr ""
+msgstr "italien"
 
 #: app/templates/index.html:114
 msgid "Hebrew"
-msgstr ""
+msgstr "hébreu"
 
 #: app/templates/index.html:115
 msgid "Indonesian"
-msgstr "Indonésien"
+msgstr "indonésien"
 
 #: app/templates/index.html:116
 msgid "Turkish"
-msgstr ""
+msgstr "turc"
 
 #: app/templates/index.html:117
 msgid "Chinese"
-msgstr "Chinois"
+msgstr "chinois"
 
 #: app/templates/index.html:118
 msgid "Filipino"
-msgstr ""
+msgstr "tagalog"
 
 #: app/templates/index.html:119
 msgid "Arabic"
-msgstr ""
+msgstr "arabe"
 
 #: app/templates/index.html:120
 #, fuzzy
 msgid "Polish"
-msgstr "Español"
+msgstr "polonais"
 
 #: app/templates/index.html:121
 msgid "Thai"
-msgstr ""
+msgstr "thaïlandais"
 
 #: app/templates/index.html:122
 msgid "Czech"
-msgstr ""
+msgstr "tchèque"
 
 #: app/templates/index.html:123
 msgid "Swedish"
-msgstr ""
+msgstr "suédois"
 
 #: app/templates/index.html:124
 msgid "Japanese"
-msgstr "Japonais"
+msgstr "japonais"
 
 #: app/templates/maintenance.html:3
 msgid "Maintenance"
-msgstr ""
+msgstr "Maintenance"
 
 #: app/templates/translation_request.html:4
 msgid "Post a Translation Challenge"
-msgstr ""
+msgstr "Postuler une tradiction en défi"
 
 #: app/templates/translation_request.html:8
 #: app/templates/translation_response.html:9
 msgid "Original text"
-msgstr ""
+msgstr "texte original"
 
 #: app/templates/translation_request.html:12
 #: app/templates/translation_response.html:13
 msgid "Translation by Better Translator"
-msgstr ""
+msgstr "Traduit par Traduction au mieux"
 
 #: app/templates/translation_response.html:4
 msgid "Response to a Challenge"
-msgstr ""
+msgstr "Relever un défi"
 
 #: app/templates/translation_response.html:17
 #, fuzzy

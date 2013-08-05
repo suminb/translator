@@ -420,25 +420,13 @@ function displayPermalink(id_b62) {
     //window.history.pushState(serializeCurrentState(), "", $.sprintf("/tr/%s", id_b62));
 }
 
-function submitAlternativeTranslation() {
-    expressAppreciation();
-    return false;
-}
-
-function skipAlternativeTranslation() {
-    expressAppreciation();
-}
-
 function askForRating(id_b62) {
     $("#appreciation").hide();
-    $("#rating").show();
-    $("#rating a.translation-challenge").attr("href", $.sprintf("/tr/%s/response", id_b62));
-}
 
-function askForAlternativeTranslation() {
-    $("#text").attr("disabled", "disabled");
-    $("#rating").hide("medium");
-    $("#alternative-translation-form").show("medium");
+    if (state.text.length <= 180) {
+        $("#rating").show();
+        $("#rating a.translation-challenge").attr("href", $.sprintf("/tr/%s/response", id_b62));
+    }
 }
 
 function expressAppreciation() {

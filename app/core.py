@@ -545,7 +545,7 @@ def tresponse_post(tresponse_id):
         link='http://translator.suminb.com/tr/{}/responses'.format(uuid_to_b62(translation.id)),
         caption=_('{} has completed a translation challenge').format(translation.user.name).encode('utf-8'),
         description=_('How do you say "{0}" in {1}?').format(translation.original_text, target_language).encode('utf-8'),
-        picture='http://translator.suminb.com/static/icon_256.png',
+        picture='http://translator.suminb.com/static/icon_128.png',
     ))
     return str(post_id)
 

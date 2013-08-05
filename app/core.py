@@ -2,7 +2,7 @@
 
 from flask import Flask, jsonify, request, render_template, url_for, redirect, session
 from flaskext.babel import Babel, gettext as _
-from flask.ext.login import login_required, login_user, current_user
+from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask_oauthlib.client import OAuth
 from jinja2 import evalcontextfilter, Markup, escape
 from jinja2.environment import Environment
@@ -633,7 +633,7 @@ def facebook_authorized(resp):
         login_user(user)
 
     except IntegrityError as e:
-        logger.info(str(e))
+        logger.exception(e)
         #logger.info('User %s (%s) already exists.' % (payload['oauth_username'],
         #    payload['oauth_id']))
     
@@ -641,10 +641,20 @@ def facebook_authorized(resp):
     for key in keys:
         session['oauth_%s' % key] = me.data[key]
 
-    return redirect('/')
+    return redirect(request.args.get('next'))
 
     #return 'Logged in as id=%s name=%s, email=%s, redirect=%s' % \
     #    (me.data['id'], me.data['name'], me.data['email'], request.args.get('next'))
+
+
+@app.route('/logout')
+def logout():
+    session['login'] = False
+    logout_user()
+    # if request.referrer:
+    #     return redirect(request.referrer)
+    # else:
+    return redirect('/')
 
 
 @facebook_app.tokengetter

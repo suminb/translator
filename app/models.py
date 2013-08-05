@@ -1,5 +1,6 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import UserMixin
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.sql.expression import and_, or_
 from sqlalchemy.dialects.postgresql import UUID
@@ -71,7 +72,7 @@ class TranslationResponse(db.Model):
     __table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'mode', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
-    user_id = db.Column(UUID)
+    user_id = db.Column(UUID, db.ForeignKey('user.id'))
     timestamp = db.Column(db.DateTime(timezone=True))
     source = db.Column(db.String(16))
     target = db.Column(db.String(16))
@@ -79,6 +80,8 @@ class TranslationResponse(db.Model):
     original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
+
+    user = relationship('User')
 
     def serialize(self):
         # Synthesized property
@@ -123,7 +126,7 @@ class Translation(db.Model):
             tres.original_text_hash = treq.original_text_hash
     """
     id = db.Column(UUID, primary_key=True)
-    user_id = db.Column(UUID)
+    user_id = db.Column(UUID, db.ForeignKey('user.id'))
     timestamp = db.Column(db.DateTime(timezone=True))
     source = db.Column(db.String(16))
     target = db.Column(db.String(16))
@@ -132,6 +135,8 @@ class Translation(db.Model):
     original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
+
+    user = relationship('User')
 
     def serialize(self):
         # Synthesized property

@@ -18,7 +18,7 @@
 
     {% for tresponse in tresponses %}
     <div class="row-fluid">
-      <div class="span3 header">{{ tresponse.user_id }} {{ tresponse.timestamp | date }}</div>
+      <div class="span3 header">{{ tresponse.user.given_name }} {{ tresponse.timestamp | date }}</div>
       <div class="span7">{{ tresponse.translated_text }}</div>
       <div class="span2" style="text-align:right">
         <button class="btn" onclick="$.post('/v1.0/tr/{{ tresponse.id | uuid_to_b62 }}/rate', {r:-1})">

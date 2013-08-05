@@ -48,6 +48,13 @@
               <a href="https://twitter.com/btrtranslator" target="_blank">{{ _("Follow us on Twitter") }}</a>
             </li>
           </ul>
+          {% if session['login'] %}
+          <ul class="nav pull-right">
+            <li>
+              <a href="/logout">Logout</a>
+            </li>
+          </ul>
+          {% endif %}
         </div><!--/.nav-collapse -->
       </div>
     </div>

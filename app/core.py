@@ -531,23 +531,20 @@ def translation_responses(translation_id):
     return render_template('translation_responses.html', **context)
 
 
-@app.route('/v1.0/tr/<tresponse_id>/post', methods=['GET', 'POST'])
+@app.route('/v1.0/tr/<tresponse_id>/post', methods=['POST'])
 @login_required
 def tresponse_post(tresponse_id):
-    tresponse = TranslationResponse.fetch(id_b62=tresponse_id)
+    translation = Translation.fetch(id_b62=tresponse_id)
 
-    translation = TranslationResponse.query.get(tresponse.translation_id)
-    target_language = VALID_LANGUAGES[translation.target]
-
-    user = User.query.get(tresponse.user_id)
+    target_language = _(VALID_LANGUAGES[translation.target])
 
     graph = facebook.GraphAPI(session.get('oauth_token')[0])
     #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
     post_id = graph.put_wall_post('', dict(
-        name='Better Translator',
+        name=_('app-title').encode('utf-8'),
         link='http://translator.suminb.com/tr/{}/responses'.format(uuid_to_b62(translation.id)),
-        caption='{} has completed a translation challenge'.format(user.given_name),
-        description='How do you say "{}" in {}?'.format(translation.original_text.encode('utf-8'), target_language),
+        caption=_('{} has completed a translation challenge').format(translation.user.name).encode('utf-8'),
+        description=_('How do you say "{0}" in {1}?').format(translation.original_text, target_language).encode('utf-8'),
         picture='http://translator.suminb.com/static/icon_256.png',
     ))
     return str(post_id)

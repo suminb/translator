@@ -154,6 +154,17 @@ class Translation(db.Model):
 
         return serialize(self)
 
+    @staticmethod
+    def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
+        if id_b62 != None:
+            translation_id = base62.decode(id_b62)
+            return Translation.query.get(str(uuid.UUID(int=translation_id)))
+
+        else:
+            return Translation.query.filter_by(
+                original_text_hash=original_text_hash,
+                source=source, target=target, mode=mode).first()
+
 """
 class TranslationResponse(db.Model):
     # Users may submit a translation response only once

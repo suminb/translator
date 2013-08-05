@@ -387,22 +387,17 @@ function rateTranslation(id, rating) {
     var url = $.sprintf("/v1.0/tr/%s/rate", id);
     $.post(url, {r:rating}, function(response) {
 
+    }).fail(function(response) {
+    
+    }).always(function() {
+
     });
-
-/*
-    if (state.id) {
-        $.post("/v1.0/rate/"+state.id_b62, {r:rating}, function(response) {
-            expressAppreciation();
-
-        }).fail(function(response) {
-            displayError(response.responseText)
-        
-        }).always(function() {
-
-        });
-    }
-*/
 }
+
+function postTranslation(id) {
+    $.post($.sprintf("/v1.0/tr/%s/post", id), function(response) {
+        console.log(response);
+    });}
 
 function deleteTranslation(id) {
     $.delete_($.sprintf("/tr/%s/response", id), function(response) {

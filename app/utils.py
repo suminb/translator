@@ -22,7 +22,7 @@ def get_remote_address(req):
 
 
 @app.template_filter('uuid_to_b62')
-def _jinja2_filter_uuid_to_b62(value):
+def uuid_to_b62(value):
     return base62.encode(uuid.UUID(value).int)
 
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-05 08:32+0000\n"
+"POT-Creation-Date: 2013-08-05 09:51+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -32,6 +32,19 @@ msgstr ""
 "pornografía Japonesa a su idioma. Usando esta base de datos, la "
 "traducción de idiomas funciona mejor a través del uso del Japonés."
 
+#: app/core.py:544 app/templates/base.html:9 app/templates/base.html:12
+#: app/templates/base.html:15 app/templates/base.html:43
+msgid "app-title"
+msgstr "Un Mejor Traductor"
+
+#: app/core.py:546
+msgid "{} has completed a translation challenge"
+msgstr ""
+
+#: app/core.py:547
+msgid "How do you say \"{0}\" in {1}?"
+msgstr ""
+
 #: app/utils.py:35
 #, python-format
 msgid "%%m/%%d/%%Y"
@@ -42,11 +55,6 @@ msgid ""
 "You are viewing this message because the page you requested is not found."
 " You may go back to the <a href=\"/\">home page</a>."
 msgstr ""
-
-#: app/templates/base.html:9 app/templates/base.html:12
-#: app/templates/base.html:15 app/templates/base.html:43
-msgid "app-title"
-msgstr "Un Mejor Traductor"
 
 #: app/templates/base.html:46 app/templates/discuss.html:4
 msgid "Discussions"
@@ -270,19 +278,19 @@ msgstr "Traducir"
 msgid "Your translation"
 msgstr "Traducción directa"
 
-#: app/templates/translation_response.html:25
+#: app/templates/translation_response.html:27
 msgid "See how others did"
 msgstr ""
 
-#: app/templates/translation_response.html:26
+#: app/templates/translation_response.html:29
 msgid "Post on Facebook"
 msgstr ""
 
-#: app/templates/translation_response.html:27
+#: app/templates/translation_response.html:30
 msgid "Delete"
 msgstr ""
 
-#: app/templates/translation_response.html:32
+#: app/templates/translation_response.html:35
 msgid "Save"
 msgstr ""
 

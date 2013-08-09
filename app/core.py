@@ -200,11 +200,20 @@ def index(translation_id=None, serial=None):
     return render_template('index.html', **context)
 
 
-@app.route('/locale', methods=['POST'])
+@app.route('/locale', methods=['GET', 'POST'])
 def set_locale():
     """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
-    locale = request.form['locale']
-    response = redirect(url_for('index'))
+    if request.method == 'GET':
+        locale = request.args['locale']
+    else:
+        locale = request.form['locale']
+
+    if request.referrer:
+        dest = request.referrer
+    else:
+        dest = url_for('index')
+
+    response = redirect(dest)
     response.set_cookie('locale', locale, 60 * 60 * 24 * 14)
     return response
 

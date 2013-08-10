@@ -138,6 +138,7 @@ def __language_options__():
 # Request handlers
 #
 @app.route('/')
+@app.route('/sr/<translation_id>')
 @app.route('/tr/<translation_id>')
 def index(translation_id=None):
     user_agent = request.headers.get('User-Agent')

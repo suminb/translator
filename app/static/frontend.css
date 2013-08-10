@@ -47,12 +47,6 @@ input[type=submit] {
   font-size: 13pt;
 }
 
-p.notification {
-  border: 1px solid #ddd;
-  background-color: #f0f0f0;
-  padding: 0.5em 1em;
-}
-
 /*
 .hidden {
   display: none;

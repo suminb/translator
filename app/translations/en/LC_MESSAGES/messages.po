@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-05 09:51+0000\n"
+"POT-Creation-Date: 2013-08-10 08:33+0000\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: enj <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:168
+#: app/core.py:166
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/core.py:175
+#: app/core.py:173
 msgid "app-description-text"
 msgstr ""
 "Better Translator is a language translation service based on the idea "
@@ -31,16 +31,24 @@ msgstr ""
 " the world tries to translate Japanese porn into their language, and thus"
 " Google Translate performs better with Japanese."
 
-#: app/core.py:544 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:476
+msgid "Please provide a non-empty translation."
+msgstr ""
+
+#: app/core.py:488
+msgid "Thanks for your submission."
+msgstr ""
+
+#: app/core.py:551 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:43
 msgid "app-title"
 msgstr "Better Translator"
 
-#: app/core.py:546
+#: app/core.py:553
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/core.py:547
+#: app/core.py:554
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
@@ -89,15 +97,15 @@ msgstr ""
 msgid "Localization"
 msgstr ""
 
-#: app/templates/credits.html:17 app/templates/index.html:175
+#: app/templates/credits.html:17 app/templates/index.html:173
 msgid "French"
 msgstr ""
 
-#: app/templates/credits.html:22 app/templates/index.html:193
+#: app/templates/credits.html:22 app/templates/index.html:191
 msgid "Spanish"
 msgstr ""
 
-#: app/templates/credits.html:26 app/templates/index.html:174
+#: app/templates/credits.html:26 app/templates/index.html:172
 msgid "Russian"
 msgstr ""
 
@@ -109,7 +117,7 @@ msgstr ""
 msgid "Loading Icon"
 msgstr ""
 
-#: app/templates/index.html:91
+#: app/templates/index.html:86
 msgid "app-description-html"
 msgstr ""
 "Better Translator is a language translation service based on <a "
@@ -120,114 +128,114 @@ msgstr ""
 "tries to translate Japanese porn into their language, and thus Google "
 "Translate performs better with Japanese."
 
-#: app/templates/index.html:94
+#: app/templates/index.html:91
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
 "below. We encourage you to try modern browsers such as Firefox, Chrome "
 "and Safari."
 msgstr ""
 
-#: app/templates/index.html:112
+#: app/templates/index.html:110
 msgid "Show another example"
 msgstr ""
 
-#: app/templates/index.html:115
+#: app/templates/index.html:113
 msgid "Swap languages"
 msgstr ""
 
-#: app/templates/index.html:117
+#: app/templates/index.html:115
 msgid "Translate"
 msgstr ""
 
-#: app/templates/index.html:123
+#: app/templates/index.html:121
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:140
+#: app/templates/index.html:138
 msgid "Regular translation"
 msgstr ""
 
-#: app/templates/index.html:141
+#: app/templates/index.html:139
 msgid "Better translation"
 msgstr ""
 
-#: app/templates/index.html:153
+#: app/templates/index.html:151
 msgid "Translation in progress..."
 msgstr ""
 
-#: app/templates/index.html:160
+#: app/templates/index.html:158
 msgid "I think I can do better than this"
 msgstr ""
 
-#: app/templates/index.html:163
+#: app/templates/index.html:161
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:176
+#: app/templates/index.html:174
 msgid "English"
 msgstr ""
 
-#: app/templates/index.html:177
+#: app/templates/index.html:175
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/index.html:178
+#: app/templates/index.html:176
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/index.html:179
+#: app/templates/index.html:177
 msgid "German"
 msgstr ""
 
-#: app/templates/index.html:180
+#: app/templates/index.html:178
 msgid "Korean"
 msgstr ""
 
-#: app/templates/index.html:181
+#: app/templates/index.html:179
 msgid "Italian"
 msgstr ""
 
-#: app/templates/index.html:182
+#: app/templates/index.html:180
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/index.html:183
+#: app/templates/index.html:181
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:184
+#: app/templates/index.html:182
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/index.html:185
+#: app/templates/index.html:183
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/index.html:186
+#: app/templates/index.html:184
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/index.html:187
+#: app/templates/index.html:185
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/index.html:188
+#: app/templates/index.html:186
 msgid "Polish"
 msgstr ""
 
-#: app/templates/index.html:189
+#: app/templates/index.html:187
 msgid "Thai"
 msgstr ""
 
-#: app/templates/index.html:190
+#: app/templates/index.html:188
 msgid "Czech"
 msgstr ""
 
-#: app/templates/index.html:191
+#: app/templates/index.html:189
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/index.html:192
+#: app/templates/index.html:190
 msgid "Japanese"
 msgstr ""
 
@@ -244,7 +252,7 @@ msgid "Post a Translation Challenge"
 msgstr ""
 
 #: app/templates/translation_request.html:8
-#: app/templates/translation_response.html:10
+#: app/templates/translation_response.html:23
 #: app/templates/translation_responses.html:10
 msgid "Original text"
 msgstr ""
@@ -262,28 +270,33 @@ msgstr ""
 msgid "Response to a Challenge"
 msgstr ""
 
-#: app/templates/translation_response.html:15
+#: app/templates/translation_response.html:6
+#: app/templates/translation_responses.html:6
+msgid "Beta"
+msgstr ""
+
+#: app/templates/translation_response.html:28
 #: app/templates/translation_responses.html:15
 msgid "Translated text"
 msgstr ""
 
-#: app/templates/translation_response.html:20
+#: app/templates/translation_response.html:33
 msgid "Your translation"
 msgstr ""
 
-#: app/templates/translation_response.html:27
+#: app/templates/translation_response.html:40
 msgid "See how others did"
 msgstr ""
 
-#: app/templates/translation_response.html:29
+#: app/templates/translation_response.html:42
 msgid "Post on Facebook"
 msgstr ""
 
-#: app/templates/translation_response.html:30
+#: app/templates/translation_response.html:43
 msgid "Delete"
 msgstr ""
 
-#: app/templates/translation_response.html:35
+#: app/templates/translation_response.html:49
 msgid "Save"
 msgstr ""
 

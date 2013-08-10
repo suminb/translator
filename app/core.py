@@ -9,7 +9,8 @@ from jinja2.environment import Environment
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 
-from __init__ import __version__, app, logger, login_manager, VALID_LANGUAGES, DEFAULT_USER_AGENT
+from __init__ import __version__, app, logger, login_manager, \
+    VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
 from models import *
 from utils import *
 
@@ -370,6 +371,9 @@ def translate():
     keys = ('t', 'm', 'sl', 'tl')
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
+    if len(text) > MAX_TEXT_LENGTH:
+        raise HTTPException('Text too long.', 413)
+
     if source == target:
         return dict(
             id=None,
@@ -378,9 +382,9 @@ def translate():
             translated_text=text)
 
     if source not in VALID_LANGUAGES.keys():
-        return 'Invalid source language\n', 400
+        raise HTTPException('Invalid source language.', 400)
     if target not in VALID_LANGUAGES.keys():
-        return 'Invalid target language\n', 400      
+        raise HTTPException('Invalid target language.', 400)
 
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
     user_agent = request.headers.get('User-Agent')
@@ -415,7 +419,7 @@ def translate():
             intermediate = __translate__(text, source, 'ja', user_agent)
             translated = __translate__(intermediate, 'ja', target, user_agent)
         else:
-            return 'Invalid mode\n', 400
+            return HTTPException('Invalid translation mode.', 400)
 
         tresp = TranslationResponse.insert(
             commit=False,

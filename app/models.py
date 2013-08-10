@@ -56,7 +56,7 @@ class TranslationRequest(db.Model):
                 source=source, target=target).first()
 
     @staticmethod
-    def insert(**kwargs):
+    def insert(commit=True, **kwargs):
         treq = TranslationRequest(id=str(uuid.uuid4()))
         treq.timestamp = datetime.now()
 
@@ -64,7 +64,7 @@ class TranslationRequest(db.Model):
             setattr(treq, key, value);
 
         db.session.add(treq)
-        db.session.commit()
+        if commit: db.session.commit()
 
         return treq
 
@@ -106,7 +106,7 @@ class TranslationResponse(db.Model):
                 source=source, target=target, mode=mode).first()
 
     @staticmethod
-    def insert(**kwargs):
+    def insert(commit=True, **kwargs):
         tresp = TranslationResponse(id=str(uuid.uuid4()))
         tresp.timestamp = datetime.now()
 
@@ -114,7 +114,7 @@ class TranslationResponse(db.Model):
             setattr(tresp, key, value);
 
         db.session.add(tresp)
-        db.session.commit()
+        if commit: db.session.commit()
 
         return tresp
 
@@ -173,56 +173,39 @@ class Translation(db.Model):
                 original_text_hash=original_text_hash,
                 source=source, target=target, mode=mode).first()
 
-"""
-class TranslationResponse(db.Model):
-    # Users may submit a translation response only once
-    _table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), {} )
 
+class TranslationAccessLog(db.Model):
+    """
+    flag
+    0001: Created: This flag is on upon creation of a TranslationResponse record
+    0002:
+    0004:
+    ...
+    """
+
+    FLAG_CREATED = 1
+    
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
     user_id = db.Column(UUID)
     timestamp = db.Column(db.DateTime(timezone=True))
-    text = db.Column(db.Text)
-
-    def serialize(self):
-        return serialize(self)
-
-    @staticmethod
-    def fetch(id_b62):
-        tresponse_id = base62.decode(id_b62)
-        return TranslationResponse.query.get(str(uuid.UUID(int=tresponse_id)))
+    user_agent = db.Column(db.String(255))
+    remote_address = db.Column(db.String(64))
+    flag = db.Column(db.Integer, default=0)
 
     @staticmethod
-    def fetch_all(translation_id, user_id):
-        return TranslationResponse.query.filter(and_(
-            TranslationResponse.translation_id == str(translation_id),
-            TranslationResponse.user_id == str(user_id)
-        )).order_by(TranslationResponse.timestamp.desc())
+    def insert(commit=True, **kwargs):
+        record = TranslationAccessLog(id=str(uuid.uuid4()))
+        record.timestamp = datetime.now()
 
-    @staticmethod
-    def insert(translation_id, user_id, values):
-        text = values['text'].strip()
+        for key, value in kwargs.iteritems():
+            setattr(record, key, value);
 
-        tresponse = TranslationResponse(
-            id=str(uuid.uuid4()),
-            translation_id=str(translation_id),
-            user_id=user_id,
-            timestamp=datetime.now(),
-            text=text,
-        )
-        db.session.add(tresponse)
-        db.session.commit()
+        db.session.add(record)
+        if commit: db.session.commit()
 
-        return tresponse
+        return record
 
-
-class TranslationResponseLatest(db.Model):
-    id = db.Column(UUID, primary_key=True)
-    translation_id = db.Column(UUID)
-    user_id = db.Column(UUID)
-    timestamp = db.Column(db.DateTime(timezone=True))
-    text = db.Column(db.Text)
-"""
 
 class Rating(db.Model):
     __table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), )

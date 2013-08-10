@@ -376,13 +376,19 @@ def translate():
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
     user_agent = request.headers.get('User-Agent')
 
+    access_log = TranslationAccessLog.insert(
+        commit=False,
+        user_id=current_user.id if not current_user.is_anonymous() else None,
+        user_agent=user_agent,
+        remote_address=get_remote_address(request),
+    )
+
     treq = TranslationRequest.fetch(None, original_text_hash, source, target)
 
     if treq == None:
         treq = TranslationRequest.insert(
+            commit=False,
             user_id=None,
-            user_agent=user_agent,
-            remote_address=get_remote_address(request),
             source=source,
             target=target,
             original_text=text,
@@ -403,8 +409,7 @@ def translate():
             return 'Invalid mode\n', 400
 
         tresp = TranslationResponse.insert(
-            user_agent=user_agent,
-            remote_address=get_remote_address(request),
+            commit=False,
             source=source,
             target=target,
             mode=mode,
@@ -412,6 +417,20 @@ def translate():
             intermediate_text=intermediate,
             translated_text=translated,
         )
+
+        if access_log.flag == None:
+            access_log.flag = TranslationAccessLog.FLAG_CREATED
+        else:
+            access_log.flag |= TranslationAccessLog.FLAG_CREATED
+
+
+    access_log.translation_id = tresp.id
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        logger.exception(e)
+        db.session.rollback()
 
     return dict(
         id=tresp.id,

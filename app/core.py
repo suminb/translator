@@ -67,7 +67,7 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
 
     from hallucination import ProxyFactory
     proxy_factory = ProxyFactory(
-        config=dict(db_uri=config.HALLUCINATION_DB_URI),
+        db_engine=db.engine,
         logger=logger
     )
 
@@ -93,7 +93,7 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     r = None
     try:
         r = proxy_factory.make_request(url, headers=headers, params=payload,
-            req_type=requests.post, timeout=2, pool_size=10)
+            req_type=requests.post, timeout=2)
     except Exception as e:
         logger.exception(e)
 

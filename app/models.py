@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.sql.expression import and_, or_
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.schema import CreateTable
 from datetime import datetime
 from __init__ import app
 
@@ -307,3 +308,10 @@ class GeoIP(db.Model):
 #
 #     print CreateTable(User.__table__).compile(db.engine)
 #
+
+if __name__ == '__main__':
+    tables = (User, TranslationRequest, TranslationResponse, Rating, )
+    for table in tables:
+        print '{};'.format(CreateTable(table.__table__).compile(db.engine))
+    
+    #db.create_all(tables=[TranslationRequest, TranslationResponse,])

@@ -218,8 +218,22 @@ class Rating(db.Model):
     timestamp = db.Column(db.DateTime(timezone=True))
     rating = db.Column(db.Integer)
 
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def plus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.translation_id, rating=1).count()
+
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def minus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.translation_id, rating=-1).count()
+
     def serialize(self):
-        return serialize(self)
+        r = serialize(self)
+        r['plus_ratings'] = self.plus_ratings
+        r['minus_ratings'] = self.minus_ratings
+
+        return r
 
     @staticmethod
     def insert(commit=True, **kwargs):

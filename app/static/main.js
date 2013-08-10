@@ -397,11 +397,14 @@ function rateTranslation(button) {
     var buttonGroup = button.parent();
     var translationId = button.attr("translation-id");
     var rating = parseInt(button.attr("rating"));
-
     var url = $.sprintf("/v1.0/tr/%s/rate", translationId);
+
     $.post(url, {r:rating}, function(response) {
         buttonGroup.children().removeClass("active");
         button.addClass("active");
+
+        $($.sprintf("span.rating-plus[translation-id=%s]", translationId)).text(response.plus_ratings);
+        $($.sprintf("span.rating-minus[translation-id=%s]", translationId)).text(response.minus_ratings);
     }).fail(function(response) {
     
     }).always(function() {

@@ -25,8 +25,8 @@
             <div>
               {{ tresponse.user.name }} &middot;
               {{ tresponse.timestamp | date }} &middot;
-              <span class="rating-plus">{{ tresponse.plus_ratings }}</span> /
-              <span class="rating-minus">{{ tresponse.minus_ratings }}</span> &nbsp;
+              <span class="rating-plus" translation-id="{{ tresponse.id | uuid_to_b62 }}">{{ tresponse.plus_ratings }}</span> /
+              <span class="rating-minus" translation-id="{{ tresponse.id | uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
               <div class="btn-group">
                 <button class="btn btn-mini" translation-id="{{ tresponse.id | uuid_to_b62 }}" rating="1" onclick="rateTranslation($(this))">
                   <i class="icon-plus"></i>

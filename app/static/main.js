@@ -34,7 +34,7 @@ var TAGS_TO_REPLACE = {
 /**
  * Copied from http://homework.nwsnet.de/releases/9132/
  */
- function _ajax_request(url, data, callback, type, method) {
+function _ajax_request(url, data, callback, type, method) {
     if (jQuery.isFunction(data)) {
         callback = data;
         data = {};
@@ -55,7 +55,17 @@ jQuery.extend({
         return _ajax_request(url, data, callback, type, 'DELETE');
     }
 });
-///////////////////////////////////////////////////////////
+
+/**
+ * Copied from http://stackoverflow.com/questions/9614622/equivalent-of-jquery-hide-to-set-visibility-hidden
+ */
+$.fn.visible = function() {
+    return this.css('visibility', 'visible');
+}
+$.fn.invisible = function() {
+    return this.css('visibility', 'hidden');
+}
+
 
 var state = {
     source: 'ko',
@@ -236,8 +246,8 @@ function performTranslation() {
             $("#error-message").html("");
             $("#result").html("");
             $("#progress-message").show();
-            $("#page-url").hide();
-            $("#rating").hide();
+            $("#page-url").invisible();
+            $("#rating").invisible();
             enableControls(false);
             state.serial = null;
 
@@ -295,11 +305,11 @@ function displayPageURL(source, target, mode, text) {
     if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
         var url = $.sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
 
-        $("#page-url").show("medium");
+        $("#page-url").visible();
         $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
     }
     else {
-        $("#page-url").hide("medium");
+        $("#page-url").invisible();
     }
 }
 
@@ -411,7 +421,7 @@ function displayPermalink(id_b62) {
     var url = $.sprintf("%s/tr/%s", origin, id_b62);
 
     $("#request-permalink").hide();
-    $("#page-url").show();
+    $("#page-url").visible();
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
     // Doesn't seem to work
@@ -424,14 +434,14 @@ function askForRating(id_b62) {
     $("#appreciation").hide();
 
     if (state.text.length <= 180) {
-        $("#rating").show();
+        $("#rating").visible();
         $("#rating a.translation-challenge").attr("href", $.sprintf("/tr/%s/response", id_b62));
     }
 }
 
 function expressAppreciation() {
     $("#text").removeAttr("disabled");
-    $("#rating").hide("medium");
+    $("#rating").invisible();
     $("#alternative-translation-form").hide("medium");
     $("#appreciation").show("medium");
     setTimeout(function() { $("#appreciation").hide("medium"); }, 5000);

@@ -118,17 +118,9 @@
         
       <textarea id="text" name="t"></textarea>
 
-      <span id="request-permalink" class="action" style="display:none;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
+      <span id="request-permalink" class="action" style="visibility:hidden;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
       <div id="page-url">
           <div id="page-url-value"></div>
-          <!--
-          <div id="addthis-share" class="addthis_default_style" style="float:left;margin-left:.75em;">
-              <a class="addthis_button_facebook"></a>
-              <a class="addthis_button_twitter"></a>
-              <a class="addthis_button_compact"></a>
-          </div>
-          -->
-          <div style="clear:both;"></div>
       </div>
     </div>
     <div class="span6">
@@ -154,10 +146,10 @@
       </div>
 
       <div id="feedback">
-          <div id="rating" style="display:none;">
+          <div id="rating" style="visibility:hidden;">
             <a href="#" class="translation-challenge">{{ _("I think I can do better than this") }}</a>
           </div>
-          <div id="appreciation" style="display:none;">
+          <div id="appreciation" style="visibility:hidden;">
               {{ _("Thank you for your feedback.") }}
           </div>
       </div>

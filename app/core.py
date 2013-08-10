@@ -139,7 +139,7 @@ def __language_options__():
 #
 @app.route('/')
 @app.route('/tr/<translation_id>')
-def index(translation_id=None, serial=None):
+def index(translation_id=None):
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
     is_iphone = 'iPhone' in user_agent
@@ -161,12 +161,10 @@ def index(translation_id=None, serial=None):
         translation_id = base62.decode(translation_id)
         row = Translation.query.get(str(uuid.UUID(int=translation_id)))
 
-    elif serial != None:
-        row = Translation.query.filter_by(serial=base62.decode(serial)).first()
-
-    if (translation_id != None or serial != None) and row == None:
-        context['message'] = _('Requrested resource does not exist')
-        return render_template("404.html", **context)
+    if translation_id != None and row == None:
+    #     context['message'] = _('Requrested resource does not exist')
+    #     return render_template("404.html", **context)
+        return redirect(url_for('index'))
 
     if row != None:
         context['og_description'] = row.original_text

@@ -204,12 +204,20 @@ def languages():
 
 @app.route('/discuss')
 def discuss():
-    return render_template('discuss.html', version=__version__)
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+    )
+    return render_template('discuss.html', **context)
 
 
 @app.route('/credits')
 def credits():
-    return render_template('credits.html', version=__version__)
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+    )
+    return render_template('credits.html', **context)
 
 @app.route('/statistics')
 def statistics():

@@ -30,6 +30,8 @@ def serialize(obj):
 
 
 class TranslationRequest(db.Model):
+    __table_args__ = ( db.UniqueConstraint('source', 'target', 'original_text_hash'), )
+
     id = db.Column(UUID, primary_key=True)
     user_id = db.Column(UUID)
     timestamp = db.Column(db.DateTime(timezone=True))

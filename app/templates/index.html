@@ -147,7 +147,9 @@
 
       <div id="feedback">
           <div id="rating" style="visibility:hidden;">
+            {% if debug %}
             <a href="#" class="translation-challenge">{{ _("I think I can do better than this") }}</a>
+            {% endif %}
           </div>
           <div id="appreciation" style="visibility:hidden;">
               {{ _("Thank you for your feedback.") }}

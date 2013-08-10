@@ -150,7 +150,9 @@ def index(translation_id=None, serial=None):
         locale=get_locale(),
         is_android=is_android,
         is_msie=is_msie,
-        language_options=__language_options__())
+        language_options=__language_options__(),
+        debug=os.environ.get('DEBUG', None),
+    )
 
     row = None
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-10 08:33+0000\n"
+"POT-Creation-Date: 2013-08-10 09:26+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -61,15 +61,23 @@ msgstr "요청하신 페이지가 존재하지 않습니다. <a href=\"/\">첫 �
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: app/templates/base.html:48
-msgid "Follow us on Twitter"
-msgstr ""
+#: app/templates/base.html:56
+msgid "Social Media"
+msgstr "소셜 미디어"
 
-#: app/templates/base.html:98 app/templates/credits.html:4
+#: app/templates/base.html:58
+msgid "Facebook"
+msgstr "페이스북"
+
+#: app/templates/base.html:59
+msgid "Twitter"
+msgstr "트위터"
+
+#: app/templates/base.html:113 app/templates/credits.html:4
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: app/templates/base.html:99
+#: app/templates/base.html:114
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -156,7 +164,7 @@ msgstr "번역중입니다..."
 
 #: app/templates/index.html:158
 msgid "I think I can do better than this"
-msgstr "내가 해도 이것보단 잘 할 것 같은데..."
+msgstr ""
 
 #: app/templates/index.html:161
 msgid "Thank you for your feedback."
@@ -289,5 +297,5 @@ msgstr "삭제"
 
 #: app/templates/translation_response.html:49
 msgid "Save"
-msgstr "저장"
+msgstr ""
 

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-10 08:33+0000\n"
-"PO-Revision-Date: 2013-03-15 06:16+0000\n"
+"POT-Creation-Date: 2013-08-10 09:26+0000\n"
+"PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: enj <LL@li.org>\n"
+"Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -67,15 +68,23 @@ msgstr ""
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:48
-msgid "Follow us on Twitter"
+#: app/templates/base.html:56
+msgid "Social Media"
 msgstr ""
 
-#: app/templates/base.html:98 app/templates/credits.html:4
+#: app/templates/base.html:58
+msgid "Facebook"
+msgstr ""
+
+#: app/templates/base.html:59
+msgid "Twitter"
+msgstr ""
+
+#: app/templates/base.html:113 app/templates/credits.html:4
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:99
+#: app/templates/base.html:114
 msgid "Bug reporting"
 msgstr ""
 

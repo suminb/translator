@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-10 08:33+0000\n"
+"POT-Creation-Date: 2013-08-10 09:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,15 +61,23 @@ msgstr ""
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:48
-msgid "Follow us on Twitter"
+#: app/templates/base.html:56
+msgid "Social Media"
 msgstr ""
 
-#: app/templates/base.html:98 app/templates/credits.html:4
+#: app/templates/base.html:58
+msgid "Facebook"
+msgstr ""
+
+#: app/templates/base.html:59
+msgid "Twitter"
+msgstr ""
+
+#: app/templates/base.html:113 app/templates/credits.html:4
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:99
+#: app/templates/base.html:114
 msgid "Bug reporting"
 msgstr ""
 

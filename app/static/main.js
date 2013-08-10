@@ -238,7 +238,7 @@ function performTranslation() {
 
     if (state.source == state.target) {
         // simply displays the original text when the source language and the target language are identical
-        state.setResult(text);
+        state.setResult(state.text);
     }
     else {
         // translates if the source language and the target language are not identical
@@ -390,13 +390,18 @@ function fetchTranslation(serial) {
     });
 }
 
-function rateTranslation(id, rating) {
+function rateTranslation(button) {
     //var original = $("text").val();
     //var encoded = encodeURIComponent(original);
 
-    var url = $.sprintf("/v1.0/tr/%s/rate", id);
-    $.post(url, {r:rating}, function(response) {
+    var buttonGroup = button.parent();
+    var translationId = button.attr("translation-id");
+    var rating = parseInt(button.attr("rating"));
 
+    var url = $.sprintf("/v1.0/tr/%s/rate", translationId);
+    $.post(url, {r:rating}, function(response) {
+        buttonGroup.children().removeClass("active");
+        button.addClass("active");
     }).fail(function(response) {
     
     }).always(function() {

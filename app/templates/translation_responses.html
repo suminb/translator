@@ -28,10 +28,10 @@
               <span class="rating-plus">{{ tresponse.plus_ratings }}</span> /
               <span class="rating-minus">{{ tresponse.minus_ratings }}</span> &nbsp;
               <div class="btn-group">
-                <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', 1)">
+                <button class="btn btn-mini" translation-id="{{ tresponse.id | uuid_to_b62 }}" rating="1" onclick="rateTranslation($(this))">
                   <i class="icon-plus"></i>
                 </button>
-                <button class="btn btn-mini" onclick="rateTranslation('{{ tresponse.id | uuid_to_b62 }}', -1)">
+                <button class="btn btn-mini" translation-id="{{ tresponse.id | uuid_to_b62 }}" rating="-1" onclick="rateTranslation($(this))">
                   <i class="icon-minus"></i>
                 </button>
               </div>

@@ -423,6 +423,7 @@ def translate():
 
         tresp = TranslationResponse.insert(
             commit=False,
+            request_id=treq.id,
             source=source,
             target=target,
             mode=mode,
@@ -486,22 +487,36 @@ def translation_request(translation_id):
     return render_template('translation_request.html', **context)
 
 
-@app.route('/tr/<request_id>/response', methods=['GET', 'POST', 'DELETE'])
+# TODO: Refactoring
+@app.route('/v1.0/trs/<response_id>', methods=['DELETE'])
+@login_required
+def translation_response_delete(response_id):
+    tres = TranslationResponse.fetch(response_id)
+
+    try:
+        db.session.delete(tres)
+        db.session.commit()
+
+        # TODO: Return request_id
+        return ''
+
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
+
+# TODO: Refactoring
+@app.route('/tr/<request_id>/response', methods=['GET', 'POST'])
 @login_required
 def translation_response(request_id):
 
     treq = TranslationRequest.fetch(request_id)
 
     tresp1 = TranslationResponse.query.filter_by(
-        original_text_hash=treq.original_text_hash,
-        source=treq.source,
-        target=treq.target,
+        request_id=treq.id,
         mode=1).first()
 
     tresp2 = TranslationResponse.query.filter_by(
-        original_text_hash=treq.original_text_hash,
-        source=treq.source,
-        target=treq.target,
+        request_id=treq.id,
         mode=2).first()
 
     context = dict(
@@ -522,6 +537,7 @@ def translation_response(request_id):
             status_code = 400
         else:
             tres = TranslationResponse.insert(
+                request_id=treq.id,
                 user_id=current_user.id,
                 source=treq.source,
                 target=treq.target,
@@ -531,21 +547,6 @@ def translation_response(request_id):
             )
             context['tresponse'] = tres
             context['success'] = _('Thanks for your submission.')
-
-
-    # FIXME: This must be a REST-ful API
-    elif request.method == 'DELETE':
-        tres = TranslationResponse.query.get(str(translation_id))
-
-        try:
-            db.session.delete(tres)
-            db.session.commit()
-
-            return ''
-
-        except Exception as e:
-            logger.exception(e)
-            return str(e), 500
 
     else:
         # FIXME: Duplicated request
@@ -566,30 +567,17 @@ def translation_responses(request_id):
 
     treq = TranslationRequest.fetch(request_id)
 
-    #translation_id = uuid.UUID(int=base62.decode(translation_id))
-
-    # TODO: Join user information with translation_response_latest
-
-    #translation = Translation.query.get(str(translation_id))
-
     tresp1 = TranslationResponse.query.filter_by(
-        original_text_hash=treq.original_text_hash,
-        source=treq.source,
-        target=treq.target,
+        request_id=treq.id,
         mode=1).first()
 
     tresp2 = TranslationResponse.query.filter_by(
-        original_text_hash=treq.original_text_hash,
-        source=treq.source,
-        target=treq.target,
+        request_id=treq.id,
         mode=2).first()
 
     tresponses = Translation.query.filter_by(
-        source=treq.source,
-        target=treq.target,
-        mode=3,
-        original_text_hash=treq.original_text_hash) \
-        .order_by(Translation.rating.desc())
+        request_id=treq.id, mode=3) \
+        .order_by(Translation.rating.desc(), Translation.count.desc())
 
     ratings = Rating.query.filter(
         Rating.user_id == current_user.id,
@@ -748,3 +736,15 @@ def teardown_request(exception):
 def page_not_found(error):
     return render_template('404.html',
         version=__version__, message='Page Not Found'), 404
+
+
+# NOTE: Temporary
+@app.route('/integrate')
+def integrate():
+    for tresp in TranslationResponse.query.all():
+        treq = TranslationRequest.fetch(None, tresp.original_text_hash, tresp.source, tresp.target)
+        tresp.request_id = treq.id
+
+    db.session.commit()
+
+    return ''

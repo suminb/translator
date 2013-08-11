@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-11 04:04+0000\n"
+"POT-Creation-Date: 2013-08-11 06:24+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -21,24 +21,24 @@ msgstr ""
 msgid "app-description-text"
 msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
 
-#: app/core.py:508
+#: app/core.py:539
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/core.py:520
+#: app/core.py:551
 msgid "Thanks for your submission."
 msgstr ""
 
-#: app/core.py:583 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:624 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:43
 msgid "app-title"
 msgstr "더 나은 번역기"
 
-#: app/core.py:585
+#: app/core.py:626
 msgid "{} has completed a translation challenge"
 msgstr "{}님이 번역 도전 과제를 해결했습니다"
 
-#: app/core.py:586
+#: app/core.py:627
 msgid "How do you say \"{0}\" in {1}?"
 msgstr "\"{0}\"을(를) {1}로 하면?"
 
@@ -146,11 +146,13 @@ msgstr "번역"
 msgid "Request a permalink"
 msgstr "이 페이지 링크 요청하기"
 
-#: app/templates/index.html:130
+#: app/templates/index.html:130 app/templates/translation_response.html:29
+#: app/templates/translation_responses.html:16
 msgid "Regular translation"
 msgstr "일반 번역"
 
-#: app/templates/index.html:131
+#: app/templates/index.html:131 app/templates/translation_response.html:36
+#: app/templates/translation_responses.html:26
 msgid "Better translation"
 msgstr "더 나은 번역"
 
@@ -160,7 +162,7 @@ msgstr "번역중입니다..."
 
 #: app/templates/index.html:151
 msgid "I think I can do better than this"
-msgstr ""
+msgstr "내가 직접 번역해도 이것보단 나을것 같아요"
 
 #: app/templates/index.html:155
 msgid "Thank you for your feedback."
@@ -270,36 +272,28 @@ msgstr "번역 도전하기"
 msgid "Beta"
 msgstr ""
 
-#: app/templates/translation_response.html:28
-#: app/templates/translation_responses.html:15
-msgid "Translated text"
-msgstr "번역문"
-
-#: app/templates/translation_response.html:33
+#: app/templates/translation_response.html:42
 msgid "Your translation"
 msgstr "나의 번역"
 
-#: app/templates/translation_response.html:40
+#: app/templates/translation_response.html:49
 msgid "See how others did"
 msgstr "다른 사람들이 한 번역 보기"
 
-#: app/templates/translation_response.html:42
+#: app/templates/translation_response.html:51
 msgid "Post on Facebook"
 msgstr "페이스북에 자랑하기"
 
-#: app/templates/translation_response.html:43
+#: app/templates/translation_response.html:52
 msgid "Delete"
 msgstr "삭제"
 
-#: app/templates/translation_response.html:49
+#: app/templates/translation_response.html:58
 msgid "Save"
 msgstr ""
 
-#: app/templates/translation_responses.html:40
+#: app/templates/translation_responses.html:55
 #, fuzzy
 msgid "Edit"
 msgstr "만든 사람들"
-
-#~ msgid "Requrested resource does not exist"
-#~ msgstr "요청하신 페이지가 존재하지 않습니다"
 

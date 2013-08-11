@@ -75,9 +75,9 @@ var state = {
     result: null,
 
     id: null,
-    id_b62: null,
+    requestId: null,
     serial: null,
-    example_index: 0,
+    exampleIndex: 0,
 
     setSource: function(v) {
         this.source = v;
@@ -130,7 +130,7 @@ var state = {
 
     initWithTranslation: function(t) {
         this.id = t.id;
-        this.id_b62 = t.id_b62;
+        this.requestId = t.request_id;
         this.serial = t.serial;
         this.source = t.source;
         this.target = t.target;
@@ -141,7 +141,7 @@ var state = {
 
     updateWithTranslation: function(t) {
         this.id = t.id;
-        this.id_b62 = t.id_b62;
+        this.requestId = t.request_id;
         this.result = t.translated_text;
     },
 
@@ -167,8 +167,8 @@ var state = {
             $("#result").text(this.result);
         }
         if (this.id) {
-            displayPermalink(this.id_b62);
-            askForRating(this.id_b62);
+            displayPermalink(this.id);
+            askForRating(this.requestId);
         }
     },
 
@@ -258,8 +258,8 @@ function performTranslation() {
                 //window.history.pushState(currentState, "", window.location.href);
 
                 if (state.serial) {
-                    askForRating(response.id_b62);
-                    displayPermalink(response.id_b62);
+                    askForRating(response.request_id);
+                    displayPermalink(response.id);
                 }
 
                 state.invalidateUI();
@@ -285,7 +285,7 @@ function refreshExample() {
     // Randomly chooses an example sentence
     //state.ei = Math.floor(Math.random() * examples.ko.length);
 
-    var example = examples[language][state.example_index++ % examples[language].length];
+    var example = examples[language][state.exampleIndex++ % examples[language].length];
 
     $("#text").val(example);
 
@@ -380,7 +380,7 @@ function fetchTranslation(serial) {
 
         window.history.replaceState(serializeCurrentState(), "", window.location.href);
 
-        askForRating();
+        askForRating(response.request_id);
 
     }).fail(function(response) {
         displayError(response.responseText)
@@ -423,27 +423,25 @@ function deleteTranslation(id) {
     });
 }
 
-function displayPermalink(id_b62) {
+function displayPermalink(id) {
     var origin = window.location.origin ? window.location.origin
         : window.location.protocol+"//"+window.location.host;
-    var url = $.sprintf("%s/tr/%s", origin, id_b62);
+    var url = $.sprintf("%s/tr/%s", origin, id);
 
     $("#request-permalink").hide();
     $("#page-url").visible();
     $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
 
-    // Doesn't seem to work
-    //$("#addthis-share").attr("addthis:url", url);
-
-    //window.history.pushState(serializeCurrentState(), "", $.sprintf("/tr/%s", id_b62));
+    //window.history.pushState(serializeCurrentState(), "", $.sprintf("/tr/%s", id));
 }
 
-function askForRating(id_b62) {
+function askForRating(id) {
+    console.log(id);
     $("#appreciation").hide();
 
     if (state.text.length <= 180) {
         $("#rating").visible();
-        $("#rating a.translation-challenge").attr("href", $.sprintf("/tr/%s/response", id_b62));
+        $("#rating a.translation-challenge").attr("href", $.sprintf("/tr/%s/response", id));
     }
 }
 

@@ -446,8 +446,8 @@ def translate():
         db.session.rollback()
 
     return dict(
-        id=tresp.id,
-        id_b62=base62.encode(uuid.UUID(tresp.id).int),
+        id=base62.encode(uuid.UUID(tresp.id).int),
+        request_id=base62.encode(uuid.UUID(treq.id).int),
         intermediate_text=tresp.intermediate_text,
         translated_text=tresp.translated_text)
 
@@ -486,17 +486,30 @@ def translation_request(translation_id):
     return render_template('translation_request.html', **context)
 
 
-@app.route('/tr/<translation_id>/response', methods=['GET', 'POST', 'DELETE'])
+@app.route('/tr/<request_id>/response', methods=['GET', 'POST', 'DELETE'])
 @login_required
-def translation_response(translation_id):
-    # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
-    translation_id = uuid.UUID(int=base62.decode(translation_id))
-    translation = Translation.query.get(str(translation_id))
+def translation_response(request_id):
+
+    treq = TranslationRequest.fetch(request_id)
+
+    tresp1 = TranslationResponse.query.filter_by(
+        original_text_hash=treq.original_text_hash,
+        source=treq.source,
+        target=treq.target,
+        mode=1).first()
+
+    tresp2 = TranslationResponse.query.filter_by(
+        original_text_hash=treq.original_text_hash,
+        source=treq.source,
+        target=treq.target,
+        mode=2).first()
 
     context = dict(
         version=__version__,
         locale=get_locale(),
-        translation=translation,
+        trequest=treq,
+        tresponse1=tresp1,
+        tresponse2=tresp2,
     )
     status_code = 200
 
@@ -510,10 +523,10 @@ def translation_response(translation_id):
         else:
             tres = TranslationResponse.insert(
                 user_id=current_user.id,
-                source=translation.source,
-                target=translation.target,
+                source=treq.source,
+                target=treq.target,
                 mode=3,
-                original_text_hash=translation.original_text_hash,
+                original_text_hash=treq.original_text_hash,
                 translated_text=translated_text,
             )
             context['tresponse'] = tres
@@ -535,58 +548,47 @@ def translation_response(translation_id):
             return str(e), 500
 
     else:
-        tresp1 = TranslationResponse.query.filter_by(
-            original_text_hash=translation.original_text_hash,
-            source=translation.source,
-            target=translation.target,
-            mode=1).first()
-
-        tresp2 = TranslationResponse.query.filter_by(
-            original_text_hash=translation.original_text_hash,
-            source=translation.source,
-            target=translation.target,
-            mode=2).first()
-
         # FIXME: Duplicated request
         tresp3 = TranslationResponse.query.filter_by(
             user_id=current_user.id,
-            original_text_hash=translation.original_text_hash,
-            source=translation.source,
-            target=translation.target,
+            original_text_hash=treq.original_text_hash,
+            source=treq.source,
+            target=treq.target,
             mode=3).first()
 
-        context['tresponse1'] = tresp1
-        context['tresponse2'] = tresp2
         context['tresponse'] = tresp3
 
     return render_template('translation_response.html', **context), status_code
 
 
-@app.route('/tr/<translation_id>/responses')
-def translation_responses(translation_id):
-    translation_id = uuid.UUID(int=base62.decode(translation_id))
+@app.route('/tr/<request_id>/responses')
+def translation_responses(request_id):
+
+    treq = TranslationRequest.fetch(request_id)
+
+    #translation_id = uuid.UUID(int=base62.decode(translation_id))
 
     # TODO: Join user information with translation_response_latest
 
-    translation = Translation.query.get(str(translation_id))
+    #translation = Translation.query.get(str(translation_id))
 
     tresp1 = TranslationResponse.query.filter_by(
-        original_text_hash=translation.original_text_hash,
-        source=translation.source,
-        target=translation.target,
+        original_text_hash=treq.original_text_hash,
+        source=treq.source,
+        target=treq.target,
         mode=1).first()
 
     tresp2 = TranslationResponse.query.filter_by(
-        original_text_hash=translation.original_text_hash,
-        source=translation.source,
-        target=translation.target,
+        original_text_hash=treq.original_text_hash,
+        source=treq.source,
+        target=treq.target,
         mode=2).first()
 
     tresponses = Translation.query.filter_by(
-        source=translation.source,
-        target=translation.target,
+        source=treq.source,
+        target=treq.target,
         mode=3,
-        original_text_hash=translation.original_text_hash) \
+        original_text_hash=treq.original_text_hash) \
         .order_by(Translation.rating.desc())
 
     ratings = Rating.query.filter(
@@ -596,7 +598,7 @@ def translation_responses(translation_id):
 
     context = dict(
         locale=get_locale(),
-        translation=translation,
+        trequest=treq,
         tresponse1=tresp1,
         tresponse2=tresp2,
         tresponses=tresponses,

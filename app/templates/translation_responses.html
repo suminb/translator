@@ -7,13 +7,13 @@
 
   <div class="table">
     <div class="row-fluid">
-      <div class="span3 header">{{ _("Original text") }} ({{ translation.source | language_name }})</div>
-      <div class="span9">{{ translation.original_text }}</div>
+      <div class="span3 header">{{ _("Original text") }} ({{ trequest.source | language_name }})</div>
+      <div class="span9">{{ trequest.original_text }}</div>
     </div>
 
     {% if tresponse1 %}
     <div class="row-fluid">
-      <div class="span3 header">{{ _("Regular translation") }} ({{ translation.target | language_name }})</div>
+      <div class="span3 header">{{ _("Regular translation") }} ({{ trequest.target | language_name }})</div>
       <div class="span9">
         {{ tresponse1.translated_text }}
         <a href="{{ url_for('index', translation_id=tresponse1.id_b62) }}"><i class="icon-share-alt"></i></a>
@@ -23,10 +23,10 @@
 
     {% if tresponse2 %}
     <div class="row-fluid">
-      <div class="span3 header">{{ _("Better translation") }} ({{ translation.target | language_name }})</div>
+      <div class="span3 header">{{ _("Better translation") }} ({{ trequest.target | language_name }})</div>
       <div class="span9">
         {{ tresponse2.translated_text }}
-        <a href="{{ url_for('index', translation_id=tresponse2.id_b62) }}"><i class="icon-share-alt"></i
+        <a href="{{ url_for('index', translation_id=tresponse2.id_b62) }}"><i class="icon-share-alt"></i></a>
       </div>
     </div>
     {% endif %}
@@ -52,7 +52,7 @@
                 </button>
               </div>
               {% if mine %}&nbsp;
-              <a href="{{ url_for('translation_response', translation_id=tresponse.id_b62) }}">{{ _("Edit") }}</a>
+              <a href="{{ url_for('translation_response', request_id=trequest.id_b62) }}">{{ _("Edit") }}</a>
               {% endif %}
             </div>
             <div>{{ tresponse.translated_text }}</div>

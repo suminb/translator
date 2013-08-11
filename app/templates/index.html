@@ -22,7 +22,7 @@
       }
 
       if (state.id) {
-          askForRating(state.id_b62);
+          askForRating(state.requestId);
       }
       else {
           if (getParameterByName("t")) {
@@ -32,7 +32,7 @@
               state.init();
               
               // indicates the initial state
-              if (state.example_index == 0) {
+              if (state.exampleIndex == 0) {
                   refreshExample();
               }
               hashChanged(window.location.hash ? window.location.hash : "");

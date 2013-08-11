@@ -226,3 +226,14 @@ span.rating-plus {
 span.rating-minus {
   color: #f5001d;
 }
+
+li.highlight {
+  background-color: #eee;
+}
+
+li.translation-response {
+  padding: .5em 1em;
+  -webkit-border-radius: 3px;
+  -mox-border-radius: 3px;
+  border-radius: 3px;
+}

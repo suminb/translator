@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-10 09:26+0000\n"
+"POT-Creation-Date: 2013-08-11 04:04+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -17,32 +17,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:166
-msgid "Requrested resource does not exist"
-msgstr "요청하신 페이지가 존재하지 않습니다"
-
-#: app/core.py:173
+#: app/core.py:175
 msgid "app-description-text"
 msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
 
-#: app/core.py:476
+#: app/core.py:508
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/core.py:488
+#: app/core.py:520
 msgid "Thanks for your submission."
 msgstr ""
 
-#: app/core.py:551 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:583 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:43
 msgid "app-title"
 msgstr "더 나은 번역기"
 
-#: app/core.py:553
+#: app/core.py:585
 msgid "{} has completed a translation challenge"
 msgstr "{}님이 번역 도전 과제를 해결했습니다"
 
-#: app/core.py:554
+#: app/core.py:586
 msgid "How do you say \"{0}\" in {1}?"
 msgstr "\"{0}\"을(를) {1}로 하면?"
 
@@ -61,23 +57,23 @@ msgstr "요청하신 페이지가 존재하지 않습니다. <a href=\"/\">첫 �
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: app/templates/base.html:56
+#: app/templates/base.html:53
 msgid "Social Media"
 msgstr "소셜 미디어"
 
-#: app/templates/base.html:58
+#: app/templates/base.html:55
 msgid "Facebook"
 msgstr "페이스북"
 
-#: app/templates/base.html:59
+#: app/templates/base.html:56
 msgid "Twitter"
 msgstr "트위터"
 
-#: app/templates/base.html:113 app/templates/credits.html:4
+#: app/templates/base.html:107 app/templates/credits.html:4
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: app/templates/base.html:114
+#: app/templates/base.html:108
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -99,15 +95,15 @@ msgstr "블로그"
 msgid "Localization"
 msgstr ""
 
-#: app/templates/credits.html:17 app/templates/index.html:173
+#: app/templates/credits.html:17 app/templates/index.html:167
 msgid "French"
 msgstr "프랑스어"
 
-#: app/templates/credits.html:22 app/templates/index.html:191
+#: app/templates/credits.html:22 app/templates/index.html:185
 msgid "Spanish"
 msgstr "스페인어"
 
-#: app/templates/credits.html:26 app/templates/index.html:172
+#: app/templates/credits.html:26 app/templates/index.html:166
 msgid "Russian"
 msgstr "러시아어"
 
@@ -150,91 +146,91 @@ msgstr "번역"
 msgid "Request a permalink"
 msgstr "이 페이지 링크 요청하기"
 
-#: app/templates/index.html:138
+#: app/templates/index.html:130
 msgid "Regular translation"
 msgstr "일반 번역"
 
-#: app/templates/index.html:139
+#: app/templates/index.html:131
 msgid "Better translation"
 msgstr "더 나은 번역"
 
-#: app/templates/index.html:151
+#: app/templates/index.html:143
 msgid "Translation in progress..."
 msgstr "번역중입니다..."
 
-#: app/templates/index.html:158
+#: app/templates/index.html:151
 msgid "I think I can do better than this"
 msgstr ""
 
-#: app/templates/index.html:161
+#: app/templates/index.html:155
 msgid "Thank you for your feedback."
 msgstr "감사합니다."
 
-#: app/templates/index.html:174
+#: app/templates/index.html:168
 msgid "English"
 msgstr "영어"
 
-#: app/templates/index.html:175
+#: app/templates/index.html:169
 msgid "Portuguese"
 msgstr "포르투갈어"
 
-#: app/templates/index.html:176
+#: app/templates/index.html:170
 msgid "Vietnamese"
 msgstr "베트남어"
 
-#: app/templates/index.html:177
+#: app/templates/index.html:171
 msgid "German"
 msgstr "독일어"
 
-#: app/templates/index.html:178
+#: app/templates/index.html:172
 msgid "Korean"
 msgstr "한국어"
 
-#: app/templates/index.html:179
+#: app/templates/index.html:173
 msgid "Italian"
 msgstr "이탈리아어"
 
-#: app/templates/index.html:180
+#: app/templates/index.html:174
 msgid "Hebrew"
 msgstr "히브리어"
 
-#: app/templates/index.html:181
+#: app/templates/index.html:175
 msgid "Indonesian"
 msgstr "인도네시아어"
 
-#: app/templates/index.html:182
+#: app/templates/index.html:176
 msgid "Turkish"
 msgstr "터키어"
 
-#: app/templates/index.html:183
+#: app/templates/index.html:177
 msgid "Chinese"
 msgstr "중국어"
 
-#: app/templates/index.html:184
+#: app/templates/index.html:178
 msgid "Filipino"
 msgstr "필리핀어"
 
-#: app/templates/index.html:185
+#: app/templates/index.html:179
 msgid "Arabic"
 msgstr "아랍어"
 
-#: app/templates/index.html:186
+#: app/templates/index.html:180
 msgid "Polish"
 msgstr "폴란드어"
 
-#: app/templates/index.html:187
+#: app/templates/index.html:181
 msgid "Thai"
 msgstr "태국어"
 
-#: app/templates/index.html:188
+#: app/templates/index.html:182
 msgid "Czech"
 msgstr "체코어"
 
-#: app/templates/index.html:189
+#: app/templates/index.html:183
 msgid "Swedish"
 msgstr "스웨덴어"
 
-#: app/templates/index.html:190
+#: app/templates/index.html:184
 msgid "Japanese"
 msgstr "일본어"
 
@@ -298,4 +294,12 @@ msgstr "삭제"
 #: app/templates/translation_response.html:49
 msgid "Save"
 msgstr ""
+
+#: app/templates/translation_responses.html:40
+#, fuzzy
+msgid "Edit"
+msgstr "만든 사람들"
+
+#~ msgid "Requrested resource does not exist"
+#~ msgstr "요청하신 페이지가 존재하지 않습니다"
 

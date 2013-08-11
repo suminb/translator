@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-10 09:26+0000\n"
+"POT-Creation-Date: 2013-08-11 04:04+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -17,11 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:166
-msgid "Requrested resource does not exist"
-msgstr "Il n'existe pas la source de la demande."
-
-#: app/core.py:173
+#: app/core.py:175
 msgid "app-description-text"
 msgstr ""
 "La traduction aumieux est un service qui permet d'effectuer des "
@@ -31,24 +27,24 @@ msgstr ""
 " langage. Par conséquent, Google Traduction envers le japonais vous donne"
 " le meilleur résultat."
 
-#: app/core.py:476
+#: app/core.py:508
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/core.py:488
+#: app/core.py:520
 msgid "Thanks for your submission."
 msgstr ""
 
-#: app/core.py:551 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:583 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:43
 msgid "app-title"
 msgstr "Traduction de mieux "
 
-#: app/core.py:553
+#: app/core.py:585
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/core.py:554
+#: app/core.py:586
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
@@ -70,23 +66,23 @@ msgstr ""
 msgid "Discussions"
 msgstr "Discussion"
 
-#: app/templates/base.html:56
+#: app/templates/base.html:53
 msgid "Social Media"
 msgstr ""
 
-#: app/templates/base.html:58
+#: app/templates/base.html:55
 msgid "Facebook"
 msgstr ""
 
-#: app/templates/base.html:59
+#: app/templates/base.html:56
 msgid "Twitter"
 msgstr ""
 
-#: app/templates/base.html:113 app/templates/credits.html:4
+#: app/templates/base.html:107 app/templates/credits.html:4
 msgid "Credits"
 msgstr "Crédit"
 
-#: app/templates/base.html:114
+#: app/templates/base.html:108
 msgid "Bug reporting"
 msgstr "Rapports"
 
@@ -108,15 +104,15 @@ msgstr "Blog"
 msgid "Localization"
 msgstr "Localisaion"
 
-#: app/templates/credits.html:17 app/templates/index.html:173
+#: app/templates/credits.html:17 app/templates/index.html:167
 msgid "French"
 msgstr "Français"
 
-#: app/templates/credits.html:22 app/templates/index.html:191
+#: app/templates/credits.html:22 app/templates/index.html:185
 msgid "Spanish"
 msgstr "Español"
 
-#: app/templates/credits.html:26 app/templates/index.html:172
+#: app/templates/credits.html:26 app/templates/index.html:166
 msgid "Russian"
 msgstr "Russe"
 
@@ -165,94 +161,94 @@ msgstr "Traduire"
 msgid "Request a permalink"
 msgstr "Créer un lien permanent\t"
 
-#: app/templates/index.html:138
+#: app/templates/index.html:130
 #, fuzzy
 msgid "Regular translation"
 msgstr "Traduction directe"
 
-#: app/templates/index.html:139
+#: app/templates/index.html:131
 #, fuzzy
 msgid "Better translation"
 msgstr "Traduction directe"
 
-#: app/templates/index.html:151
+#: app/templates/index.html:143
 msgid "Translation in progress..."
 msgstr ""
 
-#: app/templates/index.html:158
+#: app/templates/index.html:151
 msgid "I think I can do better than this"
 msgstr ""
 
-#: app/templates/index.html:161
+#: app/templates/index.html:155
 msgid "Thank you for your feedback."
 msgstr "Merci pour vos commentaires."
 
-#: app/templates/index.html:174
+#: app/templates/index.html:168
 msgid "English"
 msgstr "anglais"
 
-#: app/templates/index.html:175
+#: app/templates/index.html:169
 msgid "Portuguese"
 msgstr "portugais"
 
-#: app/templates/index.html:176
+#: app/templates/index.html:170
 msgid "Vietnamese"
 msgstr "vietnamien"
 
-#: app/templates/index.html:177
+#: app/templates/index.html:171
 msgid "German"
 msgstr "allemand"
 
-#: app/templates/index.html:178
+#: app/templates/index.html:172
 msgid "Korean"
 msgstr "coréen"
 
-#: app/templates/index.html:179
+#: app/templates/index.html:173
 msgid "Italian"
 msgstr "italien"
 
-#: app/templates/index.html:180
+#: app/templates/index.html:174
 msgid "Hebrew"
 msgstr "hébreu"
 
-#: app/templates/index.html:181
+#: app/templates/index.html:175
 msgid "Indonesian"
 msgstr "indonésien"
 
-#: app/templates/index.html:182
+#: app/templates/index.html:176
 msgid "Turkish"
 msgstr "turc"
 
-#: app/templates/index.html:183
+#: app/templates/index.html:177
 msgid "Chinese"
 msgstr "chinois"
 
-#: app/templates/index.html:184
+#: app/templates/index.html:178
 msgid "Filipino"
 msgstr "tagalog"
 
-#: app/templates/index.html:185
+#: app/templates/index.html:179
 msgid "Arabic"
 msgstr "arabe"
 
-#: app/templates/index.html:186
+#: app/templates/index.html:180
 #, fuzzy
 msgid "Polish"
 msgstr "polonais"
 
-#: app/templates/index.html:187
+#: app/templates/index.html:181
 msgid "Thai"
 msgstr "thaïlandais"
 
-#: app/templates/index.html:188
+#: app/templates/index.html:182
 msgid "Czech"
 msgstr "tchèque"
 
-#: app/templates/index.html:189
+#: app/templates/index.html:183
 msgid "Swedish"
 msgstr "suédois"
 
-#: app/templates/index.html:190
+#: app/templates/index.html:184
 msgid "Japanese"
 msgstr "japonais"
 
@@ -318,4 +314,12 @@ msgstr ""
 #: app/templates/translation_response.html:49
 msgid "Save"
 msgstr ""
+
+#: app/templates/translation_responses.html:40
+#, fuzzy
+msgid "Edit"
+msgstr "Crédit"
+
+#~ msgid "Requrested resource does not exist"
+#~ msgstr "Il n'existe pas la source de la demande."
 

@@ -24,10 +24,19 @@
       <div class="span9">{{ translation.original_text }}</div>
     </div>
 
+    {% if tresponse1 %}
     <div class="row-fluid">
-      <div class="span3 header">{{ _("Translated text") }} ({{ translation.target | language_name }})</div>
-      <div class="span9">{{ translation.translated_text }}</div>
+      <div class="span3 header">{{ _("Regular translation") }} ({{ translation.target | language_name }})</div>
+      <div class="span9">{{ tresponse1.translated_text }}</div>
     </div>
+    {% endif %}
+
+    {% if tresponse2 %}
+    <div class="row-fluid">
+      <div class="span3 header">{{ _("Better translation") }} ({{ translation.target | language_name }})</div>
+      <div class="span9">{{ tresponse2.translated_text }}</div>
+    </div>
+    {% endif %}
 
     <div class="row-fluid">
       <div class="span3 header">{{ _("Your translation") }}</div>

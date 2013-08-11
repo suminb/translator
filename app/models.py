@@ -29,7 +29,19 @@ def serialize(obj):
         return fields
 
 
-class TranslationRequest(db.Model):
+class BaseModel:
+    @property
+    def id_b62(self):
+        return base62.encode(uuid.UUID(self.id).int)
+
+    def serialize(self):
+        # Synthesized property
+        #self.id_b62 = base62.encode(uuid.UUID(self.id).int)
+
+        return serialize(self)
+
+
+class TranslationRequest(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('source', 'target', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
@@ -39,12 +51,6 @@ class TranslationRequest(db.Model):
     target = db.Column(db.String(16))
     original_text = db.Column(db.Text)
     original_text_hash = db.Column(db.String(255))
-
-    def serialize(self):
-        # Synthesized property
-        self.id_b62 = base62.encode(uuid.UUID(self.id).int)
-
-        return serialize(self)
 
     @staticmethod
     def fetch(id_b62=None, original_text_hash=None, source=None, target=None):
@@ -71,7 +77,7 @@ class TranslationRequest(db.Model):
         return treq
 
 
-class TranslationResponse(db.Model):
+class TranslationResponse(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'mode', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
@@ -89,12 +95,6 @@ class TranslationResponse(db.Model):
     translated_text = db.Column(db.Text)
 
     user = relationship('User')
-
-    def serialize(self):
-        # Synthesized property
-        self.id_b62 = base62.encode(uuid.UUID(self.id).int)
-
-        return serialize(self)
 
     @staticmethod
     def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
@@ -120,11 +120,11 @@ class TranslationResponse(db.Model):
 
         return tresp
 
-class Translation(db.Model):
+class Translation(db.Model, BaseModel):
     """
     CREATE VIEW translation AS
-        SELECT tres.id, tres.user_id, tres.timestamp,
-            tres.source, tres.target, tres.mode,
+        SELECT tres.id, treq.id AS request_id, tres.user_id,
+            tres.timestamp, tres.source, tres.target, tres.mode,
             treq.original_text, tres.original_text_hash, tres.intermediate_text,
             tres.translated_text, r.rating, r.count FROM translation_response AS tres
         LEFT JOIN translation_request AS treq ON
@@ -134,7 +134,8 @@ class Translation(db.Model):
         LEFT JOIN (SELECT translation_id, sum(rating) AS rating, count(id) AS count FROM rating GROUP BY translation_id) AS r ON
             r.translation_id = tres.id
     """
-    id = db.Column(UUID, primary_key=True)
+    id = db.Column(UUID, primary_key=True) # response_id
+    request_id = db.Column(UUID)
     user_id = db.Column(UUID, db.ForeignKey('user.id'))
     timestamp = db.Column(db.DateTime(timezone=True))
     source = db.Column(db.String(16))
@@ -148,11 +149,9 @@ class Translation(db.Model):
 
     user = relationship('User')
 
-    def serialize(self):
-        # Synthesized property
-        self.id_b62 = base62.encode(uuid.UUID(self.id).int)
-
-        return serialize(self)
+    @property
+    def request_id_b62(self):
+        return base62.encode(uuid.UUID(self.request_id).int)
 
     # FIXME: This may be a cause for degraded performance 
     @property
@@ -249,7 +248,7 @@ class Rating(db.Model):
         return rating
 
 
-class User(db.Model, UserMixin):
+class User(db.Model, UserMixin, BaseModel):
     __table_args__ = ( db.UniqueConstraint('oauth_provider', 'oauth_id'), {} )
 
     id = db.Column(UUID, primary_key=True)
@@ -264,9 +263,6 @@ class User(db.Model, UserMixin):
 
     gender = db.Column(db.String(6))
     locale = db.Column(db.String(16))
-
-    def serialize(self):
-        return serialize(self)
 
     @property
     def name(self):

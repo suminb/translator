@@ -535,14 +535,29 @@ def translation_response(translation_id):
             return str(e), 500
 
     else:
-        tres = TranslationResponse.query.filter_by(
+        tresp1 = TranslationResponse.query.filter_by(
+            original_text_hash=translation.original_text_hash,
+            source=translation.source,
+            target=translation.target,
+            mode=1).first()
+
+        tresp2 = TranslationResponse.query.filter_by(
+            original_text_hash=translation.original_text_hash,
+            source=translation.source,
+            target=translation.target,
+            mode=2).first()
+
+        # FIXME: Duplicated request
+        tresp3 = TranslationResponse.query.filter_by(
             user_id=current_user.id,
             original_text_hash=translation.original_text_hash,
             source=translation.source,
             target=translation.target,
             mode=3).first()
 
-        context['tresponse'] = tres
+        context['tresponse1'] = tresp1
+        context['tresponse2'] = tresp2
+        context['tresponse'] = tresp3
 
     return render_template('translation_response.html', **context), status_code
 

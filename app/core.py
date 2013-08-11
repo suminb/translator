@@ -396,7 +396,9 @@ def translate():
             original_text_hash=original_text_hash,
         )
 
-    tresp = TranslationResponse.fetch(None, original_text_hash, source, target, mode)
+    tresp = TranslationResponse.fetch(
+        original_text_hash=original_text_hash,
+        source=source, target=target, mode=mode)
 
     if tresp == None:
         # NOTE: The following may be time consuming operations
@@ -546,7 +548,9 @@ def page_not_found(error):
 @app.route('/integrate')
 def integrate():
     for tresp in TranslationResponse.query.all():
-        treq = TranslationRequest.fetch(None, tresp.original_text_hash, tresp.source, tresp.target)
+        treq = TranslationRequest.fetch(
+            original_text_hash=tresp.original_text_hash,
+            source=tresp.source, target=tresp.target)
         tresp.request_id = treq.id
 
     db.session.commit()

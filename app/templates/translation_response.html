@@ -51,7 +51,7 @@
         <button class="btn btn-primary" style="min-width:7em;" onclick="postTranslation('{{ tres_id_b62 }}')">{{ _("Post on Facebook") }}</button>
         <button class="btn btn-danger" style="min-width:7em;" onclick="deleteTranslation('{{ tres_id_b62 }}')">{{ _("Delete") }}</button>
 {% else %}
-        <form method="post" action="">
+        <form method="post" action="{{ url_for('translation_request_response_api', request_id=trequest.id_b62) }}">
           <input type="hidden" name="alert_flag" value="1"/>
           <textarea name="text" style="width:99%;height:10em;"></textarea>
           <div style="text-align:right">

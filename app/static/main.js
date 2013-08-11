@@ -419,7 +419,7 @@ function postTranslation(id) {
 
 function deleteTranslation(id) {
     $.delete_($.sprintf("/v1.0/trs/%s", id), function(response) {
-        location.reload();
+        location.href = $.sprintf("/trq/%s/response", response.request_id);
     });
 }
 

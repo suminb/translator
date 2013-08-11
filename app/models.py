@@ -56,7 +56,7 @@ class TranslationRequest(db.Model, BaseModel):
     def fetch(id=None, id_b62=None, original_text_hash=None, source=None, target=None):
         if id != None:
             return TranslationRequest.query.get(id)
-            
+
         elif id_b62 != None:
             translation_id = base62.decode(id_b62)
             return TranslationRequest.query.get(str(uuid.UUID(int=translation_id)))
@@ -102,14 +102,14 @@ class TranslationResponse(db.Model, BaseModel):
     user = relationship('User')
 
     @staticmethod
-    def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
+    def fetch(id_b62=None, user_id=None, original_text_hash=None, source=None, target=None, mode=None):
         if id_b62 != None:
             translation_id = base62.decode(id_b62)
             return TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
 
         else:
             return TranslationResponse.query.filter_by(
-                original_text_hash=original_text_hash,
+                user_id=user_id, original_text_hash=original_text_hash,
                 source=source, target=target, mode=mode).first()
 
     @staticmethod
@@ -193,6 +193,9 @@ class TranslationAccessLog(db.Model):
     0002:
     0004:
     ...
+
+    translation_access_log_translation_id_fkey  
+    FOREIGN KEY (translation_id) REFERENCES translation_response(id)
     """
 
     FLAG_CREATED = 1

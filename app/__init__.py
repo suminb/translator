@@ -4,6 +4,7 @@ __version__ = '1.1.11'
 
 from flask import Flask
 from flask.ext.login import LoginManager
+from flaskext.babel import Babel
 
 import os, sys
 import logging
@@ -47,9 +48,22 @@ logger = logging.getLogger('translator')
 logger.addHandler(logging.FileHandler('translator.log')) 
 logger.setLevel(logging.INFO)
 
-#app.jinja_env.filters['uuid_to_b62'] = uuid_to_b62
+babel = Babel(app)
+
+@babel.localeselector
+def get_locale():
+    """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    try:
+        return request.args['locale']
+    except KeyError:
+        try:
+            return request.cookies['locale']
+        except KeyError:
+            return request.accept_languages.best_match(['ko', 'en'])
+
 
 from core import *
+from translation import *
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

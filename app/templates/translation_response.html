@@ -45,7 +45,7 @@
 {% set tres_id_b62 = tresponse.id | uuid_to_b62 %}
         <p>{{ tresponse.translated_text }}</p>
         
-        <button class="btn" style="min-width:7em;" onclick="location.href='/tr/{{ trequest.id | uuid_to_b62 }}/responses'">
+        <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id_b62) }}'">
           {{ _("See how others did") }}
         </button>
         <button class="btn btn-primary" style="min-width:7em;" onclick="postTranslation('{{ tres_id_b62 }}')">{{ _("Post on Facebook") }}</button>

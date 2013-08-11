@@ -11,10 +11,19 @@
       <div class="span9">{{ translation.original_text }}</div>
     </div>
 
+    {% if tresponse1 %}
     <div class="row-fluid">
-      <div class="span3 header">{{ _("Translated text") }} ({{ translation.target | language_name }})</div>
-      <div class="span9">{{ translation.translated_text }}</div>
+      <div class="span3 header">{{ _("Regular translation") }} ({{ translation.target | language_name }})</div>
+      <div class="span9">{{ tresponse1.translated_text }}</div>
     </div>
+    {% endif %}
+
+    {% if tresponse2 %}
+    <div class="row-fluid">
+      <div class="span3 header">{{ _("Better translation") }} ({{ translation.target | language_name }})</div>
+      <div class="span9">{{ tresponse2.translated_text }}</div>
+    </div>
+    {% endif %}
 
     <div class="row-fluid">
       <div class="span3"></div>
@@ -26,13 +35,13 @@
             <div>
               {{ tresponse.user.name }} &middot;
               {{ tresponse.timestamp | date }} &middot;
-              <span class="rating-plus" translation-id="{{ tresponse.id | uuid_to_b62 }}">{{ tresponse.plus_ratings }}</span> /
-              <span class="rating-minus" translation-id="{{ tresponse.id | uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
+              <span class="rating-plus" translation-id="{{ tresponse.id_b62 }}">{{ tresponse.plus_ratings }}</span> /
+              <span class="rating-minus" translation-id="{{ tresponse.id_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
               <div class="btn-group">
-                <button class="btn btn-mini" translation-id="{{ tresponse.id | uuid_to_b62 }}" rating="1" onclick="rateTranslation($(this))">
+                <button class="btn btn-mini" translation-id="{{ tresponse.id_b62 }}" rating="1" onclick="rateTranslation($(this))">
                   <i class="icon-plus"></i>
                 </button>
-                <button class="btn btn-mini" translation-id="{{ tresponse.id | uuid_to_b62 }}" rating="-1" onclick="rateTranslation($(this))">
+                <button class="btn btn-mini" translation-id="{{ tresponse.id_b62 }}" rating="-1" onclick="rateTranslation($(this))">
                   <i class="icon-minus"></i>
                 </button>
               </div>
@@ -49,5 +58,11 @@
   </div>
 
 </div>
+
+<script>
+{% for rating in ratings %}
+  $("button[translation-id={{ rating.translation_id | uuid_to_b62 }}][rating={{ rating.rating }}]").addClass("active");
+{% endfor %}
+</script>
 
 {% endblock %}

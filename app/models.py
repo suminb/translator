@@ -145,7 +145,9 @@ class Translation(db.Model, BaseModel):
     original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
+    
     rating = db.Column(db.Integer)
+    count = db.Column(db.Integer)
 
     user = relationship('User')
 

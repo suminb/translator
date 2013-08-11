@@ -569,17 +569,38 @@ def translation_responses(translation_id):
     # TODO: Join user information with translation_response_latest
 
     translation = Translation.query.get(str(translation_id))
-    treses = Translation.query.filter_by(
+
+    tresp1 = TranslationResponse.query.filter_by(
+        original_text_hash=translation.original_text_hash,
+        source=translation.source,
+        target=translation.target,
+        mode=1).first()
+
+    tresp2 = TranslationResponse.query.filter_by(
+        original_text_hash=translation.original_text_hash,
+        source=translation.source,
+        target=translation.target,
+        mode=2).first()
+
+    tresponses = Translation.query.filter_by(
         source=translation.source,
         target=translation.target,
         mode=3,
         original_text_hash=translation.original_text_hash) \
         .order_by(Translation.rating.desc())
 
+    ratings = Rating.query.filter(
+        Rating.user_id == current_user.id,
+        Rating.translation_id.in_(map(lambda r: r.id, tresponses))
+    )
+
     context = dict(
         locale=get_locale(),
         translation=translation,
-        tresponses=treses,
+        tresponse1=tresp1,
+        tresponse2=tresp2,
+        tresponses=tresponses,
+        ratings=ratings,
     )
 
     return render_template('translation_responses.html', **context)

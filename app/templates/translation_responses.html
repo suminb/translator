@@ -14,20 +14,26 @@
     {% if tresponse1 %}
     <div class="row-fluid">
       <div class="span3 header">{{ _("Regular translation") }} ({{ translation.target | language_name }})</div>
-      <div class="span9">{{ tresponse1.translated_text }}</div>
+      <div class="span9">
+        {{ tresponse1.translated_text }}
+        <a href="{{ url_for('index', translation_id=tresponse1.id_b62) }}"><i class="icon-share-alt"></i></a>
+      </div>
     </div>
     {% endif %}
 
     {% if tresponse2 %}
     <div class="row-fluid">
       <div class="span3 header">{{ _("Better translation") }} ({{ translation.target | language_name }})</div>
-      <div class="span9">{{ tresponse2.translated_text }}</div>
+      <div class="span9">
+        {{ tresponse2.translated_text }}
+        <a href="{{ url_for('index', translation_id=tresponse2.id_b62) }}"><i class="icon-share-alt"></i
+      </div>
     </div>
     {% endif %}
 
     <div class="row-fluid">
       <div class="span3"></div>
-      <div class="span7">
+      <div class="span9">
         <ul class="media-list">
         {% for tresponse in tresponses %}
         {% set mine = tresponse.user_id == current_user.id %}

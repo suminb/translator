@@ -81,6 +81,7 @@ class TranslationResponse(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'mode', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
+    request_id = db.Column(UUID, db.ForeignKey('translation_request.id'))
     user_id = db.Column(UUID, db.ForeignKey('user.id'))
     timestamp = db.Column(db.DateTime(timezone=True))
     source = db.Column(db.String(16))
@@ -94,6 +95,7 @@ class TranslationResponse(db.Model, BaseModel):
     intermediate_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
 
+    request = relationship('TranslationRequest')
     user = relationship('User')
 
     @staticmethod
@@ -126,12 +128,16 @@ class Translation(db.Model, BaseModel):
         SELECT tres.id, treq.id AS request_id, tres.user_id,
             tres.timestamp, tres.source, tres.target, tres.mode,
             treq.original_text, tres.original_text_hash, tres.intermediate_text,
-            tres.translated_text, r.rating, r.count FROM translation_response AS tres
+            tres.translated_text, coalesce(r.rating, 0) AS rating,
+            coalesce(r.count, 0) AS count
+        FROM translation_response AS tres
         LEFT JOIN translation_request AS treq ON
             tres.source = treq.source AND
             tres.target = treq.target AND
             tres.original_text_hash = treq.original_text_hash
-        LEFT JOIN (SELECT translation_id, sum(rating) AS rating, count(id) AS count FROM rating GROUP BY translation_id) AS r ON
+        LEFT JOIN
+            (SELECT translation_id, sum(rating) AS rating, count(id) AS count
+            FROM rating GROUP BY translation_id) AS r ON
             r.translation_id = tres.id
     """
     id = db.Column(UUID, primary_key=True) # response_id

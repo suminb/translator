@@ -441,7 +441,7 @@ function askForRating(id) {
 
     if (state.text.length <= 180) {
         $("#rating").visible();
-        $("#rating a.translation-challenge").attr("href", $.sprintf("/tr/%s/response", id));
+        $("#rating a.translation-challenge").attr("href", $.sprintf("/trq/%s/response", id));
     }
 }
 

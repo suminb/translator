@@ -151,8 +151,6 @@ def index(translation_id=None):
         row = Translation.query.get(str(uuid.UUID(int=translation_id)))
 
     if translation_id != None and row == None:
-    #     context['message'] = _('Requrested resource does not exist')
-    #     return render_template("404.html", **context)
         return redirect(url_for('index'))
 
     if row != None:
@@ -352,6 +350,7 @@ def translate_1_0():
         return e.message, e.status_code
 
     except Exception as e:
+        logger.exception(e)
         return str(e), 500
 
 def translate():
@@ -383,7 +382,9 @@ def translate():
         remote_address=get_remote_address(request),
     )
 
-    treq = TranslationRequest.fetch(None, original_text_hash, source, target)
+    treq = TranslationRequest.fetch(
+        original_text_hash=original_text_hash,
+        source=source, target=target)
 
     if treq == None:
         treq = TranslationRequest.insert(

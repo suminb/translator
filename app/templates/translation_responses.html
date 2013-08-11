@@ -52,7 +52,7 @@
                 </button>
               </div>
               {% if mine %}&nbsp;
-              <a href="{{ url_for('translation_response', request_id=trequest.id_b62) }}">{{ _("Edit") }}</a>
+              <a href="{{ url_for('translation_response', response_id=tresponse.id_b62) }}">{{ _("Edit") }}</a>
               {% endif %}
             </div>
             <div>{{ tresponse.translated_text }}</div>

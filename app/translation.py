@@ -20,7 +20,6 @@ import pytz
 import facebook
 
 
-
 @app.route('/tr/<translation_id>/request')
 @login_required
 def translation_request(translation_id):
@@ -30,7 +29,6 @@ def translation_request(translation_id):
 
     context = dict(
         version=__version__,
-        referrer=request.referrer,
         locale=get_locale(),
         translation=translation,
     )
@@ -38,7 +36,6 @@ def translation_request(translation_id):
     return render_template('translation_request.html', **context)
 
 
-# TODO: Refactoring
 @app.route('/v1.0/trs/<response_id>', methods=['DELETE'])
 @login_required
 def translation_response_delete(response_id):
@@ -48,19 +45,29 @@ def translation_response_delete(response_id):
         db.session.delete(tres)
         db.session.commit()
 
-        # TODO: Return request_id
-        return ''
+        return jsonify(dict(request_id=tres.request_id))
 
     except Exception as e:
         logger.exception(e)
         return str(e), 500
 
-# TODO: Refactoring
-@app.route('/tr/<request_id>/response', methods=['GET', 'POST'])
-@login_required
-def translation_response(request_id):
 
-    treq = TranslationRequest.fetch(request_id)
+@app.route('/trq/<request_id>/response')
+@login_required
+def translation_request_response(request_id):
+    treq = TranslationRequest.fetch(id_b62=request_id)
+
+    if treq == None:
+        return render_template("404.html", message=_('Requrested resource does not exist'))
+
+    tresp = TranslationResponse.fetch(
+        original_text_hash=treq.original_text_hash,
+        source=treq.source,
+        target=treq.target,
+        mode=3)
+
+    if tresp != None:
+        return redirect(url_for('translation_response', response_id=tresp.id_b62))
 
     tresp1 = TranslationResponse.query.filter_by(
         request_id=treq.id,
@@ -74,6 +81,37 @@ def translation_response(request_id):
         version=__version__,
         locale=get_locale(),
         trequest=treq,
+        tresponse1=tresp1,
+        tresponse2=tresp2,
+    )
+
+    return render_template('translation_response.html', **context)
+
+
+@app.route('/trs/<response_id>', methods=['GET', 'POST'])
+@login_required
+def translation_response(response_id):
+
+    tresp = TranslationResponse.fetch(response_id)
+
+    if tresp == None:
+        return render_template("404.html", message=_('Requrested resource does not exist'))
+
+    treq = TranslationRequest.fetch(id=tresp.request_id)
+
+    tresp1 = TranslationResponse.query.filter_by(
+        request_id=treq.id,
+        mode=1).first()
+
+    tresp2 = TranslationResponse.query.filter_by(
+        request_id=treq.id,
+        mode=2).first()
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        trequest=treq,
+        tresponse=tresp,
         tresponse1=tresp1,
         tresponse2=tresp2,
     )
@@ -99,20 +137,7 @@ def translation_response(request_id):
             context['tresponse'] = tres
             context['success'] = _('Thanks for your submission.')
 
-    else:
-        # FIXME: Duplicated request
-        tresp3 = TranslationResponse.query.filter_by(
-            user_id=current_user.id,
-            original_text_hash=treq.original_text_hash,
-            source=treq.source,
-            target=treq.target,
-            mode=3).first()
-
-        context['tresponse'] = tresp3
-
     return render_template('translation_response.html', **context), status_code
-
-
 
 
 @app.route('/v1.0/tr/<tresponse_id>/post', methods=['POST'])
@@ -172,7 +197,7 @@ def tresponse_rate(tresponse_id):
 @app.route('/trq/<request_id>/responses')
 def translation_responses(request_id):
 
-    treq = TranslationRequest.fetch(request_id)
+    treq = TranslationRequest.fetch(id_b62=request_id)
 
     tresp1 = TranslationResponse.query.filter_by(
         request_id=treq.id,

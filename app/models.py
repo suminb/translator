@@ -53,8 +53,11 @@ class TranslationRequest(db.Model, BaseModel):
     original_text_hash = db.Column(db.String(255))
 
     @staticmethod
-    def fetch(id_b62=None, original_text_hash=None, source=None, target=None):
-        if id_b62 != None:
+    def fetch(id=None, id_b62=None, original_text_hash=None, source=None, target=None):
+        if id != None:
+            return TranslationRequest.query.get(id)
+            
+        elif id_b62 != None:
             translation_id = base62.decode(id_b62)
             return TranslationRequest.query.get(str(uuid.UUID(int=translation_id)))
 

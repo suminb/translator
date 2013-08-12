@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+  <div id="fb-root"></div>
+  <script src="/static/sprintf.min.js"></script>
   <script type="text/javascript">
   {% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
 
@@ -78,9 +80,53 @@
       });
   };
 
-  window.onpopstate = function(event) {
-      
+  //window.onpopstate = function(event) {};
+
+  window.fbAsyncInit = function() {
+    // init the FB JS SDK
+    FB.init({
+      appId      : '551432311581596',                        // App ID from the app dashboard
+      channelUrl : '//translator.suminb.com/static/channel.html', // Channel file for x-domain comms
+      status     : true,                                 // Check Facebook Login status
+      xfbml      : true                                  // Look for social plugins on the page
+    });
+
+    // Additional initialization code such as adding Event Listeners goes here
   };
+
+  // Load the SDK asynchronously
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+  function askForHelp() {
+      var url = $.sprintf("%s/trq/%s/response", location.href, state.requestId);
+
+      var source = $("select[name=sl]")
+          .children(sprintf("option[value=%s]", state.source)).text();
+      var target = $("select[name=tl]")
+          .children(sprintf("option[value=%s]", state.target)).text();
+
+
+      // https://developers.facebook.com/docs/reference/dialogs/feed/
+      FB.ui({
+          method: 'feed',
+          link: url,
+          picture: 'http://translator.suminb.com/static/icon_128.png',
+          name: "{{ _('app-title') }}",
+          caption: sprintf("{{ _('Please help to me translate this from %%1$s to %%2$s') }}", source, target),
+          description: state.text
+      }, function(response){
+          console.log(response);
+      });
+  }
+
+
   </script>
   
   <p>{{ _("app-description-html") }}</p>
@@ -148,7 +194,8 @@
       <div id="feedback">
           <div id="rating" style="visibility:hidden;">
             {% if not current_user.is_anonymous() %}
-            <a href="#" class="translation-challenge">{{ _("I think I can do better than this") }}</a>
+            {{ _("Did you not like this translation?") }}
+            <a href="#" class="translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help.") }}</a>
             {% endif %}
           </div>
           <div id="appreciation" style="visibility:hidden;">

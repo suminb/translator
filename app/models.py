@@ -80,19 +80,6 @@ class TranslationRequest(db.Model, BaseModel):
                 original_text_hash=original_text_hash,
                 source=source, target=target).first()
 
-    @staticmethod
-    def insert(commit=True, **kwargs):
-        treq = TranslationRequest(id=str(uuid.uuid4()))
-        treq.timestamp = datetime.now()
-
-        for key, value in kwargs.iteritems():
-            setattr(treq, key, value);
-
-        db.session.add(treq)
-        if commit: db.session.commit()
-
-        return treq
-
 
 class TranslationResponse(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'mode', 'original_text_hash'), )
@@ -126,18 +113,15 @@ class TranslationResponse(db.Model, BaseModel):
                 user_id=user_id, original_text_hash=original_text_hash,
                 source=source, target=target, mode=mode).first()
 
-    @staticmethod
-    def insert(commit=True, **kwargs):
-        tresp = TranslationResponse(id=str(uuid.uuid4()))
-        tresp.timestamp = datetime.now()
 
-        for key, value in kwargs.iteritems():
-            setattr(tresp, key, value);
+class TranslationHelpRequest(db.Model, BaseModel):
+    id = db.Column(UUID, primary_key=True)
+    request_id = db.Column(UUID, db.ForeignKey('translation_request.id'))
+    user_id = db.Column(UUID, db.ForeignKey('user.id'))
+    timestamp = db.Column(db.DateTime(timezone=True))
 
-        db.session.add(tresp)
-        if commit: db.session.commit()
-
-        return tresp
+    request = relationship('TranslationRequest')
+    user = relationship('User')
 
 class Translation(db.Model, BaseModel):
     """
@@ -231,19 +215,6 @@ class TranslationAccessLog(db.Model, BaseModel):
     remote_address = db.Column(db.String(64))
     flag = db.Column(db.Integer, default=0)
 
-    @staticmethod
-    def insert(commit=True, **kwargs):
-        record = TranslationAccessLog(id=str(uuid.uuid4()))
-        record.timestamp = datetime.now()
-
-        for key, value in kwargs.iteritems():
-            setattr(record, key, value);
-
-        db.session.add(record)
-        if commit: db.session.commit()
-
-        return record
-
 
 class Rating(db.Model):
     __table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), )
@@ -270,19 +241,6 @@ class Rating(db.Model):
         r['minus_ratings'] = self.minus_ratings
 
         return r
-
-    @staticmethod
-    def insert(commit=True, **kwargs):
-        rating = Rating(id=str(uuid.uuid4()))
-        rating.timestamp = datetime.now()
-
-        for key, value in kwargs.iteritems():
-            setattr(rating, key, value);
-
-        db.session.add(rating)
-        if commit: db.session.commit()
-
-        return rating
 
 
 class User(db.Model, UserMixin, BaseModel):

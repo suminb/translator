@@ -412,11 +412,6 @@ function rateTranslation(button) {
     });
 }
 
-function postTranslation(id) {
-    $.post($.sprintf("/v1.0/tr/%s/post", id), function(response) {
-        console.log(response);
-    });}
-
 function deleteTranslation(id) {
     $.delete_($.sprintf("/v1.0/trs/%s", id), function(response) {
         location.href = $.sprintf("/trq/%s/response", response.request_id);

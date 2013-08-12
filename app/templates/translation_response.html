@@ -5,18 +5,14 @@
 
   <h1>{{ _("Response to a Challenge") }} <span style="font-weight:normal">({{ _("Beta") }})</span></h1>
 
-{% if success %}
-  <div class="alert alert-success">
+  <div class="alert alert-success" style="display:none">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{ success }}
+    <div class="message"></div>
   </div>
-{% endif %}
-{% if error %}
-  <div class="alert alert-error">
+  <div class="alert alert-error" style="display:none">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{ error }}
+    <div class="message"></div>
   </div>
-{% endif %}
 
   <div class="table">
     <div class="row-fluid">
@@ -48,7 +44,7 @@
         <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id_b62) }}'">
           {{ _("See how others did") }}
         </button>
-        <button class="btn btn-primary" style="min-width:7em;" onclick="postTranslation('{{ tres_id_b62 }}')">{{ _("Post on Facebook") }}</button>
+        <button class="btn btn-primary" style="min-width:7em;" translation-id="{{ tres_id_b62 }}" onclick="postTranslation(this)">{{ _("Post on Facebook") }}</button>
         <button class="btn btn-danger" style="min-width:7em;" onclick="deleteTranslation('{{ tres_id_b62 }}')">{{ _("Delete") }}</button>
 {% else %}
         <form method="post" action="{{ url_for('translation_request_response_api', request_id=trequest.id_b62) }}">
@@ -63,5 +59,31 @@
     </div>
   </div>
 </div>
+
+<script>
+// TODO: Move this to main.js
+function postTranslation(button) {
+    // jQueryfy
+    button = $(button);
+
+    var translationId = button.attr("translation-id");
+
+    button.attr("disabled", "disabled");
+
+    $.post($.sprintf("/v1.0/tr/%s/post", translationId), function(response) {
+        $("div.alert").hide();
+        $("div.alert-success div.message").text(response.message);
+        $("div.alert-success").show();
+    }).fail(function(response) {
+        console.log(response);
+        $("div.alert").hide();
+        $("div.alert-error div.message").text(response.responseText);
+        $("div.alert-error").show();
+    }).always(function() {
+        button.removeAttr("disabled");
+    });
+}
+
+</script>
 
 {% endblock %}

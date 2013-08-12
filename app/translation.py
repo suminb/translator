@@ -203,17 +203,26 @@ def tresponse_post(tresponse_id):
 
     target_language = _(VALID_LANGUAGES[translation.target])
 
-    graph = facebook.GraphAPI(session.get('oauth_token')[0])
-    #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
-    post_id = graph.put_wall_post('', dict(
-        name=_('app-title').encode('utf-8'),
-        link='http://translator.suminb.com/trq/{}/responses'.format(uuid_to_b62(translation.request_id)),
-        caption=_('{} has completed a translation challenge').format(translation.user.name).encode('utf-8'),
-        description=_('How do you say "{0}" in {1}?').format(translation.original_text, target_language).encode('utf-8'),
-        picture='http://translator.suminb.com/static/icon_128.png',
-        privacy={'value':'SELF'}
-    ))
-    return str(post_id)
+    try:
+        graph = facebook.GraphAPI(session.get('oauth_token')[0])
+        #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
+        post_id = graph.put_wall_post('', dict(
+            name=_('app-title').encode('utf-8'),
+            link='http://translator.suminb.com/trq/{}/responses'.format(uuid_to_b62(translation.request_id)),
+            caption=_('{} has completed a translation challenge').format(translation.user.name).encode('utf-8'),
+            description=_('How do you say "{0}" in {1}?').format(translation.original_text, target_language).encode('utf-8'),
+            picture='http://translator.suminb.com/static/icon_128.png',
+            privacy={'value':'SELF'}
+        ))
+
+        return jsonify(dict(
+            post_id=post_id,
+            message=_('Your translation has been posted on your timeline.')
+        ))
+
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
 
 
 @app.route('/v1.0/tr/<tresponse_id>/rate', methods=['GET', 'POST'])

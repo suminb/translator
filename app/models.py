@@ -40,6 +40,20 @@ class BaseModel:
 
         return serialize(self)
 
+    @classmethod
+    def insert(cls, commit=True, **kwargs):
+        print type(cls), cls
+        record = cls(id=str(uuid.uuid4()))
+        record.timestamp = datetime.now()
+
+        for key, value in kwargs.iteritems():
+            setattr(record, key, value);
+
+        db.session.add(record)
+        if commit: db.session.commit()
+
+        return record
+
 
 class TranslationRequest(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('source', 'target', 'original_text_hash'), )
@@ -186,7 +200,16 @@ class Translation(db.Model, BaseModel):
                 source=source, target=target, mode=mode).first()
 
 
-class TranslationAccessLog(db.Model):
+class TranslationPostLog(db.Model, BaseModel):
+    id = db.Column(UUID, primary_key=True)
+    request_id = db.Column(UUID)
+    user_id = db.Column(UUID)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    target = db.Column(db.String(32)) # facebook, twitter, etc.
+    post_id = db.Column(db.String(128))
+
+
+class TranslationAccessLog(db.Model, BaseModel):
     """
     flag
     0001: Created: This flag is on upon creation of a TranslationResponse record

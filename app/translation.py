@@ -206,7 +206,7 @@ def tresponse_post(tresponse_id):
     try:
         graph = facebook.GraphAPI(session.get('oauth_token')[0])
         #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
-        post_id = graph.put_wall_post('', dict(
+        post = graph.put_wall_post('', dict(
             name=_('app-title').encode('utf-8'),
             link='http://translator.suminb.com/trq/{}/responses'.format(uuid_to_b62(translation.request_id)),
             caption=_('{} has completed a translation challenge').format(translation.user.name).encode('utf-8'),
@@ -215,8 +215,15 @@ def tresponse_post(tresponse_id):
             privacy={'value':'SELF'}
         ))
 
+        post_log = TranslationPostLog.insert(
+            request_id=translation.request_id,
+            user_id=current_user.id,
+            target='Facebook',
+            post_id=post['id'],
+        )
+
         return jsonify(dict(
-            post_id=post_id,
+            post_id=post['id'],
             message=_('Your translation has been posted on your timeline.')
         ))
 

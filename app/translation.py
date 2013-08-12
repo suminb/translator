@@ -72,10 +72,13 @@ def translation_responses(request_id):
         request_id=treq.id, mode=3) \
         .order_by(Translation.rating.desc(), Translation.count.desc())
 
-    ratings = Rating.query.filter(
-        Rating.user_id == current_user.id,
-        Rating.translation_id.in_(map(lambda r: r.id, tresponses))
-    )
+    if not current_user.is_anonymous():
+        ratings = Rating.query.filter(
+            Rating.user_id == current_user.id,
+            Rating.translation_id.in_(map(lambda r: r.id, tresponses))
+        )
+    else:
+        ratings = []
 
     context = dict(
         locale=get_locale(),

@@ -35,14 +35,17 @@ class BaseModel:
         return base62.encode(uuid.UUID(self.id).int)
 
     def serialize(self):
-        # Synthesized property
-        #self.id_b62 = base62.encode(uuid.UUID(self.id).int)
+        payload = serialize(self)
 
-        return serialize(self)
+        for id_field in ('id', 'user_id', 'request_id', 'response_id'):
+            if hasattr(self, id_field) and getattr(self, id_field) != None:
+                value = uuid.UUID(getattr(self, id_field)).int
+                payload[id_field] = base62.encode(value)
+
+        return payload
 
     @classmethod
     def insert(cls, commit=True, **kwargs):
-        print type(cls), cls
         record = cls(id=str(uuid.uuid4()))
         record.timestamp = datetime.now()
 

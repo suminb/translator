@@ -146,9 +146,7 @@ def index(translation_id=None):
     row = None
 
     if translation_id != None:
-        # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
-        translation_id = base62.decode(translation_id)
-        row = Translation.query.get(str(uuid.UUID(int=translation_id)))
+        row = Translation.fetch(id_b62=translation_id)
 
     if translation_id != None and row == None:
         return redirect(url_for('index'))

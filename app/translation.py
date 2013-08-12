@@ -175,6 +175,9 @@ def translation_response(response_id):
 
     treq = TranslationRequest.fetch(id=tresp.request_id)
 
+    # if tresp.mode in (1, 2):
+    #     return redirect(url_for('index', translation_id=tresp.id_b62))
+
     tresp1 = TranslationResponse.query.filter_by(
         request_id=treq.id,
         mode=1).first()

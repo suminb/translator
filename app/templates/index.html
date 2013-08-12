@@ -112,7 +112,6 @@
       var target = $("select[name=tl]")
           .children(sprintf("option[value=%s]", state.target)).text();
 
-
       // https://developers.facebook.com/docs/reference/dialogs/feed/
       FB.ui({
           method: 'feed',
@@ -123,6 +122,8 @@
           description: state.text
       }, function(response){
           console.log(response);
+
+          // TODO: register TranslationHelpRequest object
       });
   }
 
@@ -193,7 +194,7 @@
 
       <div id="feedback">
           <div id="rating" style="visibility:hidden;">
-            {% if not current_user.is_anonymous() %}
+            {% if True or not current_user.is_anonymous() %}
             {{ _("Did you not like this translation?") }}
             <a href="#" class="translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help.") }}</a>
             {% endif %}

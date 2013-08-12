@@ -37,7 +37,7 @@
     <div class="row-fluid">
       <div class="span3 header">{{ _("Your translation") }}</div>
       <div class="span9">
-{% if tresponse and tresponse.user_id == current_user.id %}
+{% if tresponse %}
 {% set tres_id_b62 = tresponse.id | uuid_to_b62 %}
         <p>{{ tresponse.translated_text }}</p>
         

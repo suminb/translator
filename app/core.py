@@ -510,7 +510,7 @@ def facebook_authorized(resp):
     for key in keys:
         session['oauth_%s' % key] = me.data[key]
 
-    return redirect(request.args.get('next'))
+    return redirect(request.args.get('next', '/'))
 
     #return 'Logged in as id=%s name=%s, email=%s, redirect=%s' % \
     #    (me.data['id'], me.data['name'], me.data['email'], request.args.get('next'))
@@ -545,9 +545,8 @@ def page_not_found(error):
 
 
 # NOTE: Temporary
-@app.route('/integrate')
 def integrate():
-    for tresp in TranslationResponse.query.all():
+    for tresp in TranslationResponse.query.filter_by(request_id=None):
         treq = TranslationRequest.fetch(
             original_text_hash=tresp.original_text_hash,
             source=tresp.source, target=tresp.target)

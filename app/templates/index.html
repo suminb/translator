@@ -147,7 +147,7 @@
 
       <div id="feedback">
           <div id="rating" style="visibility:hidden;">
-            {% if debug %}
+            {% if not current_user.is_anonymous() %}
             <a href="#" class="translation-challenge">{{ _("I think I can do better than this") }}</a>
             {% endif %}
           </div>

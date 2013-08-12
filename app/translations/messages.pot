@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-11 06:24+0000\n"
+"POT-Creation-Date: 2013-08-12 02:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,29 +17,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:175
+#: app/core.py:160
 msgid "app-description-text"
 msgstr ""
 
-#: app/core.py:539
+#: app/translation.py:61 app/translation.py:119 app/translation.py:133
+#: app/translation.py:171
+msgid "Requrested resource does not exist"
+msgstr ""
+
+#: app/translation.py:99
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/core.py:551
-msgid "Thanks for your submission."
-msgstr ""
-
-#: app/core.py:624 app/templates/base.html:9 app/templates/base.html:12
+#: app/translation.py:210 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:43
 msgid "app-title"
 msgstr ""
 
-#: app/core.py:626
+#: app/translation.py:212
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/core.py:627
+#: app/translation.py:213
 msgid "How do you say \"{0}\" in {1}?"
+msgstr ""
+
+#: app/translation.py:227
+msgid "Your translation has been posted on your timeline."
 msgstr ""
 
 #: app/utils.py:35
@@ -142,12 +147,12 @@ msgstr ""
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:130 app/templates/translation_response.html:29
+#: app/templates/index.html:130 app/templates/translation_response.html:25
 #: app/templates/translation_responses.html:16
 msgid "Regular translation"
 msgstr ""
 
-#: app/templates/index.html:131 app/templates/translation_response.html:36
+#: app/templates/index.html:131 app/templates/translation_response.html:32
 #: app/templates/translation_responses.html:26
 msgid "Better translation"
 msgstr ""
@@ -245,7 +250,7 @@ msgid "Post a Translation Challenge"
 msgstr ""
 
 #: app/templates/translation_request.html:8
-#: app/templates/translation_response.html:23
+#: app/templates/translation_response.html:19
 #: app/templates/translation_responses.html:10
 msgid "Original text"
 msgstr ""
@@ -259,8 +264,7 @@ msgid "Post a translation challenge on Facebook"
 msgstr ""
 
 #: app/templates/translation_response.html:6
-#: app/templates/translation_responses.html:6
-msgid "Response to a Challenge"
+msgid "Translation Challenge"
 msgstr ""
 
 #: app/templates/translation_response.html:6
@@ -268,24 +272,28 @@ msgstr ""
 msgid "Beta"
 msgstr ""
 
-#: app/templates/translation_response.html:42
+#: app/templates/translation_response.html:38
 msgid "Your translation"
 msgstr ""
 
-#: app/templates/translation_response.html:49
+#: app/templates/translation_response.html:45
 msgid "See how others did"
 msgstr ""
 
-#: app/templates/translation_response.html:51
+#: app/templates/translation_response.html:47
 msgid "Post on Facebook"
 msgstr ""
 
-#: app/templates/translation_response.html:52
+#: app/templates/translation_response.html:48
 msgid "Delete"
 msgstr ""
 
-#: app/templates/translation_response.html:58
+#: app/templates/translation_response.html:54
 msgid "Save"
+msgstr ""
+
+#: app/templates/translation_responses.html:6
+msgid "Response to a Challenge"
 msgstr ""
 
 #: app/templates/translation_responses.html:55

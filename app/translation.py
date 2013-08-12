@@ -212,7 +212,7 @@ def tresponse_post(tresponse_id):
             caption=_('{} has completed a translation challenge').format(translation.user.name).encode('utf-8'),
             description=_('How do you say "{0}" in {1}?').format(translation.original_text, target_language).encode('utf-8'),
             picture='http://translator.suminb.com/static/icon_128.png',
-            privacy={'value':'SELF'}
+            #privacy={'value':'SELF'}
         ))
 
         post_log = TranslationPostLog.insert(

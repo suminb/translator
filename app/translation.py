@@ -19,6 +19,7 @@ import os, sys
 import pytz
 import facebook
 
+import config
 
 @app.route('/tr/<translation_id>/request')
 @login_required
@@ -312,3 +313,26 @@ def tresponse_rate(tresponse_id):
     except Exception as e:
         logger.exception(e)
         return str(e), 500
+
+
+@app.route('/nt')
+def notification_test():
+
+    params = dict(
+        client_id=config.FACEBOOK_APP_ID,
+        client_secret=config.FACEBOOK_APP_SECRET,
+        grant_type='client_credentials')
+
+    req = requests.get('https://graph.facebook.com/oauth/access_token', params=params)
+    
+    app_access_token = req.text[len('access_token='):]
+
+    payload = dict(
+        access_token=app_access_token,
+        href='http://blog.suminb.com',
+        template='This is a test',
+    )
+    print payload
+    req = requests.post('https://graph.facebook.com/{}/notifications'.format(current_user.oauth_id), params=payload)
+
+    return req.text, req.status_code

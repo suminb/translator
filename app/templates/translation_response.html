@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div id="fb-root"></div>
 <div class="subcontainer">
 
   <h1>{{ _("Translation Challenge") }} <span style="font-weight:normal">({{ _("Beta") }})</span></h1>
@@ -41,10 +42,10 @@
 {% set tres_id_b62 = tresponse.id | uuid_to_b62 %}
         <p>{{ tresponse.translated_text }}</p>
         
-        <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id) }}'">
+        <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'">
           {{ _("See how others did") }}
         </button>
-        <button class="btn btn-primary" style="min-width:7em;" translation-id="{{ tres_id_b62 }}" onclick="postTranslation(this)">{{ _("Post on Facebook") }}</button>
+        <button class="btn btn-primary" style="min-width:7em;" translation-id="{{ tres_id_b62 }}" request-id="{{ tresponse.request_id }}" onclick="postTranslation(this)">{{ _("Post on Facebook") }}</button>
         <button class="btn btn-danger" style="min-width:7em;" onclick="deleteTranslation('{{ tres_id_b62 }}')">{{ _("Delete") }}</button>
 {% else %}
         <form method="post" action="{{ url_for('translation_request_response_api', request_id=trequest.id | uuid_to_b62) }}">
@@ -60,30 +61,48 @@
   </div>
 </div>
 
+{% if tresponse %}
 <script>
+// Load the SDK asynchronously
+(function(d, s, id){
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));
+
+
 // TODO: Move this to main.js
 function postTranslation(button) {
     // jQueryfy
     button = $(button);
 
     var translationId = button.attr("translation-id");
+    var requestId = button.attr("request-id");
+    var url = sprintf("%s//%s/trq/%s/responses",
+        location.protocol, location.host, requestId);
 
     button.attr("disabled", "disabled");
 
-    $.post($.sprintf("/v1.0/tr/%s/post", translationId), function(response) {
-        $("div.alert").hide();
-        $("div.alert-success div.message").text(response.message);
-        $("div.alert-success").show();
-    }).fail(function(response) {
+    FB.ui({
+        method: 'feed',
+        link: url,
+        picture: 'http://translator.suminb.com/static/icon_128.png',
+        name: "{{ _('app-title') }}",
+        caption: sprintf("{{ _('%%1$s has completed a translation challenge') }}",
+            "{{ current_user.name }}"),
+        description: sprintf("%s &rarr; %s",
+            "{{ trequest.original_text }}",
+            "{{ tresponse.translated_text }}")
+    }, function(response){
         console.log(response);
-        $("div.alert").hide();
-        $("div.alert-error div.message").text(response.responseText);
-        $("div.alert-error").show();
-    }).always(function() {
+
         button.removeAttr("disabled");
     });
 }
 
 </script>
+{% endif %}
 
 {% endblock %}

@@ -66,6 +66,21 @@ $.fn.invisible = function() {
     return this.css('visibility', 'hidden');
 }
 
+//
+// Facebook API
+//
+window.fbAsyncInit = function() {
+// init the FB JS SDK
+FB.init({
+  appId      : '551432311581596',                        // App ID from the app dashboard
+  channelUrl : '//translator.suminb.com/static/channel.html', // Channel file for x-domain comms
+  status     : true,                                 // Check Facebook Login status
+  xfbml      : true                                  // Look for social plugins on the page
+});
+
+// Additional initialization code such as adding Event Listeners goes here
+};
+
 
 var state = {
     source: 'ko',

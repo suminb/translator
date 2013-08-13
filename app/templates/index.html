@@ -105,7 +105,8 @@
 
 
   function askForHelp() {
-      var url = $.sprintf("%s/trq/%s/response", location.href, state.requestId);
+      var url = $.sprintf("%s//%s/trq/%s/response", 
+          location.protocol, location.host, state.requestId);
 
       var source = $("select[name=sl]")
           .children(sprintf("option[value=%s]", state.source)).text();
@@ -125,7 +126,7 @@
 
           // TODO: register TranslationHelpRequest object
           $.post("/v1.0/thrq", {treq_id: state.requestId}, function(response) {
-              
+
           });
       });
   }

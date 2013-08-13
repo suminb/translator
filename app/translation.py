@@ -114,7 +114,7 @@ def translation_request_response_api(request_id):
             #context['tresponse'] = tresp
             #context['success'] = _('Thanks for your submission.')
 
-        return redirect(url_for('translation_response', response_id=tresp.id_b62))
+        return redirect(url_for('translation_response', response_id=uuid_to_b62(tresp.id)))
 
     treq = TranslationRequest.fetch(id_b62=request_id)
 
@@ -143,7 +143,7 @@ def translation_request_response(request_id):
         mode=3)
 
     if tresp != None:
-        return redirect(url_for('translation_response', response_id=tresp.id_b62))
+        return redirect(url_for('translation_response', response_id=uuid_to_b62(tresp.id)))
 
     tresp1 = TranslationResponse.query.filter_by(
         request_id=treq.id,

@@ -163,6 +163,47 @@ def translation_request_response(request_id):
 
     return render_template('translation_response.html', **context)
 
+    dispatch = dict(
+        post=post,
+    )
+
+    return dispatch[request.method.lower()](request_id)
+
+
+@app.route('/v1.0/thrq', methods=['POST', 'DELETE'])
+@login_required
+def translation_help_request():
+    def post():
+        trans_req_id = request.form['treq_id']
+        trans_req = TranslationRequest.fetch(id_b62=trans_req_id)
+
+        if trans_req == None:
+            return _('Requrested resource does not exist'), 404
+
+        help_req_id = request.form.get('hreq_id', None)
+        
+        if help_req_id == None:
+            # insertion
+
+            help_req = TranslationHelpRequest.insert(
+                request_id=trans_req.id,
+                user_id=current_user.id,
+            )
+        else:
+            # update
+            raise Exception('Not implemented')    
+
+        return jsonify(help_req.serialize())
+
+    def delete():
+        raise Exception('Not implemented')
+
+    dispatch = dict(
+        post=post,
+        delete=delete,
+    )
+
+    return dispatch[request.method.lower()]()
 
 @app.route('/trs/<response_id>')
 @login_required

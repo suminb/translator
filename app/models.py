@@ -30,10 +30,6 @@ def serialize(obj):
 
 
 class BaseModel:
-    @property
-    def id_b62(self):
-        return base62.encode(uuid.UUID(self.id).int)
-
     def serialize(self):
         payload = serialize(self)
 
@@ -119,12 +115,13 @@ class TranslationResponse(db.Model, BaseModel):
 
 class TranslationHelpRequest(db.Model, BaseModel):
     id = db.Column(UUID, primary_key=True)
-    request_id = db.Column(UUID, db.ForeignKey('translation_request.id'))
-    user_id = db.Column(UUID, db.ForeignKey('user.id'))
-    timestamp = db.Column(db.DateTime(timezone=True))
+    request_id = db.Column(UUID, db.ForeignKey('translation_request.id'), nullable=False)
+    user_id = db.Column(UUID, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime(timezone=True), nullable=False)
 
     request = relationship('TranslationRequest')
     user = relationship('User')
+
 
 class Translation(db.Model, BaseModel):
     """

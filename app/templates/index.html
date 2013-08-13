@@ -124,6 +124,9 @@
           console.log(response);
 
           // TODO: register TranslationHelpRequest object
+          $.post("/v1.0/thrq", {treq_id: state.requestId}, function(response) {
+              
+          });
       });
   }
 
@@ -194,7 +197,7 @@
 
       <div id="feedback">
           <div id="rating" style="visibility:hidden;">
-            {% if True or not current_user.is_anonymous() %}
+            {% if not current_user.is_anonymous() %}
             {{ _("Did you not like this translation?") }}
             <a href="#" class="translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help.") }}</a>
             {% endif %}

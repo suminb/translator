@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-13 10:09+0000\n"
+"POT-Creation-Date: 2013-08-14 08:58+0000\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -28,30 +28,30 @@ msgstr ""
 " the world tries to translate Japanese porn into their language, and thus"
 " Google Translate performs better with Japanese."
 
-#: app/translation.py:61 app/translation.py:122 app/translation.py:136
-#: app/translation.py:181 app/translation.py:215
+#: app/translation.py:62 app/translation.py:123 app/translation.py:136
+#: app/translation.py:184 app/translation.py:218
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/translation.py:102
+#: app/translation.py:103
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/translation.py:257 app/templates/base.html:9 app/templates/base.html:12
-#: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:108 app/templates/translation_response.html:107
+#: app/translation.py:260 app/templates/base.html:9 app/templates/base.html:12
+#: app/templates/base.html:15 app/templates/base.html:43
+#: app/templates/index.html:108 app/templates/translation_response.html:100
 msgid "app-title"
 msgstr "Better Translator"
 
-#: app/translation.py:259
+#: app/translation.py:262
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/translation.py:260
+#: app/translation.py:263
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
-#: app/translation.py:274
+#: app/translation.py:277
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 
@@ -66,27 +66,27 @@ msgid ""
 " You may go back to the <a href=\"/\">home page</a>."
 msgstr ""
 
-#: app/templates/base.html:47 app/templates/discuss.html:4
+#: app/templates/base.html:46 app/templates/discuss.html:4
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:54
+#: app/templates/base.html:53
 msgid "Social Media"
 msgstr ""
 
-#: app/templates/base.html:56
+#: app/templates/base.html:55
 msgid "Facebook"
 msgstr ""
 
-#: app/templates/base.html:57
+#: app/templates/base.html:56
 msgid "Twitter"
 msgstr ""
 
-#: app/templates/base.html:108 app/templates/credits.html:4
+#: app/templates/base.html:111 app/templates/credits.html:4
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:109
+#: app/templates/base.html:112
 msgid "Bug reporting"
 msgstr ""
 
@@ -301,28 +301,45 @@ msgstr ""
 msgid "Your translation"
 msgstr ""
 
-#: app/templates/translation_response.html:46
+#: app/templates/translation_response.html:42
+msgid "Login with your Facebook to post a translation."
+msgstr ""
+
+#: app/templates/translation_response.html:45
+#: app/templates/translation_response.html:54
 msgid "See how others did"
 msgstr ""
 
-#: app/templates/translation_response.html:48
+#: app/templates/translation_response.html:47
+msgid "Login"
+msgstr ""
+
+#: app/templates/translation_response.html:56
 msgid "Post on Facebook"
 msgstr ""
 
-#: app/templates/translation_response.html:49
+#: app/templates/translation_response.html:57
 msgid "Delete"
 msgstr ""
 
-#: app/templates/translation_response.html:55
+#: app/templates/translation_response.html:63
 msgid "Save"
 msgstr ""
 
-#: app/templates/translation_response.html:108
+#: app/templates/translation_response.html:101
 #, python-format
 msgid "%%1$s has completed a translation challenge"
 msgstr ""
 
-#: app/templates/translation_responses.html:55
+#: app/templates/translation_responses.html:39
+msgid "No one has posted a translation. Become the first one!"
+msgstr ""
+
+#: app/templates/translation_responses.html:42
+msgid "Post a translation"
+msgstr ""
+
+#: app/templates/translation_responses.html:64
 msgid "Edit"
 msgstr ""
 

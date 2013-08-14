@@ -38,7 +38,15 @@
     <div class="row-fluid">
       <div class="span3 header">{{ _("Your translation") }}</div>
       <div class="span9">
-{% if tresponse %}
+{% if current_user.is_anonymous() %}
+        <div>{{ _("Login with your Facebook to post a translation.") }}</div>
+        <div>
+          <button class="btn btn-small" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'">
+            {{ _("See how others did") }}
+          </button>
+          <button class="btn btn-primary btn-small" style="min-width:7em;" onclick="location.href='/login'">{{ _("Login") }}</button>
+        </div>
+{% elif tresponse %}
 {% set tres_id_b62 = tresponse.id | uuid_to_b62 %}
         <p>{{ tresponse.translated_text }}</p>
         
@@ -52,6 +60,9 @@
           <input type="hidden" name="alert_flag" value="1"/>
           <textarea name="text" style="width:99%;height:10em;"></textarea>
           <div style="text-align:right">
+            <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'">
+              {{ _("See how others did") }}
+            </button>
             <button class="btn btn-primary" style="min-width:7em;">{{ _("Save") }}</button>
           </div>
         </form>

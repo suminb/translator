@@ -98,10 +98,8 @@ def translation_request_response_api(request_id):
     def post(request_id):
         translated_text = request.form['text'].strip()
 
-        # FIXME: Temporary
         if len(translated_text) <= 0:
-            context['error'] = _('Please provide a non-empty translation.')
-            status_code = 400
+            return _('Please provide a non-empty translation.'), 400
         else:
             tresp = TranslationResponse.insert(
                 request_id=treq.id,
@@ -129,19 +127,21 @@ def translation_request_response_api(request_id):
 
 
 @app.route('/trq/<request_id>/response')
-@login_required
 def translation_request_response(request_id):
     treq = TranslationRequest.fetch(id_b62=request_id)
 
     if treq == None:
         return render_template('404.html', message=_('Requrested resource does not exist'))
 
-    tresp = TranslationResponse.fetch(
-        user_id=current_user.id,
-        original_text_hash=treq.original_text_hash,
-        source=treq.source,
-        target=treq.target,
-        mode=3)
+    tresp = None
+
+    if not current_user.is_anonymous():
+        tresp = TranslationResponse.fetch(
+            user_id=current_user.id,
+            original_text_hash=treq.original_text_hash,
+            source=treq.source,
+            target=treq.target,
+            mode=3)
 
     if tresp != None:
         return redirect(url_for('translation_response', response_id=uuid_to_b62(tresp.id)))

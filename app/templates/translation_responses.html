@@ -33,7 +33,16 @@
 
     <div class="row-fluid">
       <div class="span3"></div>
-      <div class="span9">
+    <div class="span9">
+      {# FIXME: This may cause performance issues (try not to convert BaseQuery to list) #}
+      {% if tresponses|list|length == 0 %}
+        <div>{{ _("No one has posted a translation. Become the first one!") }}</div>
+        <div>
+          <button class="btn btn-small btn-primary" onclick="location.href='{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}'">
+            {{ _("Post a translation") }}
+          </button>
+        </div>
+      {% endif %}
         <ul class="media-list">
         {% for tresponse in tresponses %}
         {% set mine = tresponse.user_id == current_user.id %}
@@ -41,18 +50,18 @@
             <div>
               {{ tresponse.user.name }} &middot;
               {{ tresponse.timestamp | date }} &middot;
-              <span class="rating-plus" translation-id="{{ tresponse.id_b62 }}">{{ tresponse.plus_ratings }}</span> /
-              <span class="rating-minus" translation-id="{{ tresponse.id_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
+              <span class="rating-plus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.plus_ratings }}</span> /
+              <span class="rating-minus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
               <div class="btn-group">
-                <button class="btn btn-mini" translation-id="{{ tresponse.id_b62 }}" rating="1" onclick="rateTranslation($(this))">
+                <button class="btn btn-mini" translation-id="{{ tresponse.id|uuid_to_b62 }}" rating="1" onclick="rateTranslation($(this))">
                   <i class="icon-plus"></i>
                 </button>
-                <button class="btn btn-mini" translation-id="{{ tresponse.id_b62 }}" rating="-1" onclick="rateTranslation($(this))">
+                <button class="btn btn-mini" translation-id="{{ tresponse.id|uuid_to_b62 }}" rating="-1" onclick="rateTranslation($(this))">
                   <i class="icon-minus"></i>
                 </button>
               </div>
               {% if mine %}&nbsp;
-              <a href="{{ url_for('translation_response', response_id=tresponse.id_b62) }}">{{ _("Edit") }}</a>
+              <a href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}">{{ _("Edit") }}</a>
               {% endif %}
             </div>
             <div>{{ tresponse.translated_text }}</div>

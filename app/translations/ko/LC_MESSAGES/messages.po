@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-13 10:09+0000\n"
+"POT-Creation-Date: 2013-08-14 08:58+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -21,30 +21,30 @@ msgstr ""
 msgid "app-description-text"
 msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
 
-#: app/translation.py:61 app/translation.py:122 app/translation.py:136
-#: app/translation.py:181 app/translation.py:215
+#: app/translation.py:62 app/translation.py:123 app/translation.py:136
+#: app/translation.py:184 app/translation.py:218
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/translation.py:102
+#: app/translation.py:103
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/translation.py:257 app/templates/base.html:9 app/templates/base.html:12
-#: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:108 app/templates/translation_response.html:107
+#: app/translation.py:260 app/templates/base.html:9 app/templates/base.html:12
+#: app/templates/base.html:15 app/templates/base.html:43
+#: app/templates/index.html:108 app/templates/translation_response.html:100
 msgid "app-title"
 msgstr "더 나은 번역기"
 
-#: app/translation.py:259
+#: app/translation.py:262
 msgid "{} has completed a translation challenge"
 msgstr "{}님이 번역 도전 과제를 해결했습니다"
 
-#: app/translation.py:260
+#: app/translation.py:263
 msgid "How do you say \"{0}\" in {1}?"
 msgstr "\"{0}\"을(를) {1}로 하면?"
 
-#: app/translation.py:274
+#: app/translation.py:277
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 
@@ -59,27 +59,27 @@ msgid ""
 " You may go back to the <a href=\"/\">home page</a>."
 msgstr "요청하신 페이지가 존재하지 않습니다. <a href=\"/\">첫 페이지로 돌아가기</a>"
 
-#: app/templates/base.html:47 app/templates/discuss.html:4
+#: app/templates/base.html:46 app/templates/discuss.html:4
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: app/templates/base.html:54
+#: app/templates/base.html:53
 msgid "Social Media"
 msgstr "소셜 미디어"
 
-#: app/templates/base.html:56
+#: app/templates/base.html:55
 msgid "Facebook"
 msgstr "페이스북"
 
-#: app/templates/base.html:57
+#: app/templates/base.html:56
 msgid "Twitter"
 msgstr "트위터"
 
-#: app/templates/base.html:108 app/templates/credits.html:4
+#: app/templates/base.html:111 app/templates/credits.html:4
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: app/templates/base.html:109
+#: app/templates/base.html:112
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -291,28 +291,45 @@ msgstr ""
 msgid "Your translation"
 msgstr "나의 번역"
 
-#: app/templates/translation_response.html:46
+#: app/templates/translation_response.html:42
+msgid "Login with your Facebook to post a translation."
+msgstr "번역문을 올리기 위해 페이스북 계정으로 로그인 하세요."
+
+#: app/templates/translation_response.html:45
+#: app/templates/translation_response.html:54
 msgid "See how others did"
 msgstr "다른 사람들이 한 번역 보기"
 
-#: app/templates/translation_response.html:48
+#: app/templates/translation_response.html:47
+msgid "Login"
+msgstr "로그인"
+
+#: app/templates/translation_response.html:56
 msgid "Post on Facebook"
 msgstr "페이스북에 자랑하기"
 
-#: app/templates/translation_response.html:49
+#: app/templates/translation_response.html:57
 msgid "Delete"
 msgstr "삭제"
 
-#: app/templates/translation_response.html:55
+#: app/templates/translation_response.html:63
 msgid "Save"
 msgstr ""
 
-#: app/templates/translation_response.html:108
+#: app/templates/translation_response.html:101
 #, python-format
 msgid "%%1$s has completed a translation challenge"
 msgstr "%%1$s님이 번역 도전 과제를 해결했습니다"
 
-#: app/templates/translation_responses.html:55
+#: app/templates/translation_responses.html:39
+msgid "No one has posted a translation. Become the first one!"
+msgstr "아직 번역문이 없습니다. 일등으로 번역문을 올려보세요!"
+
+#: app/templates/translation_responses.html:42
+msgid "Post a translation"
+msgstr "번역문 올리기"
+
+#: app/templates/translation_responses.html:64
 #, fuzzy
 msgid "Edit"
 msgstr "만든 사람들"

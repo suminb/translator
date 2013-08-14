@@ -473,7 +473,16 @@ def facebook_authorized(resp):
 
     session['oauth_token'] = (resp['access_token'], '')
 
-    me = facebook_app.get('/me')
+    # Fields to fetch
+    # https://developers.facebook.com/docs/reference/api/user/
+    fields = ('id', 'name', 'first_name', 'last_name', 'middle_name',
+        'username', 'gender', 'locale', 'picture', 'link', 'age_range', 'timezone',
+        'updated_time', 'verified', 'bio', 'birthday', 'email', 'location',
+        'website', 'work')
+
+    me = facebook_app.get('/me', data=dict(fields=','.join(fields)))
+
+    print me.data
 
     # Somehow this not only is disfunctional, but also it prevents other 
     # session values to be set

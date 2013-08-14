@@ -43,8 +43,7 @@ def translation_response_delete(response_id):
     tres = TranslationResponse.fetch(response_id)
 
     try:
-        db.session.delete(tres)
-        db.session.commit()
+        tres.delete(current_user)
 
         return jsonify(dict(request_id=uuid_to_b62(tres.request_id)))
 

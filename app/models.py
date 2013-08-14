@@ -40,6 +40,17 @@ class BaseModel:
 
         return payload
 
+    def delete(self, current_user, commit=True):
+        if not hasattr(self, 'user_id'):
+            raise Exception("{} has no 'user_id' attribute".format(self))
+
+        elif self.user_id != current_user.id:
+            raise Exception('Users are not allowed to delete entities that do not belong to them')
+            
+        else:
+            db.session.delete(self)
+            if commit: db.session.commit()
+
     @classmethod
     def insert(cls, commit=True, **kwargs):
         record = cls(id=str(uuid.uuid4()))

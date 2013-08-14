@@ -16,7 +16,7 @@
       <div class="span3 header">{{ _("Regular translation") }} ({{ trequest.target | language_name }})</div>
       <div class="span9">
         {{ tresponse1.translated_text }}
-        <a href="{{ url_for('index', translation_id=tresponse1.id_b62) }}"><i class="icon-share-alt"></i></a>
+        <a href="{{ url_for('index', translation_id=tresponse1.id|uuid_to_b62) }}"><i class="icon-share-alt"></i></a>
       </div>
     </div>
     {% endif %}
@@ -26,7 +26,7 @@
       <div class="span3 header">{{ _("Better translation") }} ({{ trequest.target | language_name }})</div>
       <div class="span9">
         {{ tresponse2.translated_text }}
-        <a href="{{ url_for('index', translation_id=tresponse2.id_b62) }}"><i class="icon-share-alt"></i></a>
+        <a href="{{ url_for('index', translation_id=tresponse2.id|uuid_to_b62) }}"><i class="icon-share-alt"></i></a>
       </div>
     </div>
     {% endif %}
@@ -38,7 +38,7 @@
       {% if tresponses|list|length == 0 %}
         <div>{{ _("No one has posted a translation. Become the first one!") }}</div>
         <div>
-          <button class="btn btn-small btn-primary" onclick="location.href='{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}'">
+          <button class="btn btn-primary" onclick="location.href='{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}'">
             {{ _("Post a translation") }}
           </button>
         </div>

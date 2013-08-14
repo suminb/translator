@@ -60,7 +60,7 @@
           <input type="hidden" name="alert_flag" value="1"/>
           <textarea name="text" style="width:99%;height:10em;"></textarea>
           <div style="text-align:right">
-            <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'">
+            <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'; return false;">
               {{ _("See how others did") }}
             </button>
             <button class="btn btn-primary" style="min-width:7em;">{{ _("Save") }}</button>

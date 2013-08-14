@@ -164,12 +164,6 @@ def translation_request_response(request_id):
 
     return render_template('translation_response.html', **context)
 
-    dispatch = dict(
-        post=post,
-    )
-
-    return dispatch[request.method.lower()](request_id)
-
 
 @app.route('/v1.0/thrq', methods=['POST', 'DELETE'])
 @login_required
@@ -312,6 +306,8 @@ def tresponse_rate(tresponse_id):
     
     except Exception as e:
         logger.exception(e)
+        db.session.rollback()
+
         return str(e), 500
 
 

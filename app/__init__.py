@@ -45,6 +45,10 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 logger = logging.getLogger('translator')
+handler = logging.FileHandler('translator.log')
+handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+logger.addHandler(handler) 
+logger.setLevel(logging.INFO)
 
 babel = Babel(app)
 
@@ -59,20 +63,10 @@ def get_locale():
         except KeyError:
             return request.accept_languages.best_match(['ko', 'en'])
 
-
-def init_logger():
-    global logger
-    handler = logging.FileHandler('translator.log')
-    handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
-    logger.addHandler(handler) 
-    logger.setLevel(logging.INFO)
-
 from core import *
 from translation import *
 
 if __name__ == '__main__':
-    init_logger()
-
     host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 5000))
     debug = bool(os.environ.get('DEBUG', 0))

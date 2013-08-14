@@ -216,7 +216,7 @@ class TranslationAccessLog(db.Model, BaseModel):
     flag = db.Column(db.Integer, default=0)
 
 
-class Rating(db.Model):
+class Rating(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('translation_id', 'user_id'), )
 
     id = db.Column(UUID, primary_key=True)

@@ -10,6 +10,7 @@ from __init__ import app
 
 import uuid
 import base62
+import json
 
 db = SQLAlchemy(app)
 
@@ -286,6 +287,22 @@ class User(db.Model, UserMixin, BaseModel):
     def name(self):
         # FIXME: i18n
         return '{} {}'.format(self.given_name, self.family_name)
+
+    @property
+    def picture(self):
+        try:
+            extra_info = json.loads(self.extra_info)
+            return extra_info['picture']['data']['url']
+        except:
+            return None
+
+    @property
+    def link(self):
+        try:
+            extra_info = json.loads(self.extra_info)
+            return extra_info['link']
+        except:
+            return None
 
     @staticmethod
     def insert(**kwargs):

@@ -46,7 +46,7 @@ class BaseModel:
 
         elif self.user_id != current_user.id:
             raise Exception('Users are not allowed to delete entities that do not belong to them')
-            
+
         else:
             db.session.delete(self)
             if commit: db.session.commit()
@@ -111,6 +111,16 @@ class TranslationResponse(db.Model, BaseModel):
 
     request = relationship('TranslationRequest')
     user = relationship('User')
+
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def plus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.id, rating=1).count()
+
+    # FIXME: This may be a cause for degraded performance 
+    @property
+    def minus_ratings(self):
+        return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
 
     @staticmethod
     def fetch(id_b62=None, user_id=None, original_text_hash=None, source=None, target=None, mode=None):

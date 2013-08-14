@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-14 08:58+0000\n"
+"POT-Creation-Date: 2013-08-14 19:31+0000\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -28,30 +28,30 @@ msgstr ""
 " the world tries to translate Japanese porn into their language, and thus"
 " Google Translate performs better with Japanese."
 
-#: app/translation.py:62 app/translation.py:123 app/translation.py:136
-#: app/translation.py:184 app/translation.py:218
+#: app/translation.py:61 app/translation.py:120 app/translation.py:133
+#: app/translation.py:175 app/translation.py:209
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/translation.py:103
+#: app/translation.py:101
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/translation.py:260 app/templates/base.html:9 app/templates/base.html:12
+#: app/translation.py:251 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:43
-#: app/templates/index.html:108 app/templates/translation_response.html:100
+#: app/templates/index.html:108 app/templates/translation_response.html:93
 msgid "app-title"
 msgstr "Better Translator"
 
-#: app/translation.py:262
+#: app/translation.py:253
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/translation.py:263
+#: app/translation.py:254
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
-#: app/translation.py:277
+#: app/translation.py:268
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 
@@ -82,11 +82,19 @@ msgstr ""
 msgid "Twitter"
 msgstr ""
 
-#: app/templates/base.html:111 app/templates/credits.html:4
+#: app/templates/base.html:70 app/templates/user_translation_responses.html:6
+msgid "My Translations"
+msgstr ""
+
+#: app/templates/base.html:73
+msgid "Logout"
+msgstr ""
+
+#: app/templates/base.html:118 app/templates/credits.html:4
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:112
+#: app/templates/base.html:119
 msgid "Bug reporting"
 msgstr ""
 
@@ -294,6 +302,7 @@ msgstr ""
 
 #: app/templates/translation_response.html:7
 #: app/templates/translation_responses.html:6
+#: app/templates/user_translation_responses.html:6
 msgid "Beta"
 msgstr ""
 
@@ -307,6 +316,7 @@ msgstr ""
 
 #: app/templates/translation_response.html:45
 #: app/templates/translation_response.html:54
+#: app/templates/translation_response.html:63
 msgid "See how others did"
 msgstr ""
 
@@ -322,11 +332,11 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: app/templates/translation_response.html:63
-msgid "Save"
+#: app/templates/translation_response.html:65
+msgid "Post"
 msgstr ""
 
-#: app/templates/translation_response.html:101
+#: app/templates/translation_response.html:94
 #, python-format
 msgid "%%1$s has completed a translation challenge"
 msgstr ""

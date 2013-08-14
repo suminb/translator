@@ -43,10 +43,10 @@
           </button>
         </div>
         {% endif %}
-        <ul class="media-list">
+        <ul class="translation-list">
         {% for tresponse in tresponses %}
         {% set mine = tresponse.user_id == current_user.id %}
-          <li class="translation-response {% if mine %}highlight{% endif %}">
+          <li class="{% if mine %}highlight{% endif %}">
             <div>
               {{ tresponse.user.name }} &middot;
               {{ tresponse.timestamp | date }} &middot;
@@ -60,8 +60,8 @@
                   <i class="icon-minus"></i>
                 </button>
               </div>
-              {% if mine %}&nbsp;
-              <a href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}">{{ _("Edit") }}</a>
+              {% if mine %}
+              <a class="btn btn-mini" href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}"><i class="icon-edit"></i></a>
               {% endif %}
             </div>
             <div>{{ tresponse.translated_text }}</div>

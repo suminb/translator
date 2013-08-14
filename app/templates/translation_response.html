@@ -41,10 +41,10 @@
 {% if current_user.is_anonymous() %}
         <div>{{ _("Login with your Facebook to post a translation.") }}</div>
         <div>
-          <button class="btn btn-small" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'">
+          <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'">
             {{ _("See how others did") }}
           </button>
-          <button class="btn btn-primary btn-small" style="min-width:7em;" onclick="location.href='/login'">{{ _("Login") }}</button>
+          <button class="btn btn-primary" style="min-width:7em;" onclick="location.href='/login'">{{ _("Login") }}</button>
         </div>
 {% elif tresponse %}
 {% set tres_id_b62 = tresponse.id | uuid_to_b62 %}

@@ -487,22 +487,40 @@ def facebook_authorized(resp):
         'family_name': 'last_name',
         'email': 'email',
         'locale': 'locale',
+        'gender': 'gender',
     }
 
-    payload = {}
-
-    for key in key_mappings:
-        oauth_key = key_mappings[key]
-        payload[key] = me.data[oauth_key]
-
     try:
-        user = User.insert(**payload)
-        login_user(user)
+        user = User.query.filter_by(oauth_id=me.data['id']).first()
 
-    except IntegrityError as e:
+        if user == None:
+            payload = dict(extra_info=json.dumps(me.data))
+
+            for key in key_mappings:
+                oauth_key = key_mappings[key]
+                payload[key] = me.data[oauth_key]
+
+            user = User.insert(**payload)
+
+        else:
+            key_mappings.pop('oauth_id')
+            for key in key_mappings:
+                oauth_key = key_mappings[key]
+                setattr(user, key, me.data[oauth_key])
+
+            user.extra_info = json.dumps(me.data)
+
+            db.session.commit()
+
+    # except IntegrityError as e:
+    #     logger.info('User %s (%s) already exists.' % (payload['oauth_username'],
+    #         payload['oauth_id']))
+
+    except Exception as e:
         logger.exception(e)
-        #logger.info('User %s (%s) already exists.' % (payload['oauth_username'],
-        #    payload['oauth_id']))
+        return str(e), 500
+
+    login_user(user)
     
     keys = ('id', 'username', 'first_name', 'last_name', 'email', 'locale', 'gender',)
     for key in keys:

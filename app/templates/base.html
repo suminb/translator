@@ -60,7 +60,7 @@
           <ul class="nav pull-right">
             {% if current_user.is_anonymous() %}
             <li>
-              <a href="/login">Login</a>
+              <a href="/login">{{ _("Login") }}</a>
             </li>
             {% else %}
             <li class="dropdown">

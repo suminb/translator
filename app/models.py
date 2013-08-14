@@ -280,6 +280,8 @@ class User(db.Model, UserMixin, BaseModel):
     gender = db.Column(db.String(6))
     locale = db.Column(db.String(16))
 
+    extra_info = db.Column(db.Text)
+
     @property
     def name(self):
         # FIXME: i18n

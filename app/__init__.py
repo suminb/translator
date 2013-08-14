@@ -41,6 +41,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 app.secret_key = config.SECRET_KEY
 
 login_manager = LoginManager()
+login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 logger = logging.getLogger('translator')
@@ -59,14 +60,18 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 
+def init_logger():
+    global logger
+    handler = logging.FileHandler('translator.log')
+    handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+    logger.addHandler(handler) 
+    logger.setLevel(logging.INFO)
+
 from core import *
 from translation import *
 
 if __name__ == '__main__':
-    login_manager.init_app(app)
-
-    logger.addHandler(logging.FileHandler('translator.log')) 
-    logger.setLevel(logging.INFO)
+    init_logger()
 
     host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 5000))

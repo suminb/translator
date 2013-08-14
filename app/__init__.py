@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 
-__version__ = '1.1.14'
+__version__ = '1.1.15'
 
 from flask import Flask
 from flask.ext.login import LoginManager
@@ -41,12 +41,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 app.secret_key = config.SECRET_KEY
 
 login_manager = LoginManager()
-login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 logger = logging.getLogger('translator')
-logger.addHandler(logging.FileHandler('translator.log')) 
-logger.setLevel(logging.INFO)
 
 babel = Babel(app)
 
@@ -66,6 +63,11 @@ from core import *
 from translation import *
 
 if __name__ == '__main__':
+    login_manager.init_app(app)
+
+    logger.addHandler(logging.FileHandler('translator.log')) 
+    logger.setLevel(logging.INFO)
+
     host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 5000))
     debug = bool(os.environ.get('DEBUG', 0))

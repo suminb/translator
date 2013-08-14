@@ -33,16 +33,16 @@
 
     <div class="row-fluid">
       <div class="span3"></div>
-    <div class="span9">
-      {# FIXME: This may cause performance issues (try not to convert BaseQuery to list) #}
-      {% if tresponses|list|length == 0 %}
+      <div class="span9">
+        {# FIXME: This may cause performance issues (try not to convert BaseQuery to list) #}
+        {% if tresponses|list|length == 0 %}
         <div>{{ _("No one has posted a translation. Become the first one!") }}</div>
         <div>
           <button class="btn btn-primary" onclick="location.href='{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}'">
             {{ _("Post a translation") }}
           </button>
         </div>
-      {% endif %}
+        {% endif %}
         <ul class="media-list">
         {% for tresponse in tresponses %}
         {% set mine = tresponse.user_id == current_user.id %}
@@ -67,7 +67,7 @@
             <div>{{ tresponse.translated_text }}</div>
           </li>
         {% endfor %}
-      </li>
+        </ul>
       </div>
     </div>
   </div>

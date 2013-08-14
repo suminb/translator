@@ -57,7 +57,6 @@
         <button class="btn btn-danger" style="min-width:7em;" onclick="deleteTranslation('{{ tres_id_b62 }}')">{{ _("Delete") }}</button>
 {% else %}
         <form method="post" action="{{ url_for('translation_request_response_api', request_id=trequest.id | uuid_to_b62) }}">
-          <input type="hidden" name="alert_flag" value="1"/>
           <textarea name="text" style="width:99%;height:10em;"></textarea>
           <div style="text-align:right">
             <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'; return false;">
@@ -72,17 +71,8 @@
   </div>
 </div>
 
-{% if tresponse %}
 <script>
-// Load the SDK asynchronously
-(function(d, s, id){
-   var js, fjs = d.getElementsByTagName(s)[0];
-   if (d.getElementById(id)) {return;}
-   js = d.createElement(s); js.id = id;
-   js.src = "//connect.facebook.net/en_US/all.js";
-   fjs.parentNode.insertBefore(js, fjs);
- }(document, 'script', 'facebook-jssdk'));
-
+{% if tresponse %}
 
 // TODO: Move this to main.js
 function postTranslation(button) {
@@ -112,8 +102,7 @@ function postTranslation(button) {
         button.removeAttr("disabled");
     });
 }
-
-</script>
 {% endif %}
+</script>
 
 {% endblock %}

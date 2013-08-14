@@ -92,7 +92,7 @@
 
 
   function askForHelp() {
-      var url = $.sprintf("%s//%s/trq/%s/response", 
+      var url = sprintf("%s//%s/trq/%s/response", 
           location.protocol, location.host, state.requestId);
 
       var source = $("select[name=sl]")

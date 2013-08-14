@@ -107,7 +107,7 @@ var state = {
     setMode: function(v) {
         this.mode = v;
         $("button.to-mode").removeClass("active");
-        $($.sprintf("button.to-mode[value=%s]", v)).addClass("active");
+        $(sprintf("button.to-mode[value=%s]", v)).addClass("active");
     },
 
     setText: function(v) {
@@ -175,7 +175,7 @@ var state = {
         $("select[name=sl]").val(this.source);
         $("select[name=tl]").val(this.target);
         $("button.to-mode").removeClass("active");
-        $($.sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
+        $(sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
         $("#text").val(this.text);
 
         if (this.result) {
@@ -318,10 +318,10 @@ function displayResult(result) {
 function displayPageURL(source, target, mode, text) {
     var encoded = encodeURIComponent(text);
     if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
-        var url = $.sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
+        var url = sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
 
         $("#page-url").visible();
-        $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
+        $("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
     }
     else {
         $("#page-url").invisible();
@@ -412,14 +412,14 @@ function rateTranslation(button) {
     var buttonGroup = button.parent();
     var translationId = button.attr("translation-id");
     var rating = parseInt(button.attr("rating"));
-    var url = $.sprintf("/v1.0/tr/%s/rate", translationId);
+    var url = sprintf("/v1.0/tr/%s/rate", translationId);
 
     $.post(url, {r:rating}, function(response) {
         buttonGroup.children().removeClass("active");
         button.addClass("active");
 
-        $($.sprintf("span.rating-plus[translation-id=%s]", translationId)).text(response.plus_ratings);
-        $($.sprintf("span.rating-minus[translation-id=%s]", translationId)).text(response.minus_ratings);
+        $(sprintf("span.rating-plus[translation-id=%s]", translationId)).text(response.plus_ratings);
+        $(sprintf("span.rating-minus[translation-id=%s]", translationId)).text(response.minus_ratings);
     }).fail(function(response) {
     
     }).always(function() {
@@ -428,21 +428,21 @@ function rateTranslation(button) {
 }
 
 function deleteTranslation(id) {
-    $.delete_($.sprintf("/v1.0/trs/%s", id), function(response) {
-        location.href = $.sprintf("/trq/%s/response", response.request_id);
+    $.delete_(sprintf("/v1.0/trs/%s", id), function(response) {
+        location.href = sprintf("/trq/%s/response", response.request_id);
     });
 }
 
 function displayPermalink(id) {
     var origin = window.location.origin ? window.location.origin
         : window.location.protocol+"//"+window.location.host;
-    var url = $.sprintf("%s/tr/%s", origin, id);
+    var url = sprintf("%s/tr/%s", origin, id);
 
     $("#request-permalink").hide();
     $("#page-url").visible();
-    $("#page-url-value").html($.sprintf("<a href=\"%s\">%s</a>", url, url));
+    $("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
 
-    //window.history.pushState(serializeCurrentState(), "", $.sprintf("/tr/%s", id));
+    //window.history.pushState(serializeCurrentState(), "", sprintf("/tr/%s", id));
 }
 
 function askForRating(id) {
@@ -451,7 +451,7 @@ function askForRating(id) {
 
     if (state.text.length <= 180) {
         $("#rating").visible();
-        //$("#rating a.translation-challenge").attr("href", $.sprintf("/trq/%s/response", id));
+        //$("#rating a.translation-challenge").attr("href", sprintf("/trq/%s/response", id));
     }
 }
 

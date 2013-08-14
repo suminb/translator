@@ -30,8 +30,8 @@
 window.onload = function() {
     $("#stat-translation-count").html(stat_translation_count);
     $("#stat-rating-count").html(stat_rating[0]);
-    $("#stat-rating-average").html($.sprintf("%.3f", stat_rating[1]));
-    $("#stat-rating-stddev").html($.sprintf("%.3f", stat_rating[2]));
+    $("#stat-rating-average").html(sprintf("%.3f", stat_rating[1]));
+    $("#stat-rating-stddev").html(sprintf("%.3f", stat_rating[2]));
 
     var heapmapOptions = {
       zoom: 3,

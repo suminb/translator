@@ -66,6 +66,13 @@ $.fn.invisible = function() {
     return this.css('visibility', 'hidden');
 }
 
+$.fn.disable = function() {
+    return this.attr("disabled", "disabled");
+}
+$.fn.enable = function() {
+    return this.removeAttr("disabled");
+}
+
 //
 // Facebook API
 //

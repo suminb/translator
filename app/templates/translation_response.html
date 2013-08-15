@@ -10,6 +10,10 @@
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <div class="message"></div>
   </div>
+  <div class="alert alert-info" style="display:none">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <div class="message"></div>
+  </div>
   <div class="alert alert-error" style="display:none">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <div class="message"></div>
@@ -56,7 +60,7 @@
         {% endif %} &middot;
         {{ tresponse.timestamp | date }} &middot;
         <span class="rating-plus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.plus_ratings }}</span> /
-        <span class="rating-minus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
+        <span class="rating-minus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span> <!-- &nbsp;
         <div class="btn-group">
           <button class="btn btn-mini" translation-id="{{ tresponse.id|uuid_to_b62 }}" rating="1" onclick="rateTranslation($(this))">
             <i class="icon-plus"></i>
@@ -65,6 +69,7 @@
             <i class="icon-minus"></i>
           </button>
         </div>
+        -->
 
         <p>{{ tresponse.translated_text }}</p>
         
@@ -73,7 +78,7 @@
         </a>
 
         {% if tresponse.user_id == current_user.id %}
-        <button class="btn btn-primary" style="min-width:7em;" translation-id="{{ tres_id_b62 }}" request-id="{{ tresponse.request_id }}" onclick="postTranslation(this)">{{ _("Post on Facebook") }}</button>
+        <button class="btn btn-primary" style="min-width:7em;" translation-id="{{ tres_id_b62 }}" request-id="{{ tresponse.request_id }}" onclick="postTranslationFB(this)">{{ _("Brag about it") }}</button>
         <button class="btn btn-danger" style="min-width:7em;" onclick="deleteTranslation('{{ tres_id_b62 }}')">{{ _("Delete") }}</button>
         {% endif %}
 
@@ -81,10 +86,14 @@
         <form method="post" action="{{ url_for('translation_request_response_api', request_id=trequest.id | uuid_to_b62) }}">
           <textarea name="text" style="width:99%;height:10em;"></textarea>
           <div style="text-align:right">
+            <label>
+              <input type="checkbox" name="post-facebook" checked="checked"/>
+              {{ _("Brag about it on your Facebook") }}
+            </label>
             <button class="btn" style="min-width:7em;" onclick="location.href='{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}'; return false;">
               {{ _("See how others did") }}
             </button>
-            <button class="btn btn-primary" style="min-width:7em;">{{ _("Post") }}</button>
+            <button class="btn btn-primary" style="min-width:7em;" request-id="{{ trequest.id | uuid_to_b62 }}" onclick="return postTranslation(this)">{{ _("Post") }}</button>
           </div>
         </form>
 {% endif %}
@@ -108,10 +117,61 @@
 </div>
 
 <script>
-{% if tresponse %}
-
 // TODO: Move this to main.js
 function postTranslation(button) {
+    // jQueryfy
+    button = $(button);
+
+    button.disable();
+    $("div.alert").hide();
+
+    var requestId = button.attr("request-id");
+    var url = sprintf("%s//%s/v1.0/trq/%s/response",
+        location.protocol, location.host, requestId);
+    var text = $("textarea[name=text]").val();
+
+    $.post(url, {text: text}, function(response) {
+        $("div.alert-success div.message").text(response.message);
+        $("div.alert-success").show();
+
+        if($("input[name=post-facebook]").is(":checked")) {
+            postLinkFB(response.id);
+        }
+        else {
+            // FIXME: Any better solution?
+            location.reload();
+        }
+    }).fail(function(response) {
+        $("div.alert-error div.message").text(response.responseText);
+        $("div.alert-error").show();
+    }).always(function() {
+        if(!$("input[name=post-facebook]").is(":checked")) {
+            button.enable();
+        }
+    });
+
+    return false;
+}
+
+function postLinkFB(responseId) {
+    var url = sprintf("%s//%s/v1.0/tr/%s/post/facebook",
+        location.protocol, location.host, responseId);
+
+    $("div.alert-info div.message").text("{{ _('Please wait while posting a link on your timeline.') }}");
+    $("div.alert-info").show();
+
+    $.post(url, {}, function(response) {
+        // FIXME: Any better solution?
+        location.reload();
+    }).fail(function(response) {
+    
+    }).always(function() {
+
+    });
+}
+
+{% if tresponse %}
+function postTranslationFB(button) {
     // jQueryfy
     button = $(button);
 

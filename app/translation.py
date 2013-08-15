@@ -94,6 +94,8 @@ def translation_responses(request_id):
 
 @app.route('/v1.0/trq/<request_id>/response', methods=['POST'])
 def translation_request_response_api(request_id):
+    """Translation response API"""
+
     def post(request_id):
         translated_text = request.form['text'].strip()
 
@@ -110,25 +112,10 @@ def translation_request_response_api(request_id):
                 translated_text=translated_text,
             )
 
-            graph = facebook.GraphAPI(session.get('oauth_token')[0])
-            post = graph.put_wall_post('', dict(
-                name=_('app-title').encode('utf-8'),
-                link='http://translator.suminb.com/trs/{}'.format(uuid_to_b62(tresp.id)),
-                caption=_('{} has completed a translation challenge').format(tresp.user.name).encode('utf-8'),
-                description=_('How do you say "{0}" in {1}?').format(treq.original_text, _(VALID_LANGUAGES[tresp.target])).encode('utf-8'),
-                picture='http://translator.suminb.com/static/icon_128.png',
-                #privacy={'value':'SELF'}
-            ))
+        payload = tresp.serialize()
+        payload['message'] = _('Your translation has been posted.')
 
-            post_log = TranslationPostLog.insert(
-                request_id=treq.id,
-                user_id=current_user.id,
-                target='Facebook',
-                post_id=post['id'],
-            )
-
-        # FIXME: Really?
-        return redirect(url_for('translation_response', response_id=uuid_to_b62(tresp.id)))
+        return jsonify(payload)
 
     treq = TranslationRequest.fetch(id_b62=request_id)
 
@@ -254,30 +241,32 @@ def translation_response(response_id):
     return render_template('translation_response.html', **context), status_code
 
 
-@app.route('/v1.0/tr/<tresponse_id>/post', methods=['POST'])
+@app.route('/v1.0/tr/<tresponse_id>/post/facebook', methods=['POST'])
 @login_required
-def tresponse_post(tresponse_id):
+def tresponse_post_facebook(tresponse_id):
     """
+    Post a link on the current_user's Facebook timeline
+
     https://developers.facebook.com/docs/reference/api/privacy-parameter/
     """
-    translation = Translation.fetch(id_b62=tresponse_id)
+    tresp = TranslationResponse.fetch(id_b62=tresponse_id)
 
-    target_language = _(VALID_LANGUAGES[translation.target])
+    target_language = _(VALID_LANGUAGES[tresp.request.target])
 
     try:
         graph = facebook.GraphAPI(session.get('oauth_token')[0])
         #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
         post = graph.put_wall_post('', dict(
             name=_('app-title').encode('utf-8'),
-            link='http://translator.suminb.com/trq/{}/responses'.format(uuid_to_b62(translation.request_id)),
-            caption=_('{} has completed a translation challenge').format(translation.user.name).encode('utf-8'),
-            description=_('How do you say "{0}" in {1}?').format(translation.original_text, target_language).encode('utf-8'),
+            link='http://translator.suminb.com/trq/{}/responses'.format(uuid_to_b62(tresp.request_id)),
+            caption=_('{} has completed a translation challenge').format(tresp.user.name).encode('utf-8'),
+            description=_('How do you say "{0}" in {1}?').format(tresp.request.original_text, target_language).encode('utf-8'),
             picture='http://translator.suminb.com/static/icon_128.png',
-            #privacy={'value':'SELF'}
+            privacy={'value':'SELF'}
         ))
 
         post_log = TranslationPostLog.insert(
-            request_id=translation.request_id,
+            request_id=tresp.request_id,
             user_id=current_user.id,
             target='Facebook',
             post_id=post['id'],

@@ -109,9 +109,25 @@ def translation_request_response_api(request_id):
                 original_text_hash=treq.original_text_hash,
                 translated_text=translated_text,
             )
-            #context['tresponse'] = tresp
-            #context['success'] = _('Thanks for your submission.')
 
+            graph = facebook.GraphAPI(session.get('oauth_token')[0])
+            post = graph.put_wall_post('', dict(
+                name=_('app-title').encode('utf-8'),
+                link='http://translator.suminb.com/trs/{}'.format(uuid_to_b62(tresp.id)),
+                caption=_('{} has completed a translation challenge').format(tresp.user.name).encode('utf-8'),
+                description=_('How do you say "{0}" in {1}?').format(treq.original_text, _(VALID_LANGUAGES[tresp.target])).encode('utf-8'),
+                picture='http://translator.suminb.com/static/icon_128.png',
+                #privacy={'value':'SELF'}
+            ))
+
+            post_log = TranslationPostLog.insert(
+                request_id=treq.id,
+                user_id=current_user.id,
+                target='Facebook',
+                post_id=post['id'],
+            )
+
+        # FIXME: Really?
         return redirect(url_for('translation_response', response_id=uuid_to_b62(tresp.id)))
 
     treq = TranslationRequest.fetch(id_b62=request_id)
@@ -122,7 +138,11 @@ def translation_request_response_api(request_id):
     dispatch = dict(
         post=post)
 
-    return dispatch[request.method.lower()](request_id)
+    try:
+        return dispatch[request.method.lower()](request_id)
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
 
 
 @app.route('/trq/<request_id>/response')

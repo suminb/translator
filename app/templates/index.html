@@ -109,9 +109,6 @@
           caption: sprintf("{{ _('Please help to me translate this from %%1$s to %%2$s') }}", source, target),
           description: state.text
       }, function(response){
-          console.log(response);
-
-          // TODO: register TranslationHelpRequest object
           $.post("/v1.0/thrq", {treq_id: state.requestId}, function(response) {
 
           });

@@ -48,13 +48,35 @@
         </div>
 {% elif tresponse %}
 {% set tres_id_b62 = tresponse.id | uuid_to_b62 %}
+
+        {% if tresponse.user.link %}
+          <a href="{{ tresponse.user.link }}">{{ tresponse.user.name }}</a>
+        {% else %}
+          {{ tresponse.user.name }}
+        {% endif %} &middot;
+        {{ tresponse.timestamp | date }} &middot;
+        <span class="rating-plus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.plus_ratings }}</span> /
+        <span class="rating-minus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
+        <div class="btn-group">
+          <button class="btn btn-mini" translation-id="{{ tresponse.id|uuid_to_b62 }}" rating="1" onclick="rateTranslation($(this))">
+            <i class="icon-plus"></i>
+          </button>
+          <button class="btn btn-mini" translation-id="{{ tresponse.id|uuid_to_b62 }}" rating="-1" onclick="rateTranslation($(this))">
+            <i class="icon-minus"></i>
+          </button>
+        </div>
+
         <p>{{ tresponse.translated_text }}</p>
         
         <a class="btn" style="min-width:7em;" href="{{ url_for('translation_responses', request_id=trequest.id | uuid_to_b62) }}">
           {{ _("See how others did") }}
         </a>
+
+        {% if tresponse.user_id == current_user.id %}
         <button class="btn btn-primary" style="min-width:7em;" translation-id="{{ tres_id_b62 }}" request-id="{{ tresponse.request_id }}" onclick="postTranslation(this)">{{ _("Post on Facebook") }}</button>
         <button class="btn btn-danger" style="min-width:7em;" onclick="deleteTranslation('{{ tres_id_b62 }}')">{{ _("Delete") }}</button>
+        {% endif %}
+
 {% else %}
         <form method="post" action="{{ url_for('translation_request_response_api', request_id=trequest.id | uuid_to_b62) }}">
           <textarea name="text" style="width:99%;height:10em;"></textarea>
@@ -111,8 +133,6 @@ function postTranslation(button) {
             "{{ trequest.original_text }}",
             "{{ tresponse.translated_text }}")
     }, function(response){
-        console.log(response);
-
         button.removeAttr("disabled");
     });
 }

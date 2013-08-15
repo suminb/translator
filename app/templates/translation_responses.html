@@ -35,13 +35,14 @@
 
   {# FIXME: This may cause performance issues (try not to convert BaseQuery to list) #}
   {% if tresponses|list|length == 0 %}
-  <div>{{ _("No one has posted a translation. Become the first one!") }}</div>
   <div>
-    <button class="btn btn-primary" onclick="location.href='{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}'">
+    {{ _("No one has posted a translation. Become the first one!") }}
+    <a class="btn btn-primary" href="{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}">
       {{ _("Post a translation") }}
-    </button>
+    </a>
   </div>
   {% endif %}
+
   <ul class="media-list translation-list">
   {% for tresponse in tresponses %}
   {% set mine = tresponse.user_id == current_user.id %}

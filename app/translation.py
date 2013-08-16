@@ -262,7 +262,7 @@ def tresponse_post_facebook(tresponse_id):
             caption=_('{} has completed a translation challenge').format(tresp.user.name).encode('utf-8'),
             description=_('How do you say "{0}" in {1}?').format(tresp.request.original_text, target_language).encode('utf-8'),
             picture='http://translator.suminb.com/static/icon_128.png',
-            privacy={'value':'SELF'}
+            #privacy={'value':'SELF'}
         ))
 
         post_log = TranslationPostLog.insert(

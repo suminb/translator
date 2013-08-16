@@ -193,7 +193,8 @@ div.addthis_toolbox {
 }
 
 .locales {
-  margin: 2em 0 0 0;
+  margin: 8px auto;
+  max-width: 1000px;
 }
 
 div.table div {
@@ -225,4 +226,8 @@ ul.translation-list {
 }
 ul.translation-list li {
   padding: .75em 1em;
+}
+
+div.adsense {
+  margin: 1em 0 0 0;
 }

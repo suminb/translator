@@ -340,17 +340,3 @@ def notification_test():
     req = requests.post('https://graph.facebook.com/{}/notifications'.format(current_user.oauth_id), params=payload)
 
     return req.text, req.status_code
-
-
-@app.route('/user/<user_id>/responses')
-def user_translation_responses(user_id):
-    user_id = uuid.UUID(int=base62.decode(user_id))
-    tresponses = TranslationResponse.query.filter_by(user_id=str(user_id))
-
-    context = dict(
-        version=__version__,
-        locale=get_locale(),
-        tresponses=tresponses,
-    )
-
-    return render_template('user_translation_responses.html', **context)

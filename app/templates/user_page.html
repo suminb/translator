@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h1>{{ current_user.name }}</h1>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab-thrq" data-toggle="tab">{{ _("My help requests") }}</a></li>
+    <li><a href="#tab-trs" data-toggle="tab">{{ _("My translations") }}</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab-thrq">
+      {% include "user_translation_help_requests.html" %}
+    </div>
+    <div class="tab-pane" id="tab-trs">2</div>
+  </div>
+
+{% endblock %}

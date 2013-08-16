@@ -1,0 +1,18 @@
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>{{ _("Date") }}</th>
+    <th>{{ _("Original text") }}</th>
+    <th>{{ _("Target language") }}</th>
+  </tr>
+</thead>
+<tbody>
+{% for hrequest in hrequests %}
+  <tr>
+    <td>{{ hrequest.timestamp | date }}</td>
+    <td><a href="{{ url_for('translation_responses', request_id=hrequest.request.id|uuid_to_b62) }}">{{ hrequest.request.original_text }}</a></td>
+    <td>{{ hrequest.request.target | language_name }}</td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>

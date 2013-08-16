@@ -1,0 +1,54 @@
+from flask import Flask, jsonify, request, render_template, url_for, redirect, session
+from flaskext.babel import gettext as _
+from flask.ext.login import login_required, login_user, logout_user, current_user
+from sqlalchemy.exc import IntegrityError
+from datetime import datetime
+
+from __init__ import __version__, app, logger, login_manager, get_locale, \
+    VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
+from models import *
+from utils import *
+
+import requests
+import json
+import urllib
+import uuid
+import re
+import base62
+import os, sys
+import pytz
+import facebook
+
+import config
+
+@app.route('/user')
+@login_required
+def user_page():
+
+    hrequests = TranslationHelpRequest.query \
+        .filter_by(user_id=current_user.id) \
+        .order_by(TranslationHelpRequest.timestamp.desc()).all()
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        hrequests=hrequests,
+    )
+
+    return render_template('user_page.html', **context)
+
+    
+@app.route('/user/<user_id>/responses')
+def user_translation_responses(user_id):
+    user_id = uuid.UUID(int=base62.decode(user_id))
+    tresponses = TranslationResponse.query.filter_by(user_id=str(user_id))
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        tresponses=tresponses,
+    )
+
+    return render_template('user_translation_responses.html', **context)
+
+

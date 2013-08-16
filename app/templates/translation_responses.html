@@ -35,26 +35,27 @@
     {% endif %}
   </div>
 
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#">{{ _("Translations by others") }}</a></li>
+  </ul>
+
   {# FIXME: This may cause performance issues (try not to convert BaseQuery to list) #}
   {% if tresponses|list|length == 0 %}
-  <div>
+  <div class="alert alert-info">
     {{ _("No one has posted a translation. Become the first one!") }}
-    <a class="btn btn-primary" href="{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}">
-      {{ _("Post a translation") }}
-    </a>
   </div>
   {% endif %}
 
-  <ul class="media-list translation-list">
+  <ul class="translation-list">
   {% for tresponse in tresponses %}
   {% set mine = tresponse.user_id == current_user.id %}
-    <li class="media {% if mine %}highlight{% endif %}">
+    <li class="{% if mine %}highlight{% endif %}">
       <!--
       <a class="pull-left" href="{{ tresponse.user.link or '#' }}">
         <img class="media-object" data-src="holder.js/50x50" src="{{ tresponse.user.picture or '' }}"/>
       </a>
       -->
-      <div class="media-body">
+      <div class="">
         {% if tresponse.user.link %}
           <a href="{{ tresponse.user.link }}">{{ tresponse.user.name }}</a>
         {% else %}
@@ -79,6 +80,10 @@
     </li>
   {% endfor %}
   </ul>
+
+  <div>
+    <a class="btn" href="{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}">{{ _("Post a translation") }}</a>
+  </div>
 
   <div class="adsense">
     <script type="text/javascript"><!--

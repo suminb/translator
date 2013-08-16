@@ -220,18 +220,15 @@ div.subcontainer {
 }
 
 span.rating-plus {
-  color: #2dd700;
+  color: #468847;
 }
 span.rating-minus {
-  color: #f5001d;
+  color: #b94a48;
 }
 
 ul.translation-list {
   margin: 0;
   list-style-type: none;
-}
-ul.translation-list li {
-  padding: .75em 1em;
 }
 
 div.adsense {

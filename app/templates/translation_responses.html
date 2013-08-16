@@ -3,33 +3,37 @@
 
   <h1>{{ _("Translation Challenge") }} <span style="font-weight:normal">({{ _("Beta") }})</span></h1>
 
-  <div class="table">
-    <div class="row-fluid">
-      <div class="span3 header">{{ _("Original text") }} ({{ trequest.source | language_name }})</div>
-      <div class="span9">{{ trequest.original_text }}</div>
-    </div>
-
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#tab-original" data-toggle="tab">{{ _("Original text") }} ({{ trequest.source | language_name }})</a>
+    </li>
     {% if tresponse1 %}
-    <div class="row-fluid">
-      <div class="span3 header">{{ _("Regular translation") }} ({{ trequest.target | language_name }})</div>
-      <div class="span9">
-        {{ tresponse1.translated_text }}
-        <a href="{{ url_for('index', translation_id=tresponse1.id|uuid_to_b62) }}"><i class="icon-share-alt"></i></a>
-      </div>
+    <li>
+      <a href="#tab-normal" data-toggle="tab">{{ _("Regular translation") }} ({{ trequest.target | language_name }})</a>
+    </li>
+    {% endif %}
+    {% if tresponse2 %}
+    <li>
+      <a href="#tab-better" data-toggle="tab">{{ _("Better translation") }} ({{ trequest.target | language_name }})</a>
+    </li>
+    {% endif %}
+  </ul>
+
+  <div class="tab-content well">
+    <div class="tab-pane active" id="tab-original">
+      {{ trequest.original_text }}
+    </div>
+    {% if tresponse1 %}
+    <div class="tab-pane" id="tab-normal">
+      {{ tresponse1.translated_text }}
     </div>
     {% endif %}
-
     {% if tresponse2 %}
-    <div class="row-fluid">
-      <div class="span3 header">{{ _("Better translation") }} ({{ trequest.target | language_name }})</div>
-      <div class="span9">
-        {{ tresponse2.translated_text }}
-        <a href="{{ url_for('index', translation_id=tresponse2.id|uuid_to_b62) }}"><i class="icon-share-alt"></i></a>
-      </div>
+    <div class="tab-pane" id="tab-better">
+      {{ tresponse2.translated_text }}
     </div>
     {% endif %}
   </div>
-
 
   {# FIXME: This may cause performance issues (try not to convert BaseQuery to list) #}
   {% if tresponses|list|length == 0 %}
@@ -45,9 +49,11 @@
   {% for tresponse in tresponses %}
   {% set mine = tresponse.user_id == current_user.id %}
     <li class="media {% if mine %}highlight{% endif %}">
+      <!--
       <a class="pull-left" href="{{ tresponse.user.link or '#' }}">
         <img class="media-object" data-src="holder.js/50x50" src="{{ tresponse.user.picture or '' }}"/>
       </a>
+      -->
       <div class="media-body">
         {% if tresponse.user.link %}
           <a href="{{ tresponse.user.link }}">{{ tresponse.user.name }}</a>
@@ -68,7 +74,7 @@
         {% if mine %}
         <a class="btn btn-mini" href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}"><i class="icon-edit"></i></a>
         {% endif %}
-        <div>{{ tresponse.translated_text }}</div>
+        <div class="well">{{ tresponse.translated_text }}</div>
       </div>
     </li>
   {% endfor %}

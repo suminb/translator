@@ -54,20 +54,26 @@ input[type=submit] {
 /* Large desktop */
 @media (min-width: 1200px) {
   #content {
-    margin: 60px auto 10px auto;
-    width: 80%;
-    max-width: 1000px;
   }
   #content.wide {
-    width: 92%;
-    max-width: 1400px;
   }
+}
+
+/* Default */
+#content {
+  margin: 60px auto 10px auto;
+  width: 80%;
+  max-width: 1000px;
+}
+#content.wide {
+  width: 96%;
+  max-width: 1400px;
 }
 
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px) and (max-width: 979px) {
   #content {
-    margin: 30px auto;
+    margin: 20px auto;
     width: 90%;
   }
   #content.wide {

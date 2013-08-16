@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="subcontainer">
-
   <h1>{{ _("Translation Challenge") }} <span style="font-weight:normal">({{ _("Beta") }})</span></h1>
 
   <div class="table">
@@ -90,13 +88,12 @@
     </script>
   </div>
 
-</div>
 
-<script>
-{% for rating in ratings %}
-  $("button[translation-id={{ rating.translation_id | uuid_to_b62 }}][rating={{ rating.rating }}]").addClass("active");
-{% endfor %}
-</script>
-<script src="/static/bootstrap/js/holder.js"></script>
+  <script>
+  {% for rating in ratings %}
+    $("button[translation-id={{ rating.translation_id | uuid_to_b62 }}][rating={{ rating.rating }}]").addClass("active");
+  {% endfor %}
+  </script>
+  <script src="/static/bootstrap/js/holder.js"></script>
 
 {% endblock %}

@@ -54,7 +54,11 @@ input[type=submit] {
 /* Large desktop */
 @media (min-width: 1200px) {
   #content {
-    margin: 60px auto;
+    margin: 60px auto 10px auto;
+    width: 80%;
+    max-width: 1000px;
+  }
+  #content.wide {
     width: 92%;
     max-width: 1400px;
   }
@@ -64,6 +68,9 @@ input[type=submit] {
 @media (min-width: 768px) and (max-width: 979px) {
   #content {
     margin: 30px auto;
+    width: 90%;
+  }
+  #content.wide {
     width: 96%;
   }
 }
@@ -193,8 +200,7 @@ div.addthis_toolbox {
 }
 
 .locales {
-  margin: 8px auto;
-  max-width: 1000px;
+  margin: 1em 0 0 0;
 }
 
 div.table div {

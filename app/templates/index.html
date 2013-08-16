@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <div id="fb-root"></div>
+
   <script type="text/javascript">
   {% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
 
@@ -194,7 +195,6 @@
     </div>
   </div>
   </form>
-
 
 <!--
 This section is reserved for gettext string extraction purposes

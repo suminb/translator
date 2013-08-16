@@ -85,11 +85,11 @@
 {% block content %}{% endblock %}
 
     <div class="locales">
-        <span class="action" onclick="location.href='/locale?locale=ko'">한국어</span> |
-        <span class="action" onclick="location.href='/locale?locale=en'">English</span> |
-        <span class="action" onclick="location.href='/locale?locale=fr'">Français</span> |
-        <span class="action" onclick="location.href='/locale?locale=es'">Español</span> |
-        <span class="action" onclick="location.href='/locale?locale=ru'">Pусский</span> 
+        <a href="/locale?locale=ko">한국어</a> |
+        <a href="/locale?locale=en">English</a> |
+        <a href="/locale?locale=fr">Français</a> |
+        <a href="/locale?locale=es">Español</a> |
+        <a href="/locale?locale=ru">Pусский</a> 
     </div>
     {% if is_android %}
     <div id="app-markets">

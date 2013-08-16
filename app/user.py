@@ -27,7 +27,7 @@ def user_page():
 
     hrequests = TranslationHelpRequest.query \
         .filter_by(user_id=current_user.id) \
-        .order_by(TranslationHelpRequest.timestamp.desc()).all()
+        .order_by(TranslationHelpRequest.timestamp.desc())
 
     context = dict(
         version=__version__,
@@ -39,9 +39,12 @@ def user_page():
 
     
 @app.route('/user/<user_id>/responses')
+@login_required
 def user_translation_responses(user_id):
-    user_id = uuid.UUID(int=base62.decode(user_id))
-    tresponses = TranslationResponse.query.filter_by(user_id=str(user_id))
+    user_id = b62_to_uuid(user_id)
+    tresponses = TranslationResponse.query \
+        .filter_by(user_id=str(user_id)) \
+        .order_by(TranslationResponse.timestamp.desc())
 
     context = dict(
         version=__version__,

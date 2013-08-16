@@ -25,6 +25,8 @@ def get_remote_address(req):
 def uuid_to_b62(value):
     return base62.encode(uuid.UUID(value).int)
 
+def b62_to_uuid(value):
+    return uuid.UUID(int=base62.decode(value))
 
 @app.template_filter('date')
 def _jinja2_filter_datetime(date, fmt=None):

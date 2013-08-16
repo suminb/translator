@@ -1,22 +1,18 @@
-{% extends "base.html" %}
-{% block content %}
-
-  <h1>{{ _("My Translations") }} <span style="font-weight:normal">({{ _("Beta") }})</span></h1>
-
-  <ul class="translation-list">
-  {% for tresponse in tresponses %}
-    <li>
-      <div>
-        {{ tresponse.timestamp|date }} &middot;
-        {{ tresponse.source|language_name }} &rarr; {{ tresponse.target|language_name }}  &middot;
-        <span class="rating-plus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.plus_ratings }}</span> /
-        <span class="rating-minus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span>
-      </div>
-      <div>
-        {{ tresponse.translated_text }} <a href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}"><i class="icon-edit"></i></a>
-      </div>
-    </li>
-  {% endfor %}
-  </ul>
-
-{% endblock %}
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>{{ _("Date") }}</th>
+    <th>{{ _("Translated Text") }}</th>
+    <th>{{ _("Target Language") }}</th>
+  </tr>
+</thead>
+<tbody>
+{% for tresponse in tresponses %}
+  <tr>
+    <td>{{ tresponse.timestamp | date }}</td>
+    <td><a href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}">{{ tresponse.translated_text }}</a></td>
+    <td>{{ tresponse.request.target | language_name }}</td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>

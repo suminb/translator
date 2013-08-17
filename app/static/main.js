@@ -129,11 +129,27 @@ var state = {
     selectSource: function(v) {
         this.source = v;
         this.setResult("");
+
+        if (v == 'ja') {
+            this.setMode(1);
+            $("button.to-mode[value=2]").disable();
+        }
+        else {
+            $("button.to-mode[value=2]").enable();
+        }
     },
 
     selectTarget: function(v) {
         this.target = v;
         this.setResult("");
+
+        if (v == 'ja') {
+            this.setMode(1);
+            $("button.to-mode[value=2]").disable();
+        }
+        else {
+            $("button.to-mode[value=2]").enable();
+        }
     },
 
     init: function() {

@@ -82,16 +82,6 @@
 
   //window.onpopstate = function(event) {};
 
-  // Load the SDK asynchronously
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
-
   function askForHelp() {
       var url = sprintf("%s//%s/trq/%s/response", 
           location.protocol, location.host, state.requestId);
@@ -115,7 +105,6 @@
           });
       });
   }
-
 
   </script>
   
@@ -186,7 +175,7 @@
           <div id="rating" style="visibility:hidden;">
             {% if not current_user.is_anonymous() %}
             {{ _("Did you not like this translation?") }}
-            <a href="#" class="translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help.") }}</a>
+            <a href="#" class="translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help") }}</a>.
             {% endif %}
           </div>
           <div id="appreciation" style="visibility:hidden;">

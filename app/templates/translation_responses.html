@@ -85,6 +85,7 @@
 
   <div>
     <a class="btn" href="{{ url_for('translation_request_response', request_id=trequest.id|uuid_to_b62) }}">{{ _("Post a translation") }}</a>
+    <a href="#" class="btn translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help") }}</a>
   </div>
 
   <div class="adsense">
@@ -103,6 +104,29 @@
 
 
   <script>
+  function askForHelp() {
+      var url = sprintf("%s//%s/trq/%s/response", 
+          location.protocol, location.host, "{{ trequest.id | uuid_to_b62 }}");
+
+      var source = "{{ trequest.source | language_name }}";
+      var target = "{{ trequest.target | language_name }}";
+
+      // https://developers.facebook.com/docs/reference/dialogs/feed/
+      FB.ui({
+          method: 'feed',
+          link: url,
+          picture: 'http://translator.suminb.com/static/icon_128.png',
+          name: "{{ _('app-title') }}",
+          caption: sprintf("{{ _('Please help to me translate this from %%1$s to %%2$s') }}", source, target),
+          description: "{{ trequest.original_text }}"
+      }, function(response){
+          $.post("/v1.0/thrq", {treq_id: "{{ trequest.id | uuid_to_b62 }}"}, function(response) {
+
+          });
+      });
+  }
+
+  
   {% for rating in ratings %}
     $("button[translation-id={{ rating.translation_id | uuid_to_b62 }}][rating={{ rating.rating }}]").addClass("active");
   {% endfor %}

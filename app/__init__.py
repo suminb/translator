@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 
-__version__ = '1.1.22'
+__version__ = '1.1.23'
 
 from flask import Flask
 from flask.ext.login import LoginManager

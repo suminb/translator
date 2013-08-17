@@ -287,7 +287,6 @@ function performTranslation() {
             $("#page-url").invisible();
             $("#rating").invisible();
             enableControls(false);
-            state.serial = null;
 
             $.post("/v1.0/translate", state.serialize(), function(response) {
                 state.updateWithTranslation(response);
@@ -295,9 +294,13 @@ function performTranslation() {
                 window.location.hash = "";
                 //window.history.pushState(currentState, "", window.location.href);
 
-                if (state.serial) {
+                if (state.id) {
                     askForRating(response.request_id);
                     displayPermalink(response.id);
+
+                    $("a.to-mode")
+                        .attr("href", sprintf("/trq/%s/responses", response.request_id))
+                        .show();
                 }
 
                 state.invalidateUI();

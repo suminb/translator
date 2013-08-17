@@ -1,14 +1,13 @@
 # English translations for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Sumin Byeon <suminb@gmail.com>, 2013.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-17 08:49+0000\n"
+"POT-Creation-Date: 2013-08-17 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -43,7 +42,7 @@ msgstr ""
 
 #: app/translation.py:260 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:109 app/templates/translation_response.html:197
+#: app/templates/index.html:109 app/templates/translation_response.html:199
 msgid "app-title"
 msgstr "Better Translator"
 
@@ -86,7 +85,7 @@ msgstr ""
 msgid "Twitter"
 msgstr ""
 
-#: app/templates/base.html:64 app/templates/translation_response.html:61
+#: app/templates/base.html:64 app/templates/translation_response.html:63
 msgid "Login"
 msgstr ""
 
@@ -183,17 +182,17 @@ msgstr ""
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:166 app/templates/translation_response.html:25
+#: app/templates/index.html:166 app/templates/translation_response.html:27
 #: app/templates/translation_responses.html:14
 msgid "Regular translation"
-msgstr ""
+msgstr "Regular"
 
-#: app/templates/index.html:167 app/templates/translation_response.html:30
+#: app/templates/index.html:167 app/templates/translation_response.html:32
 #: app/templates/translation_responses.html:19
 msgid "Better translation"
-msgstr ""
+msgstr "Better"
 
-#: app/templates/index.html:168
+#: app/templates/index.html:169
 msgid "User translations"
 msgstr ""
 
@@ -294,7 +293,7 @@ msgid "Post a Translation Challenge"
 msgstr ""
 
 #: app/templates/translation_request.html:8
-#: app/templates/translation_response.html:21
+#: app/templates/translation_response.html:23
 #: app/templates/translation_responses.html:10
 msgid "Original text"
 msgstr ""
@@ -317,51 +316,52 @@ msgstr ""
 msgid "Beta"
 msgstr ""
 
-#: app/templates/translation_response.html:52
-msgid "Your translation"
-msgstr ""
-
-#: app/templates/translation_response.html:56
-msgid "Login with your Facebook to post a translation."
-msgstr ""
-
-#: app/templates/translation_response.html:59
-#: app/templates/translation_response.html:87
-#: app/templates/translation_response.html:104
-msgid "See how others did"
-msgstr ""
-
-#: app/templates/translation_response.html:91
-msgid "Brag about it"
-msgstr ""
-
-#: app/templates/translation_response.html:92
-msgid "Delete"
-msgstr ""
-
-#: app/templates/translation_response.html:101
-msgid "Brag about it on your Facebook"
-msgstr ""
-
-#: app/templates/translation_response.html:106
-msgid "Post"
-msgstr ""
-
-#: app/templates/translation_response.html:168
-msgid "Please wait while posting a link on your timeline."
-msgstr ""
-
-#: app/templates/translation_response.html:198
-#, python-format
-msgid "%%1$s has completed a translation challenge"
-msgstr ""
-
+#: app/templates/translation_response.html:6
 #: app/templates/translation_responses.html:6
 msgid ""
 "If you are not satisfied with machine translations, you may ask your "
 "friends to translate short sentences. You may also post your own "
 "translation if you have proficiency in both languages. It's like Stack "
 "Overflow for language translations."
+msgstr ""
+
+#: app/templates/translation_response.html:54
+msgid "Your translation"
+msgstr ""
+
+#: app/templates/translation_response.html:58
+msgid "Login with your Facebook to post a translation."
+msgstr ""
+
+#: app/templates/translation_response.html:61
+#: app/templates/translation_response.html:89
+#: app/templates/translation_response.html:106
+msgid "See how others did"
+msgstr ""
+
+#: app/templates/translation_response.html:93
+msgid "Brag about it"
+msgstr ""
+
+#: app/templates/translation_response.html:94
+msgid "Delete"
+msgstr ""
+
+#: app/templates/translation_response.html:103
+msgid "Brag about it on your Facebook"
+msgstr ""
+
+#: app/templates/translation_response.html:108
+msgid "Post"
+msgstr ""
+
+#: app/templates/translation_response.html:170
+msgid "Please wait while posting a link on your timeline."
+msgstr ""
+
+#: app/templates/translation_response.html:200
+#, python-format
+msgid "%%1$s has completed a translation challenge"
 msgstr ""
 
 #: app/templates/translation_responses.html:41

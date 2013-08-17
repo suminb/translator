@@ -12,7 +12,10 @@
     <div class="tab-pane active" id="tab-thrq">
       {% include "user_translation_help_requests.html" %}
     </div>
-    <div class="tab-pane" id="tab-trs">{{ _("Loading...") }}</div>
+    <div class="tab-pane" id="tab-trs">
+      {{ _("Loading...") }}
+      <img src="/static/progress.gif" alt="{{ _('Loading...') }}"/>
+    </div>
   </div>
 
 

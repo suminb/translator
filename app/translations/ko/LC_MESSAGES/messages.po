@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-16 17:51+0000\n"
+"POT-Creation-Date: 2013-08-17 08:21+0000\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -175,12 +175,12 @@ msgid "Request a permalink"
 msgstr "이 페이지 링크 요청하기"
 
 #: app/templates/index.html:166 app/templates/translation_response.html:25
-#: app/templates/translation_responses.html:12
+#: app/templates/translation_responses.html:14
 msgid "Regular translation"
 msgstr "일반 번역"
 
 #: app/templates/index.html:167 app/templates/translation_response.html:30
-#: app/templates/translation_responses.html:17
+#: app/templates/translation_responses.html:19
 msgid "Better translation"
 msgstr "더 나은 번역"
 
@@ -282,7 +282,7 @@ msgstr ""
 
 #: app/templates/translation_request.html:8
 #: app/templates/translation_response.html:21
-#: app/templates/translation_responses.html:8
+#: app/templates/translation_responses.html:10
 msgid "Original text"
 msgstr "원문"
 
@@ -343,15 +343,25 @@ msgstr "타임라인에 포스팅 하는 동안 잠시만 기다려주세요."
 msgid "%%1$s has completed a translation challenge"
 msgstr "%%1$s님이 번역 도전 과제를 해결했습니다"
 
-#: app/templates/translation_responses.html:39
+#: app/templates/translation_responses.html:6
+msgid ""
+"If you are not satisfied with machine translations, you may ask your "
+"friends to translate short sentences. You may also post your own "
+"translation if you have proficiency in both languages. It's like Stack "
+"Overflow for language translations."
+msgstr ""
+"기계 번역이 마음에 들지 않았다면 친구들에게 도움을 요청해보세요. 두 언어를 모두 잘 한다면 직접 번역문을 올릴 수도 있습니다. "
+"번역계의 네이버 지식인 같은 곳이죠."
+
+#: app/templates/translation_responses.html:41
 msgid "Translations by others"
 msgstr "다른 사람들이 한 번역"
 
-#: app/templates/translation_responses.html:45
+#: app/templates/translation_responses.html:47
 msgid "No one has posted a translation. Become the first one!"
 msgstr "아직 번역문이 없습니다. 일등으로 번역문을 올려보세요!"
 
-#: app/templates/translation_responses.html:85
+#: app/templates/translation_responses.html:87
 msgid "Post a translation"
 msgstr "번역문 올리기"
 
@@ -363,7 +373,7 @@ msgstr "나의 번역 도움 요청"
 msgid "My Translations"
 msgstr "내가 한 번역"
 
-#: app/templates/user_page.html:15
+#: app/templates/user_page.html:16 app/templates/user_page.html:17
 msgid "Loading..."
 msgstr "불러오는 중..."
 

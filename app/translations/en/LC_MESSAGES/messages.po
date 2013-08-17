@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-16 17:51+0000\n"
+"POT-Creation-Date: 2013-08-17 08:21+0000\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -184,12 +184,12 @@ msgid "Request a permalink"
 msgstr ""
 
 #: app/templates/index.html:166 app/templates/translation_response.html:25
-#: app/templates/translation_responses.html:12
+#: app/templates/translation_responses.html:14
 msgid "Regular translation"
 msgstr ""
 
 #: app/templates/index.html:167 app/templates/translation_response.html:30
-#: app/templates/translation_responses.html:17
+#: app/templates/translation_responses.html:19
 msgid "Better translation"
 msgstr ""
 
@@ -291,7 +291,7 @@ msgstr ""
 
 #: app/templates/translation_request.html:8
 #: app/templates/translation_response.html:21
-#: app/templates/translation_responses.html:8
+#: app/templates/translation_responses.html:10
 msgid "Original text"
 msgstr ""
 
@@ -352,15 +352,23 @@ msgstr ""
 msgid "%%1$s has completed a translation challenge"
 msgstr ""
 
-#: app/templates/translation_responses.html:39
+#: app/templates/translation_responses.html:6
+msgid ""
+"If you are not satisfied with machine translations, you may ask your "
+"friends to translate short sentences. You may also post your own "
+"translation if you have proficiency in both languages. It's like Stack "
+"Overflow for language translations."
+msgstr ""
+
+#: app/templates/translation_responses.html:41
 msgid "Translations by others"
 msgstr ""
 
-#: app/templates/translation_responses.html:45
+#: app/templates/translation_responses.html:47
 msgid "No one has posted a translation. Become the first one!"
 msgstr ""
 
-#: app/templates/translation_responses.html:85
+#: app/templates/translation_responses.html:87
 msgid "Post a translation"
 msgstr ""
 
@@ -372,7 +380,7 @@ msgstr ""
 msgid "My Translations"
 msgstr ""
 
-#: app/templates/user_page.html:15
+#: app/templates/user_page.html:16 app/templates/user_page.html:17
 msgid "Loading..."
 msgstr ""
 

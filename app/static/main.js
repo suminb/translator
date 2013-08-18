@@ -298,9 +298,11 @@ function performTranslation() {
                     askForRating(response.request_id);
                     displayPermalink(response.id);
 
-                    $("a.to-mode")
-                        .attr("href", sprintf("/trq/%s/responses", response.request_id))
-                        .show();
+                    if (state.text.length <= 180) {
+                        $("a.to-mode")
+                            .attr("href", sprintf("/trq/%s/responses", response.request_id))
+                            .show();
+                    }
                 }
 
                 state.invalidateUI();

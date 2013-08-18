@@ -303,6 +303,9 @@ function performTranslation() {
                             .attr("href", sprintf("/trq/%s/responses", response.request_id))
                             .show();
                     }
+                    else {
+                        $("a.to-mode").hide();
+                    }
                 }
 
                 state.invalidateUI();

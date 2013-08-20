@@ -90,7 +90,12 @@
       });
   };
 
-  //window.onpopstate = function(event) {};
+  window.onpopstate = function(event) {
+      if (event.state != null) {
+          console.log(event.state);
+          state.initWithState(event.state);
+      }
+  };
 
   function askForHelp() {
       var url = sprintf("%s//%s/trq/%s/response", 

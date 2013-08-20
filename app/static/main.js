@@ -159,6 +159,14 @@ var state = {
         this.setMode(2);
     },
 
+    initWithState: function(state) {
+        this.setSource(state.sl);
+        this.setTarget(state.tl);
+        this.setMode(state.m);
+        this.setText(state.t);
+        this.setResult("");
+    },
+
     initWithParameters: function() {
         this.setSource(getParameterByName("sl"));
         this.setTarget(getParameterByName("tl"));
@@ -295,8 +303,8 @@ function performTranslation() {
                 //window.history.pushState(currentState, "", window.location.href);
 
                 if (state.id) {
-                    askForRating(response.request_id);
-                    displayPermalink(response.id);
+                    //askForRating(response.request_id);
+                    //displayPermalink(response.id);
 
                     if (state.text.length <= 180) {
                         $("a.to-mode")
@@ -424,7 +432,7 @@ function fetchTranslation(serial) {
         var mode = response.mode == "1";
         $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
-        window.history.replaceState(serializeCurrentState(), "", window.location.href);
+        window.history.replaceState(state.serialize(), "", window.location.href);
 
         askForRating(response.request_id);
 
@@ -473,13 +481,14 @@ function deleteTranslation(id) {
 function displayPermalink(id) {
     var origin = window.location.origin ? window.location.origin
         : window.location.protocol+"//"+window.location.host;
-    var url = sprintf("%s/tr/%s", origin, id);
+    var path = sprintf("?tr=%s", id);
+    var url = origin + path;
 
     $("#request-permalink").hide();
     $("#page-url").visible();
     $("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
 
-    //window.history.pushState(serializeCurrentState(), "", sprintf("/tr/%s", id));
+    window.history.pushState(state.serialize(), "", path);
 }
 
 function askForRating(id) {

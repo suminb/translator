@@ -204,19 +204,16 @@ var state = {
 
     invalidateUI: function() {
         if (this.source == "ja" || this.target == "ja") {
-            console.log('jap');
             this.setMode(1);
             $("button.to-mode[value=2]").disable();
         }
         else {
-            console.log('non-jap');
             $("button.to-mode[value=2]").enable();
         }
 
         $("select[name=sl]").val(this.source);
         $("select[name=tl]").val(this.target);
         $("button.to-mode").removeClass("active");
-        console.log(this.mode);
         $(sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
         $("#text").val(this.text);
 
@@ -504,7 +501,6 @@ function displayPermalink(id) {
 }
 
 function askForRating(id) {
-    console.log(id);
     $("#appreciation").hide();
 
     if (state.text.length <= 180) {

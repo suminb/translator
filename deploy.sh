@@ -3,7 +3,7 @@
 HOST="sumin@suminb.com"
 
 # Compile .po files
-pybabel compile -d app/translations
+#pybabel compile -d app/translations
 
 # Delete .AppleDouble (effing OSX...)
 rm -rf $(find . -name ".AppleDouble")

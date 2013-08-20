@@ -128,6 +128,10 @@ def __language_options__():
 @app.route('/')
 @app.route('/tr/<translation_id>')
 def index(translation_id=None):
+    """
+    NOTE: Do not use HTTP GET parameters 'sl', 'tl', 'm' and 't'. These are
+    reserved for special purposes.
+    """
     user_agent = request.headers.get('User-Agent')
     is_android = 'Android' in user_agent
     is_iphone = 'iPhone' in user_agent

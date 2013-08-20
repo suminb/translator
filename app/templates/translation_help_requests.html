@@ -9,16 +9,18 @@
   <thead>
     <tr>
       <th>{{ _("Date") }}</th>
-      <th>{{ _("Translated Text") }}</th>
+      <th>{{ _("Name") }}</th>
+      <th>{{ _("Original Text") }}</th>
       <th>{{ _("Target Language") }}</th>
     </tr>
   </thead>
   <tbody>
-  {% for tresponse in tresponses %}
+  {% for hrequest in hrequests %}
     <tr>
-      <td>{{ tresponse.timestamp | date }}</td>
-      <td><a href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}">{{ tresponse.translated_text }}</a></td>
-      <td>{{ tresponse.request.target | language_name }}</td>
+      <td>{{ hrequest.timestamp | date }}</td>
+      <td>{{ hrequest.user.name }}</td>
+      <td><a href="{{ url_for('translation_request_response', request_id=hrequest.request.id|uuid_to_b62) }}">{{ hrequest.request.original_text }}</a></td>
+      <td>{{ hrequest.request.target | language_name }}</td>
     </tr>
   {% endfor %}
   </tbody>

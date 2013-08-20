@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template, url_for, redirect, s
 from flaskext.babel import gettext as _
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql.expression import func, select
 from datetime import datetime
 
 from __init__ import __version__, app, logger, login_manager, get_locale, \
@@ -186,20 +187,22 @@ def translation_help_request(trequest_id):
     return render_template('embedded/translation_help_request.html', **context)
 
 
-@app.route('/thrq')
+@app.route('/thrq') # deprecated
+@app.route('/hrequest')
 def translation_help_requests():
 
-    hrequests = TranslationHelpRequest.query.all()
+    hrequests = TranslationHelpRequest.query.order_by(func.random()).limit(25)
 
     context = dict(
         version=__version__,
         locale=get_locale(),
-        hrequests=[],
+        hrequests=hrequests,
     )
 
     return render_template('translation_help_requests.html', **context)
 
-@app.route('/v1.0/thrq', methods=['POST', 'DELETE'])
+@app.route('/v1.0/thrq', methods=['POST', 'DELETE']) # deprecated
+@app.route('/v1.0/hrequest', methods=['POST', 'DELETE'])
 @login_required
 def translation_help_request_api():
     def post():
@@ -217,6 +220,7 @@ def translation_help_request_api():
             help_req = TranslationHelpRequest.insert(
                 request_id=trans_req.id,
                 user_id=current_user.id,
+                comment=request.form.get('comment', None)
             )
         else:
             # update
@@ -232,7 +236,11 @@ def translation_help_request_api():
         delete=delete,
     )
 
-    return dispatch[request.method.lower()]()
+    try:
+        return dispatch[request.method.lower()]()
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
 
 @app.route('/trs/<response_id>')
 @login_required

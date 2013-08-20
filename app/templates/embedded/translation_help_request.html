@@ -1,17 +1,67 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h3>{{ _("Ask for help") }}</h3>
+</div>
+
 {% if current_user.is_anonymous() %}
 
-PLEASE LOGIN, BITCH!
+<div class="modal-body">
+{% include "embedded/user_login.html" %}
+</div>
+<div class="modal-footer">
+  <a href="#" class="btn" data-dismiss="modal">Close</a>
+</div>
 
 {% else %}
 
-<h3>{{ _("Original text") }}</h3>
-<div class="well">
-  {{ trequest.original_text }}
+<div class="modal-body">
+  <div class="alert alert-success" style="display:none">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <div class="message"></div>
+  </div>
+  <div class="alert alert-info" style="display:none">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <div class="message"></div>
+  </div>
+  <div class="alert alert-error" style="display:none">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <div class="message"></div>
+  </div>
+
+  <p>You may ask other users for help to translate your sentences.</p>
+
+  <h3>{{ _("Original text") }}</h3>
+  <div class="well">
+    {{ trequest.original_text }}
+  </div>
+
+  <h3>{{ _("Comment") }} (Optional)</h3>
+  <form method="post" action="">
+    <textarea name="comment" style="width:97%;height:4em;" placeholder="{{ _('Type in your comment') }}"></textarea>
+  </form>
+</div>
+<div class="modal-footer">
+  <a href="#" class="btn" data-dismiss="modal">Close</a>
+  <a href="#" class="btn btn-primary default-action" onclick="postHelpRequest()">{{ _("Post") }}</a>
 </div>
 
-<h3>{{ _("Comment") }} (Optional)</h3>
-<form method="post" action="">
-  <textarea></textarea>
-</form>
+<script>
+function postHelpRequest() {
+    $.post("{{ url_for('translation_help_request_api') }}",
+        {treq_id: "{{ trequest.id | uuid_to_b62 }}", comment: $("textarea[name=comment]").val()},
+        function(response) {
+
+            //$(".modal-header").parent().modal("hide");
+            location.href = "{{ url_for('translation_help_requests') }}";
+    })
+    .fail(function(response) {
+        $("div.modal-body .alert-error").show();
+        $("div.modal-body .alert-error .message").text(response.responseText);
+    })
+    .always(function(response) {
+
+    });
+}
+</script>
 
 {% endif %}

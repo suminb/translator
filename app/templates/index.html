@@ -82,8 +82,15 @@
 
       $("#help-request-dialog").on("show", function() {
           $.get(sprintf("/trq/%s/help", state.requestId), function(response) {
-              console.log(response);
-              $("#help-request-dialog .modal-body").html(response);
+              // $("#help-request-dialog .modal-body").html(response);
+              // var action = $("#help-request-dialog .modal-body input[name=default-action]").val();
+              // if (action) {
+              //     $("#help-request-dialog .default-action").text(action).show();
+              // }
+              // else {
+              //     $("#help-request-dialog .default-action").hide();
+              // }
+              $("#help-request-dialog").html(response);
           });
       });
   };
@@ -202,7 +209,6 @@
   </div>
   <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal">Close</a>
-    <a href="#" class="btn btn-primary">{{ _("Post") }}</a>
   </div>
 </div>  
 

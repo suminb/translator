@@ -203,9 +203,20 @@ var state = {
     },
 
     invalidateUI: function() {
+        if (this.source == "ja" || this.target == "ja") {
+            console.log('jap');
+            this.setMode(1);
+            $("button.to-mode[value=2]").disable();
+        }
+        else {
+            console.log('non-jap');
+            $("button.to-mode[value=2]").enable();
+        }
+
         $("select[name=sl]").val(this.source);
         $("select[name=tl]").val(this.target);
         $("button.to-mode").removeClass("active");
+        console.log(this.mode);
         $(sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
         $("#text").val(this.text);
 
@@ -316,14 +327,15 @@ function performTranslation() {
                     }
                 }
 
-                state.invalidateUI();
-
             }).fail(function(response) {
                 displayError(response.responseText);
             
             }).always(function() {
                 $("#progress-message").hide();
                 enableControls(true);
+
+                // This must be called after enableControls()
+                state.invalidateUI();
             });
         }
     }
@@ -502,7 +514,7 @@ function askForRating(id) {
 }
 
 function expressAppreciation() {
-    $("#text").removeAttr("disabled");
+    $("#text").enable();
     $("#rating").invisible();
     $("#alternative-translation-form").hide("medium");
     $("#appreciation").show("medium");
@@ -514,13 +526,13 @@ function expressAppreciation() {
  */
 function enableControls(state) {
     if (state) {
-        $("form input").removeAttr("disabled");
-        $("form select").removeAttr("disabled");
-        $("form button").removeAttr("disabled");
+        $("form input").enable();
+        $("form select").enable();
+        $("form button").enable();
     }
     else {
-        $("form input").attr("disabled", "disabled");
-        $("form select").attr("disabled", "disabled");
-        $("form button").attr("disabled", "disabled");
+        $("form input").disable();
+        $("form select").disable();
+        $("form button").disable();
     }
 }

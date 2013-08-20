@@ -285,7 +285,7 @@ function performTranslation() {
             $("#result").html("");
             $("#progress-message").show();
             $("#page-url").invisible();
-            $("#rating").invisible();
+            $("#help-request").invisible();
             enableControls(false);
 
             $.post("/v1.0/translate", state.serialize(), function(response) {
@@ -487,8 +487,8 @@ function askForRating(id) {
     $("#appreciation").hide();
 
     if (state.text.length <= 180) {
-        $("#rating").visible();
-        //$("#rating a.translation-challenge").attr("href", sprintf("/trq/%s/response", id));
+        $("#help-request").visible();
+        //$("#help-request a.translation-challenge").attr("href", sprintf("/trq/%s/response", id));
     }
 }
 

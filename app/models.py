@@ -6,7 +6,9 @@ from sqlalchemy.sql.expression import and_, or_
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.schema import CreateTable
 from datetime import datetime
+
 from __init__ import app
+from utils import *
 
 import uuid
 import base62
@@ -64,6 +66,11 @@ class BaseModel:
         if commit: db.session.commit()
 
         return record
+
+    @classmethod
+    def fetch(cls, id_b62=None):
+        id = b62_to_uuid(id_b62)
+        return cls.query.get(str(id))
 
 
 class TranslationRequest(db.Model, BaseModel):
@@ -140,6 +147,7 @@ class TranslationHelpRequest(db.Model, BaseModel):
     request_id = db.Column(UUID, db.ForeignKey('translation_request.id'), nullable=False)
     user_id = db.Column(UUID, db.ForeignKey('user.id'), nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True), nullable=False)
+    comment = db.Column(db.Text)
 
     request = relationship('TranslationRequest')
     user = relationship('User')

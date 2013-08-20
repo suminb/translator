@@ -1,0 +1,17 @@
+{% if current_user.is_anonymous() %}
+
+PLEASE LOGIN, BITCH!
+
+{% else %}
+
+<h3>{{ _("Original text") }}</h3>
+<div class="well">
+  {{ trequest.original_text }}
+</div>
+
+<h3>{{ _("Comment") }} (Optional)</h3>
+<form method="post" action="">
+  <textarea></textarea>
+</form>
+
+{% endif %}

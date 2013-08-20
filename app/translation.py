@@ -171,9 +171,37 @@ def translation_request_response(request_id):
     return render_template('translation_response.html', **context)
 
 
+@app.route('/trq/<trequest_id>/help')
+def translation_help_request(trequest_id):
+    """Embeded"""
+
+    trequest = TranslationRequest.fetch(id_b62=trequest_id)
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        trequest=trequest,
+    )
+
+    return render_template('embedded/translation_help_request.html', **context)
+
+
+@app.route('/thrq')
+def translation_help_requests():
+
+    hrequests = TranslationHelpRequest.query.all()
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        hrequests=[],
+    )
+
+    return render_template('translation_help_requests.html', **context)
+
 @app.route('/v1.0/thrq', methods=['POST', 'DELETE'])
 @login_required
-def translation_help_request():
+def translation_help_request_api():
     def post():
         trans_req_id = request.form['treq_id']
         trans_req = TranslationRequest.fetch(id_b62=trans_req_id)

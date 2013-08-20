@@ -78,6 +78,14 @@
           state.mode = button.attr("value");
           performTranslation();
       });
+
+
+      $("#help-request-dialog").on("show", function() {
+          $.get(sprintf("/trq/%s/help", state.requestId), function(response) {
+              console.log(response);
+              $("#help-request-dialog .modal-body").html(response);
+          });
+      });
   };
 
   //window.onpopstate = function(event) {};
@@ -172,11 +180,9 @@
       </div>
 
       <div id="feedback">
-          <div id="rating" style="visibility:hidden;">
-            {% if not current_user.is_anonymous() %}
+          <div id="help-request" style="visibility:hidden;">
             {{ _("Did you not like this translation?") }}
-            <a href="#" class="translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help") }}</a>.
-            {% endif %}
+            <a href="#help-request-dialog" data-toggle="modal">{{ _("Ask for help") }}</a>.
           </div>
           <div id="appreciation" style="visibility:hidden;">
               {{ _("Thank you for your feedback.") }}
@@ -185,6 +191,20 @@
     </div>
   </div>
   </form>
+
+<div id="help-request-dialog" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{{ _("Ask for help") }}</h3>
+  </div>
+  <div class="modal-body">
+    <p>{{ _("Loading...") }} <img src="/static/progress.gif"/></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">{{ _("Post") }}</a>
+  </div>
+</div>  
 
 <!--
 This section is reserved for gettext string extraction purposes

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h1>{{ _("Help Requests") }} <span style="font-weight:normal">({{ _("Beta") }})</span></h1>
+
+  <p>{{ _("If you are not satisfied with machine translations, you may ask your friends to translate short sentences. You may also post your own translation if you have proficiency in both languages. It's like Stack Overflow for language translations.") }}</p>
+
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>{{ _("Date") }}</th>
+      <th>{{ _("Translated Text") }}</th>
+      <th>{{ _("Target Language") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for tresponse in tresponses %}
+    <tr>
+      <td>{{ tresponse.timestamp | date }}</td>
+      <td><a href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}">{{ tresponse.translated_text }}</a></td>
+      <td>{{ tresponse.request.target | language_name }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+
+  <div class="adsense">
+    <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-2353453386862167";
+    /* Better Translator */
+    google_ad_slot = "1075529885";
+    google_ad_width = 468;
+    google_ad_height = 15;
+    //-->
+    </script>
+    <script type="text/javascript"
+    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+  </div>
+
+
+{% endblock %}

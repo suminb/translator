@@ -81,15 +81,10 @@
 
 
       $("#help-request-dialog").on("show", function() {
+          $("#help-request-dialog .modal-body")
+              .html('{{ _("Loading...") }} <img src="/static/progress.gif"/>');
+
           $.get(sprintf("/trq/%s/help", state.requestId), function(response) {
-              // $("#help-request-dialog .modal-body").html(response);
-              // var action = $("#help-request-dialog .modal-body input[name=default-action]").val();
-              // if (action) {
-              //     $("#help-request-dialog .default-action").text(action).show();
-              // }
-              // else {
-              //     $("#help-request-dialog .default-action").hide();
-              // }
               $("#help-request-dialog").html(response);
           });
       });
@@ -204,9 +199,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>{{ _("Ask for help") }}</h3>
   </div>
-  <div class="modal-body">
-    <p>{{ _("Loading...") }} <img src="/static/progress.gif"/></p>
-  </div>
+  <div class="modal-body"></div>
   <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal">Close</a>
   </div>

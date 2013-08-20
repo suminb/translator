@@ -11,7 +11,7 @@
       <th>{{ _("Date") }}</th>
       <th>{{ _("Name") }}</th>
       <th>{{ _("Original Text") }}</th>
-      <th>{{ _("Target Language") }}</th>
+      <th>{{ _("Language") }}</th>
     </tr>
   </thead>
   <tbody>
@@ -20,7 +20,10 @@
       <td>{{ hrequest.timestamp | date }}</td>
       <td>{{ hrequest.user.name }}</td>
       <td><a href="{{ url_for('translation_request_response', request_id=hrequest.request.id|uuid_to_b62) }}">{{ hrequest.request.original_text }}</a></td>
-      <td>{{ hrequest.request.target | language_name }}</td>
+      <td>
+        {{ hrequest.request.source | language_name }} &rarr;
+        {{ hrequest.request.target | language_name }}
+      </td>
     </tr>
   {% endfor %}
   </tbody>

@@ -86,17 +86,36 @@
 {% block content %}{% endblock %}
 
     <div class="adsense">
+      {% if request.endpoint == 'index' %}
       <script type="text/javascript"><!--
       google_ad_client = "ca-pub-2353453386862167";
-      /* Better Translator */
-      google_ad_slot = "1075529885";
-      google_ad_width = 468;
+      /* Better Translator (Long Text) */
+      google_ad_slot = "7696826285";
+      google_ad_width = 728;
       google_ad_height = 15;
       //-->
       </script>
       <script type="text/javascript"
       src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
       </script>
+      {% else %}
+      <style>
+      .better-translator-responsive { width: 320px; height: 50px; }
+      @media(min-width: 500px) { .better-translator-responsive { width: 468px; height: 60px; } }
+      @media(min-width: 800px) { .better-translator-responsive { width: 728px; height: 90px; } }
+      </style>
+      <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- Better Translator (Responsive) -->
+      <div style="text-align:center">
+      <ins class="adsbygoogle better-translator-responsive"
+           style="display:inline-block;"
+           data-ad-client="ca-pub-2353453386862167"
+           data-ad-slot="9935929083"></ins>
+      </div>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+      {% endif %}
     </div>
 
     <div class="locales">

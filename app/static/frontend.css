@@ -239,4 +239,5 @@ ul.translation-list {
 
 div.adsense {
   margin: 30px 0 0 0;
+  overflow: hidden;
 }

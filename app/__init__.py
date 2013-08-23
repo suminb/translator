@@ -45,8 +45,10 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 logger = logging.getLogger('translator')
-handler = logging.FileHandler('translator.log')
-handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+#handler = logging.FileHandler('translator.log')
+#handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+handler = logging.StreamHandler(sys.stderr)
+handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
 logger.addHandler(handler) 
 logger.setLevel(logging.INFO)
 

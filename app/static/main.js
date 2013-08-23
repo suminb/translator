@@ -294,6 +294,9 @@ function performTranslation() {
         // simply displays the original text when the source language and the target language are identical
         state.setResult(state.text);
     }
+    else if (state.source == '' || state.target == '') {
+        // TODO: Give some warning
+    }
     else {
         // translates if the source language and the target language are not identical
         if (state.text !== "") {

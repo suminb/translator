@@ -111,7 +111,7 @@ def __language_options__():
     import operator
 
     tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
-    sorted_tuples = sorted(tuples, key=operator.itemgetter(1))
+    sorted_tuples = [('', '')] + sorted(tuples, key=operator.itemgetter(1))
 
     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
 

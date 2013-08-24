@@ -1,6 +1,6 @@
 from functools import wraps
 from flaskext.babel import gettext as _
-from flask import g, request, redirect, url_for
+from flask import g, request, redirect, url_for, jsonify
 
 from __init__ import app, VALID_LANGUAGES
 
@@ -43,3 +43,33 @@ def _jinja2_filter_language_name(value):
         return _(VALID_LANGUAGES[value])
     else:
         return value
+
+@app.template_filter('jsonify')
+def _jinja2_filter_jsonify(value):
+    return jsonify(value)
+
+
+@app.template_filter('form_errors_to_js')
+def form_errors_to_js(form):
+    buf = []
+
+    for field, errors in form.errors.items():
+        errors = map(lambda x: "'{}'".format(x), errors)
+        buf.append('{}: [{}]'.format(field, ','.join(errors)))
+
+    return '{' + ','.join(buf) + '}'
+
+
+def language_options():
+    import operator
+
+    tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
+    return [('', '')] + sorted(tuples, key=operator.itemgetter(1))
+
+def language_options_html():
+    import operator
+
+    tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
+    sorted_tuples = [('', '')] + sorted(tuples, key=operator.itemgetter(1))
+
+    return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])

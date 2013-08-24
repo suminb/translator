@@ -9,6 +9,7 @@ from __init__ import __version__, app, logger, login_manager, get_locale, \
     VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
 from models import *
 from utils import *
+from forms import *
 
 import requests
 import json
@@ -19,23 +20,24 @@ import base62
 import os, sys
 import pytz
 import facebook
+import nilsimsa
 
 import config
 
-@app.route('/tr/<translation_id>/request')
-@login_required
-def translation_request(translation_id):
-    # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
-    translation_id = base62.decode(translation_id)
-    translation = TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
+# @app.route('/tr/<translation_id>/request')
+# @login_required
+# def translation_request(translation_id):
+#     # FIXME: This UUID transitions are just a nonsense. Better fix this shit.
+#     translation_id = base62.decode(translation_id)
+#     translation = TranslationResponse.query.get(str(uuid.UUID(int=translation_id)))
 
-    context = dict(
-        version=__version__,
-        locale=get_locale(),
-        translation=translation,
-    )
+#     context = dict(
+#         version=__version__,
+#         locale=get_locale(),
+#         translation=translation,
+#     )
 
-    return render_template('translation_request.html', **context)
+#     return render_template('translation_request.html', **context)
 
 
 @app.route('/v1.0/trs/<response_id>', methods=['DELETE'])
@@ -173,8 +175,8 @@ def translation_request_response(request_id):
 
 
 @app.route('/trq/<trequest_id>/help')
-def translation_help_request(trequest_id):
-    """Embeded"""
+def translation_help_request_embedded(trequest_id):
+    """Embedded"""
 
     trequest = TranslationRequest.fetch(id_b62=trequest_id)
 
@@ -187,7 +189,6 @@ def translation_help_request(trequest_id):
     return render_template('embedded/translation_help_request.html', **context)
 
 
-@app.route('/thrq') # deprecated
 @app.route('/hrequest')
 def translation_help_requests():
 
@@ -200,6 +201,43 @@ def translation_help_requests():
     )
 
     return render_template('translation_help_requests.html', **context)
+
+
+@app.route('/trequest/new', methods=['GET', 'POST'])
+@app.route('/trequest/<hrequest_id>', methods=['GET', 'POST'])
+@login_required
+def translation_request(trequest_id=None):
+
+    form = TranslationRequestForm(request.form)
+
+    if form.validate_on_submit():
+        source = request.form['source']
+        target = request.form['target']
+        text = request.form['text']
+        text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
+
+        trequest = TranslationRequest.insert(
+            user_id=current_user.id,
+            source=source,
+            target=target,
+            original_text=text,
+            original_text_hash=text_hash,
+        )
+
+        return redirect(url_for('translation_help_requests'))
+
+    trequest = None
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        form=form,
+        trequest=trequest,
+        language_options=language_options_html(),
+    )
+
+    return render_template('translation/request.html', **context)
+
 
 @app.route('/v1.0/thrq', methods=['POST', 'DELETE']) # deprecated
 @app.route('/v1.0/hrequest', methods=['POST', 'DELETE'])
@@ -224,7 +262,7 @@ def translation_help_request_api():
             )
         else:
             # update
-            raise Exception('Not implemented')    
+            raise Exception('Not implemented')
 
         return jsonify(help_req.serialize())
 

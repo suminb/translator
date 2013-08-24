@@ -107,20 +107,14 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
 
 
-def __language_options__():
-    import operator
+# def __language_options__():
+#     import operator
 
-    tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
-    sorted_tuples = [('', '')] + sorted(tuples, key=operator.itemgetter(1))
+#     tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
+#     sorted_tuples = [('', '')] + sorted(tuples, key=operator.itemgetter(1))
 
-    return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
+#     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
 
-
-# @app.before_request
-# def check_for_maintenance():
-#     maintenance_mode = bool(os.environ.get('MAINTENANCE', 0))
-#     if maintenance_mode and request.path != url_for('maintenance'): 
-#         return redirect(url_for('maintenance'))
 
 #
 # Request handlers
@@ -142,7 +136,7 @@ def index(translation_id=None):
         locale=get_locale(),
         is_android=is_android,
         is_msie=is_msie,
-        language_options=__language_options__(),
+        language_options=language_options_html(),
         debug=os.environ.get('DEBUG', None),
     )
 

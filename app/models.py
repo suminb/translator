@@ -55,6 +55,10 @@ class BaseModel:
             if commit: db.session.commit()
 
     @classmethod
+    def validate(cls, **kwargs):
+        return None
+
+    @classmethod
     def insert(cls, commit=True, **kwargs):
         record = cls(id=str(uuid.uuid4()))
         record.timestamp = datetime.now()
@@ -100,6 +104,8 @@ class TranslationRequest(db.Model, BaseModel):
 
 
 class TranslationResponse(db.Model, BaseModel):
+    """Temporarily stores translation results."""
+
     __table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'mode', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)

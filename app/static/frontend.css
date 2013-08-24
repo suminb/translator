@@ -35,10 +35,6 @@ h1 a {
   /*background-color: #efcc2f;*/
 }
 
-input[type=submit] {
-  font-size: 13pt;
-}
-
 .credits h3 {
   margin: 2em 0 .5em 0;
   padding: 0 0 .2em 0;
@@ -108,6 +104,8 @@ textarea {
   /*font-family: Helvetica, Arial, sans-serif;*/
   font-size: 11pt;
   color: #303030;
+  width: 98%;
+  height: 4em;
 }
 textarea[disabled=disabled] {
   color: #999;
@@ -122,6 +120,7 @@ button.translate {
 #content .section {
   margin: 0 0 2em 0;
 }
+/*
 #content input, select {
   margin: 0;
 }
@@ -129,7 +128,7 @@ button.translate {
   display: inline;
   margin: 0;
 }
-
+*/
 
 #text {
   display: block;

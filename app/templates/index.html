@@ -97,6 +97,10 @@
       }
   };
 
+  $(function() {
+    $("button[data-toggle=tooltip]").tooltip();
+  });
+
   function askForHelp() {
       var url = sprintf("%s//%s/trq/%s/response", 
           location.protocol, location.host, state.requestId);
@@ -146,10 +150,14 @@
           </select>
         </div>
         <div class="span6" style="text-align:right;">
-          <button class="btn" onclick="refreshExample()">
+          <button class="btn" onclick="refreshExample()"
+            data-toggle="tooltip" data-placement="top"
+            title="{{ _('Show another example') }}">
             <img src="/static/refresh.png" alt="{{ _("Show another example" )}}"/>
           </button>
-          <button class="btn" onclick="state.swapLanguages()">
+          <button class="btn" onclick="state.swapLanguages()"
+            data-toggle="tooltip" data-placement="top"
+            title="{{ _('Swap languages') }}">
             <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
           </button>
           <button class="btn btn-primary translate">{{ _("Translate") }}</button>
@@ -167,8 +175,16 @@
       <div class="row-fluid translation-options">
         <div class="span6">
           <div class="btn-group to-mode" data-toggle="buttons-radio">
-            <button type="button" class="btn to-mode" value="1">{{ _("Regular translation") }}</button>
-            <button type="button" class="btn to-mode" value="2">{{ _("Better translation") }}</button>
+            <button type="button" class="btn to-mode" value="1"
+              data-toggle="tooltip" data-placement="top"
+              title="{{ _('Direct translation') }}">
+              {{ _("Regular translation") }}
+            </button>
+            <button type="button" class="btn to-mode" value="2"
+              data-toggle="tooltip" data-placement="top"
+              title="{{ _('Use Japanese as an intermediate language') }}">
+              {{ _("Better translation") }}
+            </button>
           </div>
           <!--
           <a class="btn to-mode" style="display:none" href="#">{{ _("User translations") }}</a>

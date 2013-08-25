@@ -81,12 +81,14 @@ class TranslationRequest(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('source', 'target', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
-    user_id = db.Column(UUID)
+    user_id = db.Column(UUID, db.ForeignKey('user.id'))
     timestamp = db.Column(db.DateTime(timezone=True))
     source = db.Column(db.String(16))
     target = db.Column(db.String(16))
     original_text = db.Column(db.Text)
     original_text_hash = db.Column(db.String(255))
+
+    user = relationship('User')
 
     @staticmethod
     def fetch(id=None, id_b62=None, original_text_hash=None, source=None, target=None):

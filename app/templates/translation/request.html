@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if error %}
+<div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ error }}
+</div>
+{% endif %}
+
 <form method="post" action="">
   <fieldset>
 

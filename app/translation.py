@@ -192,7 +192,7 @@ def translation_help_request_embedded(trequest_id):
 @app.route('/hrequest')
 def translation_help_requests():
 
-    hrequests = TranslationHelpRequest.query.order_by(func.random()).limit(25)
+    hrequests = TranslationRequest.query.filter(TranslationRequest.user_id != None).order_by(func.random()).limit(25)
 
     context = dict(
         version=__version__,
@@ -210,33 +210,47 @@ def translation_request(trequest_id=None):
 
     form = TranslationRequestForm(request.form)
 
+    status_code = 200
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        form=form,
+    )
+
     if form.validate_on_submit():
         source = request.form['source']
         target = request.form['target']
         text = request.form['text']
         text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
 
-        trequest = TranslationRequest.insert(
-            user_id=current_user.id,
-            source=source,
-            target=target,
-            original_text=text,
-            original_text_hash=text_hash,
-        )
+        try:
+            trequest = TranslationRequest.insert(
+                user_id=current_user.id,
+                source=source,
+                target=target,
+                original_text=text,
+                original_text_hash=text_hash,
+            )
 
-        return redirect(url_for('translation_help_requests'))
+            return redirect(url_for('translation_help_requests'))
 
-    trequest = None
+        except IntegrityError as e:
+            # If translation request already exists, redirect to the responses page.
+            db.session.rollback()
 
-    context = dict(
-        version=__version__,
-        locale=get_locale(),
-        form=form,
-        trequest=trequest,
-        language_options=language_options_html(),
-    )
+            trequest = TranslationRequest.fetch(source=source, target=target,
+                original_text_hash=text_hash)
 
-    return render_template('translation/request.html', **context)
+            return redirect(url_for('translation_responses',
+                request_id=uuid_to_b62(trequest.id)))
+
+        except Exception as e:
+            db.session.rollback()
+
+            context['error'] = str(e)
+            status_code = 500
+
+    return render_template('translation/request.html', **context), status_code
 
 
 @app.route('/v1.0/thrq', methods=['POST', 'DELETE']) # deprecated

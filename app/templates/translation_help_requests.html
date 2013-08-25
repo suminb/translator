@@ -10,7 +10,7 @@
     <tr>
       <th>{{ _("Date") }}</th>
       <th>{{ _("Name") }}</th>
-      <th>{{ _("Original Text") }}</th>
+      <th style="width: 50%;">{{ _("Original Text") }}</th>
       <th>{{ _("Language") }}</th>
     </tr>
   </thead>
@@ -19,10 +19,10 @@
     <tr>
       <td>{{ hrequest.timestamp | date }}</td>
       <td>{{ hrequest.user.name }}</td>
-      <td><a href="{{ url_for('translation_request_response', request_id=hrequest.request.id|uuid_to_b62) }}">{{ hrequest.request.original_text }}</a></td>
+      <td><a href="{{ url_for('translation_request_response', request_id=hrequest.id|uuid_to_b62) }}">{{ hrequest.original_text }}</a></td>
       <td>
-        {{ hrequest.request.source | language_name }} &rarr;
-        {{ hrequest.request.target | language_name }}
+        {{ hrequest.source | language_name }} &rarr;
+        {{ hrequest.target | language_name }}
       </td>
     </tr>
   {% endfor %}

@@ -55,7 +55,7 @@ def translation_response_delete(response_id):
         return str(e), 500
 
 
-@app.route('/trq/<request_id>/responses')
+@app.route('/trequest/<request_id>/responses')
 def translation_responses(request_id):
 
     treq = TranslationRequest.fetch(id_b62=request_id)
@@ -135,7 +135,7 @@ def translation_request_response_api(request_id):
         return str(e), 500
 
 
-@app.route('/trq/<request_id>/response')
+@app.route('/trequest/<request_id>/response')
 def translation_request_response(request_id):
     treq = TranslationRequest.fetch(id_b62=request_id)
 
@@ -171,7 +171,7 @@ def translation_request_response(request_id):
         tresponse2=tresp2,
     )
 
-    return render_template('translation_response.html', **context)
+    return render_template('translation/response.html', **context)
 
 
 @app.route('/trq/<trequest_id>/help')
@@ -326,7 +326,7 @@ def translation_response(response_id):
     )
     status_code = 200
 
-    return render_template('translation_response.html', **context), status_code
+    return render_template('translation/response.html', **context), status_code
 
 
 @app.route('/v1.0/tr/<tresponse_id>/post/facebook', methods=['POST'])
@@ -346,7 +346,7 @@ def tresponse_post_facebook(tresponse_id):
         #graph.put_object('me', 'feed', message='This is a test with a <a href="http://translator.suminb.com">link</a>')
         post = graph.put_wall_post('', dict(
             name=_('app-title').encode('utf-8'),
-            link='http://translator.suminb.com/trq/{}/responses'.format(uuid_to_b62(tresp.request_id)),
+            link='http://translator.suminb.com/trequest/{}/responses'.format(uuid_to_b62(tresp.request_id)),
             caption=_('{} has completed a translation challenge').format(tresp.user.name).encode('utf-8'),
             description=_('How do you say "{0}" in {1}?').format(tresp.request.original_text, target_language).encode('utf-8'),
             picture='http://translator.suminb.com/static/icon_128.png',

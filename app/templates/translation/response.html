@@ -51,7 +51,7 @@
   </div>
 
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#">{{ _("Your translation") }}</a></li>
+    <li class="active"><a href="#">{{ _("Your translation") }} ({{ trequest.target | language_name }})</a></li>
   </ul>
 
 {% if current_user.is_anonymous() %}

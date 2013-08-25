@@ -25,9 +25,9 @@ import config
 @login_required
 def user_page():
 
-    hrequests = TranslationHelpRequest.query \
+    hrequests = TranslationRequest.query \
         .filter_by(user_id=current_user.id) \
-        .order_by(TranslationHelpRequest.timestamp.desc())
+        .order_by(TranslationRequest.timestamp.desc())
 
     context = dict(
         version=__version__,
@@ -52,6 +52,6 @@ def user_translation_responses(user_id):
         tresponses=tresponses,
     )
 
-    return render_template('user_translation_responses.html', **context)
+    return render_template('user/translation_responses.html', **context)
 
 

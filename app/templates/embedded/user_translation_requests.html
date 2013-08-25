@@ -2,7 +2,7 @@
 <thead>
   <tr>
     <th>{{ _("Date") }}</th>
-    <th>{{ _("Original Text") }}</th>
+    <th style="width:50%">{{ _("Original Text") }}</th>
     <th>{{ _("Target Language") }}</th>
   </tr>
 </thead>
@@ -10,8 +10,8 @@
 {% for hrequest in hrequests %}
   <tr>
     <td>{{ hrequest.timestamp | date }}</td>
-    <td><a href="{{ url_for('translation_responses', request_id=hrequest.request.id|uuid_to_b62) }}">{{ hrequest.request.original_text }}</a></td>
-    <td>{{ hrequest.request.target | language_name }}</td>
+    <td><a href="{{ url_for('translation_responses', request_id=hrequest.id|uuid_to_b62) }}">{{ hrequest.original_text }}</a></td>
+    <td>{{ hrequest.target | language_name }}</td>
   </tr>
 {% endfor %}
 </tbody>

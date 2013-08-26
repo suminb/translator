@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-26 01:31-0700\n"
+"POT-Creation-Date: 2013-08-26 02:32-0700\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: app/core.py:465 app/notification.py:23 app/notification.py:44
 #: app/translation.py:367 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:119 app/templates/translation_responses.html:107
+#: app/templates/index.html:119 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
 msgid "app-title"
 msgstr "Un Mejor Traductor"
@@ -69,7 +69,7 @@ msgstr ""
 msgid ""
 "{1},\n"
 "\n"
-"Someone has posted a translation. {2}"
+"Someone has posted a translation. Check out at {2}"
 msgstr ""
 
 #: app/translation.py:133
@@ -183,7 +183,7 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: app/templates/index.html:120 app/templates/translation_responses.html:108
+#: app/templates/index.html:120 app/templates/translation_responses.html:115
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
 msgstr ""
@@ -407,13 +407,17 @@ msgstr ""
 msgid "No one has posted a translation. Become the first one!"
 msgstr ""
 
-#: app/templates/translation_responses.html:87
+#: app/templates/translation_responses.html:91
 #, fuzzy
 msgid "Post a translation"
 msgstr "Traducción directa"
 
-#: app/templates/translation_responses.html:89
+#: app/templates/translation_responses.html:93
 msgid "Ask your friends for help"
+msgstr ""
+
+#: app/templates/translation_responses.html:96
+msgid "Watch"
 msgstr ""
 
 #: app/templates/user_page.html:7
@@ -483,4 +487,7 @@ msgstr ""
 #, python-format
 msgid "%%1$s has completed a translation challenge"
 msgstr ""
+
+#~ msgid ""
+#~ msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-26 01:31-0700\n"
+"POT-Creation-Date: 2013-08-26 02:32-0700\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr ""
 #: app/core.py:465 app/notification.py:23 app/notification.py:44
 #: app/translation.py:367 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:119 app/templates/translation_responses.html:107
+#: app/templates/index.html:119 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
 msgid "app-title"
 msgstr "더 나은 번역기"
@@ -56,22 +56,21 @@ msgstr ""
 
 #: app/translation.py:107
 msgid "Please provide a non-empty translation."
-msgstr ""
+msgstr "번역문을 입력해주세요."
 
 #: app/translation.py:126
 msgid ""
 "{1},\n"
 "\n"
-"Someone has posted a translation. {2}"
+"Someone has posted a translation. Check out at {2}"
 msgstr ""
 "{0}{1}님,\n"
 "\n"
 "요청하신 번역문이 올라왔습니다. {2} 에서 확인하세요."
 
 #: app/translation.py:133
-#, fuzzy
 msgid "Your translation has been posted."
-msgstr "나의 번역"
+msgstr "번역문이 등록되었습니다."
 
 #: app/translation.py:369
 msgid "{} has completed a translation challenge"
@@ -179,7 +178,7 @@ msgstr "로딩 아이콘"
 msgid "Loading..."
 msgstr "불러오는 중..."
 
-#: app/templates/index.html:120 app/templates/translation_responses.html:108
+#: app/templates/index.html:120 app/templates/translation_responses.html:115
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
 msgstr "다음 문장을 %%1$s에서 %%2$s로 번역하는 것을 도와주세요"
@@ -397,13 +396,17 @@ msgstr "다른 사람들이 한 번역"
 msgid "No one has posted a translation. Become the first one!"
 msgstr "아직 번역문이 없습니다. 일등으로 번역문을 올려보세요!"
 
-#: app/templates/translation_responses.html:87
+#: app/templates/translation_responses.html:91
 msgid "Post a translation"
 msgstr "번역문 올리기"
 
-#: app/templates/translation_responses.html:89
+#: app/templates/translation_responses.html:93
 msgid "Ask your friends for help"
 msgstr "친구들에게 도움을 요청해보세요"
+
+#: app/templates/translation_responses.html:96
+msgid "Watch"
+msgstr ""
 
 #: app/templates/user_page.html:7
 msgid "My Help Requests"

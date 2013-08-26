@@ -127,11 +127,9 @@
 
       $.get(url, {entity_type:'TranslationRequest', entity_id:button.attr("data-entity-id")}, function(response) {
           if (response != '') {
-              console.log("active");
               button.addClass("active");
           }
           else {
-              console.log("inactive");
               button.removeClass("active");
           }
       });
@@ -144,11 +142,9 @@
 
       $.post(url, {entity_type:'TranslationRequest', entity_id:button.attr("data-entity-id")}, function(response) {
           if (response != '') {
-              console.log("active");
               button.addClass("active");
           }
           else {
-              console.log("inactive");
               button.removeClass("active");
           }
       });

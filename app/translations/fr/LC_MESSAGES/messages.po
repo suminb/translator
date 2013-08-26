@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-26 02:32-0700\n"
+"POT-Creation-Date: 2013-08-26 03:07-0700\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -27,13 +27,21 @@ msgstr ""
 " langage. Par conséquent, Google Traduction envers le japonais vous donne"
 " le meilleur résultat."
 
-#: app/core.py:463 app/notification.py:21
+#: app/core.py:464
+#, fuzzy
+msgid ""
+"{0},\n"
+"\n"
+"Someone has posted a translation. Check out at {1}"
+msgstr "Postuler une tradiction en défi"
+
+#: app/core.py:467 app/notification.py:21
 #, fuzzy
 msgid "You have a notification from Better Translator"
 msgstr "Traduit par Traduction au mieux"
 
-#: app/core.py:465 app/notification.py:23 app/notification.py:44
-#: app/translation.py:367 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:469 app/notification.py:23 app/notification.py:44
+#: app/translation.py:364 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
 #: app/templates/index.html:119 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
@@ -58,8 +66,8 @@ msgstr "Intervertir des langues"
 msgid "Original text"
 msgstr "texte original"
 
-#: app/translation.py:64 app/translation.py:140 app/translation.py:157
-#: app/translation.py:323
+#: app/translation.py:64 app/translation.py:137 app/translation.py:154
+#: app/translation.py:320
 msgid "Requrested resource does not exist"
 msgstr ""
 
@@ -67,28 +75,20 @@ msgstr ""
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/translation.py:126
-#, fuzzy
-msgid ""
-"{1},\n"
-"\n"
-"Someone has posted a translation. Check out at {2}"
-msgstr "Postuler une tradiction en défi"
-
-#: app/translation.py:133
+#: app/translation.py:130
 #, fuzzy
 msgid "Your translation has been posted."
 msgstr "Traduction directe"
 
-#: app/translation.py:369
+#: app/translation.py:366
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/translation.py:370
+#: app/translation.py:367
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
-#: app/translation.py:384
+#: app/translation.py:381
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-26 02:32-0700\n"
+"POT-Creation-Date: 2013-08-26 03:07-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,19 @@ msgstr ""
 msgid "app-description-text"
 msgstr ""
 
-#: app/core.py:463 app/notification.py:21
+#: app/core.py:464
+msgid ""
+"{0},\n"
+"\n"
+"Someone has posted a translation. Check out at {1}"
+msgstr ""
+
+#: app/core.py:467 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:465 app/notification.py:23 app/notification.py:44
-#: app/translation.py:367 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:469 app/notification.py:23 app/notification.py:44
+#: app/translation.py:364 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
 #: app/templates/index.html:119 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
@@ -49,8 +56,8 @@ msgstr ""
 msgid "Original text"
 msgstr ""
 
-#: app/translation.py:64 app/translation.py:140 app/translation.py:157
-#: app/translation.py:323
+#: app/translation.py:64 app/translation.py:137 app/translation.py:154
+#: app/translation.py:320
 msgid "Requrested resource does not exist"
 msgstr ""
 
@@ -58,26 +65,19 @@ msgstr ""
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/translation.py:126
-msgid ""
-"{1},\n"
-"\n"
-"Someone has posted a translation. Check out at {2}"
-msgstr ""
-
-#: app/translation.py:133
+#: app/translation.py:130
 msgid "Your translation has been posted."
 msgstr ""
 
-#: app/translation.py:369
+#: app/translation.py:366
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/translation.py:370
+#: app/translation.py:367
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
-#: app/translation.py:384
+#: app/translation.py:381
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 

@@ -122,12 +122,9 @@ def translation_request_response_api(request_id):
             # All users who are watching the translation request
             watching = Watching.query.filter_by(entity_type='TranslationRequest', entity_id=treq.id)
 
-            url = url_for('translation_responses', request_id=uuid_to_b62(treq.id), _external=True)
-            message = _('{1},\n\nSomeone has posted a translation. Check out at {2}').format(current_user.family_name, current_user.given_name, url)
-
             # Put them in the queue to get notified
             for w in watching:
-                NotificationQueue.insert(user_id=w.user_id, payload=message)
+                NotificationQueue.insert(user_id=w.user_id, payload=uuid_to_b62(treq.id))
 
         payload = tresp.serialize()
         payload['message'] = _('Your translation has been posted.')

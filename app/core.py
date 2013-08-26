@@ -459,9 +459,13 @@ def flush_notification_queue():
     does not work when I invoke it from notification.py that runs on a shell."""
 
     def sendmail(notification):
+
+        url = url_for('translation_responses', request_id=notification.payload, _external=True)
+        body = _('{0},\n\nSomeone has posted a translation. Check out at {1}').format(notification.user.name, url)
+
         message = Message(
             subject=_('You have a notification from Better Translator'),
-            body=notification.payload,
+            body=body,
             sender=(_('app-title'), 'translator@suminb.com'),
             recipients=[notification.user.email]
         )

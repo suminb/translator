@@ -93,7 +93,7 @@
 
   <script>
   function askForHelp() {
-      var url = sprintf("%s//%s/trq/%s/response", 
+      var url = sprintf("%s//%s/trequest/%s/response", 
           location.protocol, location.host, "{{ trequest.id | uuid_to_b62 }}");
 
       var source = "{{ trequest.source | language_name }}";

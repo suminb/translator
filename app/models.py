@@ -60,8 +60,10 @@ class BaseModel:
 
     @classmethod
     def insert(cls, commit=True, **kwargs):
-        record = cls(id=str(uuid.uuid4()))
-        record.timestamp = datetime.now()
+        record = cls()
+
+        if hasattr(record, 'id'): record.id=str(uuid.uuid4())
+        if hasattr(record, 'timestamp'): record.timestamp = datetime.now()
 
         for key, value in kwargs.iteritems():
             setattr(record, key, value);
@@ -337,6 +339,27 @@ class User(db.Model, UserMixin, BaseModel):
             db.session.commit()
 
         return user
+
+
+class Watching(db.Model, BaseModel):
+    # Without __tablename__ attribute, the following error will occur.
+    # sqlalchemy.exc.InvalidRequestError: Class <class 'app.models.Watching'>
+    # does not have a __table__ or __tablename__ specified and does not inherit
+    # from an existing table-mapped class.
+    __tablename__ = 'watching'
+    __table_args__ = ( db.PrimaryKeyConstraint('user_id', 'entity_type', 'entity_id'), {} )
+
+    user_id = db.Column(UUID, nullable=False)
+    entity_type = db.Column(db.Enum('TranslationRequest', 'TranslationResponse', 'Comment', name='entity_type'), nullable=False)
+    entity_id = db.Column(UUID, nullable=False)
+
+
+class NotificationQueue(db.Model, BaseModel):
+
+    id = db.Column(UUID, primary_key=True)
+    user_id = db.Column(UUID, nullable=False)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    payload = db.Column(db.Text, nullable=False)
 
 
 class GeoIP(db.Model):

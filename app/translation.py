@@ -96,6 +96,7 @@ def translation_responses(request_id):
 
 
 @app.route('/v1.0/trq/<request_id>/response', methods=['POST'])
+@login_required
 def translation_request_response_api(request_id):
     """Translation response API"""
 
@@ -114,6 +115,23 @@ def translation_request_response_api(request_id):
                 original_text_hash=treq.original_text_hash,
                 translated_text=translated_text,
             )
+
+            # TODO: Refactor the following code. This should be handled in the model class.
+            # More precisely, in the insert() function.
+
+            # All users who are watching the translation request
+            watching = Watching.query.filter_by(entity_type='TranslationRequest', entity_id=treq.id)
+
+            message = '''{1},
+
+            Someone has posted a translation. {2}
+            '''
+            url = url_for('translation_responses', request_id=treq.id, _external=True)
+            message = _(message).format(current_user.family_name, current_user.given_name, url)
+
+            # Put them in the queue to get notified
+            for w in watching:
+                NotificationQueue.insert(user_id=w.user_id, payload=message)
 
         payload = tresp.serialize()
         payload['message'] = _('Your translation has been posted.')
@@ -174,19 +192,19 @@ def translation_request_response(request_id):
     return render_template('translation/response.html', **context)
 
 
-@app.route('/trq/<trequest_id>/help')
-def translation_help_request_embedded(trequest_id):
-    """Embedded"""
+# @app.route('/trq/<trequest_id>/help')
+# def translation_help_request_embedded(trequest_id):
+#     """Embedded"""
 
-    trequest = TranslationRequest.fetch(id_b62=trequest_id)
+#     trequest = TranslationRequest.fetch(id_b62=trequest_id)
 
-    context = dict(
-        version=__version__,
-        locale=get_locale(),
-        trequest=trequest,
-    )
+#     context = dict(
+#         version=__version__,
+#         locale=get_locale(),
+#         trequest=trequest,
+#     )
 
-    return render_template('embedded/translation_help_request.html', **context)
+#     return render_template('embedded/translation_help_request.html', **context)
 
 
 @app.route('/hrequest')
@@ -232,6 +250,12 @@ def translation_request(trequest_id=None):
                 original_text_hash=text_hash,
             )
 
+            Watching.insert(
+                user_id=current_user.id,
+                entity_type='TranslationRequest',
+                entity_id=trequest.id
+            )
+
             return redirect(url_for('translation_help_requests'))
 
         except IntegrityError as e:
@@ -253,48 +277,47 @@ def translation_request(trequest_id=None):
     return render_template('translation/request.html', **context), status_code
 
 
-@app.route('/v1.0/thrq', methods=['POST', 'DELETE']) # deprecated
-@app.route('/v1.0/hrequest', methods=['POST', 'DELETE'])
-@login_required
-def translation_help_request_api():
-    def post():
-        trans_req_id = request.form['treq_id']
-        trans_req = TranslationRequest.fetch(id_b62=trans_req_id)
+# @app.route('/v1.0/hrequest', methods=['POST', 'DELETE'])
+# @login_required
+# def translation_help_request_api():
+#     def post():
+#         trans_req_id = request.form['treq_id']
+#         trans_req = TranslationRequest.fetch(id_b62=trans_req_id)
 
-        if trans_req == None:
-            return _('Requrested resource does not exist'), 404
+#         if trans_req == None:
+#             return _('Requrested resource does not exist'), 404
 
-        help_req_id = request.form.get('hreq_id', None)
+#         help_req_id = request.form.get('hreq_id', None)
         
-        if help_req_id == None:
-            # insertion
+#         if help_req_id == None:
+#             # insertion
 
-            help_req = TranslationHelpRequest.insert(
-                request_id=trans_req.id,
-                user_id=current_user.id,
-                comment=request.form.get('comment', None)
-            )
-        else:
-            # update
-            raise Exception('Not implemented')
+#             help_req = TranslationHelpRequest.insert(
+#                 request_id=trans_req.id,
+#                 user_id=current_user.id,
+#                 comment=request.form.get('comment', None)
+#             )
+#         else:
+#             # update
+#             raise Exception('Not implemented')
 
-        return jsonify(help_req.serialize())
+#         return jsonify(help_req.serialize())
 
-    def delete():
-        raise Exception('Not implemented')
+#     def delete():
+#         raise Exception('Not implemented')
 
-    dispatch = dict(
-        post=post,
-        delete=delete,
-    )
+#     dispatch = dict(
+#         post=post,
+#         delete=delete,
+#     )
 
-    try:
-        return dispatch[request.method.lower()]()
-    except Exception as e:
-        logger.exception(e)
-        return str(e), 500
+#     try:
+#         return dispatch[request.method.lower()]()
+#     except Exception as e:
+#         logger.exception(e)
+#         return str(e), 500
 
-@app.route('/trs/<response_id>')
+@app.route('/tresponse/<response_id>')
 @login_required
 def translation_response(response_id):
 

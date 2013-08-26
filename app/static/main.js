@@ -482,7 +482,7 @@ function deleteTranslation(id) {
     $("div.alert").hide();
 
     $.delete_(sprintf("/v1.0/trs/%s", id), function(response) {
-        location.href = sprintf("/trq/%s/response", response.request_id);
+        location.href = sprintf("/trequest/%s/response", response.request_id);
     }).fail(function(response) {
         $("div.alert-error").text(response.responseText).show();
     }).always(function() {

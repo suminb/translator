@@ -453,6 +453,44 @@ def test():
         return '', 400
 
 
+@app.route('/flush-queue')
+def flush_notification_queue():
+    """I know this is a pretty silly solution, but for some reason gettext()
+    does not work when I invoke it from notification.py that runs on a shell."""
+
+    def sendmail(notification):
+        message = Message(
+            subject=_('You have a notification from Better Translator'),
+            body=notification.payload,
+            sender=(_('app-title'), 'translator@suminb.com'),
+            recipients=[notification.user.email]
+        )
+
+        mail.send(message)
+        db.session.delete(notification)
+
+    from flask.ext.mail import Mail, Message
+
+    app.config['MAIL_SERVER'] = config.MAIL_SERVER
+    app.config['MAIL_PORT'] = config.MAIL_PORT
+    app.config['MAIL_USERNAME'] = config.MAIL_USERNAME
+    app.config['MAIL_PASSWORD'] = config.MAIL_PASSWORD
+
+    mail = Mail(app)
+
+    try:
+        for notification in NotificationQueue.query.all():
+            sendmail(notification)
+
+        db.session.commit()
+
+        return ''
+
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
+
+
 @app.route('/login')
 def login():
     session['login'] = True
@@ -569,13 +607,13 @@ def page_not_found(error):
 
 
 # NOTE: Temporary
-def integrate():
-    for tresp in TranslationResponse.query.filter_by(request_id=None):
-        treq = TranslationRequest.fetch(
-            original_text_hash=tresp.original_text_hash,
-            source=tresp.source, target=tresp.target)
-        tresp.request_id = treq.id
+# def integrate():
+#     for tresp in TranslationResponse.query.filter_by(request_id=None):
+#         treq = TranslationRequest.fetch(
+#             original_text_hash=tresp.original_text_hash,
+#             source=tresp.source, target=tresp.target)
+#         tresp.request_id = treq.id
 
-    db.session.commit()
+#     db.session.commit()
 
-    return ''
+#     return ''

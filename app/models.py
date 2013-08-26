@@ -357,9 +357,11 @@ class Watching(db.Model, BaseModel):
 class NotificationQueue(db.Model, BaseModel):
 
     id = db.Column(UUID, primary_key=True)
-    user_id = db.Column(UUID, nullable=False)
+    user_id = db.Column(UUID, db.ForeignKey('user.id'), nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True))
     payload = db.Column(db.Text, nullable=False)
+
+    user = relationship('User')
 
 
 class GeoIP(db.Model):

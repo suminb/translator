@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-25 02:24-0700\n"
+"POT-Creation-Date: 2013-08-26 01:31-0700\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -27,6 +27,18 @@ msgstr ""
 "Translate, как и все в мире пытается перевести японские порно на свой "
 "язык, и, таким образом Google Translate работает лучше с японцами."
 
+#: app/core.py:463 app/notification.py:21
+msgid "You have a notification from Better Translator"
+msgstr ""
+
+#: app/core.py:465 app/notification.py:23 app/notification.py:44
+#: app/translation.py:367 app/templates/base.html:9 app/templates/base.html:12
+#: app/templates/base.html:15 app/templates/base.html:44
+#: app/templates/index.html:119 app/templates/translation_responses.html:107
+#: app/templates/translation/response.html:184
+msgid "app-title"
+msgstr "Лучший переводчик"
+
 #: app/forms.py:9 app/templates/translation/request.html:27
 msgid "Source language"
 msgstr ""
@@ -43,36 +55,36 @@ msgstr ""
 msgid "Original text"
 msgstr ""
 
-#: app/translation.py:64 app/translation.py:126 app/translation.py:143
-#: app/translation.py:265 app/translation.py:304
+#: app/translation.py:64 app/translation.py:140 app/translation.py:157
+#: app/translation.py:323
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/translation.py:106
+#: app/translation.py:107
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/translation.py:119
+#: app/translation.py:126
+msgid ""
+"{1},\n"
+"\n"
+"Someone has posted a translation. {2}"
+msgstr ""
+
+#: app/translation.py:133
 #, fuzzy
 msgid "Your translation has been posted."
 msgstr "Прямой перевод"
 
-#: app/translation.py:348 app/templates/base.html:9 app/templates/base.html:12
-#: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:118 app/templates/translation_responses.html:107
-#: app/templates/translation/response.html:184
-msgid "app-title"
-msgstr "Лучший переводчик"
-
-#: app/translation.py:350
+#: app/translation.py:369
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/translation.py:351
+#: app/translation.py:370
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
-#: app/translation.py:365
+#: app/translation.py:384
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 
@@ -145,15 +157,15 @@ msgstr ""
 msgid "Localization"
 msgstr "Локализации"
 
-#: app/templates/credits.html:18 app/templates/index.html:237
+#: app/templates/credits.html:18 app/templates/index.html:238
 msgid "French"
 msgstr "Французский"
 
-#: app/templates/credits.html:23 app/templates/index.html:255
+#: app/templates/credits.html:23 app/templates/index.html:256
 msgid "Spanish"
 msgstr "Испанский"
 
-#: app/templates/credits.html:27 app/templates/index.html:236
+#: app/templates/credits.html:27 app/templates/index.html:237
 msgid "Russian"
 msgstr "Pусский"
 
@@ -170,12 +182,12 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: app/templates/index.html:119 app/templates/translation_responses.html:108
+#: app/templates/index.html:120 app/templates/translation_responses.html:108
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
 msgstr ""
 
-#: app/templates/index.html:130
+#: app/templates/index.html:131
 msgid "app-description-html"
 msgstr ""
 "Лучший переводчик – языкового переводчика на <a href=\"#\" "
@@ -185,141 +197,141 @@ msgstr ""
 " как и все в мире пытается перевести японские порно на свой язык, и, "
 "таким образом Google Translate работает лучше с японцами."
 
-#: app/templates/index.html:135
+#: app/templates/index.html:136
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
 "below. We encourage you to try modern browsers such as Firefox, Chrome "
 "and Safari."
 msgstr ""
 
-#: app/templates/index.html:155 app/templates/index.html:156
+#: app/templates/index.html:156 app/templates/index.html:157
 msgid "Show another example"
 msgstr "Показать другим пример"
 
-#: app/templates/index.html:160 app/templates/index.html:161
+#: app/templates/index.html:161 app/templates/index.html:162
 msgid "Swap languages"
 msgstr ""
 
-#: app/templates/index.html:163
+#: app/templates/index.html:164
 #: app/templates/user/translation_responses.html:16
 msgid "Translate"
 msgstr "Перевести"
 
-#: app/templates/index.html:169
+#: app/templates/index.html:170
 msgid "Request a permalink"
 msgstr ""
 
-#: app/templates/index.html:180
+#: app/templates/index.html:181
 #, fuzzy
 msgid "Direct translation"
 msgstr "Прямой перевод"
 
-#: app/templates/index.html:181 app/templates/translation_responses.html:14
+#: app/templates/index.html:182 app/templates/translation_responses.html:14
 #: app/templates/translation/response.html:27
 #, fuzzy
 msgid "Regular translation"
 msgstr "Прямой перевод"
 
-#: app/templates/index.html:185
+#: app/templates/index.html:186
 msgid "Use Japanese as an intermediate language"
 msgstr ""
 
-#: app/templates/index.html:186 app/templates/translation_responses.html:19
+#: app/templates/index.html:187 app/templates/translation_responses.html:19
 #: app/templates/translation/response.html:32
 #, fuzzy
 msgid "Better translation"
 msgstr "Прямой перевод"
 
-#: app/templates/index.html:190
+#: app/templates/index.html:191
 #, fuzzy
 msgid "User translations"
 msgstr "Прямой перевод"
 
-#: app/templates/index.html:202
+#: app/templates/index.html:203
 msgid "Translation in progress..."
 msgstr ""
 
-#: app/templates/index.html:210
+#: app/templates/index.html:211
 msgid "Did you not like this translation?"
 msgstr ""
 
-#: app/templates/index.html:211 app/templates/index.html:225
+#: app/templates/index.html:212 app/templates/index.html:226
 #: app/templates/translation_help_requests.html:32
 #: app/templates/embedded/translation_help_request.html:3
 #: app/templates/translation/request.html:14
 msgid "Ask for help"
 msgstr ""
 
-#: app/templates/index.html:215
+#: app/templates/index.html:216
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:238
+#: app/templates/index.html:239
 msgid "English"
 msgstr "Английский"
 
-#: app/templates/index.html:239
+#: app/templates/index.html:240
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/index.html:240
+#: app/templates/index.html:241
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/index.html:241
+#: app/templates/index.html:242
 msgid "German"
 msgstr ""
 
-#: app/templates/index.html:242
+#: app/templates/index.html:243
 msgid "Korean"
 msgstr "Корейский"
 
-#: app/templates/index.html:243
+#: app/templates/index.html:244
 msgid "Italian"
 msgstr ""
 
-#: app/templates/index.html:244
+#: app/templates/index.html:245
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/index.html:245
+#: app/templates/index.html:246
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/index.html:246
+#: app/templates/index.html:247
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/index.html:247
+#: app/templates/index.html:248
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/index.html:248
+#: app/templates/index.html:249
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/index.html:249
+#: app/templates/index.html:250
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/index.html:250
+#: app/templates/index.html:251
 #, fuzzy
 msgid "Polish"
 msgstr "Испанский"
 
-#: app/templates/index.html:251
+#: app/templates/index.html:252
 msgid "Thai"
 msgstr ""
 
-#: app/templates/index.html:252
+#: app/templates/index.html:253
 msgid "Czech"
 msgstr ""
 
-#: app/templates/index.html:253
+#: app/templates/index.html:254
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/index.html:254
+#: app/templates/index.html:255
 msgid "Japanese"
 msgstr "Японский"
 
@@ -468,7 +480,4 @@ msgstr ""
 #, python-format
 msgid "%%1$s has completed a translation challenge"
 msgstr ""
-
-#~ msgid "Translated Text"
-#~ msgstr "Перевести"
 

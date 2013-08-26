@@ -426,6 +426,56 @@ def tresponse_rate(tresponse_id):
         return str(e), 500
 
 
+@app.route('/v1.0/watch', methods=['GET', 'POST'])
+@login_required
+def watch():
+    def get():
+        """Query watching state."""
+
+        entity_id = b62_to_uuid(request.args['entity_id'])
+        entity_type = request.args['entity_type']
+
+        watching = Watching.query.filter_by(user_id=current_user.id,
+            entity_type=entity_type, entity_id=str(entity_id)).first()
+
+        if watching == None:
+            return ''
+        else:
+            return jsonify(watching.serialize())
+
+    def post():
+        """Toggle watching state."""
+
+        entity_id = b62_to_uuid(request.form['entity_id'])
+        entity_type = request.form['entity_type']
+
+        watching = Watching.query.filter_by(user_id=current_user.id,
+            entity_type=entity_type, entity_id=str(entity_id)).first()
+
+        if watching == None:
+            watching = Watching.insert(user_id=current_user.id, entity_type=entity_type,
+                entity_id=str(entity_id))
+
+            return jsonify(watching.serialize())
+        else:
+            db.session.delete(watching)
+            db.session.commit()
+
+            return ''
+
+    dispatch = dict(
+        get=get,
+        post=post)
+
+    try:
+        return dispatch[request.method.lower()]()
+    except Exception as e:
+        db.session.rollback()
+        logger.exception(e)
+
+        return str(e), 500
+
+
 @app.route('/nt')
 def notification_test():
 

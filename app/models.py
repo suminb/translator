@@ -152,17 +152,17 @@ class TranslationResponse(db.Model, BaseModel):
                 source=source, target=target, mode=mode).first()
 
 
-class TranslationHelpRequest(db.Model, BaseModel):
-    __table_args__ = ( db.UniqueConstraint('request_id', 'user_id'), )
+# class TranslationHelpRequest(db.Model, BaseModel):
+#     __table_args__ = ( db.UniqueConstraint('request_id', 'user_id'), )
 
-    id = db.Column(UUID, primary_key=True)
-    request_id = db.Column(UUID, db.ForeignKey('translation_request.id'), nullable=False)
-    user_id = db.Column(UUID, db.ForeignKey('user.id'), nullable=False)
-    timestamp = db.Column(db.DateTime(timezone=True), nullable=False)
-    comment = db.Column(db.String(255))
+#     id = db.Column(UUID, primary_key=True)
+#     request_id = db.Column(UUID, db.ForeignKey('translation_request.id'), nullable=False)
+#     user_id = db.Column(UUID, db.ForeignKey('user.id'), nullable=False)
+#     timestamp = db.Column(db.DateTime(timezone=True), nullable=False)
+#     comment = db.Column(db.String(255))
 
-    request = relationship('TranslationRequest')
-    user = relationship('User')
+#     request = relationship('TranslationRequest')
+#     user = relationship('User')
 
 
 class Translation(db.Model, BaseModel):

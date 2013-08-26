@@ -66,6 +66,8 @@
         {{ tresponse.timestamp | date }} &middot;
         <span class="rating-plus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.plus_ratings }}</span> /
         <span class="rating-minus" translation-id="{{ tresponse.id|uuid_to_b62 }}">{{ tresponse.minus_ratings }}</span> &nbsp;
+
+        {% if not current_user.is_anonymous() %}
         <div class="btn-group">
           <button class="btn btn-mini" translation-id="{{ tresponse.id|uuid_to_b62 }}" rating="1" onclick="rateTranslation($(this))">
             <i class="icon-plus"></i>
@@ -74,6 +76,8 @@
             <i class="icon-minus"></i>
           </button>
         </div>
+        {% endif %}
+
         {% if mine %}
         <a class="btn btn-mini" href="{{ url_for('translation_response', response_id=tresponse.id|uuid_to_b62) }}"><i class="icon-edit"></i></a>
         {% endif %}
@@ -88,6 +92,9 @@
     <!--
     <a href="#" class="btn translation-challenge" onclick="askForHelp()">{{ _("Ask your friends for help") }}</a>
     -->
+    {% if not current_user.is_anonymous() %}
+    <button id="button-watch" class="btn" data-entity-id="{{ trequest.id | uuid_to_b62 }}" onclick="toggleWatch(this)">{{ _("Watch") }}</a>
+    {% endif %}
   </div>
 
 
@@ -113,6 +120,43 @@
           });
       });
   }
+
+  function getWatchState() {
+      var button = $("#button-watch");
+      var url = sprintf("%s//%s/v1.0/watch", location.protocol, location.host);
+
+      $.get(url, {entity_type:'TranslationRequest', entity_id:button.attr("data-entity-id")}, function(response) {
+          if (response != '') {
+              console.log("active");
+              button.addClass("active");
+          }
+          else {
+              console.log("inactive");
+              button.removeClass("active");
+          }
+      });
+  }
+
+  function toggleWatch(button) {
+      button = $(button);
+
+      var url = sprintf("%s//%s/v1.0/watch", location.protocol, location.host);
+
+      $.post(url, {entity_type:'TranslationRequest', entity_id:button.attr("data-entity-id")}, function(response) {
+          if (response != '') {
+              console.log("active");
+              button.addClass("active");
+          }
+          else {
+              console.log("inactive");
+              button.removeClass("active");
+          }
+      });
+  }
+
+  window.onload = function() {
+      getWatchState();
+  };
 
   
   {% for rating in ratings %}

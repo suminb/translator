@@ -380,7 +380,7 @@ function displayPageURL(source, target, mode, text) {
 }
 
 function displayError(message) {
-    var postfix = ' If problem persists, please report it <a href="/discuss">here</a>.'
+    var postfix = ' If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
     $("#error-message").html(message + postfix);
     $("#result").html("");
 }

@@ -453,6 +453,18 @@ def test():
         return '', 400
 
 
+@app.route('/privacy')
+def privacy():
+    tresponses = TranslationResponse.query.order_by(TranslationResponse.timestamp.desc()).limit(15)
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+    )
+
+    return render_template('privacy.html', **context)
+
+
 @app.route('/flush-queue')
 def flush_notification_queue():
     """I know this is a pretty silly solution, but for some reason gettext()

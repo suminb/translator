@@ -4,9 +4,9 @@
 <table class="table table-striped">
 <thead>
   <tr>
-    <th>{{ _("Date") }}</th>
-    <th style="width:50%">{{ _("Original Text") }}, {{ _("Translated Text") }}</th>
-    <th>{{ _("Languages") }}</th>
+    <th style="min-width:10em">{{ _("Date") }}</th>
+    <th>{{ _("Original Text") }}, {{ _("Translated Text") }}</th>
+    <th style="min-width:10em">{{ _("Languages") }}</th>
   </tr>
 </thead>
 <tbody>
@@ -19,7 +19,8 @@
     </td>
     <td>
       {{ tresponse.request.source | language_name }} &rarr;
-      {{ tresponse.request.target | language_name }}
+      {{ tresponse.request.target | language_name }},
+      {{ tresponse.mode }}
     </td>
   </tr>
 {% endfor %}

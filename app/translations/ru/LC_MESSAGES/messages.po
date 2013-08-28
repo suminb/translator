@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-26 03:07-0700\n"
+"POT-Creation-Date: 2013-08-27 22:08-0700\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -27,19 +27,19 @@ msgstr ""
 "Translate, как и все в мире пытается перевести японские порно на свой "
 "язык, и, таким образом Google Translate работает лучше с японцами."
 
-#: app/core.py:464
+#: app/core.py:482
 msgid ""
 "{0},\n"
 "\n"
 "Someone has posted a translation. Check out at {1}"
 msgstr ""
 
-#: app/core.py:467 app/notification.py:21
+#: app/core.py:485 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:469 app/notification.py:23 app/notification.py:44
-#: app/translation.py:364 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:487 app/notification.py:23 app/notification.py:44
+#: app/translation.py:377 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
 #: app/templates/index.html:119 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
@@ -63,7 +63,7 @@ msgid "Original text"
 msgstr ""
 
 #: app/translation.py:64 app/translation.py:137 app/translation.py:154
-#: app/translation.py:320
+#: app/translation.py:333
 msgid "Requrested resource does not exist"
 msgstr ""
 
@@ -76,15 +76,15 @@ msgstr ""
 msgid "Your translation has been posted."
 msgstr "Прямой перевод"
 
-#: app/translation.py:366
+#: app/translation.py:379
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/translation.py:367
+#: app/translation.py:380
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
-#: app/translation.py:381
+#: app/translation.py:394
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 
@@ -135,7 +135,15 @@ msgstr ""
 msgid "Credits"
 msgstr "Титры"
 
-#: app/templates/base.html:156
+#: app/templates/base.html:156 app/templates/privacy.html:4
+msgid "Privacy Policy"
+msgstr ""
+
+#: app/templates/base.html:157 app/templates/disclaimers.html:4
+msgid "Disclaimers"
+msgstr ""
+
+#: app/templates/base.html:158
 msgid "Bug reporting"
 msgstr "Сообщить об ошибке"
 
@@ -361,6 +369,7 @@ msgstr ""
 
 #: app/templates/translation_help_requests.html:11
 #: app/templates/embedded/user_translation_requests.html:4
+#: app/templates/translation/recent_responses.html:7
 #: app/templates/user/translation_responses.html:4
 msgid "Date"
 msgstr ""
@@ -371,6 +380,7 @@ msgstr ""
 
 #: app/templates/translation_help_requests.html:13
 #: app/templates/embedded/user_translation_requests.html:5
+#: app/templates/translation/recent_responses.html:8
 #: app/templates/user/translation_responses.html:5
 msgid "Original Text"
 msgstr ""
@@ -445,6 +455,15 @@ msgstr ""
 msgid "Target Language"
 msgstr ""
 
+#: app/templates/translation/recent_responses.html:8
+#, fuzzy
+msgid "Translated Text"
+msgstr "Перевести"
+
+#: app/templates/translation/recent_responses.html:9
+msgid "Languages"
+msgstr ""
+
 #: app/templates/translation/request.html:46
 msgid "Optional"
 msgstr ""
@@ -486,11 +505,5 @@ msgid "%%1$s has completed a translation challenge"
 msgstr ""
 
 #~ msgid ""
-#~ msgstr ""
-
-#~ msgid ""
-#~ "{1},\n"
-#~ "\n"
-#~ "Someone has posted a translation. Check out at {2}"
 #~ msgstr ""
 

@@ -453,15 +453,21 @@ def test():
         return '', 400
 
 
-@app.route('/privacy')
-def privacy():
-    tresponses = TranslationResponse.query.order_by(TranslationResponse.timestamp.desc()).limit(15)
-
+@app.route('/disclaimers')
+def disclaimers():
     context = dict(
         version=__version__,
         locale=get_locale(),
     )
+    return render_template('disclaimers.html', **context)
 
+
+@app.route('/privacy')
+def privacy():
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+    )
     return render_template('privacy.html', **context)
 
 

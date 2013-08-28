@@ -310,6 +310,19 @@ def translation_request(trequest_id=None):
 #         logger.exception(e)
 #         return str(e), 500
 
+
+@app.route('/tresponse/recent')
+def translation_responses_recent():
+    tresponses = TranslationResponse.query.order_by(TranslationResponse.timestamp.desc()).limit(15)
+
+    context = dict(
+        version=__version__,
+        locale=get_locale(),
+        tresponses=tresponses,
+    )
+
+    return render_template('translation/recent_responses.html', **context)
+
 @app.route('/tresponse/<response_id>')
 @login_required
 def translation_response(response_id):

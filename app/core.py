@@ -501,7 +501,7 @@ def flush_notification_queue():
     mail = Mail(app)
 
     try:
-        for notification in NotificationQueue.query.all():
+        for notification in NotificationQueue.query.limit(100):
             sendmail(notification)
 
         db.session.commit()

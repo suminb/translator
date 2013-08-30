@@ -60,6 +60,7 @@
           }
       })
       .bind('paste', function (event) {
+        console.log('pasted');
           // http://stackoverflow.com/questions/9494283/jquery-how-to-get-the-pasted-content
           // When pasting to an input the "paste" event is fired before the value has time to update
           // Therefore, performTranslation() function has to be called after the completion of this event handling function

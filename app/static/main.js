@@ -101,6 +101,8 @@ var state = {
     serial: null,
     exampleIndex: 0,
 
+    pending: false,
+
     setSource: function(v) {
         this.source = v;
         $("select[name=sl]").val(v);
@@ -234,8 +236,18 @@ var state = {
         }
     },
 
-    serialize: function() {
+    /**
+     * Updates state based on the values of the UI controls
+     */
+    update: function() {
+        this.source = $("select[name=sl]").val();
+        this.target = $("select[name=tl]").val();
+        this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
+    },
+
+    serialize: function() {
+        this.update();
 
         return {
             sl: this.source,
@@ -298,6 +310,13 @@ function resizeTextarea(t) {
 
 function performTranslation() {
 
+    if (state.pending) {
+        // If there is any pending translation request, silently abort the request.
+        return false;
+    }
+
+    state.update();
+
     if (state.source == state.target) {
         // simply displays the original text when the source language and the target language are identical
         state.setResult(state.text);
@@ -313,6 +332,8 @@ function performTranslation() {
             $("#page-url").invisible();
             $("#help-request").invisible();
             enableControls(false);
+
+            state.pending = true;
 
             $.post("/v1.0/translate", state.serialize(), function(response) {
                 state.updateWithTranslation(response);
@@ -343,6 +364,8 @@ function performTranslation() {
 
                 // This must be called after enableControls()
                 state.invalidateUI(false);
+
+                state.pending = false;
             });
         }
     }

@@ -202,7 +202,12 @@ var state = {
         performTranslation();
     },
 
-    invalidateUI: function() {
+    // Sometimes we want to update the textarea, sometimes now.
+    // The 'updateText' parameter indicates whether we want to do that. However,
+    // this meant to be a temporary solution.
+    invalidateUI: function(updateText) {
+        updateText = typeof updateText !== 'undefined' ? updateText : true;
+
         if (this.source == "ja" || this.target == "ja") {
             this.setMode(1);
             $("button.to-mode[value=2]").disable();
@@ -215,7 +220,10 @@ var state = {
         $("select[name=tl]").val(this.target);
         $("button.to-mode").removeClass("active");
         $(sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
-        $("#text").val(this.text);
+        
+        if (updateText) {
+            $("#text").val(this.text);
+        }
 
         if (this.result) {
             $("#result").text(this.result);
@@ -299,7 +307,6 @@ function performTranslation() {
     }
     else { // translates if the source language and the target language are not identical
         if (state.text != null && state.text != "") {
-            console.log('what the fuck');
             $("#error-message").html("");
             $("#result").html("");
             $("#progress-message").show();
@@ -335,7 +342,7 @@ function performTranslation() {
                 enableControls(true);
 
                 // This must be called after enableControls()
-                state.invalidateUI();
+                state.invalidateUI(false);
             });
         }
     }

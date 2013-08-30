@@ -354,6 +354,9 @@ def translate():
     keys = ('t', 'm', 'sl', 'tl')
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
+    if len(text) == 0:
+        raise HTTPException('Text cannot be empty.', 400)
+
     if len(text) > MAX_TEXT_LENGTH:
         raise HTTPException('Text too long.', 413)
 

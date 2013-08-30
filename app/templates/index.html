@@ -32,11 +32,7 @@
           }
           else {
               state.init();
-              
-              // indicates the initial state
-              if (state.exampleIndex == 0) {
-                  refreshExample();
-              }
+
               hashChanged(window.location.hash ? window.location.hash : "");
           }
       }
@@ -124,6 +120,10 @@
 
           });
       });
+  }
+
+  function showGoogleForm() {
+      $("#google-form-dialog").modal();
   }
 
   </script>
@@ -230,6 +230,23 @@
     <a href="#" class="btn" data-dismiss="modal">Close</a>
   </div>
 </div>
+
+<div id="google-form-dialog" class="modal hide fade" style="width:600px">
+  <div class="modal-header">
+  </div>
+  <div class="modal-body">
+    <iframe src="https://docs.google.com/forms/d/1eLuOsFM3aCUssqqVxaX_e1G6mUjLYUpiuLyZTMsGWkg/viewform?embedded=true#start=embed" width="550" height="650" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">닫기</a>
+  </div>
+</div>
+
+{% if locale == 'ko' %}
+<div style="text-align:center">
+  <a href="#google-form-dialog" data-toggle="modal" style="font-size:1.75em;font-weight:bold;">새로 추가 했으면 하는 기능이 있다면?</a>
+</div>
+{% endif %}
 
 <!--
 This section is reserved for gettext string extraction purposes

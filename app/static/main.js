@@ -324,48 +324,59 @@ function performTranslation() {
     else if (state.source == "" || state.target == "") {
         // TODO: Give some warning
     }
+    else if (state.text == null || state.text == "") {
+        // TODO: Give some warning
+    }
     else { // translates if the source language and the target language are not identical
-        if (state.text != null && state.text != "") {
-            $("#error-message").html("");
-            $("#result").html("");
-            $("#progress-message").show();
-            $("#page-url").invisible();
-            $("#help-request").invisible();
-            enableControls(false);
 
-            state.pending = true;
+        $("#error-message").html("");
+        $("#result").html("");
+        $("#progress-message").show();
+        $("#page-url").invisible();
+        $("#help-request").invisible();
+        enableControls(false);
 
-            $.post("/v1.0/translate", state.serialize(), function(response) {
-                state.updateWithTranslation(response);
+        state.pending = true;
 
-                window.location.hash = "";
-                //window.history.pushState(currentState, "", window.location.href);
+        $.post("/v1.0/translate", state.serialize(), function(response) {
+            state.updateWithTranslation(response);
 
-                if (state.id) {
-                    //askForRating(response.request_id);
-                    //displayPermalink(response.id);
+            window.location.hash = "";
+            //window.history.pushState(currentState, "", window.location.href);
 
-                    if (state.text.length <= 180) {
-                        $("a.to-mode")
-                            .attr("href", sprintf("/trq/%s/responses", response.request_id))
-                            .show();
-                    }
-                    else {
-                        $("a.to-mode").hide();
-                    }
+            if (state.id) {
+                //askForRating(response.request_id);
+                //displayPermalink(response.id);
+
+                if (state.text.length <= 180) {
+                    $("a.to-mode")
+                        .attr("href", sprintf("/trq/%s/responses", response.request_id))
+                        .show();
                 }
+                else {
+                    $("a.to-mode").hide();
+                }
+            }
 
-            }).fail(function(response) {
-                displayError(response.responseText);
-            
-            }).always(function() {
-                $("#progress-message").hide();
-                enableControls(true);
+        }).fail(function(response) {
+            displayError(response.responseText);
+        
+        }).always(function() {
+            $("#progress-message").hide();
+            enableControls(true);
 
-                // This must be called after enableControls()
-                state.invalidateUI(false);
+            // This must be called after enableControls()
+            state.invalidateUI(false);
 
-                state.pending = false;
+            state.pending = false;
+        });
+
+        if (state.text.length <= 180) {
+            $.get("/v1.1/tresponse/search",
+                {mode:3, source:state.source, target:state.target, query:state.text},
+                function(response) {
+
+                populateSearchResults(response.rows);
             });
         }
     }

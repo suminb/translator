@@ -126,6 +126,23 @@
       $("#google-form-dialog").modal();
   }
 
+  function populateSearchResults(results) {
+
+      var ul = $("#search-results ul");
+      ul.empty();
+
+      $.each(results, function(index, value) {
+          console.log('value=' + value);
+
+          var li = $("<li></li>")
+              .text(value.request_id);
+
+          ul.append(li);
+      });
+
+      $("#search-results").show();
+  }
+
   </script>
   
   <p>{{ _("app-description-html") }}</p>
@@ -167,9 +184,13 @@
         
       <textarea id="text" name="t" placeholder="{{ _('Type in your sentences') }}"></textarea>
 
-      <span id="request-permalink" class="action" style="visibility:hidden;" onclick="displayPermalink(state.serial)">{{ _("Request a permalink") }}</span>
       <div id="page-url">
-          <div id="page-url-value"></div>
+        <div id="page-url-value"></div>
+      </div>
+
+      <div id="search-results" class="hide">
+        {{ _("Similar translations") }}
+        <ul></ul>
       </div>
     </div>
     <div class="span6">

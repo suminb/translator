@@ -270,7 +270,7 @@ def translation_request(trequest_id=None):
     return render_template('translation/request.html', **context), status_code
 
 
-@app.route('/v1.1/trequest/search')
+@app.route('/v1.1/tresponse/search')
 def translation_request_search():
     mode = request.args['mode']
     source = request.args['source']

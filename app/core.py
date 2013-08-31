@@ -81,7 +81,7 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     r = None
     try:
         r = proxy_factory.make_request(url, headers=headers, params=payload,
-            req_type=requests.post, timeout=2)
+            req_type=requests.post, timeout=2, pool_size=10)
     except Exception as e:
         logger.exception(e)
 

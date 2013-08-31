@@ -53,14 +53,14 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     target: target language
     """
 
+    if source == target:
+        return text
+
     from hallucination import ProxyFactory
     proxy_factory = ProxyFactory(
         db_engine=db.engine,
         logger=logger
     )
-
-    if source == target:
-        return text
 
     if not re.match(r'Mozilla/\d+\.\d+ \(.*', user_agent):
         user_agent = 'Mozilla/5.0 (%s)' % user_agent

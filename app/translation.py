@@ -270,45 +270,40 @@ def translation_request(trequest_id=None):
     return render_template('translation/request.html', **context), status_code
 
 
-# @app.route('/v1.0/hrequest', methods=['POST', 'DELETE'])
-# @login_required
-# def translation_help_request_api():
-#     def post():
-#         trans_req_id = request.form['treq_id']
-#         trans_req = TranslationRequest.fetch(id_b62=trans_req_id)
+@app.route('/v1.1/trequest/search')
+def translation_request_search():
+    mode = request.args['mode']
+    source = request.args['source']
+    target = request.args['target']
+    query = request.args['query']
 
-#         if trans_req == None:
-#             return _('Requrested resource does not exist'), 404
+    query = '|'.join(query.split())
 
-#         help_req_id = request.form.get('hreq_id', None)
-        
-#         if help_req_id == None:
-#             # insertion
+    statement = """
+    SELECT * FROM (
 
-#             help_req = TranslationHelpRequest.insert(
-#                 request_id=trans_req.id,
-#                 user_id=current_user.id,
-#                 comment=request.form.get('comment', None)
-#             )
-#         else:
-#             # update
-#             raise Exception('Not implemented')
+        SELECT trq.original_text_tsv, trs.id, trs.request_id FROM translation_request AS trq
+            JOIN translation_response AS trs ON trq.id = trs.request_id
+            WHERE mode=3 AND trq.source=:source AND trq.target=:target
+    ) AS t, to_tsquery('test') AS q
+    WHERE (t.original_text_tsv @@ q)
+    ORDER BY ts_rank_cd(original_text_tsv, q) DESC
+    LIMIT 5
 
-#         return jsonify(help_req.serialize())
+    -- Not sure which one is better for performance
+    --
+    --SELECT id, original_text, FROM translation_request, to_tsquery(:query) as q
+    --    JOIN translation_responses USING(id)
+    --    WHERE (original_text_tsv @@ q)
+    --    ORDER BY ts_rank_cd(original_text_tsv, q) DESC
+    --    LIMIT 5
+    """
 
-#     def delete():
-#         raise Exception('Not implemented')
+    rows = db.session.query(TranslationResponse) \
+        .from_statement(statement) \
+        .params(source=source, target=target, query=query)
 
-#     dispatch = dict(
-#         post=post,
-#         delete=delete,
-#     )
-
-#     try:
-#         return dispatch[request.method.lower()]()
-#     except Exception as e:
-#         logger.exception(e)
-#         return str(e), 500
+    return jsonify(rows=[r.serialize() for r in rows])
 
 
 @app.route('/tresponse/recent')
@@ -322,6 +317,7 @@ def translation_responses_recent():
     )
 
     return render_template('translation/recent_responses.html', **context)
+
 
 @app.route('/tresponse/<response_id>')
 @login_required

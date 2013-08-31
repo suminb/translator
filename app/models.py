@@ -80,6 +80,35 @@ class BaseModel:
 
 
 class TranslationRequest(db.Model, BaseModel):
+    """
+    -- Copied from http://www.scottlowe.eu/blog/2011/04/28/postgresql-full-text-search-is-often-good-enough/
+    --
+    -- Add the new tsvector column
+    ALTER TABLE translation_request ADD COLUMN original_text_tsv tsvector;
+
+    -- Create a function that will generate a tsvector from text data found in both the
+    -- title and body columns, but give a higher relevancy rating 'A' to the title data  
+    CREATE FUNCTION translation_request_generate_tsvector() RETURNS trigger AS $$
+      begin
+        new.tsv :=
+          setweight(to_tsvector('pg_catalog.english', coalesce(new.original_text,'')), 'A');
+        return new;
+      end
+    $$ LANGUAGE plpgsql;
+
+    -- When articles row data is inserted or updated, execute the function
+    -- that generates the tsvector data for that row
+    CREATE TRIGGER tsvector_translation_request_upsert_trigger BEFORE INSERT OR UPDATE
+      ON translation_request
+      FOR EACH ROW EXECUTE PROCEDURE translation_request_generate_tsvector();
+
+    -- When the migration is run, create tsvector data for all the existing records
+    UPDATE translation_request SET original_text_tsv =
+      setweight(to_tsvector('pg_catalog.english', coalesce(original_text,'')), 'A');
+
+    -- Create an index for the tsv column that is specialised for tsvector data
+    CREATE INDEX translation_request_tsv_idx ON translation_request USING gin(original_text_tsv);
+    """
     __table_args__ = ( db.UniqueConstraint('source', 'target', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)

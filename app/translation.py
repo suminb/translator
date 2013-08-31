@@ -277,31 +277,36 @@ def translation_request_search():
     target = request.args['target']
     query = request.args['query']
 
-    query = '|'.join(query.split())
+    # Building tsquery using an 'or' operator
+    tsquery = '|'.join(query.split())
+
+    # Levenshtein distance treshold (40% or 8, whichever greater)
+    threshold = max(len(query) * 0.4, 8)
 
     statement = """
     SELECT * FROM (
 
-        SELECT trq.original_text_tsv, trs.id, trs.request_id FROM translation_request AS trq
+        SELECT trq.original_text, trq.original_text_tsv, trs.id, trs.request_id
+            FROM translation_request AS trq
             JOIN translation_response AS trs ON trq.id = trs.request_id
             WHERE mode=3 AND trq.source=:source AND trq.target=:target
-    ) AS t, to_tsquery('test') AS q
-    WHERE (t.original_text_tsv @@ q)
+    ) AS t, to_tsquery(:tsquery) AS q
+    WHERE (t.original_text_tsv @@ q) AND levenshtein(t.original_text, :query) < :threshold
     ORDER BY ts_rank_cd(original_text_tsv, q) DESC
     LIMIT 5
 
     -- Not sure which one is better for performance
     --
-    --SELECT id, original_text, FROM translation_request, to_tsquery(:query) as q
+    --SELECT id, original_text, FROM translation_request, to_tsquery(:tsquery) as q
     --    JOIN translation_responses USING(id)
     --    WHERE (original_text_tsv @@ q)
     --    ORDER BY ts_rank_cd(original_text_tsv, q) DESC
     --    LIMIT 5
     """
 
-    rows = db.session.query(TranslationResponse) \
+    rows = db.session.query(Translation) \
         .from_statement(statement) \
-        .params(source=source, target=target, query=query)
+        .params(source=source, target=target, query=query, tsquery=tsquery, threshold=threshold)
 
     return jsonify(rows=[r.serialize() for r in rows])
 

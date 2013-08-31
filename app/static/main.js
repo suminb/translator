@@ -235,7 +235,7 @@ var state = {
             $("#result").text(this.result);
         }
         if (this.id) {
-            displayPermalink(this.id);
+            //displayPermalink(this.id);
             askForRating(this.requestId);
         }
     },
@@ -375,13 +375,19 @@ function performTranslation() {
             state.pending = false;
         });
 
-        if (state.text.length <= 180) {
-            $.get("/v1.1/tresponse/search",
-                {mode:3, source:state.source, target:state.target, query:state.text},
-                function(response) {
+        // For testing purposes, search feature is off by default
+        if ($.cookie("search") == "on") {
 
-                populateSearchResults(response.rows);
-            });
+            $("#search-results").hide();
+            if (state.text.length <= 180) {
+                $.get("/v1.1/tresponse/search",
+                    {mode:3, source:state.source, target:state.target, query:state.text},
+                    function(response) {
+
+                    populateSearchResults(response.rows);
+                });
+            }
+
         }
     }
     

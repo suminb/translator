@@ -90,7 +90,7 @@ class TranslationRequest(db.Model, BaseModel):
     -- title and body columns, but give a higher relevancy rating 'A' to the title data  
     CREATE FUNCTION translation_request_generate_tsvector() RETURNS trigger AS $$
       begin
-        new.tsv :=
+        new.original_text_tsv :=
           setweight(to_tsvector('pg_catalog.english', coalesce(new.original_text,'')), 'A');
         return new;
       end
@@ -108,6 +108,10 @@ class TranslationRequest(db.Model, BaseModel):
 
     -- Create an index for the tsv column that is specialised for tsvector data
     CREATE INDEX translation_request_tsv_idx ON translation_request USING gin(original_text_tsv);
+
+    -- Fuzzy matching
+    -- http://www.postgresql.org/docs/8.3/static/fuzzystrmatch.html
+    CREATE EXTENSION fuzzystrmatch;
     """
     __table_args__ = ( db.UniqueConstraint('source', 'target', 'original_text_hash'), )
 
@@ -232,16 +236,6 @@ class Translation(db.Model, BaseModel):
     @property
     def request_id_b62(self):
         return base62.encode(uuid.UUID(self.request_id).int)
-
-    # FIXME: This may be a cause for degraded performance 
-    @property
-    def plus_ratings(self):
-        return Rating.query.filter_by(translation_id=self.id, rating=1).count()
-
-    # FIXME: This may be a cause for degraded performance 
-    @property
-    def minus_ratings(self):
-        return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
 
     @staticmethod
     def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):

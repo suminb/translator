@@ -90,8 +90,8 @@ FB.init({
 
 
 var state = {
-    source: 'ko',
-    target: 'en',
+    source: null,
+    target: null,
     mode: 2,
     text: null,
     result: null,
@@ -117,6 +117,7 @@ var state = {
         this.mode = v;
         $("button.to-mode").removeClass("active");
         $(sprintf("button.to-mode[value=%s]", v)).addClass("active");
+        $.cookie("mode", v);
     },
 
     setText: function(v) {
@@ -139,6 +140,8 @@ var state = {
         else {
             $("button.to-mode[value=2]").enable();
         }
+
+        $.cookie("source", v);
     },
 
     selectTarget: function(v) {
@@ -152,13 +155,14 @@ var state = {
         else {
             $("button.to-mode[value=2]").enable();
         }
+
+        $.cookie("target", v);
     },
 
     init: function() {
-        // TODO: Use a cookie
-        this.setSource("ko");
-        this.setTarget("en");
-        this.setMode(2);
+        this.setSource(typeof $.cookie("source") != "undefined" ? $.cookie("source") : "ko");
+        this.setTarget(typeof $.cookie("target") != "undefined" ? $.cookie("target") : "en");
+        this.setMode(typeof $.cookie("mode") != "undefined" ? $.cookie("mode") : 2);
     },
 
     initWithState: function(state) {

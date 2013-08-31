@@ -71,7 +71,7 @@
           var button = $(evt.target);
           button.addClass("active");
 
-          state.mode = button.attr("value");
+          state.setMode(button.attr("value"));
           performTranslation();
       });
 

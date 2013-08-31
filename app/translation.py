@@ -285,14 +285,14 @@ def translation_request_search():
 
     statement = """
     SELECT * FROM (
-
-        SELECT trq.original_text, trq.original_text_tsv, trs.id, trs.request_id
+        SELECT trq.original_text, trq.original_text_tsv, trs.id, trs.request_id,
+            trs.translated_text
             FROM translation_request AS trq
             JOIN translation_response AS trs ON trq.id = trs.request_id
             WHERE mode=3 AND trq.source=:source AND trq.target=:target
     ) AS t, to_tsquery(:tsquery) AS q
-    WHERE (t.original_text_tsv @@ q) AND levenshtein(t.original_text, :query) < :threshold
-    ORDER BY ts_rank_cd(original_text_tsv, q) DESC
+    WHERE (t.original_text_tsv @@ q)
+    ORDER BY ts_rank_cd(t.original_text_tsv, q) DESC
     LIMIT 5
 
     -- Not sure which one is better for performance

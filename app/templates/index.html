@@ -281,20 +281,21 @@ function populateSearchResults(results) {
     ul.empty();
 
     $.each(results, function(index, value) {
-
         // http://stackoverflow.com/questions/4637942/how-can-i-truncate-a-string-in-jquery
         //var originalText = $.trim(value.original_text).substring(0, 80).trim(this) + " ...";
         //var translatedText = $.trim(value.translated_text).substring(0, 80).trim(this) + " ...";
 
         var li = $("<li></li>")
-            .append(sprintf('<div><a href="/trequest/%s/responses" class="truncate">%s</a></div>', value.request_id, value.original_text))
+            .append(sprintf('<div><a href="/trequest/%s/responses?rel=search" class="truncate">%s</a></div>', value.request_id, value.original_text))
             .append(sprintf('<div class="truncate">%s</div>', value.translated_text));
 
         ul.append(li);
     });
 
-    $('.truncate').succinct({size: 60});
-    $("#search-results").show();
+    if (results.length > 0) {
+        $('.truncate').succinct({size: 60});
+        $("#search-results").show();
+    }
 }
 
 </script>

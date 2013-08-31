@@ -235,7 +235,7 @@ var state = {
             $("#result").text(this.result);
         }
         if (this.id) {
-            //displayPermalink(this.id);
+            displayPermalink(this.id);
             askForRating(this.requestId);
         }
     },
@@ -548,8 +548,8 @@ function displayPermalink(id) {
     var url = origin + path;
 
     $("#request-permalink").hide();
-    $("#page-url").visible();
-    $("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
+    //$("#page-url").visible();
+    //$("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
 
     window.history.pushState(state.serialize(), "", path);
 }

@@ -460,8 +460,8 @@ function hashChanged(hash) {
         var mode = phash.m;
         var text = phash.t;
 
-        $("select[name=sl]").val(source ? source : "ko");
-        $("select[name=tl]").val(target ? target : "en");
+        $("select[name=sl]").val(source ? source : state.source);
+        $("select[name=tl]").val(target ? target : state.target);
 
         //var mode = getParameterByName("m") == "1";
         //$(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");

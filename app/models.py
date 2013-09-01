@@ -112,8 +112,13 @@ class TranslationRequest(db.Model, BaseModel):
     -- Fuzzy matching
     -- http://www.postgresql.org/docs/8.3/static/fuzzystrmatch.html
     CREATE EXTENSION fuzzystrmatch;
+
+
+    CREATE UNIQUE INDEX
+        unique_resquest ON translation_request
+        (coalesce(user_id, '00000000-0000-0000-0000-000000000000'), source, target, original_text_hash);
     """
-    __table_args__ = ( db.UniqueConstraint('source', 'target', 'original_text_hash'), )
+    #__table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'original_text_hash'), )
 
     id = db.Column(UUID, primary_key=True)
     user_id = db.Column(UUID, db.ForeignKey('user.id'))
@@ -141,9 +146,14 @@ class TranslationRequest(db.Model, BaseModel):
 
 
 class TranslationResponse(db.Model, BaseModel):
-    """Temporarily stores translation results."""
+    """Temporarily stores translation results.
 
-    __table_args__ = ( db.UniqueConstraint('user_id', 'source', 'target', 'mode', 'original_text_hash'), )
+    CREATE UNIQUE INDEX
+        unique_response ON translation_response
+        (coalesce(user_id, '00000000-0000-0000-0000-000000000000'), request_id, source, target, mode);
+    """
+
+    #__table_args__ = ( db.UniqueConstraint('user_id', 'request_id', 'source', 'target', 'mode'), )
 
     id = db.Column(UUID, primary_key=True)
     request_id = db.Column(UUID, db.ForeignKey('translation_request.id'))
@@ -156,7 +166,6 @@ class TranslationResponse(db.Model, BaseModel):
     # 2: better translation (use Japanese as an intermediate langauge)
     # 3: human translation
     mode = db.Column(db.Integer)
-    original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
 

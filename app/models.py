@@ -166,6 +166,7 @@ class TranslationResponse(db.Model, BaseModel):
     # 2: better translation (use Japanese as an intermediate langauge)
     # 3: human translation
     mode = db.Column(db.Integer)
+    original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
     translated_text = db.Column(db.Text)
 

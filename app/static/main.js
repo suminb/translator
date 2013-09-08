@@ -126,7 +126,7 @@ var state = {
     },
 
     setResult: function(v) {
-        $("#result").text(v);
+        $("#result").html(v);
     },
 
     selectSource: function(v) {
@@ -166,11 +166,11 @@ var state = {
     },
 
     initWithState: function(state) {
-        this.setSource(state.sl);
-        this.setTarget(state.tl);
-        this.setMode(state.m);
-        this.setText(state.t);
-        this.setResult("");
+        this.setSource(state.source);
+        this.setTarget(state.target);
+        this.setMode(state.mode);
+        this.setText(state.text);
+        this.setResult(state.result);
     },
 
     initWithParameters: function() {
@@ -188,13 +188,13 @@ var state = {
         this.target = t.target;
         this.mode = t.mode;
         this.text = t.original_text;
-        this.result = t.translated_text;
+        this.result = t.translated_text_dictlink;
     },
 
     updateWithTranslation: function(t) {
         this.id = t.id;
         this.requestId = t.request_id;
-        this.result = t.translated_text;
+        this.result = t.translated_text_dictlink;
     },
 
     swapLanguages: function() {
@@ -232,7 +232,7 @@ var state = {
         }
 
         if (this.result) {
-            $("#result").text(this.result);
+            $("#result").html(this.result);
         }
         if (this.id) {
             displayPermalink(this.id);
@@ -248,16 +248,18 @@ var state = {
         this.target = $("select[name=tl]").val();
         this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
+        this.result = $("#result").html();
     },
 
     serialize: function() {
         this.update();
 
         return {
-            sl: this.source,
-            tl: this.target,
-            m: this.mode,
-            t: this.text
+            source: this.source,
+            target: this.target,
+            mode: this.mode,
+            text: this.text,
+            result: this.result
         };
     }
 };
@@ -342,7 +344,10 @@ function performTranslation() {
 
         state.pending = true;
 
-        $.post("/v1.0/translate", state.serialize(), function(response) {
+        $.post("/v1.1/translate",
+            {t:state.text, m:state.mode, sl:state.source, tl:state.target},
+            function(response) {
+
             state.updateWithTranslation(response);
 
             window.location.hash = "";
@@ -487,7 +492,7 @@ function fetchTranslation(serial) {
     $.get("/v0.9/fetch/"+serial, function(response) {
         // TODO: Refactor this part
         $("#text").val(response.original_text);
-        $("#result").html(response.translated_text);
+        $("#result").html(response.translated_text_dictlink);
 
         $("select[name=sl]").val(response.source);
         $("select[name=tl]").val(response.target);

@@ -493,9 +493,9 @@ def link_dictionary(text, source, target):
         for line in text.split('\n'):
             for word in line.split():
                 if len(word) > 1 and pattern.match(word) != None:
-                    # TODO: URL encode
                     # TODO: Prettify code
-                    buf.append('<a href="http://endic.naver.com/search.nhn?query={0}" class="dictionary-link">{0}</a>'.format(word))
+                    buf.append('<a href="{}" class="dictionary-link">{}</a>'.format(
+                        url_for('dictionary', query=word, source=source, target=target), word))
                 else:
                     buf.append(word)
 
@@ -506,6 +506,21 @@ def link_dictionary(text, source, target):
 
     else:
         return text
+
+
+@app.route('/dictionary')
+def dictionary():
+    keys = ('query', 'source', 'target')
+    query, source, target = map(lambda k: request.args[k].strip(), keys)
+
+    # TODO: URL encode
+
+    if source == 'ko' and target == 'en':
+        return redirect('http://endic.naver.com/search.nhn?query={}'.format(query))
+    elif source == 'en' and target == 'ko':
+        return redirect('http://endic.naver.com/search.nhn?query={}'.format(query))
+    else:
+        return 'Dictionary not available', 406
 
 
 @app.route('/v1.0/test')

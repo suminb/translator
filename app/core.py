@@ -151,8 +151,12 @@ def index(translation_id=None):
         return redirect(url_for('index'))
 
     if row != None:
+        translation = row.serialize()
+        translation['translated_text_dictlink'] = link_dictionary(
+            translation['translated_text'], translation['source'], translation['target'])
+
         context['og_description'] = row.original_text
-        context['translation'] = json.dumps(row.serialize())
+        context['translation'] = json.dumps(translation)
     else:
         context['og_description'] = _('app-description-text')
 
@@ -261,8 +265,11 @@ def translate_0_9():
 
         이것은 예입니다.
     """
+    keys = ('t', 'm', 'sl', 'tl')
+    text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
+
     try:
-        return translate()['translated_text']
+        return translate(text, mode, source, target)['translated_text']
 
     except HTTPException as e:
         return e.message, e.status_code
@@ -340,8 +347,11 @@ def translate_1_0():
                      }
             ];
     """
+    keys = ('t', 'm', 'sl', 'tl')
+    text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
+
     try:
-        return jsonify(translate())
+        return jsonify(translate(text, mode, source, target))
 
     except HTTPException as e:
         return e.message, e.status_code
@@ -350,10 +360,40 @@ def translate_1_0():
         logger.exception(e)
         return str(e), 500
 
-def translate():
+
+# Draft
+@app.route('/v1.1/translate', methods=['POST'])
+def translate_1_1():
+    """
+    :param sl: source language
+    :type sl: string
+    :param tl: target language
+    :type tl: string
+    :param m: mode ( 1 for normal, 2 for better )
+    :type m: int
+    :param t: text to be translated
+    :type t: string
+
+    Translates given text.
+    """
     keys = ('t', 'm', 'sl', 'tl')
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
+    try:
+        payload = translate(text, mode, source, target)
+        payload['translated_text_dictlink'] = link_dictionary(
+            payload['translated_text'], source, target)
+        return jsonify(payload)
+
+    except HTTPException as e:
+        return e.message, e.status_code
+
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
+
+
+def translate(text, mode, source, target):
     if len(text) == 0:
         raise HTTPException('Text cannot be empty.', 400)
 
@@ -441,6 +481,46 @@ def translate():
         request_id=base62.encode(uuid.UUID(treq.id).int),
         intermediate_text=tresp.intermediate_text,
         translated_text=tresp.translated_text)
+
+
+def link_dictionary(text, source, target):
+    """A naive implementation of English dictionary link feature."""
+
+    if source == 'ko' and target == 'en':
+        pattern = re.compile(r'[a-zA-Z_-]+')
+        buf = []
+
+        for line in text.split('\n'):
+            for word in line.split():
+                if len(word) > 1 and pattern.match(word) != None:
+                    # TODO: Prettify code
+                    buf.append('<a href="{}" class="dictionary-link">{}</a>'.format(
+                        url_for('dictionary', query=word, source=source, target=target), word))
+                else:
+                    buf.append(word)
+
+                buf.append(' ')
+            buf.append('\n')
+
+        return ''.join(buf)
+
+    else:
+        return text
+
+
+@app.route('/dictionary')
+def dictionary():
+    keys = ('query', 'source', 'target')
+    query, source, target = map(lambda k: request.args[k].strip(), keys)
+
+    # TODO: URL encode
+
+    if source == 'ko' and target == 'en':
+        return redirect('http://endic.naver.com/search.nhn?searchOption=all&query={}'.format(query))
+    elif source == 'en' and target == 'ko':
+        return redirect('http://endic.naver.com/search.nhn?searchOption=all&query={}'.format(query))
+    else:
+        return 'Dictionary not available', 406
 
 
 @app.route('/v1.0/test')

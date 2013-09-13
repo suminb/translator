@@ -240,3 +240,11 @@ div.adsense {
   margin: 30px 0 0 0;
   overflow: hidden;
 }
+
+a.dictionary-link {
+  color: #505050;
+}
+a.dictionary-link:hover {
+  text-decoration: none;
+  background-color: #dfdfdf;
+}

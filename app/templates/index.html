@@ -209,12 +209,13 @@ window.onload = function() {
             performTranslation();
         }
     })
-    .bind('paste', function (event) {
-        // http://stackoverflow.com/questions/9494283/jquery-how-to-get-the-pasted-content
-        // When pasting to an input the "paste" event is fired before the value has time to update
-        // Therefore, performTranslation() function has to be called after the completion of this event handling function
-        setTimeout(performTranslation, 100);
-    })
+    // Temporarily disabled (2013-09-27). We will see...
+    // .bind('paste', function (event) {
+    //     // http://stackoverflow.com/questions/9494283/jquery-how-to-get-the-pasted-content
+    //     // When pasting to an input the "paste" event is fired before the value has time to update
+    //     // Therefore, performTranslation() function has to be called after the completion of this event handling function
+    //     setTimeout(performTranslation, 100);
+    // })
     .trigger("change");
 
     $("button.to-mode").click(function(evt) {

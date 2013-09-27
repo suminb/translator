@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-31 15:33-0700\n"
+"POT-Creation-Date: 2013-09-27 12:39-0700\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: app/core.py:157
+#: app/core.py:161
 msgid "app-description-text"
 msgstr ""
 "La traduction aumieux est un service qui permet d'effectuer des "
@@ -27,7 +27,7 @@ msgstr ""
 " langage. Par conséquent, Google Traduction envers le japonais vous donne"
 " le meilleur résultat."
 
-#: app/core.py:485
+#: app/core.py:565
 #, fuzzy
 msgid ""
 "{0},\n"
@@ -35,12 +35,12 @@ msgid ""
 "Someone has posted a translation. Check out at {1}"
 msgstr "Postuler une tradiction en défi"
 
-#: app/core.py:488 app/notification.py:21
+#: app/core.py:568 app/notification.py:21
 #, fuzzy
 msgid "You have a notification from Better Translator"
 msgstr "Traduit par Traduction au mieux"
 
-#: app/core.py:490 app/notification.py:23 app/notification.py:44
+#: app/core.py:570 app/notification.py:23 app/notification.py:44
 #: app/translation.py:378 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
 #: app/templates/index.html:265 app/templates/translation_responses.html:114
@@ -356,7 +356,7 @@ msgstr "suédois"
 msgid "Japanese"
 msgstr "japonais"
 
-#: app/templates/index.html:231 app/templates/user_page.html:16
+#: app/templates/index.html:232 app/templates/user_page.html:16
 #: app/templates/user_page.html:17
 msgid "Loading..."
 msgstr ""

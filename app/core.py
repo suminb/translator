@@ -516,9 +516,9 @@ def dictionary():
     # TODO: URL encode
 
     if source == 'ko' and target == 'en':
-        return redirect('http://endic.naver.com/search.nhn?query={}'.format(query))
+        return redirect('http://endic.naver.com/search.nhn?searchOption=all&query={}'.format(query))
     elif source == 'en' and target == 'ko':
-        return redirect('http://endic.naver.com/search.nhn?query={}'.format(query))
+        return redirect('http://endic.naver.com/search.nhn?searchOption=all&query={}'.format(query))
     else:
         return 'Dictionary not available', 406
 

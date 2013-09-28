@@ -3,5 +3,8 @@ language: python
 python:
   - "2.7"
 
+before_script:
+  - python app/__init__.py
+
 script:
   - python test.py

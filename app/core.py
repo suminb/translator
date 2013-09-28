@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 from flask import Flask, jsonify, request, render_template, url_for, redirect, session
-from flaskext.babel import gettext as _
+from flask.ext.babel import gettext as _
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask_oauthlib.client import OAuth
 from jinja2 import evalcontextfilter, Markup, escape

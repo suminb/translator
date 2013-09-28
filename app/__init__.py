@@ -4,7 +4,7 @@ __version__ = '1.1.31'
 
 from flask import Flask
 from flask.ext.login import LoginManager
-from flaskext.babel import Babel
+from flask.ext.babel import Babel
 
 import os, sys
 import logging

@@ -1,6 +1,7 @@
 flask-babel
 flask-sqlalchemy
 flask-login
+flask-wtf
 flask_oauthlib
 jinja2
 requests

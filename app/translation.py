@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, render_template, url_for, redirect, session
-from flaskext.babel import gettext as _
+from flask.ext.babel import gettext as _
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql.expression import func, select

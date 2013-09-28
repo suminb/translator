@@ -1,0 +1,10 @@
+flask-babel
+flask-sqlalchemy
+flask_oauthlib
+requests
+sphinx
+sphinxcontrib-httpdomain
+psycopg2
+nilsimsa
+facebook-sdk
+hallucination

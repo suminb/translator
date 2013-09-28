@@ -1,5 +1,6 @@
 flask-babel
 flask-sqlalchemy
+flask-login
 flask_oauthlib
 requests
 sphinx

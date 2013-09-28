@@ -1,7 +1,9 @@
 flask-babel
 flask-sqlalchemy
 flask-login
+flask-babel
 flask_oauthlib
+jinja2
 requests
 sphinx
 sphinxcontrib-httpdomain

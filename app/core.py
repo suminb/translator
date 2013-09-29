@@ -25,7 +25,10 @@ import os, sys
 import pytz
 import facebook
 
-import config
+try:
+    import config
+except:
+    import dummyconfig as config
 
 oauth = OAuth()
 

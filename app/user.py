@@ -19,7 +19,11 @@ import os, sys
 import pytz
 import facebook
 
-import config
+try:
+    import config
+except:
+    import dummyconfig as config
+
 
 @app.route('/user')
 @login_required

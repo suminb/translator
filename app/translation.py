@@ -22,7 +22,10 @@ import pytz
 import facebook
 import nilsimsa
 
-import config
+try:
+    import config
+except:
+    import dummyconfig as config
 
 # @app.route('/tr/<translation_id>/request')
 # @login_required

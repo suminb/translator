@@ -8,7 +8,12 @@ from flask.ext.babel import Babel
 
 import os, sys
 import logging
-import config
+
+try:
+    import config
+except:
+    import dummyconfig as config
+
 
 VALID_LANGUAGES = {
     'en': 'English',

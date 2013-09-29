@@ -8,9 +8,13 @@ from models import Translation, GeoIP
 import json
 import requests
 import os, sys
-import config
 import re
 import logging
+
+try:
+    import config
+except:
+    import dummyconfig as config
 
 
 engine = create_engine(config.DB_URI, convert_unicode=True)

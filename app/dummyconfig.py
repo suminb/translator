@@ -1,4 +1,4 @@
-DB_URI = 'sqlite://translator.db'
+DB_URI = 'sqlite:///translator.db'
 
 SECRET_KEY = 'development key'
 FACEBOOK_APP_ID = 'app id'

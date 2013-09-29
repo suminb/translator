@@ -54,16 +54,16 @@ class DefaultTestCase(TestCase):
         f = lambda: translate('The cake was a lie', 1, 'en', 'unknown')
         assert_raises(HTTPException, f)
 
-    # def test_translate_5(self):
-    #     params = dict(
-    #         t=u'도요타는 일본의 자동차 제조사이다.',
-    #         m=1, sl='ko', tl='en')
+    def test_translate_5(self):
+        params = dict(
+            t=u'도요타는 일본의 자동차 제조사이다.',
+            m=1, sl='ko', tl='en')
 
-    #     req = requests.post('{}/v1.1/translate'.format(HOST), data=params)
-    #     assert_equal(req.status_code, 200)
+        req = requests.post('{}/v1.1/translate'.format(HOST), data=params)
+        assert_equal(req.status_code, 200)
 
-    #     t = json.loads(req.text)
-    #     assert_in('Toyota', t['translated_text'])
+        t = json.loads(req.text)
+        assert_in('Toyota', t['translated_text'])
 
 
     def test_locale_1(self):

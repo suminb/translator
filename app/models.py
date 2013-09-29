@@ -16,6 +16,11 @@ import json
 
 db = SQLAlchemy(app)
 
+# Will this work?
+if db.engine.driver != 'psycopg2':
+    UUID = db.String
+
+
 def serialize(obj):
     import json
     if isinstance(obj.__class__, DeclarativeMeta):

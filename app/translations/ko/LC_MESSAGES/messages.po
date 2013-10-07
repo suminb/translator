@@ -19,7 +19,7 @@ msgstr ""
 
 #: app/core.py:161
 msgid "app-description-text"
-msgstr "소셜 네트워크 서비스를 타고 돌아다니는 '구글 번역기 활용 방법'에서 영감을 얻어 만든 서비스입니다."
+msgstr "일본어 중역을 이용한 번역 서비스입니다."
 
 #: app/core.py:565
 msgid ""
@@ -263,8 +263,7 @@ msgstr "보기"
 #: app/templates/index.html:5
 msgid "app-description-html"
 msgstr ""
-"소셜 네트워크 서비스를 타고 돌아다니는 <a href=\"#\" onclick=\"toggleScreenshot()\">'구글 "
-"번역기 활용 방법'</a>에서 영감을 얻어 만든 서비스입니다."
+"일본어 중역을 이용한 번역 서비스입니다."
 
 #: app/templates/index.html:10
 msgid ""

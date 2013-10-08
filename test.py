@@ -64,6 +64,7 @@ class DefaultTestCase(TestCase):
 
         t = json.loads(req.text)
         assert_in('Toyota', t['translated_text'])
+        assert_in('Japan', t['translated_text'])
 
 
     def test_locale_1(self):

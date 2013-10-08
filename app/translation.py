@@ -206,7 +206,7 @@ def translation_request_response(request_id):
 @app.route('/hrequest')
 def translation_help_requests():
 
-    hrequests = TranslationRequest.query.filter(TranslationRequest.user_id != None).order_by(func.random()).limit(25)
+    hrequests = TranslationRequest.query.filter(TranslationRequest.user_id != None).order_by(TranslationRequest.timestamp.desc()).limit(25)
 
     context = dict(
         version=__version__,

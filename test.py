@@ -23,7 +23,8 @@ class DefaultTestCase(TestCase):
     #     app.run(host=host, port=port, debug=debug)
 
     def test_pages(self):
-        pages = ('', 'credits', 'discuss', 'disclaimers', 'privacy')
+        pages = ('', 'credits', 'discuss', 'disclaimers', 'privacy',
+            'hrequest',)
 
         for page in pages:
             req = requests.get('{}/{}'.format(HOST, page))

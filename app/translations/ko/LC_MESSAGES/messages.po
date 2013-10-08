@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-27 21:03+0000\n"
+"POT-Creation-Date: 2013-10-08 13:20-0700\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:161
+#: app/core.py:168
 msgid "app-description-text"
 msgstr "일본어 중역을 이용한 번역 서비스입니다."
 
-#: app/core.py:565
+#: app/core.py:572
 msgid ""
 "{0},\n"
 "\n"
@@ -31,12 +31,12 @@ msgstr ""
 "\n"
 "요청하신 번역문이 올라왔습니다. {1} 에서 확인하세요."
 
-#: app/core.py:568 app/notification.py:21
+#: app/core.py:575 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:570 app/notification.py:23 app/notification.py:44
-#: app/translation.py:378 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:577 app/notification.py:23 app/notification.py:44
+#: app/translation.py:381 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
 #: app/templates/index.html:265 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
@@ -59,28 +59,28 @@ msgstr "번역문 언어"
 msgid "Original text"
 msgstr "원문"
 
-#: app/translation.py:64 app/translation.py:137 app/translation.py:154
-#: app/translation.py:334
+#: app/translation.py:67 app/translation.py:140 app/translation.py:157
+#: app/translation.py:337
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/translation.py:107
+#: app/translation.py:110
 msgid "Please provide a non-empty translation."
 msgstr "번역문을 입력해주세요."
 
-#: app/translation.py:130
+#: app/translation.py:133
 msgid "Your translation has been posted."
 msgstr "번역문이 등록되었습니다."
 
-#: app/translation.py:380
+#: app/translation.py:383
 msgid "{} has completed a translation challenge"
 msgstr "{}님이 번역 도전 과제를 해결했습니다"
 
-#: app/translation.py:381
+#: app/translation.py:384
 msgid "How do you say \"{0}\" in {1}?"
 msgstr "\"{0}\"을(를) {1}로 하면?"
 
-#: app/translation.py:395
+#: app/translation.py:398
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 
@@ -262,8 +262,7 @@ msgstr "보기"
 
 #: app/templates/index.html:5
 msgid "app-description-html"
-msgstr ""
-"일본어 중역을 이용한 번역 서비스입니다."
+msgstr "일본어 중역을 이용한 번역 서비스입니다."
 
 #: app/templates/index.html:10
 msgid ""

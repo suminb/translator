@@ -17,7 +17,7 @@
   {% for hrequest in hrequests %}
     <tr>
       <td>{{ hrequest.timestamp | date }}</td>
-      <td><a href="{{ url_for('translation_responses', request_id=hrequest.id|uuid_to_b62) }}">{{ hrequest.original_text }}</a></td>
+      <td><a href="{{ url_for('translation_responses', request_id=hrequest.id|uuid_to_b62) }}">{{ hrequest.original_text | truncate(180) }}</a></td>
       <td>
         {{ hrequest.source | language_name }} &rarr;
         {{ hrequest.target | language_name }}

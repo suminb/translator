@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-27 21:03+0000\n"
+"POT-Creation-Date: 2013-10-08 13:20-0700\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: app/core.py:161
+#: app/core.py:168
 msgid "app-description-text"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en la "
@@ -28,19 +28,19 @@ msgstr ""
 "pornografía Japonesa a su idioma. Usando esta base de datos, la "
 "traducción de idiomas funciona mejor a través del uso del Japonés."
 
-#: app/core.py:565
+#: app/core.py:572
 msgid ""
 "{0},\n"
 "\n"
 "Someone has posted a translation. Check out at {1}"
 msgstr ""
 
-#: app/core.py:568 app/notification.py:21
+#: app/core.py:575 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:570 app/notification.py:23 app/notification.py:44
-#: app/translation.py:378 app/templates/base.html:9 app/templates/base.html:12
+#: app/core.py:577 app/notification.py:23 app/notification.py:44
+#: app/translation.py:381 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
 #: app/templates/index.html:265 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
@@ -63,29 +63,29 @@ msgstr ""
 msgid "Original text"
 msgstr ""
 
-#: app/translation.py:64 app/translation.py:137 app/translation.py:154
-#: app/translation.py:334
+#: app/translation.py:67 app/translation.py:140 app/translation.py:157
+#: app/translation.py:337
 msgid "Requrested resource does not exist"
 msgstr ""
 
-#: app/translation.py:107
+#: app/translation.py:110
 msgid "Please provide a non-empty translation."
 msgstr ""
 
-#: app/translation.py:130
+#: app/translation.py:133
 #, fuzzy
 msgid "Your translation has been posted."
 msgstr "Traducción directa"
 
-#: app/translation.py:380
+#: app/translation.py:383
 msgid "{} has completed a translation challenge"
 msgstr ""
 
-#: app/translation.py:381
+#: app/translation.py:384
 msgid "How do you say \"{0}\" in {1}?"
 msgstr ""
 
-#: app/translation.py:395
+#: app/translation.py:398
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 

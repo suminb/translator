@@ -125,6 +125,10 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
 @app.route('/')
 @app.route('/tr/<translation_id>')
 def index(translation_id=None):
+    
+    if request.host == 'translator.suminb.com':
+        return redirect('http://better-translator.com')
+
     """
     NOTE: Do not use HTTP GET parameters 'sl', 'tl', 'm' and 't'. These are
     reserved for special purposes.

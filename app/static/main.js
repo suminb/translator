@@ -114,7 +114,8 @@ var state = {
     },
 
     setMode: function(v) {
-        if (!(v == 1 && v == 2)) {
+        v = parseInt(v);
+        if (!(v == 1 || v == 2)) {
             // If invalid, fallback to the default value
             v = 2;
         }

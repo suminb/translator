@@ -179,6 +179,7 @@ window.onload = function() {
     else {
         if (getParameterByName("t")) {
             state.initWithParameters();
+            performTranslation();
         }
         else {
             state.init();

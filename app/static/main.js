@@ -114,6 +114,10 @@ var state = {
     },
 
     setMode: function(v) {
+        if (!(v == 1 && v == 2)) {
+            // If invalid, fallback to the default value
+            v = 2;
+        }
         this.mode = v;
         $("button.to-mode").removeClass("active");
         $(sprintf("button.to-mode[value=%s]", v)).addClass("active");

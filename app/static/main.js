@@ -131,6 +131,7 @@ var state = {
     },
 
     setResult: function(v) {
+        this.result = v;
         $("#result").html(v);
     },
 

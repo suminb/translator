@@ -77,14 +77,29 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
         'client': 'x',
         'sl': source,
         'tl': target,
-        'text': text
+        'text': text,
     }
     url = 'http://translate.google.com/translate_a/t'
 
     r = None
     try:
-        r = proxy_factory.make_request(url, headers=headers, params=payload,
-            req_type=requests.post, timeout=2, pool_size=10)
+        encoded_payload = '&'.join(['{}={}'.format(k, payload[k].encode('utf-8')) for k in payload])
+        print encoded_payload
+
+        encoded_url = urllib.quote('{0}?{1}'.format(url, encoded_payload))
+
+        print encoded_url
+
+        goxcors_url = 'http://goxcors.appspot.com/cors'
+        goxcors_payload = dict(
+            method='POST',
+            url=encoded_url)
+
+        print '{}?method=POST&url={}'.format(goxcors_url, encoded_url)
+
+        #r = requests.post(goxcors_url, data=goxcors_payload)
+        r = requests.get('{}?method=POST&url={}'.format(goxcors_url, encoded_url))
+
     except Exception as e:
         logger.exception(e)
 

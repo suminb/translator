@@ -208,6 +208,10 @@ var state = {
 
         this.setSource(target);
         this.setTarget(source);
+
+        $.cookie("source", target);
+        $.cookie("target", source);
+
         this.setText($("#result").text());
 
         performTranslation();
@@ -322,14 +326,16 @@ function resizeTextarea(t) {
 function performTranslation() {
 
     if (state.pending) {
-        // If there is any pending translation request, silently abort the request.
+        // If there is any pending translation request,
+        // silently abort the request.
         return false;
     }
 
     state.update();
 
     if (state.source == state.target) {
-        // simply displays the original text when the source language and the target language are identical
+        // simply displays the original text when the source language and
+        // the target language are identical
         state.setResult(state.text);
     }
     else if (state.source == "" || state.target == "") {
@@ -338,7 +344,9 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else { // translates if the source language and the target language are not identical
+    else {
+        // translates if the source language and the target language are not
+        // identical
 
         $("#error-message").html("");
         $("#result").html("");
@@ -424,22 +432,6 @@ function displayResult(result) {
     $("#result").html(result);
 }
 
-/**
- * @deprecated
- */
-function displayPageURL(source, target, mode, text) {
-    var encoded = encodeURIComponent(text);
-    if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
-        var url = sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
-
-        $("#page-url").visible();
-        $("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
-    }
-    else {
-        $("#page-url").invisible();
-    }
-}
-
 function displayError(message) {
     var postfix = ' If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
     $("#error-message").html(message + postfix);
@@ -491,7 +483,6 @@ function toggleScreenshot() {
 toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
-    //$("#progress-message").html("Fetching requested resources...");
     $("#progress-message").show();
 
     $.get("/v0.9/fetch/"+serial, function(response) {
@@ -558,8 +549,6 @@ function displayPermalink(id) {
     var url = origin + path;
 
     $("#request-permalink").hide();
-    //$("#page-url").visible();
-    //$("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
 
     window.history.pushState(state.serialize(), "", path);
 }

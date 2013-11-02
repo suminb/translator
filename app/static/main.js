@@ -357,7 +357,7 @@ function performTranslation() {
 
         state.pending = true;
 
-        $.post("/v1.1/translate",
+        $.post("/v1.2/translate",
             {t:state.text, m:state.mode, sl:state.source, tl:state.target},
             function(response) {
 

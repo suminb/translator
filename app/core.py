@@ -19,6 +19,7 @@ import json
 import urllib
 import uuid
 import re
+import hashlib
 import nilsimsa # Locality Sensitive Hash
 import base62
 import os, sys
@@ -49,7 +50,7 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
+def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGENT):
     """
     text: text to be translated
     source: source language
@@ -71,43 +72,52 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     headers = {
         'Referer': 'http://translate.google.com',
         'User-Agent': user_agent,
-        #'Content-Length': str(sys.getsizeof(text))
+        'Content-Length': str(sys.getsizeof(text))
     }
     payload = {
-        'client': 'x',
+        'client': client,
         'sl': source,
         'tl': target,
         'text': text
     }
     url = 'http://translate.google.com/translate_a/t'
 
-    r = None
+    req = None
     try:
-        r = proxy_factory.make_request(url, headers=headers, params=payload,
+        req = proxy_factory.make_request(url, headers=headers, params=payload,
             req_type=requests.post, timeout=2, pool_size=10)
     except Exception as e:
         logger.exception(e)
 
-    if r == None:
+    if req == None:
         # if request via proxy fails
-        r = requests.post(url, headers=headers, data=payload)
+        req = requests.post(url, headers=headers, data=payload)
 
-    if r.status_code != 200:
-        raise HTTPException(('Google Translate returned HTTP %d' % r.status_code), r.status_code)
+    print req.headers
 
-    data = json.loads(r.text)
+    if req.status_code != 200:
+        raise HTTPException(
+            ('Google Translate returned HTTP {}'.format(req.status_code)),
+            req.status_code)
 
-    try:
-        #if target == 'ja':
-        #    sentences = data['sentences']
-        sentences = data['sentences']
-    except:
-        sentences = data['results'][0]['sentences']
 
-    result = ' '.join(map(lambda x: x['trans'], sentences))
+    if client == 'x':
+        data = json.loads(req.text)
 
-    # Remove unneccessary white spaces
-    return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
+        try:
+            #if target == 'ja':
+            #    sentences = data['sentences']
+            sentences = data['sentences']
+        except:
+            sentences = data['results'][0]['sentences']
+
+        result = ' '.join(map(lambda x: x['trans'], sentences))
+
+        # Remove unneccessary white spaces
+        return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
+    
+    else:
+        return req.text
 
 
 # def __language_options__():
@@ -368,7 +378,6 @@ def translate_1_0():
         return str(e), 500
 
 
-# Draft
 @app.route('/v1.1/translate', methods=['POST'])
 def translate_1_1():
     """
@@ -400,7 +409,42 @@ def translate_1_1():
         return str(e), 500
 
 
-def translate(text, mode, source, target):
+@app.route('/v1.2/translate', methods=['POST'])
+def translate_1_2():
+    """
+    :param sl: source language
+    :type sl: string
+    :param tl: target language
+    :type tl: string
+    :param m: mode ( 1 for normal, 2 for better )
+    :type m: int
+    :param t: text to be translated
+    :type t: string
+
+    Translates given text.
+    """
+    keys = ('t', 'm', 'sl', 'tl')
+    text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
+
+    try:
+        print 'checkpoint 1'
+        payload = translate(text, mode, source, target, 't')
+        print 'checkpoint 2'
+
+        print payload
+
+        return jsonify(payload)
+
+    except HTTPException as e:
+        return e.message, e.status_code
+
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
+
+
+def translate(text, mode, source, target, client='x'):
+
     if len(text) == 0:
         raise HTTPException('Text cannot be empty.', 400)
 
@@ -448,13 +492,14 @@ def translate(text, mode, source, target):
         source=source, target=target, mode=mode)
 
     if tresp == None:
+
         # NOTE: The following may be time consuming operations
         if mode == '1':
             intermediate = None
-            translated = __translate__(text, source, target, user_agent)
+            translated = __translate__(text, source, target, client, user_agent)
         elif mode == '2':
-            intermediate = __translate__(text, source, 'ja', user_agent)
-            translated = __translate__(intermediate, 'ja', target, user_agent)
+            intermediate = __translate__(text, source, 'ja', client, user_agent)
+            translated = __translate__(intermediate, 'ja', target, client, user_agent)
         else:
             return HTTPException('Invalid translation mode.', 400)
 

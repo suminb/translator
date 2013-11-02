@@ -79,10 +79,11 @@ $.fn.enable = function() {
 window.fbAsyncInit = function() {
 // init the FB JS SDK
 FB.init({
-  appId      : '551432311581596',                        // App ID from the app dashboard
-  channelUrl : '//translator.suminb.com/static/channel.html', // Channel file for x-domain comms
-  status     : true,                                 // Check Facebook Login status
-  xfbml      : true                                  // Look for social plugins on the page
+  appId      : '551432311581596', // App ID from the app dashboard
+  channelUrl : '//translator.suminb.com/static/channel.html',
+                // Channel file for x-domain comms
+  status     : true, // Check Facebook Login status
+  xfbml      : true  // Look for social plugins on the page
 });
 
 // Additional initialization code such as adding Event Listeners goes here
@@ -165,9 +166,12 @@ var state = {
     },
 
     init: function() {
-        this.setSource(typeof $.cookie("source") != "undefined" ? $.cookie("source") : "ko");
-        this.setTarget(typeof $.cookie("target") != "undefined" ? $.cookie("target") : "en");
-        this.setMode(typeof $.cookie("mode") != "undefined" ? $.cookie("mode") : 2);
+        this.setSource(typeof $.cookie("source") != "undefined" ?
+            $.cookie("source") : "ko");
+        this.setTarget(typeof $.cookie("target") != "undefined" ?
+            $.cookie("target") : "en");
+        this.setMode(typeof $.cookie("mode") != "undefined" ?
+            $.cookie("mode") : 2);
     },
 
     initWithState: function(state) {
@@ -193,13 +197,15 @@ var state = {
         this.target = t.target;
         this.mode = t.mode;
         this.text = t.original_text;
-        this.result = t.translated_text_dictlink;
+        this.result = t.translated_text;
     },
 
     updateWithTranslation: function(t) {
+        console.log('t.translated_text=');
+        console.log(t.translated_text);
         this.id = t.id;
         this.requestId = t.request_id;
-        this.result = t.translated_text_dictlink;
+        this.result = t.translated_text;
     },
 
     swapLanguages: function() {
@@ -241,7 +247,7 @@ var state = {
         }
 
         if (this.result) {
-            $("#result").html(this.result);
+            $("#result").html(this.result[0][0][0]);
         }
         if (this.id) {
             displayPermalink(this.id);
@@ -257,7 +263,8 @@ var state = {
         this.target = $("select[name=tl]").val();
         this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
-        this.result = $("#result").html();
+        // NOTE: Don't make this.result string
+        //this.result = $("#result").html();
     },
 
     serialize: function() {
@@ -367,8 +374,6 @@ function performTranslation() {
             //window.history.pushState(currentState, "", window.location.href);
 
             if (state.id) {
-                //askForRating(response.request_id);
-                //displayPermalink(response.id);
 
                 if (state.text.length <= 180) {
                     $("a.to-mode")

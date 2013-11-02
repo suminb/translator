@@ -93,8 +93,6 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
         # if request via proxy fails
         req = requests.post(url, headers=headers, data=payload)
 
-    print req.headers
-
     if req.status_code != 200:
         raise HTTPException(
             ('Google Translate returned HTTP {}'.format(req.status_code)),
@@ -116,8 +114,18 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
         # Remove unneccessary white spaces
         return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
     
+    elif client == 't':
+        # NOTE: This may break down in some cases...
+        text = req.text
+        text = text.replace(',,,', ',null,null,')
+        text = text.replace(',,', ',null,')
+
+        parsed = json.loads(text)
+
+        return parsed
+
     else:
-        return req.text
+        raise Exception("Unsupported client '{}'".format(client))
 
 
 # def __language_options__():
@@ -427,11 +435,7 @@ def translate_1_2():
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
     try:
-        print 'checkpoint 1'
         payload = translate(text, mode, source, target, 't')
-        print 'checkpoint 2'
-
-        print payload
 
         return jsonify(payload)
 

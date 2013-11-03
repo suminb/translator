@@ -11,5 +11,5 @@ psycopg2
 nilsimsa
 facebook-sdk
 hallucination
-testify
+pytest
 

@@ -503,6 +503,10 @@ def translate(text, mode, source, target, client='x'):
             translated = __translate__(text, source, target, client, user_agent)
         elif mode == '2':
             intermediate = __translate__(text, source, 'ja', client, user_agent)
+
+            if client == 't':
+                intermediate = intermediate[0][0][0]
+
             translated = __translate__(intermediate, 'ja', target, client, user_agent)
         else:
             return HTTPException('Invalid translation mode.', 400)

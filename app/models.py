@@ -198,10 +198,6 @@ class TranslationResponse(db.Model, BaseModel):
     def minus_ratings(self):
         return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
 
-    @property
-    def corpora(self):
-        return self.translated_raw[5]
-
 
     def process_corpora(self):
         source_lang, target_lang = self.source, self.target
@@ -209,13 +205,30 @@ class TranslationResponse(db.Model, BaseModel):
 
         for source, target in zip(self.translated_raw[5], self.translated_raw[4]):
 
-            corpus = Corpus.insert(
-                source_lang=source_lang,
-                target_lang=target_lang,
-                source_text=source[0],
-                target_text=target[0],
-                confidence=int(target[4]),
-            )
+            source_text, target_text = source[0], target[0]
+            confidence = int(target[4])
+
+            corpus = Corpus.query.filter_by(
+                    source_lang=source_lang,
+                    target_lang=target_lang,
+                    source_text=source_text,
+                    target_text=target_text,
+                ).first()
+
+            if corpus == None:
+                corpus = Corpus.insert(
+                    source_lang=source_lang,
+                    target_lang=target_lang,
+                    source_text=source_text,
+                    target_text=target_text,
+                    confidence=confidence,
+                    frequency=1,
+                )
+            else:
+                corpus.confidence += confidence
+                corpus.frequency += 1
+
+                db.session.commit()
 
 
     def intermediate_raw():
@@ -306,12 +319,16 @@ class TranslationAccessLog(db.Model, BaseModel):
 class Corpus(db.Model, BaseModel):
     """A corpus is a pair of strings shorter than 255 characters each."""
 
+    __table_args__ = ( db.UniqueConstraint('source_lang', 'target_lang',
+        'source_text', 'target_text'), )
+
     id = db.Column(UUID, primary_key=True)
     source_lang = db.Column(db.String(16))
     target_lang = db.Column(db.String(16))
     source_text = db.Column(db.String(255)) # NOTE: Not sure if this is the number of bytes or the number of characters
     target_text = db.Column(db.String(255))
     confidence = db.Column(db.Integer)
+    frequency = db.Column(db.Integer)
     aux_info = db.Column(db.Text)
 
 class CorpusIndex(db.Model, BaseModel):

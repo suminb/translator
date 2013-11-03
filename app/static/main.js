@@ -247,7 +247,29 @@ var state = {
         }
 
         if (this.result) {
-            $("#result").html(this.result[0][0][0]);
+            //$("#result").html(this.result[0][0][0]);
+
+            var resultDiv = $("#result");
+            var sourceText = this.result[0][0][1];
+
+            $(this.result[5]).each(function(i, v) {
+                console.log(v);
+
+                var targetCorpus = v[2][0][0];
+                var sourceRanges = v[3];
+
+                $(sourceRanges).each(function(i, v) {
+                    var sourceCorpus = sourceText.substring(v[0], v[1]);
+                    console.log(sourceCorpus);
+                });              
+
+                var corpusSpan = $("<span></span>")
+                    .addClass("corpus")
+                    .text(targetCorpus);
+
+                resultDiv.append(corpusSpan);
+                resultDiv.append(" ");
+            });
         }
         if (this.id) {
             displayPermalink(this.id);

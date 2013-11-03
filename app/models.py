@@ -219,29 +219,6 @@ class TranslationResponse(db.Model, BaseModel):
     intermediate_raw = property(**intermediate_raw())
 
 
-    def translated():
-        doc = "The translated property."
-        def fget(self):
-            return self.translated_text
-
-        def fset(self, value):
-            #if isinstance(value, unicode) and value[0] in '{[' and value[-1] in '}]':
-            try:
-                _ = json.dumps(value)
-
-                self.translated_text = value[0][0][0]
-                self.translated_raw = value # DO NOT json.dumps() because it
-                                            # will be taken care of by
-                                            # translated_raw()
-            #else:
-            except:
-                self.translated_text = value
-                self.translated_raw = None
-
-        return locals()
-    translated = property(**translated())
-
-
     def translated_raw():
         doc = "The translated_raw property."
         def fget(self):

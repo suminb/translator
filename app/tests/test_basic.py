@@ -92,6 +92,21 @@ class TestBasic:
         assert 'dream' in tt
         assert 'world' in tt
 
+    def test_translate_7(self):
+        params = dict(
+            t=u'Coca Cola is one of the most widely known brand names.',
+            m=2, sl='en', tl='ko')
+
+        req = requests.post('{}/v1.2/translate'.format(HOST), data=params)
+        assert req.status_code == 200
+
+        t = json.loads(req.text)
+        tt = t['translated_text']
+
+        assert u'코카콜라' in tt
+        assert u'가장' in tt
+        assert u'브랜드' in tt
+
 
     def test_locale_1(self):
         req = requests.get('{}/locale?locale=ko'.format(HOST))

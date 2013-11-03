@@ -504,7 +504,7 @@ def translate(text, mode, source, target, client='x'):
             if client == 't':
                 intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
                 intermediate_text = intermediate_raw[0][0][0]
-                translated_raw = __translate__(intermediate_text, source, 'ja', client, user_agent)
+                translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
                 translated_text = translated_raw[0][0][0]
 
             else:

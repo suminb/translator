@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+{{ pagination.info|safe }}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>{{ _("Source Language") }}</th>
+      <th>{{ _("Target Language") }}</th>
+      <th>{{ _("Source Text") }}</th>
+      <th>{{ _("Target Text") }}</th>
+      <th>{{ _("Confidence") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for corpus in corpora %}
+      <tr>
+        <td>{{ corpus.source_lang }}</td>
+        <td>{{ corpus.target_lang }}</td>
+        <td>{{ corpus.source_text }}</td>
+        <td>{{ corpus.target_text }}</td>
+        <td>{{ (corpus.confidence / corpus.frequency) | round | int }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div style="text-align:center">
+  {{ pagination.links|safe }}
+</div>
+
+{% endblock %}

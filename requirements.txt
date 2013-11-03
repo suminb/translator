@@ -2,6 +2,7 @@ flask-babel
 flask-sqlalchemy
 flask-login
 flask-wtf
+flask-paginate
 flask_oauthlib
 jinja2
 requests

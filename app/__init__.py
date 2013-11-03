@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 
-__version__ = '1.2.0'
+__version__ = '1.2.1'
 
 from flask import Flask
 from flask.ext.login import LoginManager
@@ -71,6 +71,7 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 from core import *
+from corpus import *
 from translation import *
 from user import *
 

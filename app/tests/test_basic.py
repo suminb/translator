@@ -28,7 +28,7 @@ class TestBasic:
 
     def test_pages(self):
         pages = ('', 'credits', 'discuss', 'disclaimers', 'privacy',
-            'hrequest',)
+            'hrequest', 'corpus')
 
         for page in pages:
             req = requests.get('{}/{}'.format(HOST, page))

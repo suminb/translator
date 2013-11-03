@@ -15,8 +15,8 @@
   <tbody>
     {% for corpus in corpora %}
       <tr>
-        <td>{{ corpus.source_lang }}</td>
-        <td>{{ corpus.target_lang }}</td>
+        <td>{{ corpus.source_lang | language_name }}</td>
+        <td>{{ corpus.target_lang | language_name }}</td>
         <td>{{ corpus.source_text }}</td>
         <td>{{ corpus.target_text }}</td>
         <td>{{ (corpus.confidence / corpus.frequency) | round | int }}</td>

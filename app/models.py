@@ -200,6 +200,25 @@ class TranslationResponse(db.Model, BaseModel):
 
 
     def process_corpora(self):
+        def insert_corpora(source_lang, source_text, target_lang, target_text, confidence):
+            corpus = Corpus.query.filter_by(
+                    source_lang=source_lang, target_lang=target_lang,
+                    source_text=source_text, target_text=target_text,
+                ).first()
+
+            if corpus == None:
+                corpus = Corpus.insert(
+                    source_lang=source_lang, target_lang=target_lang,
+                    source_text=source_text, target_text=target_text,
+                    confidence=confidence, frequency=1,
+                )
+            else:
+                corpus.confidence += confidence
+                corpus.frequency += 1
+
+                db.session.commit()
+
+
         source_lang, target_lang = self.source, self.target
         if self.mode == 2: source_lang = 'ja' # FIXME: This shall be removed for API v1.3
 
@@ -208,27 +227,18 @@ class TranslationResponse(db.Model, BaseModel):
             source_text, target_text = source[0], target[0]
             confidence = int(target[4])
 
-            corpus = Corpus.query.filter_by(
-                    source_lang=source_lang,
-                    target_lang=target_lang,
-                    source_text=source_text,
-                    target_text=target_text,
-                ).first()
+            insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
 
-            if corpus == None:
-                corpus = Corpus.insert(
-                    source_lang=source_lang,
-                    target_lang=target_lang,
-                    source_text=source_text,
-                    target_text=target_text,
-                    confidence=confidence,
-                    frequency=1,
-                )
-            else:
-                corpus.confidence += confidence
-                corpus.frequency += 1
+        if self.mode == 2:
+            source_lang, target_lang = self.source, 'ja'
+            
+            for source, target in zip(self.intermediate_raw[5], self.intermediate_raw[4]):
 
-                db.session.commit()
+                source_text, target_text = source[0], target[0]
+                confidence = int(target[4])
+
+                insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
+
 
 
     def intermediate_raw():

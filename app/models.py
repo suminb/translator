@@ -177,7 +177,9 @@ class TranslationResponse(db.Model, BaseModel):
     mode = db.Column(db.Integer)
     original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
-    _translated_text = db.Column('translated_text', db.Text)
+    _intermediate_raw = db.Column('intermediate_raw', db.Text)
+    translated_text = db.Column(db.Text)
+    _translated_raw = db.Column('translated_raw', db.Text)
 
     request = relationship('TranslationRequest')
     user = relationship('User')
@@ -192,24 +194,70 @@ class TranslationResponse(db.Model, BaseModel):
     def minus_ratings(self):
         return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
 
-    def translated_text():
-        doc = "The translated_text property."
+    @property
+    def corpora(self):
+        return self.translated_raw[5]
+
+
+    def intermediate_raw():
+        doc = "The intermediate_raw property."
         def fget(self):
-            if self._translated_text != '' and self._translated_text[0] in '{[':
-                return json.loads(self._translated_text)
-            else:
-                return self._translated_text
+            try:
+                return json.loads(self._intermediate_raw)
+            except:
+                return self._intermediate_raw
 
         def fset(self, value):
-            if isinstance(value, str):
-                self._translated_text = value
-            else:
-                self._translated_text = json.dumps(value)
+            try:
+                self._intermediate_raw = json.dumps(value)
+            except:
+                self._intermediate_raw = value
 
         def fdel(self):
-            del self._translated_text
+            del self._intermediate_raw
         return locals()
-    translated_text = property(**translated_text())
+    intermediate_raw = property(**intermediate_raw())
+
+
+    def translated():
+        doc = "The translated property."
+        def fget(self):
+            return self.translated_text
+
+        def fset(self, value):
+            if isinstance(value, str) and value[0] in '{[' and value[-1] in '}]':
+                self.translated_text = value[0][0][0]
+                self.translated_raw = value # DO NOT json.dumps() because it
+                                            # will be taken care of by
+                                            # translated_raw()
+            else:
+                self.translated_text = value
+                self.translated_raw = None
+
+        return locals()
+    translated = property(**translated())
+
+
+    def translated_raw():
+        doc = "The translated_raw property."
+        def fget(self):
+            try:
+                return json.loads(self._translated_raw)
+            except:
+                return self._translated_raw
+
+        def fset(self, value):
+            try:
+                self._translated_raw = json.dumps(value)
+            except:
+                self._translated_raw = value
+                
+
+        def fdel(self):
+            del self._translated_raw
+        return locals()
+    translated_raw = property(**translated_raw())
+
 
     @staticmethod
     def fetch(id_b62=None, user_id=None, original_text_hash=None, source=None, target=None, mode=None):
@@ -220,70 +268,6 @@ class TranslationResponse(db.Model, BaseModel):
         else:
             return TranslationResponse.query.filter_by(
                 user_id=user_id, original_text_hash=original_text_hash,
-                source=source, target=target, mode=mode).first()
-
-
-# class TranslationHelpRequest(db.Model, BaseModel):
-#     __table_args__ = ( db.UniqueConstraint('request_id', 'user_id'), )
-
-#     id = db.Column(UUID, primary_key=True)
-#     request_id = db.Column(UUID, db.ForeignKey('translation_request.id'), nullable=False)
-#     user_id = db.Column(UUID, db.ForeignKey('user.id'), nullable=False)
-#     timestamp = db.Column(db.DateTime(timezone=True), nullable=False)
-#     comment = db.Column(db.String(255))
-
-#     request = relationship('TranslationRequest')
-#     user = relationship('User')
-
-
-class Translation(db.Model, BaseModel):
-    """
-    CREATE VIEW translation AS
-        SELECT tres.id, treq.id AS request_id, tres.user_id,
-            tres.timestamp, tres.source, tres.target, tres.mode,
-            treq.original_text, tres.original_text_hash, tres.intermediate_text,
-            tres.translated_text, coalesce(r.rating, 0) AS rating,
-            coalesce(r.count, 0) AS count
-        FROM translation_response AS tres
-        LEFT JOIN translation_request AS treq ON
-            tres.source = treq.source AND
-            tres.target = treq.target AND
-            tres.original_text_hash = treq.original_text_hash
-        LEFT JOIN
-            (SELECT translation_id, sum(rating) AS rating, count(id) AS count
-            FROM rating GROUP BY translation_id) AS r ON
-            r.translation_id = tres.id
-    """
-    id = db.Column(UUID, primary_key=True) # response_id
-    request_id = db.Column(UUID)
-    user_id = db.Column(UUID, db.ForeignKey('user.id'))
-    timestamp = db.Column(db.DateTime(timezone=True))
-    source = db.Column(db.String(16))
-    target = db.Column(db.String(16))
-    mode = db.Column(db.Integer)
-    original_text = db.Column(db.Text)
-    original_text_hash = db.Column(db.String(255))
-    intermediate_text = db.Column(db.Text)
-    translated_text = db.Column(db.Text)
-    
-    rating = db.Column(db.Integer)
-    count = db.Column(db.Integer)
-
-    user = relationship('User')
-
-    @property
-    def request_id_b62(self):
-        return base62.encode(uuid.UUID(self.request_id).int)
-
-    @staticmethod
-    def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
-        if id_b62 != None:
-            translation_id = base62.decode(id_b62)
-            return Translation.query.get(str(uuid.UUID(int=translation_id)))
-
-        else:
-            return Translation.query.filter_by(
-                original_text_hash=original_text_hash,
                 source=source, target=target, mode=mode).first()
 
 

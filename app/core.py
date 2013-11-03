@@ -43,15 +43,6 @@ facebook_app = oauth.remote_app('facebook',
     request_token_params={'scope': 'email, publish_stream'}
 )
 
-# TODO: Move this elsewhere
-# class Translation:
-#     def __init__(self, parsed_object):
-#         self.raw_object = parsed_object
-
-#     @property
-#     def corpora(self):
-#         print self.raw_object[5]
-
 # DO NOT MOVE THIS TO __init__.py
 @login_manager.user_loader
 def load_user(user_id):
@@ -130,24 +121,10 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
 
         parsed = json.loads(text)
 
-        # translation = Translation(parsed)
-        # print('corpora===================================================')
-        # print(translation.corpora)
-
         return parsed
 
     else:
         raise Exception("Unsupported client '{}'".format(client))
-
-
-# def __language_options__():
-#     import operator
-
-#     tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
-#     sorted_tuples = [('', '')] + sorted(tuples, key=operator.itemgetter(1))
-
-#     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
-
 
 #
 # Request handlers
@@ -177,22 +154,22 @@ def index(translation_id=None):
         debug=os.environ.get('DEBUG', None),
     )
 
-    row = None
+    tresponse = None
 
     translation_id = translation_id or request.args.get('tr', None)
 
     if translation_id != None:
-        row = Translation.fetch(id_b62=translation_id)
+        tresponse = TranslationResponse.fetch(id_b62=translation_id)
 
-    if translation_id != None and row == None:
+    if translation_id != None and tresponse == None:
         return redirect(url_for('index'))
 
-    if row != None:
-        translation = row.serialize()
-        translation['translated_text_dictlink'] = link_dictionary(
-            translation['translated_text'], translation['source'], translation['target'])
+    if tresponse != None:
+        translation = tresponse.serialize()
+        #translation['translated_text_dictlink'] = link_dictionary(
+        #    translation['translated_text'], translation['source'], translation['target'])
 
-        context['og_description'] = row.original_text
+        context['og_description'] = tresponse.request.original_text
         context['translation'] = json.dumps(translation)
     else:
         context['og_description'] = _('app-description-text')
@@ -517,7 +494,7 @@ def translate(text, mode, source, target, client='x'):
             intermediate = __translate__(text, source, 'ja', client, user_agent)
 
             if client == 't':
-                intermediate = intermediate[0][0][0]
+                intermediate = intermediate[0][0]
 
             translated = __translate__(intermediate, 'ja', target, client, user_agent)
         else:
@@ -530,8 +507,8 @@ def translate(text, mode, source, target, client='x'):
             target=target,
             mode=mode,
             original_text_hash=original_text_hash,
-            intermediate_text=intermediate,
-            translated_text=translated,
+            intermediate=intermediate,
+            translated=translated,
         )
 
         if access_log.flag == None:
@@ -552,7 +529,10 @@ def translate(text, mode, source, target, client='x'):
         id=base62.encode(uuid.UUID(tresp.id).int),
         request_id=base62.encode(uuid.UUID(treq.id).int),
         intermediate_text=tresp.intermediate_text,
-        translated_text=tresp.translated_text)
+        intermediate_raw=tresp.intermediate_raw,
+        translated_text=tresp.translated_text,
+        translated_raw=tresp.translated_raw,
+    )
 
 
 def link_dictionary(text, source, target):

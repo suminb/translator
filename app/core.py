@@ -486,17 +486,31 @@ def translate(text, mode, source, target, client='x'):
 
     if tresp == None:
 
+        translated_raw = None
+        translated_text = None
+        intermediate_raw = None
+        intermediate_text = None
+
         # NOTE: The following may be time consuming operations
+        # FIXME: Refactor this code. Looks crappy.
         if mode == '1':
-            intermediate = None
-            translated = __translate__(text, source, target, client, user_agent)
-        elif mode == '2':
-            intermediate = __translate__(text, source, 'ja', client, user_agent)
-
             if client == 't':
-                intermediate = intermediate[0][0]
+                translated_raw = __translate__(text, source, target, client, user_agent)
+                translated_text = translated_raw[0][0][0]
+            else:
+                translated_text = __translate__(text, source, target, client, user_agent)
+            
+        elif mode == '2':
+            if client == 't':
+                intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
+                intermediate_text = intermediate_raw[0][0][0]
+                translated_raw = __translate__(intermediate_text, source, 'ja', client, user_agent)
+                translated_text = translated_raw[0][0][0]
 
-            translated = __translate__(intermediate, 'ja', target, client, user_agent)
+            else:
+                intermediate_text = __translate__(text, source, 'ja', client, user_agent)
+                translated_text = __translate__(intermediate_text, 'ja', target, client, user_agent)
+            
         else:
             return HTTPException('Invalid translation mode.', 400)
 
@@ -507,8 +521,10 @@ def translate(text, mode, source, target, client='x'):
             target=target,
             mode=mode,
             original_text_hash=original_text_hash,
-            intermediate=intermediate,
-            translated=translated,
+            intermediate_text=intermediate_text,
+            intermediate_raw=intermediate_raw,
+            translated_text=translated_text,
+            translated_raw=translated_raw,
         )
 
         if access_log.flag == None:

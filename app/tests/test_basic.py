@@ -69,6 +69,11 @@ class TestBasic:
         assert req.status_code == 200
 
         t = json.loads(req.text)
+
+        with open('/tmp/output.log', 'w') as f:
+            f.write(req.text)
+            f.write('\n')
+
         assert 'Toyota' in t['translated_text']
         assert 'Japan' in t['translated_text']
 
@@ -81,7 +86,7 @@ class TestBasic:
         assert req.status_code == 200
 
         t = json.loads(req.text)
-        tt = t['translated_text'][0][0][0]
+        tt = t['translated_text']
 
         assert ('Google' in tt) or ('We' in tt)
         assert 'dream' in tt

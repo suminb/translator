@@ -225,12 +225,16 @@ class TranslationResponse(db.Model, BaseModel):
             return self.translated_text
 
         def fset(self, value):
-            if isinstance(value, str) and value[0] in '{[' and value[-1] in '}]':
+            #if isinstance(value, unicode) and value[0] in '{[' and value[-1] in '}]':
+            try:
+                _ = json.dumps(value)
+
                 self.translated_text = value[0][0][0]
                 self.translated_raw = value # DO NOT json.dumps() because it
                                             # will be taken care of by
                                             # translated_raw()
-            else:
+            #else:
+            except:
                 self.translated_text = value
                 self.translated_raw = None
 

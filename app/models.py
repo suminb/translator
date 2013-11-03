@@ -3,7 +3,7 @@ from flask.ext.login import UserMixin
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.sql.expression import and_, or_
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.schema import CreateTable
 from datetime import datetime
 
@@ -19,7 +19,7 @@ db = SQLAlchemy(app)
 # Will this work?
 if db.engine.driver != 'psycopg2':
     UUID = db.String
-
+    ARRAY = db.String
 
 def serialize(obj):
     import json
@@ -67,10 +67,14 @@ class BaseModel:
     def insert(cls, commit=True, **kwargs):
         record = cls()
 
-        if hasattr(record, 'id'): record.id=str(uuid.uuid4())
+        if hasattr(record, 'id'): record.id = str(uuid.uuid4())
         if hasattr(record, 'timestamp'): record.timestamp = datetime.now()
 
         for key, value in kwargs.iteritems():
+
+            # if not isinstance(value, str):
+            #     value = json.dumps(value)
+
             setattr(record, key, value);
 
         db.session.add(record)
@@ -172,8 +176,14 @@ class TranslationResponse(db.Model, BaseModel):
     # 3: human translation
     mode = db.Column(db.Integer)
     original_text_hash = db.Column(db.String(255))
+
+    # FIXME: The following four properties will be replaced by 'target_text'
+    # in API v1.3 as the client will be responsible for handling intermediate
+    # translations
     intermediate_text = db.Column(db.Text)
+    _intermediate_raw = db.Column('intermediate_raw', db.Text)
     translated_text = db.Column(db.Text)
+    _translated_raw = db.Column('translated_raw', db.Text)
 
     request = relationship('TranslationRequest')
     user = relationship('User')
@@ -188,6 +198,90 @@ class TranslationResponse(db.Model, BaseModel):
     def minus_ratings(self):
         return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
 
+
+    def process_corpora(self):
+        def insert_corpora(source_lang, source_text, target_lang, target_text, confidence):
+            corpus = Corpus.query.filter_by(
+                    source_lang=source_lang, target_lang=target_lang,
+                    source_text=source_text, target_text=target_text,
+                ).first()
+
+            if corpus == None:
+                corpus = Corpus.insert(
+                    source_lang=source_lang, target_lang=target_lang,
+                    source_text=source_text, target_text=target_text,
+                    confidence=confidence, frequency=1,
+                )
+            else:
+                corpus.confidence += confidence
+                corpus.frequency += 1
+
+                db.session.commit()
+
+
+        source_lang, target_lang = self.source, self.target
+        if self.mode == 2: source_lang = 'ja' # FIXME: This shall be removed for API v1.3
+
+        for source, target in zip(self.translated_raw[5], self.translated_raw[4]):
+
+            source_text, target_text = source[0], target[0]
+            confidence = int(target[4])
+
+            insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
+
+        if self.mode == 2:
+            source_lang, target_lang = self.source, 'ja'
+            
+            for source, target in zip(self.intermediate_raw[5], self.intermediate_raw[4]):
+
+                source_text, target_text = source[0], target[0]
+                confidence = int(target[4])
+
+                insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
+
+
+
+    def intermediate_raw():
+        doc = "The intermediate_raw property."
+        def fget(self):
+            try:
+                return json.loads(self._intermediate_raw)
+            except:
+                return self._intermediate_raw
+
+        def fset(self, value):
+            try:
+                self._intermediate_raw = json.dumps(value)
+            except:
+                self._intermediate_raw = value
+
+        def fdel(self):
+            del self._intermediate_raw
+        return locals()
+    intermediate_raw = property(**intermediate_raw())
+
+
+    def translated_raw():
+        doc = "The translated_raw property."
+        def fget(self):
+            try:
+                return json.loads(self._translated_raw)
+            except:
+                return self._translated_raw
+
+        def fset(self, value):
+            try:
+                self._translated_raw = json.dumps(value)
+            except:
+                self._translated_raw = value
+                
+
+        def fdel(self):
+            del self._translated_raw
+        return locals()
+    translated_raw = property(**translated_raw())
+
+
     @staticmethod
     def fetch(id_b62=None, user_id=None, original_text_hash=None, source=None, target=None, mode=None):
         if id_b62 != None:
@@ -197,70 +291,6 @@ class TranslationResponse(db.Model, BaseModel):
         else:
             return TranslationResponse.query.filter_by(
                 user_id=user_id, original_text_hash=original_text_hash,
-                source=source, target=target, mode=mode).first()
-
-
-# class TranslationHelpRequest(db.Model, BaseModel):
-#     __table_args__ = ( db.UniqueConstraint('request_id', 'user_id'), )
-
-#     id = db.Column(UUID, primary_key=True)
-#     request_id = db.Column(UUID, db.ForeignKey('translation_request.id'), nullable=False)
-#     user_id = db.Column(UUID, db.ForeignKey('user.id'), nullable=False)
-#     timestamp = db.Column(db.DateTime(timezone=True), nullable=False)
-#     comment = db.Column(db.String(255))
-
-#     request = relationship('TranslationRequest')
-#     user = relationship('User')
-
-
-class Translation(db.Model, BaseModel):
-    """
-    CREATE VIEW translation AS
-        SELECT tres.id, treq.id AS request_id, tres.user_id,
-            tres.timestamp, tres.source, tres.target, tres.mode,
-            treq.original_text, tres.original_text_hash, tres.intermediate_text,
-            tres.translated_text, coalesce(r.rating, 0) AS rating,
-            coalesce(r.count, 0) AS count
-        FROM translation_response AS tres
-        LEFT JOIN translation_request AS treq ON
-            tres.source = treq.source AND
-            tres.target = treq.target AND
-            tres.original_text_hash = treq.original_text_hash
-        LEFT JOIN
-            (SELECT translation_id, sum(rating) AS rating, count(id) AS count
-            FROM rating GROUP BY translation_id) AS r ON
-            r.translation_id = tres.id
-    """
-    id = db.Column(UUID, primary_key=True) # response_id
-    request_id = db.Column(UUID)
-    user_id = db.Column(UUID, db.ForeignKey('user.id'))
-    timestamp = db.Column(db.DateTime(timezone=True))
-    source = db.Column(db.String(16))
-    target = db.Column(db.String(16))
-    mode = db.Column(db.Integer)
-    original_text = db.Column(db.Text)
-    original_text_hash = db.Column(db.String(255))
-    intermediate_text = db.Column(db.Text)
-    translated_text = db.Column(db.Text)
-    
-    rating = db.Column(db.Integer)
-    count = db.Column(db.Integer)
-
-    user = relationship('User')
-
-    @property
-    def request_id_b62(self):
-        return base62.encode(uuid.UUID(self.request_id).int)
-
-    @staticmethod
-    def fetch(id_b62=None, original_text_hash=None, source=None, target=None, mode=None):
-        if id_b62 != None:
-            translation_id = base62.decode(id_b62)
-            return Translation.query.get(str(uuid.UUID(int=translation_id)))
-
-        else:
-            return Translation.query.filter_by(
-                original_text_hash=original_text_hash,
                 source=source, target=target, mode=mode).first()
 
 
@@ -294,6 +324,35 @@ class TranslationAccessLog(db.Model, BaseModel):
     user_agent = db.Column(db.String(255))
     remote_address = db.Column(db.String(64))
     flag = db.Column(db.Integer, default=0)
+
+
+class Corpus(db.Model, BaseModel):
+    """A corpus is a pair of strings shorter than 255 characters each."""
+
+    __table_args__ = ( db.UniqueConstraint('source_lang', 'target_lang',
+        'source_text', 'target_text'), )
+
+    id = db.Column(UUID, primary_key=True)
+    source_lang = db.Column(db.String(16))
+    target_lang = db.Column(db.String(16))
+    source_text = db.Column(db.String(255)) # NOTE: Not sure if this is the number of bytes or the number of characters
+    target_text = db.Column(db.String(255))
+    confidence = db.Column(db.Integer)
+    frequency = db.Column(db.Integer)
+    aux_info = db.Column(db.Text)
+
+class CorpusIndex(db.Model, BaseModel):
+    # Without __tablename__ attribute, the following error will occur.
+    # sqlalchemy.exc.InvalidRequestError: Class <class 'app.models.Watching'>
+    # does not have a __table__ or __tablename__ specified and does not inherit
+    # from an existing table-mapped class.
+    __tablename__ = 'corpus_index'
+    __table_args__ = ( db.PrimaryKeyConstraint('source_hash', 'source_index',
+        'corpus_id'), {} )
+
+    source_hash = db.Column(db.Integer)
+    source_index = db.Column(db.Integer)
+    corpus_id = db.Column(UUID)
 
 
 class Rating(db.Model, BaseModel):

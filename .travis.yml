@@ -9,4 +9,4 @@ install:
 script:
   - ./localization.sh
   - python app/__init__.py &
-  - python test.py
+  - py.test app/tests/test_basic.py

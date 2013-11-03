@@ -216,9 +216,9 @@ var state = {
         $.cookie("source", target);
         $.cookie("target", source);
 
-        this.setText($("#result").text());
+        //this.setText($("#result").text());
 
-        performTranslation();
+        //performTranslation();
     },
 
     // Sometimes we want to update the textarea, sometimes now.
@@ -271,7 +271,7 @@ var state = {
         }
         if (this.id) {
             displayPermalink(this.id);
-            askForRating(this.requestId);
+            //askForRating(this.requestId);
         }
     },
 
@@ -523,7 +523,7 @@ function fetchTranslation(serial) {
 
         window.history.replaceState(state.serialize(), "", window.location.href);
 
-        askForRating(response.request_id);
+        //askForRating(response.request_id);
 
     }).fail(function(response) {
         displayError(response.responseText);

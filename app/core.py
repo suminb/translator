@@ -166,6 +166,7 @@ def index(translation_id=None):
 
     if tresponse != None:
         translation = tresponse.serialize()
+        translation['original_text'] = tresponse.request.original_text
         #translation['translated_text_dictlink'] = link_dictionary(
         #    translation['translated_text'], translation['source'], translation['target'])
 

@@ -340,6 +340,7 @@ class Corpus(db.Model, BaseModel):
     confidence = db.Column(db.Integer)
     frequency = db.Column(db.Integer)
     aux_info = db.Column(db.Text)
+    avg_confidence = confidence / frequency
 
 class CorpusIndex(db.Model, BaseModel):
     # Without __tablename__ attribute, the following error will occur.

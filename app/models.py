@@ -176,6 +176,10 @@ class TranslationResponse(db.Model, BaseModel):
     # 3: human translation
     mode = db.Column(db.Integer)
     original_text_hash = db.Column(db.String(255))
+
+    # FIXME: The following four properties will be replaced by 'target_text'
+    # in API v1.3 as the client will be responsible for handling intermediate
+    # translations
     intermediate_text = db.Column(db.Text)
     _intermediate_raw = db.Column('intermediate_raw', db.Text)
     translated_text = db.Column(db.Text)
@@ -197,6 +201,21 @@ class TranslationResponse(db.Model, BaseModel):
     @property
     def corpora(self):
         return self.translated_raw[5]
+
+
+    def process_corpora(self):
+        source_lang, target_lang = self.source, self.target
+        if self.mode == 2: source_lang = 'ja' # FIXME: This shall be removed for API v1.3
+
+        for source, target in zip(self.translated_raw[5], self.translated_raw[4]):
+
+            corpus = Corpus.insert(
+                source_lang=source_lang,
+                target_lang=target_lang,
+                source_text=source[0],
+                target_text=target[0],
+                confidence=int(target[4]),
+            )
 
 
     def intermediate_raw():
@@ -288,11 +307,11 @@ class Corpus(db.Model, BaseModel):
     """A corpus is a pair of strings shorter than 255 characters each."""
 
     id = db.Column(UUID, primary_key=True)
+    source_lang = db.Column(db.String(16))
+    target_lang = db.Column(db.String(16))
     source_text = db.Column(db.String(255)) # NOTE: Not sure if this is the number of bytes or the number of characters
-    #source_hash = db.Column(ARRAY(db.Integer))
     target_text = db.Column(db.String(255))
-    #target_hash = db.Column(ARRAY(db.Integer))
-    confidence = db.Column(db.Float(precision=32))
+    confidence = db.Column(db.Integer)
     aux_info = db.Column(db.Text)
 
 class CorpusIndex(db.Model, BaseModel):

@@ -541,6 +541,9 @@ def translate(text, mode, source, target, client='x'):
         logger.exception(e)
         db.session.rollback()
 
+    if tresp.translated_raw != None:
+        tresp.process_corpora()
+
     return dict(
         id=base62.encode(uuid.UUID(tresp.id).int),
         request_id=base62.encode(uuid.UUID(treq.id).int),

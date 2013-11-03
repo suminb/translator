@@ -20,7 +20,8 @@ def corpus_list():
         record_name='corpus')
 
     context = dict(
-        corpora=corpora,
+        # FIXME: Better way to deal with this?
+        corpora=corpora.offset(pagination.per_page*(page-1)).limit(pagination.per_page),
         pagination=pagination,
     )
 

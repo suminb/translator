@@ -43,6 +43,14 @@ facebook_app = oauth.remote_app('facebook',
     request_token_params={'scope': 'email, publish_stream'}
 )
 
+# TODO: Move this elsewhere
+# class Translation:
+#     def __init__(self, parsed_object):
+#         self.raw_object = parsed_object
+
+#     @property
+#     def corpora(self):
+#         print self.raw_object[5]
 
 # DO NOT MOVE THIS TO __init__.py
 @login_manager.user_loader
@@ -121,6 +129,10 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
         text = text.replace(',,', ',null,')
 
         parsed = json.loads(text)
+
+        # translation = Translation(parsed)
+        # print('corpora===================================================')
+        # print(translation.corpora)
 
         return parsed
 

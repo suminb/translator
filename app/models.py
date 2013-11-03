@@ -3,7 +3,7 @@ from flask.ext.login import UserMixin
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.sql.expression import and_, or_
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.schema import CreateTable
 from datetime import datetime
 
@@ -19,7 +19,7 @@ db = SQLAlchemy(app)
 # Will this work?
 if db.engine.driver != 'psycopg2':
     UUID = db.String
-
+    ARRAY = db.String
 
 def serialize(obj):
     import json
@@ -67,10 +67,14 @@ class BaseModel:
     def insert(cls, commit=True, **kwargs):
         record = cls()
 
-        if hasattr(record, 'id'): record.id=str(uuid.uuid4())
+        if hasattr(record, 'id'): record.id = str(uuid.uuid4())
         if hasattr(record, 'timestamp'): record.timestamp = datetime.now()
 
         for key, value in kwargs.iteritems():
+
+            # if not isinstance(value, str):
+            #     value = json.dumps(value)
+
             setattr(record, key, value);
 
         db.session.add(record)
@@ -173,7 +177,7 @@ class TranslationResponse(db.Model, BaseModel):
     mode = db.Column(db.Integer)
     original_text_hash = db.Column(db.String(255))
     intermediate_text = db.Column(db.Text)
-    translated_text = db.Column(db.Text)
+    _translated_text = db.Column('translated_text', db.Text)
 
     request = relationship('TranslationRequest')
     user = relationship('User')
@@ -187,6 +191,25 @@ class TranslationResponse(db.Model, BaseModel):
     @property
     def minus_ratings(self):
         return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
+
+    def translated_text():
+        doc = "The translated_text property."
+        def fget(self):
+            if self._translated_text != '' and self._translated_text[0] in '{[':
+                return json.loads(self._translated_text)
+            else:
+                return self._translated_text
+
+        def fset(self, value):
+            if isinstance(value, str):
+                self._translated_text = value
+            else:
+                self._translated_text = json.dumps(value)
+
+        def fdel(self):
+            del self._translated_text
+        return locals()
+    translated_text = property(**translated_text())
 
     @staticmethod
     def fetch(id_b62=None, user_id=None, original_text_hash=None, source=None, target=None, mode=None):
@@ -294,6 +317,31 @@ class TranslationAccessLog(db.Model, BaseModel):
     user_agent = db.Column(db.String(255))
     remote_address = db.Column(db.String(64))
     flag = db.Column(db.Integer, default=0)
+
+
+class Corpus(db.Model, BaseModel):
+    """A corpus is a pair of strings shorter than 255 characters each."""
+
+    id = db.Column(UUID, primary_key=True)
+    source_text = db.Column(db.String(255)) # NOTE: Not sure if this is the number of bytes or the number of characters
+    #source_hash = db.Column(ARRAY(db.Integer))
+    target_text = db.Column(db.String(255))
+    #target_hash = db.Column(ARRAY(db.Integer))
+    confidence = db.Column(db.Float(precision=32))
+    aux_info = db.Column(db.Text)
+
+class CorpusIndex(db.Model, BaseModel):
+    # Without __tablename__ attribute, the following error will occur.
+    # sqlalchemy.exc.InvalidRequestError: Class <class 'app.models.Watching'>
+    # does not have a __table__ or __tablename__ specified and does not inherit
+    # from an existing table-mapped class.
+    __tablename__ = 'corpus_index'
+    __table_args__ = ( db.PrimaryKeyConstraint('source_hash', 'source_index',
+        'corpus_id'), {} )
+
+    source_hash = db.Column(db.Integer)
+    source_index = db.Column(db.Integer)
+    corpus_id = db.Column(UUID)
 
 
 class Rating(db.Model, BaseModel):

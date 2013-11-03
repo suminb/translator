@@ -201,8 +201,6 @@ var state = {
     },
 
     updateWithTranslation: function(t) {
-        console.log('t.translated_text=');
-        console.log(t.translated_text);
         this.id = t.id;
         this.requestId = t.request_id;
         this.result = t.translated_text;
@@ -528,7 +526,7 @@ function fetchTranslation(serial) {
         askForRating(response.request_id);
 
     }).fail(function(response) {
-        displayError(response.responseText)
+        displayError(response.responseText);
     
     }).always(function() {
         $("#progress-message").hide();

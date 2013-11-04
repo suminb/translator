@@ -528,6 +528,9 @@ def translate(text, mode, source, target, client='x'):
             translated_raw=translated_raw,
         )
 
+        if tresp.translated_raw != None:
+            tresp.process_corpora()
+
         if access_log.flag == None:
             access_log.flag = TranslationAccessLog.FLAG_CREATED
         else:
@@ -541,9 +544,6 @@ def translate(text, mode, source, target, client='x'):
     except Exception as e:
         logger.exception(e)
         db.session.rollback()
-
-    if tresp.translated_raw != None:
-        tresp.process_corpora()
 
     return dict(
         id=base62.encode(uuid.UUID(tresp.id).int),

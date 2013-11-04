@@ -13,7 +13,7 @@ def corpus_list():
     except ValueError:
         page = 1
 
-    corpora = Corpus.query.order_by(Corpus.avg_confidence.desc())
+    corpora = Corpus.query.order_by(Corpus.avg_confidence.desc(), Corpus.frequency.desc())
 
     pagination = Pagination(page=page, total=corpora.count(),
         per_page=20, 

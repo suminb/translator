@@ -497,16 +497,16 @@ def translate(text, mode, source, target, client='x'):
         if mode == '1':
             if client == 't':
                 translated_raw = __translate__(text, source, target, client, user_agent)
-                translated_text = translated_raw[0][0][0]
+                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
             else:
                 translated_text = __translate__(text, source, target, client, user_agent)
             
         elif mode == '2':
             if client == 't':
                 intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
-                intermediate_text = intermediate_raw[0][0][0]
+                intermediate_text = ' '.join(map(lambda x: x[0], intermediate_raw[0]))
                 translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
-                translated_text = translated_raw[0][0][0]
+                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
 
             else:
                 intermediate_text = __translate__(text, source, 'ja', client, user_agent)

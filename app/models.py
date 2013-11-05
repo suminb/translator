@@ -227,7 +227,8 @@ class TranslationResponse(db.Model, BaseModel):
             source_text, target_text = source[0], target[0]
             confidence = int(target[4])
 
-            insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
+            insert_corpora(source_lang.strip(), source_text.strip(),
+                target_lang.strip(), target_text.strip(), confidence)
 
         if self.mode == 2:
             source_lang, target_lang = self.source, 'ja'
@@ -237,7 +238,8 @@ class TranslationResponse(db.Model, BaseModel):
                 source_text, target_text = source[0], target[0]
                 confidence = int(target[4])
 
-                insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
+                insert_corpora(source_lang.strip(), source_text.strip(),
+                    target_lang.strip(), target_text.strip(), confidence)
 
 
 

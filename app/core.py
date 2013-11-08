@@ -118,8 +118,9 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
         text = req.text
         text = text.replace(',,,', ',null,null,')
         text = text.replace(',,', ',null,')
+        text = text.replace('[,', '[null,')
 
-        parsed = json.loads(text)
+        parsed = json.loads(text.encode('utf-8'))
 
         return parsed
 

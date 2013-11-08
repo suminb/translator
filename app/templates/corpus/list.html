@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  I know. It is shame that this <em>dictionary</em> is missing a search feature. What kind of dictionary is that? But no worries. Our most highly trained monkey has started working on this part.
+</div>
+
 {{ pagination.info|safe }}
 <table class="table table-striped">
   <thead>

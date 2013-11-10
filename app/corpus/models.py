@@ -3,6 +3,11 @@ from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from app import app
 from app.models import db, BaseModel
 
+if db.engine.driver != 'psycopg2':
+    UUID = db.String
+    ARRAY = db.String
+
+
 class Corpus(db.Model, BaseModel):
     """A corpus is a pair of strings shorter than 255 characters each."""
 
@@ -18,6 +23,10 @@ class Corpus(db.Model, BaseModel):
     frequency = db.Column(db.Integer)
     aux_info = db.Column(db.Text)
     avg_confidence = confidence / frequency
+
+    def create_index(self):
+        pass
+
 
 class CorpusIndex(db.Model, BaseModel):
     # Without __tablename__ attribute, the following error will occur.

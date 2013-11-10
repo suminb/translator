@@ -11,13 +11,10 @@ corpus_module = Blueprint('corpus', __name__)
 @corpus_module.route('/')
 def corpus_list():
 
-    try:
-        page = int(request.args.get('page', 1))
-    except ValueError:
-        page = 1
+    page = int(request.args.get('page', 1))
 
     corpora = Corpus.query \
-        .filter(Corpus.frequency > 3) \
+        .filter(Corpus.frequency > 1) \
         .order_by(Corpus.avg_confidence.desc(), Corpus.frequency.desc())
 
     pagination = Pagination(page=page, total=corpora.count(),

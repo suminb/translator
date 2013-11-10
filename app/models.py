@@ -7,9 +7,9 @@ from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.schema import CreateTable
 from datetime import datetime
 
-from __init__ import app
+from app import app
 from utils import *
-from app.corpus.models import *
+#from app.corpus.models import Corpus, CorpusIndex
 
 import uuid
 import base62

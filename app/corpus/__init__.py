@@ -38,14 +38,3 @@ def corpus_match():
     matches = Corpus.match(query)
 
     return json.dumps(matches)
-
-
-# FIXME: This should be a standalone script rather than an HTTP call
-@corpus_module.route('/trigger-index')
-def trigger_index():
-
-    corpora = Corpus.query.all()
-    for corpus in corpora:
-        corpus.create_index()
-
-    return ''

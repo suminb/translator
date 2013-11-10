@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-03 23:04+0000\n"
+"POT-Creation-Date: 2013-11-10 10:14+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: app/core.py:176
+#: app/core.py:179
 msgid "app-description-text"
 msgstr ""
 "La traduction aumieux est un service qui permet d'effectuer des "
@@ -27,7 +27,7 @@ msgstr ""
 " langage. Par conséquent, Google Traduction envers le japonais vous donne"
 " le meilleur résultat."
 
-#: app/core.py:637
+#: app/core.py:640
 #, fuzzy
 msgid ""
 "{0},\n"
@@ -35,12 +35,12 @@ msgid ""
 "Someone has posted a translation. Check out at {1}"
 msgstr "Postuler une tradiction en défi"
 
-#: app/core.py:640 app/notification.py:21
+#: app/core.py:643 app/notification.py:21
 #, fuzzy
 msgid "You have a notification from Better Translator"
 msgstr "Traduit par Traduction au mieux"
 
-#: app/core.py:642 app/notification.py:23 app/notification.py:44
+#: app/core.py:645 app/notification.py:23 app/notification.py:44
 #: app/translation.py:381 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
 #: app/templates/index.html:260 app/templates/translation_responses.html:114
@@ -95,6 +95,30 @@ msgstr ""
 #: app/utils.py:37
 #, python-format
 msgid "%%m/%%d/%%Y"
+msgstr ""
+
+#: app/corpus/templates/list.html:13
+#, fuzzy
+msgid "Source Language"
+msgstr "Intervertir des langues"
+
+#: app/corpus/templates/list.html:14
+#: app/templates/embedded/user_translation_requests.html:6
+#: app/templates/user/translation_responses.html:6
+#, fuzzy
+msgid "Target Language"
+msgstr "Intervertir des langues"
+
+#: app/corpus/templates/list.html:15
+msgid "Source Text"
+msgstr ""
+
+#: app/corpus/templates/list.html:16
+msgid "Target Text"
+msgstr ""
+
+#: app/corpus/templates/list.html:17
+msgid "Confidence"
 msgstr ""
 
 #: app/templates/404.html:6
@@ -469,30 +493,6 @@ msgstr ""
 #, fuzzy
 msgid "My Translations"
 msgstr "Traduction directe"
-
-#: app/templates/corpus/list.html:8
-#, fuzzy
-msgid "Source Language"
-msgstr "Intervertir des langues"
-
-#: app/templates/corpus/list.html:9
-#: app/templates/embedded/user_translation_requests.html:6
-#: app/templates/user/translation_responses.html:6
-#, fuzzy
-msgid "Target Language"
-msgstr "Intervertir des langues"
-
-#: app/templates/corpus/list.html:10
-msgid "Source Text"
-msgstr ""
-
-#: app/templates/corpus/list.html:11
-msgid "Target Text"
-msgstr ""
-
-#: app/templates/corpus/list.html:12
-msgid "Confidence"
-msgstr ""
 
 #: app/templates/embedded/translation_help_request.html:38
 #: app/templates/translation/request.html:46

@@ -71,7 +71,7 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 from core import *
-from corpus import *
+from corpus import corpus_module
 from translation import *
 from user import *
 

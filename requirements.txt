@@ -12,5 +12,6 @@ psycopg2
 nilsimsa
 facebook-sdk
 hallucination
+winnowing
 pytest
 

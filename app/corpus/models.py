@@ -1,5 +1,7 @@
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 
+from winnowing import winnow
+
 from app import app
 from app.models import db, BaseModel
 
@@ -25,7 +27,10 @@ class Corpus(db.Model, BaseModel):
     avg_confidence = confidence / frequency
 
     def create_index(self):
-        pass
+        fingerprints = winnow(self.source_text)
+
+        print self.source_text
+        print fingerprints
 
 
 class CorpusIndex(db.Model, BaseModel):

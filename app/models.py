@@ -9,6 +9,7 @@ from datetime import datetime
 
 from __init__ import app
 from utils import *
+from app.corpus.models import *
 
 import uuid
 import base62

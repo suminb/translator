@@ -27,3 +27,14 @@ def corpus_list():
     )
 
     return render_template('list.html', **context)
+
+
+# FIXME: This should be a standalone script rather than an HTTP call
+@corpus_module.route('/trigger-index')
+def trigger_index():
+
+    corpora = Corpus.query.limit(10)
+    for corpus in corpora:
+        corpus.create_index()
+
+    return ''

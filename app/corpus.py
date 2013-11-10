@@ -1,11 +1,13 @@
-from flask import Flask, jsonify, request, render_template, url_for
+from flask import Flask, Blueprint, jsonify, request, render_template, url_for
 from flask.ext.paginate import Pagination
 
 from __init__ import __version__, app, logger, login_manager, get_locale, \
     VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
 from models import Corpus
 
-@app.route('/corpus')
+corpus_module = Blueprint('corpus', __name__)
+
+@corpus_module.route('/')
 def corpus_list():
 
     try:

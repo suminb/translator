@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*- 
 
-from flask import Flask, jsonify, request, render_template, url_for, redirect, session
+from flask import Flask, jsonify, request, render_template, url_for, \
+    redirect, session
 from flask.ext.babel import gettext as _
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask_oauthlib.client import OAuth
@@ -26,6 +27,7 @@ import os, sys
 import pytz
 import facebook
 
+# FIXME: This shall be gone someday. Replace config.* with environment variables.
 try:
     import config
 except:

@@ -3,6 +3,7 @@ flask-sqlalchemy
 flask-login
 flask-wtf
 flask-paginate
+flask-blueprint
 flask_oauthlib
 jinja2
 requests

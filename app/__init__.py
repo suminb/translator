@@ -75,6 +75,8 @@ from corpus import *
 from translation import *
 from user import *
 
+app.register_blueprint(corpus_module, url_prefix='/corpus')
+
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 5000))

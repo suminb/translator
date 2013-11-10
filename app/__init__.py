@@ -61,7 +61,9 @@ babel = Babel(app)
 
 @babel.localeselector
 def get_locale():
-    """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    """Selects an appropriate locale.
+
+    Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
     try:
         return request.args['locale']
     except KeyError:

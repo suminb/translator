@@ -29,6 +29,13 @@ class Corpus(db.Model, BaseModel):
     def create_index(self):
         fingerprints = winnow(self.source_text)
 
+        for fingerprint in fingerprints:
+            CorpusIndex.insert(
+                source_hash=fingerprint[1],
+                source_index=fingerprint[0],
+                corpus_id=self.id,
+            )
+
         print self.source_text
         print fingerprints
 

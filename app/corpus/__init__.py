@@ -33,7 +33,7 @@ def corpus_list():
 @corpus_module.route('/trigger-index')
 def trigger_index():
 
-    corpora = Corpus.query.limit(10)
+    corpora = Corpus.query.filter(Corpus.source_lang == 'ko').limit(10)
     for corpus in corpora:
         corpus.create_index()
 

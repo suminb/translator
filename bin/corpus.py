@@ -7,7 +7,7 @@ manager = Manager(app)
 
 @manager.command
 def index():
-    for corpus in Corpus.query:
+    for corpus in Corpus.query.limit(1000):
         print '({}, {})'.format(
             corpus.source_text.encode('utf-8'),
             corpus.target_text.encode('utf-8'))

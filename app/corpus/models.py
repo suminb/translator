@@ -74,6 +74,7 @@ class Corpus(db.Model, BaseModel):
         buf = []
         for index in indices:
             t = (index.source_index, index.source_hash,
+                index.corpus.id,
                 index.corpus.source_text, index.corpus.target_text,
                 index.corpus.confidence, index.corpus.frequency)
             buf.append(t)

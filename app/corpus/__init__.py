@@ -4,6 +4,7 @@ from flask.ext.paginate import Pagination
 from app.corpus.models import Corpus
 
 import json
+import uuid, base62
 
 corpus_module = Blueprint('corpus', __name__, template_folder='templates')
 
@@ -36,5 +37,11 @@ def corpus_match():
     query = request.args.get('query', '')
 
     matches = Corpus.match(query)
+
+    # NOTE: Not sure how efficient the following is going to be.
+    if len(matches) > 0:
+        matches = zip(*matches)
+        matches[2] = map(lambda x: base62.encode(uuid.UUID(x).int), matches[2])
+        matches = zip(*matches)
 
     return json.dumps(matches)

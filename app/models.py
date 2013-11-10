@@ -9,7 +9,6 @@ from datetime import datetime
 
 from app import app
 from utils import *
-#from app.corpus.models import Corpus, CorpusIndex
 
 import uuid
 import base62
@@ -42,7 +41,7 @@ class BaseModel:
     def serialize(self):
         payload = serialize(self)
 
-        for id_field in ('id', 'user_id', 'request_id', 'response_id'):
+        for id_field in ('id', 'user_id', 'request_id', 'response_id', 'corpus_id'):
             if hasattr(self, id_field) and getattr(self, id_field) != None:
                 value = uuid.UUID(getattr(self, id_field)).int
                 payload[id_field] = base62.encode(value)
@@ -186,6 +185,8 @@ class TranslationResponse(db.Model, BaseModel):
     translated_text = db.Column(db.Text)
     _translated_raw = db.Column('translated_raw', db.Text)
 
+    aux_info = db.Column(db.String(255))
+
     request = relationship('TranslationRequest')
     user = relationship('User')
 
@@ -201,6 +202,8 @@ class TranslationResponse(db.Model, BaseModel):
 
 
     def process_corpora(self):
+        from app.corpus.models import Corpus, CorpusIndex
+
         def insert_corpora(source_lang, source_text, target_lang, target_text, confidence):
             corpus = Corpus.query.filter_by(
                     source_lang=source_lang, target_lang=target_lang,
@@ -223,15 +226,16 @@ class TranslationResponse(db.Model, BaseModel):
         source_lang, target_lang = self.source, self.target
         if self.mode == 2: source_lang = 'ja' # FIXME: This shall be removed for API v1.3
 
-        for source, target in zip(self.translated_raw[5], self.translated_raw[4]):
+        if self.translated_raw != None:
+            for source, target in zip(self.translated_raw[5], self.translated_raw[4]):
 
-            source_text, target_text = source[0], target[0]
-            confidence = int(target[4])
+                source_text, target_text = source[0], target[0]
+                confidence = int(target[4])
 
-            insert_corpora(source_lang.strip(), source_text.strip(),
-                target_lang.strip(), target_text.strip(), confidence)
+                insert_corpora(source_lang.strip(), source_text.strip(),
+                    target_lang.strip(), target_text.strip(), confidence)
 
-        if self.mode == 2:
+        if self.intermediate_raw != None and self.mode == 2:
             source_lang, target_lang = self.source, 'ja'
             
             for source, target in zip(self.intermediate_raw[5], self.intermediate_raw[4]):
@@ -242,6 +246,8 @@ class TranslationResponse(db.Model, BaseModel):
                 insert_corpora(source_lang.strip(), source_text.strip(),
                     target_lang.strip(), target_text.strip(), confidence)
 
+        self.aux_info = json.dumps(dict(processed_corpus=True))
+        db.session.commit()
 
 
     def intermediate_raw():

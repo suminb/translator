@@ -28,11 +28,13 @@ class Corpus(db.Model, BaseModel):
     target_text = db.Column(db.String(255))
     confidence = db.Column(db.Integer)
     frequency = db.Column(db.Integer)
-    aux_info = db.Column(db.Text)
+    aux_info = db.Column(db.String(255))
     avg_confidence = confidence / frequency
 
 
     def create_index(self):
+        import json
+
         fingerprints = winnow(self.source_text, FINGERPRINT_K)
         #fingerprints = kgrams(self.source_text, 4)
 
@@ -47,6 +49,9 @@ class Corpus(db.Model, BaseModel):
                     )
                 except IntegrityError as e:
                     db.session.rollback()
+
+        self.aux_info = json.dumps(dict(processed_index=True))
+        db.session.commit()
 
 
     @staticmethod

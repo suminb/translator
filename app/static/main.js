@@ -215,10 +215,6 @@ var state = {
 
         $.cookie("source", target);
         $.cookie("target", source);
-
-        //this.setText($("#result").text());
-
-        //performTranslation();
     },
 
     // Sometimes we want to update the textarea, sometimes now.
@@ -384,6 +380,18 @@ function performTranslation() {
 
         state.pending = true;
 
+        $.get("/corpus/v1.2/match",
+            {q:state.text, sl:state.source, tl:state.target},
+            function(response) {
+
+                console.log(response);
+
+            }
+        )
+        .fail(function(response) {
+        
+        });
+
         $.post("/v1.2/translate",
             {t:state.text, m:state.mode, sl:state.source, tl:state.target},
             function(response) {
@@ -432,8 +440,11 @@ function performTranslation() {
             }
 
         }
+
+
+
     }
-    
+
     return false;
 }
 

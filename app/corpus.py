@@ -1,8 +1,9 @@
 from flask import Flask, Blueprint, jsonify, request, render_template, url_for
 from flask.ext.paginate import Pagination
 
-from __init__ import __version__, app, logger, login_manager, get_locale, \
-    VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
+# NOTE: Will it work without the following line?
+# from __init__ import __version__, app, logger, login_manager, get_locale, \
+#     VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
 from models import Corpus
 
 corpus_module = Blueprint('corpus', __name__)

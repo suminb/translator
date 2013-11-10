@@ -50,7 +50,7 @@ class Corpus(db.Model, BaseModel):
 
 
     @staticmethod
-    def match(text):
+    def match(text, source_lang=None, target_lang=None):
         #fingerprints = winnow(text)
         
         agtext = zip(xrange(len(text)), text)
@@ -68,18 +68,15 @@ class Corpus(db.Model, BaseModel):
         # print hashes
 
         indices = CorpusIndex.query \
-                    .filter(CorpusIndex.source_hash.in_(zip(*hashes)[1])) \
-                    .all()
+                    .filter(CorpusIndex.source_hash.in_(zip(*hashes)[1]))
 
-        buf = []
-        for index in indices:
-            t = (index.source_index, index.source_hash,
-                index.corpus.id,
-                index.corpus.source_text, index.corpus.target_text,
-                index.corpus.confidence, index.corpus.frequency)
-            buf.append(t)
+        if source_lang != None:
+            indices.filter(Corpus.source_lang == source_lang)
 
-        return buf
+        if target_lang != None:
+            indices.filter(Corpus.target_lang == target_lang)
+
+        return indices
 
 
 class CorpusIndex(db.Model, BaseModel):
@@ -95,3 +92,10 @@ class CorpusIndex(db.Model, BaseModel):
     source_index = db.Column(db.Integer)
     corpus_id = db.Column(UUID, db.ForeignKey('corpus.id'))
     corpus = relationship('Corpus')
+
+    def serialize(self):
+        data = super(CorpusIndex, self).serialize()
+
+        data['corpus'] = self.corpus.serialize()
+
+        return data

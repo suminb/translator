@@ -14,5 +14,6 @@ nilsimsa
 facebook-sdk
 hallucination
 winnowing
+pybase62
 pytest
 

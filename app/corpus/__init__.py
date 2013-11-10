@@ -34,14 +34,18 @@ def corpus_list():
 @corpus_module.route('/match')
 def corpus_match():
 
-    query = request.args.get('query', '')
+    query = request.args.get('q', '')
+    source_lang = request.args.get('sl', None)
+    target_lang = request.args.get('tl', None)
 
-    matches = Corpus.match(query)
+    matches = Corpus.match(query, source_lang, target_lang)
 
-    # NOTE: Not sure how efficient the following is going to be.
-    if len(matches) > 0:
-        matches = zip(*matches)
-        matches[2] = map(lambda x: base62.encode(uuid.UUID(x).int), matches[2])
-        matches = zip(*matches)
+    # # NOTE: Not sure how efficient the following is going to be.
+    # if len(matches) > 0:
+    #     matches = zip(*matches)
+    #     matches[2] = map(lambda x: base62.encode(uuid.UUID(x).int), matches[2])
+    #     matches = zip(*matches)
 
-    return json.dumps(matches)
+    # return json.dumps(matches)
+
+    return json.dumps(map(lambda x: x.serialize(), matches))

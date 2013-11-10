@@ -8,5 +8,6 @@ install:
 
 script:
   - ./localization.sh
+  - export PYTHONPATH=$PYTHONPATH:.:./lib
   - python app/__init__.py &
   - py.test app/tests/test_basic.py

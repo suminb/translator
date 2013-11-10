@@ -9,6 +9,7 @@ from datetime import datetime
 
 from __init__ import app
 from utils import *
+from app.corpus.models import *
 
 import uuid
 import base62
@@ -227,7 +228,8 @@ class TranslationResponse(db.Model, BaseModel):
             source_text, target_text = source[0], target[0]
             confidence = int(target[4])
 
-            insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
+            insert_corpora(source_lang.strip(), source_text.strip(),
+                target_lang.strip(), target_text.strip(), confidence)
 
         if self.mode == 2:
             source_lang, target_lang = self.source, 'ja'
@@ -237,7 +239,8 @@ class TranslationResponse(db.Model, BaseModel):
                 source_text, target_text = source[0], target[0]
                 confidence = int(target[4])
 
-                insert_corpora(source_lang, source_text, target_lang, target_text, confidence)
+                insert_corpora(source_lang.strip(), source_text.strip(),
+                    target_lang.strip(), target_text.strip(), confidence)
 
 
 
@@ -324,35 +327,6 @@ class TranslationAccessLog(db.Model, BaseModel):
     user_agent = db.Column(db.String(255))
     remote_address = db.Column(db.String(64))
     flag = db.Column(db.Integer, default=0)
-
-
-class Corpus(db.Model, BaseModel):
-    """A corpus is a pair of strings shorter than 255 characters each."""
-
-    __table_args__ = ( db.UniqueConstraint('source_lang', 'target_lang',
-        'source_text', 'target_text'), )
-
-    id = db.Column(UUID, primary_key=True)
-    source_lang = db.Column(db.String(16))
-    target_lang = db.Column(db.String(16))
-    source_text = db.Column(db.String(255)) # NOTE: Not sure if this is the number of bytes or the number of characters
-    target_text = db.Column(db.String(255))
-    confidence = db.Column(db.Integer)
-    frequency = db.Column(db.Integer)
-    aux_info = db.Column(db.Text)
-
-class CorpusIndex(db.Model, BaseModel):
-    # Without __tablename__ attribute, the following error will occur.
-    # sqlalchemy.exc.InvalidRequestError: Class <class 'app.models.Watching'>
-    # does not have a __table__ or __tablename__ specified and does not inherit
-    # from an existing table-mapped class.
-    __tablename__ = 'corpus_index'
-    __table_args__ = ( db.PrimaryKeyConstraint('source_hash', 'source_index',
-        'corpus_id'), {} )
-
-    source_hash = db.Column(db.Integer)
-    source_index = db.Column(db.Integer)
-    corpus_id = db.Column(UUID)
 
 
 class Rating(db.Model, BaseModel):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 
-__version__ = '1.2.0'
+__version__ = '1.2.3'
 
 from flask import Flask
 from flask.ext.login import LoginManager
@@ -71,8 +71,11 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 from core import *
+from corpus import corpus_module
 from translation import *
 from user import *
+
+app.register_blueprint(corpus_module, url_prefix='/corpus')
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

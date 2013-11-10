@@ -13,22 +13,17 @@ def setup_module(module):
     """ setup any state specific to the execution of the given module."""
 
     from app.models import db
-
     db.create_all()
+
+    from app.corpus.models import db as corpus_db
+    corpus_db.create_all()
 
 
 class TestBasic:
 
-    # @class_setup
-    # def class_setup(self):
-    #     from app.models import db
-
-    #     db.create_all()
-
-
     def test_pages(self):
         pages = ('', 'credits', 'discuss', 'disclaimers', 'privacy',
-            'hrequest',)
+            'hrequest', 'corpus')
 
         for page in pages:
             req = requests.get('{}/{}'.format(HOST, page))

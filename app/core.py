@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*- 
 
-from flask import Flask, jsonify, request, render_template, url_for, redirect, session
+from flask import Flask, jsonify, request, render_template, url_for, \
+    redirect, session
 from flask.ext.babel import gettext as _
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask_oauthlib.client import OAuth
@@ -26,6 +27,7 @@ import os, sys
 import pytz
 import facebook
 
+# FIXME: This shall be gone someday. Replace config.* with environment variables.
 try:
     import config
 except:
@@ -118,8 +120,9 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
         text = req.text
         text = text.replace(',,,', ',null,null,')
         text = text.replace(',,', ',null,')
+        text = text.replace('[,', '[null,')
 
-        parsed = json.loads(text)
+        parsed = json.loads(text.encode('utf-8'))
 
         return parsed
 
@@ -497,16 +500,16 @@ def translate(text, mode, source, target, client='x'):
         if mode == '1':
             if client == 't':
                 translated_raw = __translate__(text, source, target, client, user_agent)
-                translated_text = translated_raw[0][0][0]
+                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
             else:
                 translated_text = __translate__(text, source, target, client, user_agent)
             
         elif mode == '2':
             if client == 't':
                 intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
-                intermediate_text = intermediate_raw[0][0][0]
+                intermediate_text = ' '.join(map(lambda x: x[0], intermediate_raw[0]))
                 translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
-                translated_text = translated_raw[0][0][0]
+                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
 
             else:
                 intermediate_text = __translate__(text, source, 'ja', client, user_agent)
@@ -528,6 +531,9 @@ def translate(text, mode, source, target, client='x'):
             translated_raw=translated_raw,
         )
 
+        if tresp.translated_raw != None:
+            tresp.process_corpora()
+
         if access_log.flag == None:
             access_log.flag = TranslationAccessLog.FLAG_CREATED
         else:
@@ -541,9 +547,6 @@ def translate(text, mode, source, target, client='x'):
     except Exception as e:
         logger.exception(e)
         db.session.rollback()
-
-    if tresp.translated_raw != None:
-        tresp.process_corpora()
 
     return dict(
         id=base62.encode(uuid.UUID(tresp.id).int),

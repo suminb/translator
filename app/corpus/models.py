@@ -1,6 +1,8 @@
+from sqlalchemy.orm import relationship
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 
-from winnowing import winnow
+from winnowing import winnow, kgrams, winnowing_hash, sanitize
 
 from app import app
 from app.models import db, BaseModel
@@ -8,6 +10,9 @@ from app.models import db, BaseModel
 if db.engine.driver != 'psycopg2':
     UUID = db.String
     ARRAY = db.String
+
+
+FINGERPRINT_K = 4
 
 
 class Corpus(db.Model, BaseModel):
@@ -26,18 +31,54 @@ class Corpus(db.Model, BaseModel):
     aux_info = db.Column(db.Text)
     avg_confidence = confidence / frequency
 
+
     def create_index(self):
-        fingerprints = winnow(self.source_text)
+        fingerprints = winnow(self.source_text, FINGERPRINT_K)
+        #fingerprints = kgrams(self.source_text, 4)
 
-        for fingerprint in fingerprints:
-            CorpusIndex.insert(
-                source_hash=fingerprint[1],
-                source_index=fingerprint[0],
-                corpus_id=self.id,
-            )
+        for i, h in fingerprints:
+            #print i, h, self.source_text[i:]
+            if i != -1:
+                try:
+                    CorpusIndex.insert(
+                        source_hash=h,
+                        source_index=i,
+                        corpus_id=self.id,
+                    )
+                except IntegrityError as e:
+                    db.session.rollback()
 
-        print self.source_text
-        print fingerprints
+
+    @staticmethod
+    def match(text):
+        #fingerprints = winnow(text)
+        
+        agtext = zip(xrange(len(text)), text)
+        agtext = sanitize(agtext)
+
+        #print list(kgrams(agtext, FINGERPRINT_K))
+
+        hashes = map(lambda x: winnowing_hash(x), kgrams(agtext, FINGERPRINT_K))
+
+        #print zip(*hashes)
+
+        # for kgram in kgrams(agtext, FINGERPRINT_K):
+        #     print kgram, ', ',
+        # print 
+        # print hashes
+
+        indices = CorpusIndex.query \
+                    .filter(CorpusIndex.source_hash.in_(zip(*hashes)[1])) \
+                    .all()
+
+        buf = []
+        for index in indices:
+            t = (index.source_index, index.source_hash,
+                index.corpus.source_text, index.corpus.target_text,
+                index.corpus.confidence, index.corpus.frequency)
+            buf.append(t)
+
+        return buf
 
 
 class CorpusIndex(db.Model, BaseModel):
@@ -51,4 +92,5 @@ class CorpusIndex(db.Model, BaseModel):
 
     source_hash = db.Column(db.Integer)
     source_index = db.Column(db.Integer)
-    corpus_id = db.Column(UUID)
+    corpus_id = db.Column(UUID, db.ForeignKey('corpus.id'))
+    corpus = relationship('Corpus')

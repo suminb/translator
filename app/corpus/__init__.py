@@ -3,9 +3,10 @@ from flask.ext.paginate import Pagination
 
 from app.corpus.models import Corpus
 
+import json
+
 corpus_module = Blueprint('corpus', __name__, template_folder='templates')
 
-print corpus_module.root_path
 
 @corpus_module.route('/')
 def corpus_list():
@@ -29,11 +30,21 @@ def corpus_list():
     return render_template('list.html', **context)
 
 
+@corpus_module.route('/match')
+def corpus_match():
+
+    query = request.args.get('query', '')
+
+    matches = Corpus.match(query)
+
+    return json.dumps(matches)
+
+
 # FIXME: This should be a standalone script rather than an HTTP call
 @corpus_module.route('/trigger-index')
 def trigger_index():
 
-    corpora = Corpus.query.filter(Corpus.source_lang == 'ko').limit(10)
+    corpora = Corpus.query.all()
     for corpus in corpora:
         corpus.create_index()
 

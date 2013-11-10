@@ -90,7 +90,7 @@ msgstr ""
 
 #: app/translation.py:398
 msgid "Your translation has been posted on your timeline."
-msgstr ""
+msgstr "Votre traduction a publié sur votre mur."
 
 #: app/utils.py:37
 #, python-format

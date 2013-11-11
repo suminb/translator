@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 
-__version__ = '1.2.3'
+__version__ = '1.2.4'
 
 from flask import Flask
 from flask.ext.login import LoginManager
@@ -61,7 +61,9 @@ babel = Babel(app)
 
 @babel.localeselector
 def get_locale():
-    """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    """Selects an appropriate locale.
+
+    Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
     try:
         return request.args['locale']
     except KeyError:

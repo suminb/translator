@@ -3,18 +3,27 @@ from flask.ext.paginate import Pagination
 
 from app.corpus.models import Corpus
 
+import json
+import uuid, base62
+
 corpus_module = Blueprint('corpus', __name__, template_folder='templates')
 
-print corpus_module.root_path
 
 @corpus_module.route('/')
 def corpus_list():
 
     page = int(request.args.get('page', 1))
+    source_lang = request.args.get('sl', None)
+    target_lang = request.args.get('tl', None)
 
     corpora = Corpus.query \
-        .filter(Corpus.frequency > 1) \
         .order_by(Corpus.avg_confidence.desc(), Corpus.frequency.desc())
+
+    # TODO: Move this code to the models class
+    if source_lang != None:
+        corpora = corpora.filter_by(source_lang=source_lang)
+    if target_lang != None:
+        corpora = corpora.filter_by(target_lang=target_lang)
 
     pagination = Pagination(page=page, total=corpora.count(),
         per_page=20, 
@@ -29,12 +38,13 @@ def corpus_list():
     return render_template('list.html', **context)
 
 
-# FIXME: This should be a standalone script rather than an HTTP call
-@corpus_module.route('/trigger-index')
-def trigger_index():
+@corpus_module.route('/v1.2/match')
+def corpus_match():
 
-    corpora = Corpus.query.limit(10)
-    for corpus in corpora:
-        corpus.create_index()
+    query = request.args.get('q', '')
+    source_lang = request.args.get('sl', None)
+    target_lang = request.args.get('tl', None)
 
-    return ''
+    matches = Corpus.match(query, source_lang, target_lang)
+
+    return json.dumps(map(lambda x: x.serialize(), matches))

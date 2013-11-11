@@ -531,8 +531,8 @@ def translate(text, mode, source, target, client='x'):
             translated_raw=translated_raw,
         )
 
-        if tresp.translated_raw != None:
-            tresp.process_corpora()
+        #if tresp.translated_raw != None:
+        #    tresp.process_corpora()
 
         if access_log.flag == None:
             access_log.flag = TranslationAccessLog.FLAG_CREATED

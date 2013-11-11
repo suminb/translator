@@ -3,6 +3,7 @@ flask-sqlalchemy
 flask-login
 flask-wtf
 flask-paginate
+flask-script
 flask_oauthlib
 jinja2
 requests
@@ -13,5 +14,6 @@ nilsimsa
 facebook-sdk
 hallucination
 winnowing
+pybase62
 pytest
 

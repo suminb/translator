@@ -13,9 +13,17 @@ corpus_module = Blueprint('corpus', __name__, template_folder='templates')
 def corpus_list():
 
     page = int(request.args.get('page', 1))
+    source_lang = request.args.get('sl', None)
+    target_lang = request.args.get('tl', None)
 
     corpora = Corpus.query \
         .order_by(Corpus.avg_confidence.desc(), Corpus.frequency.desc())
+
+    # TODO: Move this code to the models class
+    if source_lang != None:
+        corpora = corpora.filter_by(source_lang=source_lang)
+    if target_lang != None:
+        corpora = corpora.filter_by(target_lang=target_lang)
 
     pagination = Pagination(page=page, total=corpora.count(),
         per_page=20, 

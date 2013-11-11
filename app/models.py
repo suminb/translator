@@ -209,7 +209,7 @@ class TranslationResponse(db.Model, BaseModel):
             #
             # FIXME: Any better idea?
             #
-            PUNCTUATION = '.,:;-_+={}[]()<>|\'"'
+            PUNCTUATION = '.,:;-_+={}[]()<>|\'"`~!@#$%^&*?'
 
             if source_text == '' or source_text in PUNCTUATION:
                 return

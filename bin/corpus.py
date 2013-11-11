@@ -16,7 +16,7 @@ def extract():
         .filter(TranslationResponse.aux_info == None) \
         .limit(1000):
 
-        print tresponse
+        print tresponse.translated_text
         tresponse.process_corpora()
 
 @manager.command

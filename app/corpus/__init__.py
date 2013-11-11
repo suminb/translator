@@ -15,7 +15,6 @@ def corpus_list():
     page = int(request.args.get('page', 1))
 
     corpora = Corpus.query \
-        .filter(Corpus.frequency > 1) \
         .order_by(Corpus.avg_confidence.desc(), Corpus.frequency.desc())
 
     pagination = Pagination(page=page, total=corpora.count(),

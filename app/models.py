@@ -205,6 +205,19 @@ class TranslationResponse(db.Model, BaseModel):
         from app.corpus.models import Corpus, CorpusIndex
 
         def insert_corpora(source_lang, source_text, target_lang, target_text, confidence):
+
+            #
+            # FIXME: Any better idea?
+            #
+            PUNCTUATION = '.,:;-_+={}[]()<>|'
+
+            if source_text == '' or source_text in PUNCTUATION:
+                return
+            if target_text == '' or target_text in PUNCTUATION:
+                return
+            if source_text == target_text:
+                return
+
             corpus = Corpus.query.filter_by(
                     source_lang=source_lang, target_lang=target_lang,
                     source_text=source_text, target_text=target_text,
@@ -226,7 +239,11 @@ class TranslationResponse(db.Model, BaseModel):
         source_lang, target_lang = self.source, self.target
         if self.mode == 2: source_lang = 'ja' # FIXME: This shall be removed for API v1.3
 
-        if self.translated_raw != None:
+        if self.translated_raw != None \
+            and len(self.translated_raw) >= 6 \
+            and self.translated_raw[4] != None and len(self.translated_raw[4]) > 0 \
+            and self.translated_raw[4] != None and len(self.translated_raw[5]) > 0:
+
             for source, target in zip(self.translated_raw[5], self.translated_raw[4]):
 
                 source_text, target_text = source[0], target[0]
@@ -235,7 +252,12 @@ class TranslationResponse(db.Model, BaseModel):
                 insert_corpora(source_lang.strip(), source_text.strip(),
                     target_lang.strip(), target_text.strip(), confidence)
 
-        if self.intermediate_raw != None and self.mode == 2:
+        # Holy shit... But this is going to be gone once API v1.3 is in place.
+        if self.mode == 2 and self.intermediate_raw != None \
+            and len(self.intermediate_raw) >= 6 \
+            and self.intermediate_raw[4] != None and len(self.intermediate_raw[4]) > 0 \
+            and self.intermediate_raw[4] != None and len(self.intermediate_raw[5]) > 0:
+
             source_lang, target_lang = self.source, 'ja'
             
             for source, target in zip(self.intermediate_raw[5], self.intermediate_raw[4]):

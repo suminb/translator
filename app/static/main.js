@@ -79,10 +79,11 @@ $.fn.enable = function() {
 window.fbAsyncInit = function() {
 // init the FB JS SDK
 FB.init({
-  appId      : '551432311581596',                        // App ID from the app dashboard
-  channelUrl : '//translator.suminb.com/static/channel.html', // Channel file for x-domain comms
-  status     : true,                                 // Check Facebook Login status
-  xfbml      : true                                  // Look for social plugins on the page
+  appId      : '551432311581596', // App ID from the app dashboard
+  channelUrl : '//translator.suminb.com/static/channel.html',
+                // Channel file for x-domain comms
+  status     : true, // Check Facebook Login status
+  xfbml      : true  // Look for social plugins on the page
 });
 
 // Additional initialization code such as adding Event Listeners goes here
@@ -94,6 +95,7 @@ var state = {
     target: null,
     mode: 2,
     text: null,
+    intermediate: null,
     result: null,
 
     id: null,
@@ -166,9 +168,12 @@ var state = {
     },
 
     init: function() {
-        this.setSource(typeof $.cookie("source") != "undefined" ? $.cookie("source") : "ko");
-        this.setTarget(typeof $.cookie("target") != "undefined" ? $.cookie("target") : "en");
-        this.setMode(typeof $.cookie("mode") != "undefined" ? $.cookie("mode") : 2);
+        this.setSource(typeof $.cookie("source") != "undefined" ?
+            $.cookie("source") : "ko");
+        this.setTarget(typeof $.cookie("target") != "undefined" ?
+            $.cookie("target") : "en");
+        this.setMode(typeof $.cookie("mode") != "undefined" ?
+            $.cookie("mode") : 2);
     },
 
     initWithState: function(state) {
@@ -194,13 +199,15 @@ var state = {
         this.target = t.target;
         this.mode = t.mode;
         this.text = t.original_text;
-        this.result = t.translated_text_dictlink;
+        //this.result = t.translated_text;
     },
 
     updateWithTranslation: function(t) {
-        this.id = t.id;
-        this.requestId = t.request_id;
-        this.result = t.translated_text_dictlink;
+        // this.id = t.id;
+        // this.requestId = t.request_id;
+        // this.result = t.translated_text;
+
+        this.result = JSON.parse(t);
     },
 
     swapLanguages: function() {
@@ -209,9 +216,9 @@ var state = {
 
         this.setSource(target);
         this.setTarget(source);
-        this.setText($("#result").text());
 
-        performTranslation();
+        $.cookie("source", target);
+        $.cookie("target", source);
     },
 
     // Sometimes we want to update the textarea, sometimes now.
@@ -238,11 +245,35 @@ var state = {
         }
 
         if (this.result) {
-            $("#result").html(this.result);
+            var result = $.map(this.result.sentences, (function(v) { return v.trans }));
+
+            $("#result").html(result);
+
+            // var resultDiv = $("#result");
+            // var sourceText = this.result[0][0][1];
+
+            // $(this.result[5]).each(function(i, v) {
+            //     console.log(v);
+
+            //     var targetCorpus = v[2][0][0];
+            //     var sourceRanges = v[3];
+
+            //     $(sourceRanges).each(function(i, v) {
+            //         var sourceCorpus = sourceText.substring(v[0], v[1]);
+            //         console.log(sourceCorpus);
+            //     });              
+
+            //     var corpusSpan = $("<span></span>")
+            //         .addClass("corpus")
+            //         .text(targetCorpus);
+
+            //     resultDiv.append(corpusSpan);
+            //     resultDiv.append(" ");
+            // });
         }
         if (this.id) {
             displayPermalink(this.id);
-            askForRating(this.requestId);
+            //askForRating(this.requestId);
         }
     },
 
@@ -254,7 +285,8 @@ var state = {
         this.target = $("select[name=tl]").val();
         this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
-        this.result = $("#result").html();
+        // NOTE: Don't make this.result string
+        //this.result = $("#result").html();
     },
 
     serialize: function() {
@@ -270,16 +302,6 @@ var state = {
     }
 };
 
-
-/**
- * Copied from http://stackoverflow.com/questions/5499078/fastest-method-to-escape-html-tags-as-html-entities
- */
-function replaceTag(tag) {
-    return TAGS_TO_REPLACE[tag] || tag;
-}
-function replaceTags(str) {
-    return str.replace(/[&<>]/g, replaceTag);
-}
 
 /**
  * Parsing a URL query string
@@ -320,17 +342,34 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
+// https://github.com/acidsound/transplus/blob/master/transplus.js
+function buildQueryString(message) {
+  var result = "http://goxcors.appspot.com/cors?method=GET" +
+    "&url=" + encodeURIComponent("http://translate.google.com/translate_a/t?client=x" +
+    "&sl=" + message.userlang + "&tl=" + message.targetlang+
+    "&text=" + encodeURIComponent(message.text));
+  return result;
+};
+
+function buildTranslateURL(sl, tl, text) {
+    var url = "http://translate.google.com/translate_a/t";
+    return sprintf("%s?client=x&sl=%s&tl=%s&text=%s",
+        url, sl, tl, encodeURIComponent(text));
+}
+
 function performTranslation() {
 
     if (state.pending) {
-        // If there is any pending translation request, silently abort the request.
+        // If there is any pending translation request,
+        // silently abort the request.
         return false;
     }
 
     state.update();
 
     if (state.source == state.target) {
-        // simply displays the original text when the source language and the target language are identical
+        // simply displays the original text when the source language and
+        // the target language are identical
         state.setResult(state.text);
     }
     else if (state.source == "" || state.target == "") {
@@ -339,39 +378,25 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else { // translates if the source language and the target language are not identical
+    else {
+        // translates if the source language and the target language are not
+        // identical
 
         $("#error-message").html("");
         $("#result").html("");
         $("#progress-message").show();
-        $("#page-url").invisible();
-        $("#help-request").invisible();
+
         enableControls(false);
 
         state.pending = true;
 
-        $.post("/v1.1/translate",
-            {t:state.text, m:state.mode, sl:state.source, tl:state.target},
+        $.get("http://goxcors.appspot.com/cors", {
+                method:"GET",
+                url:buildTranslateURL(state.source, state.target, state.text)
+            },
             function(response) {
 
-            state.updateWithTranslation(response);
-
-            window.location.hash = "";
-            //window.history.pushState(currentState, "", window.location.href);
-
-            if (state.id) {
-                //askForRating(response.request_id);
-                //displayPermalink(response.id);
-
-                if (state.text.length <= 180) {
-                    $("a.to-mode")
-                        .attr("href", sprintf("/trq/%s/responses", response.request_id))
-                        .show();
-                }
-                else {
-                    $("a.to-mode").hide();
-                }
-            }
+                state.updateWithTranslation(response);
 
         }).fail(function(response) {
             displayError(response.responseText);
@@ -400,8 +425,11 @@ function performTranslation() {
             }
 
         }
+
+
+
     }
-    
+
     return false;
 }
 
@@ -423,22 +451,6 @@ function refreshExample() {
 function displayResult(result) {
     $("#error-message").html("");
     $("#result").html(result);
-}
-
-/**
- * @deprecated
- */
-function displayPageURL(source, target, mode, text) {
-    var encoded = encodeURIComponent(text);
-    if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
-        var url = sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
-
-        $("#page-url").visible();
-        $("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
-    }
-    else {
-        $("#page-url").invisible();
-    }
 }
 
 function displayError(message) {
@@ -492,7 +504,6 @@ function toggleScreenshot() {
 toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
-    //$("#progress-message").html("Fetching requested resources...");
     $("#progress-message").show();
 
     $.get("/v0.9/fetch/"+serial, function(response) {
@@ -508,10 +519,10 @@ function fetchTranslation(serial) {
 
         window.history.replaceState(state.serialize(), "", window.location.href);
 
-        askForRating(response.request_id);
+        //askForRating(response.request_id);
 
     }).fail(function(response) {
-        displayError(response.responseText)
+        displayError(response.responseText);
     
     }).always(function() {
         $("#progress-message").hide();
@@ -559,8 +570,6 @@ function displayPermalink(id) {
     var url = origin + path;
 
     $("#request-permalink").hide();
-    //$("#page-url").visible();
-    //$("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
 
     window.history.pushState(state.serialize(), "", path);
 }

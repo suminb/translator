@@ -168,7 +168,7 @@ window.onload = function() {
     }
 
     if (state.id) {
-        askForRating(state.requestId);
+        //askForRating(state.requestId);
     }
     else {
         if (getParameterByName("t")) {
@@ -204,13 +204,6 @@ window.onload = function() {
             performTranslation();
         }
     })
-    // Temporarily disabled (2013-09-27). We will see...
-    // .bind('paste', function (event) {
-    //     // http://stackoverflow.com/questions/9494283/jquery-how-to-get-the-pasted-content
-    //     // When pasting to an input the "paste" event is fired before the value has time to update
-    //     // Therefore, performTranslation() function has to be called after the completion of this event handling function
-    //     setTimeout(performTranslation, 100);
-    // })
     .trigger("change");
 
     $("button.to-mode").click(function(evt) {
@@ -293,6 +286,12 @@ function populateSearchResults(results) {
     }
 }
 
+// Copied from https://github.com/acidsound/transplus/blob/master/index.html
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'ko', layout: google.translate.TranslateElement.FloatPosition.BOTTOM_RIGHT, multilanguagePage:true}, 'google_translate_element');
+}
+
 </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     
 {% endblock %}

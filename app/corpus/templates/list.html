@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  I know. It is shame that this <em>dictionary</em> is missing a search feature. What kind of dictionary is that? But no worries. Our most highly trained monkey has started working on this part.
+</div>
+
+{{ pagination.info|safe }}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>{{ _("Source Language") }}</th>
+      <th>{{ _("Target Language") }}</th>
+      <th style="width:30%">{{ _("Source Text") }}</th>
+      <th style="width:30%">{{ _("Target Text") }}</th>
+      <th>{{ _("Confidence") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for corpus in corpora %}
+      <tr>
+        <td>{{ corpus.source_lang | language_name }}</td>
+        <td>{{ corpus.target_lang | language_name }}</td>
+        <td>{{ corpus.source_text }}</td>
+        <td>{{ corpus.target_text }}</td>
+        <td>{{ (corpus.confidence / corpus.frequency) | round | int }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div style="text-align:center">
+  {{ pagination.links|safe }}
+</div>
+
+{% endblock %}

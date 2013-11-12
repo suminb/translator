@@ -245,9 +245,8 @@ var state = {
         }
 
         if (this.result) {
-            var result = $.map(this.result.sentences, (function(v) { return v.trans }));
 
-            $("#result").html(result);
+            $("#result").html(extractSentences(this.result));
 
             // var resultDiv = $("#result");
             // var sourceText = this.result[0][0][1];
@@ -357,6 +356,12 @@ function buildTranslateURL(sl, tl, text) {
         url, sl, tl, encodeURIComponent(text));
 }
 
+function extractSentences(raw) {
+    return "".concat(
+            $.map(raw.sentences, (function(v) { return v.trans }))
+        );
+}
+
 function performTranslation() {
 
     if (state.pending) {
@@ -390,43 +395,101 @@ function performTranslation() {
 
         state.pending = true;
 
-        $.get("http://goxcors.appspot.com/cors", {
-                method:"GET",
-                url:buildTranslateURL(state.source, state.target, state.text)
-            },
-            function(response) {
+        //
+        // FIXME: Revise the following code. TOTAL MESS
+        //
 
-                state.updateWithTranslation(response);
+        if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
 
-        }).fail(function(response) {
-            displayError(response.responseText);
-        
-        }).always(function() {
-            $("#progress-message").hide();
-            enableControls(true);
+            $.getJSON("http://goxcors.appspot.com/cors", {
+                    method:"GET",
+                    url:buildTranslateURL(state.source, "ja", state.text)
+                },
+                function(response) {
 
-            // This must be called after enableControls()
-            state.invalidateUI(false);
+                    state.intermediate = response;
 
-            state.pending = false;
-        });
 
-        // For testing purposes, search feature is off by default
-        if ($.cookie("search") == "on") {
+                    $.getJSON("http://goxcors.appspot.com/cors", {
+                            method:"GET",
+                            url:buildTranslateURL("ja", state.target, extractSentences(state.intermediate))
+                        },
+                        function(response) {
+                            state.result = response;
+                        }
+                    )
+                    .fail(function(response) {
+                        displayError(response.responseText);
+                    })
+                    .always(function() {
+                        $("#progress-message").hide();
+                        enableControls(true);
 
-            $("#search-results").hide();
-            if (state.text.length <= 180) {
-                $.get("/v1.1/tresponse/search",
-                    {mode:3, source:state.source, target:state.target, query:state.text},
-                    function(response) {
+                        // This must be called after enableControls()
+                        state.invalidateUI(false);
 
-                    populateSearchResults(response.rows);
-                });
-            }
+                        state.pending = false;
+                    });
+                }
+            )
+            .fail(function(response) {
+                $("#progress-message").hide();
+                enableControls(true);
+
+                displayError(response.responseText);
+            
+            })
+            .always(function() {
+                // $("#progress-message").hide();
+                // enableControls(true);
+
+                // // This must be called after enableControls()
+                // state.invalidateUI(false);
+
+                state.pending = false;
+            });
+
+        }
+        else {
+
+            $.getJSON("http://goxcors.appspot.com/cors", {
+                    method:"GET",
+                    url:buildTranslateURL(state.source, state.target, state.text)
+                },
+                function(response) {
+
+                    //state.updateWithTranslation(response);
+                    state.result = response;
+
+            }).fail(function(response) {
+                displayError(response.responseText);
+            
+            }).always(function() {
+                $("#progress-message").hide();
+                enableControls(true);
+
+                // This must be called after enableControls()
+                state.invalidateUI(false);
+
+                state.pending = false;
+            });
 
         }
 
+        // // For testing purposes, search feature is off by default
+        // if ($.cookie("search") == "on") {
 
+        //     $("#search-results").hide();
+        //     if (state.text.length <= 180) {
+        //         $.get("/v1.1/tresponse/search",
+        //             {mode:3, source:state.source, target:state.target, query:state.text},
+        //             function(response) {
+
+        //             populateSearchResults(response.rows);
+        //         });
+        //     }
+
+        // }
 
     }
 
@@ -529,28 +592,6 @@ function fetchTranslation(serial) {
     });
 }
 
-function rateTranslation(button) {
-    //var original = $("text").val();
-    //var encoded = encodeURIComponent(original);
-
-    var buttonGroup = button.parent();
-    var translationId = button.attr("translation-id");
-    var rating = parseInt(button.attr("rating"));
-    var url = sprintf("/v1.0/tr/%s/rate", translationId);
-
-    $.post(url, {r:rating}, function(response) {
-        buttonGroup.children().removeClass("active");
-        button.addClass("active");
-
-        $(sprintf("span.rating-plus[translation-id=%s]", translationId)).text(response.plus_ratings);
-        $(sprintf("span.rating-minus[translation-id=%s]", translationId)).text(response.minus_ratings);
-    }).fail(function(response) {
-    
-    }).always(function() {
-
-    });
-}
-
 function deleteTranslation(id) {
     $("div.alert").hide();
 
@@ -572,23 +613,6 @@ function displayPermalink(id) {
     $("#request-permalink").hide();
 
     window.history.pushState(state.serialize(), "", path);
-}
-
-function askForRating(id) {
-    $("#appreciation").hide();
-
-    if (state.text.length <= 180) {
-        $("#help-request").visible();
-        //$("#help-request a.translation-challenge").attr("href", sprintf("/trq/%s/response", id));
-    }
-}
-
-function expressAppreciation() {
-    $("#text").enable();
-    $("#rating").invisible();
-    $("#alternative-translation-form").hide("medium");
-    $("#appreciation").show("medium");
-    setTimeout(function() { $("#appreciation").hide("medium"); }, 5000);
 }
 
 /**

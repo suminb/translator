@@ -61,44 +61,29 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
     if source == target:
         return text
 
-    from hallucination import ProxyFactory
-    proxy_factory = ProxyFactory(
-        db_engine=db.engine,
-        logger=logger
-    )
-
     if not re.match(r'Mozilla/\d+\.\d+ \(.*', user_agent):
         user_agent = 'Mozilla/5.0 (%s)' % user_agent
 
     headers = {
         'Referer': 'http://translate.google.com',
         'User-Agent': user_agent,
-        'Content-Length': str(sys.getsizeof(text))
+        #'Content-Length': str(sys.getsizeof(text))
     }
     payload = {
+        'url': 'http://translate.google.com/translate_a/t',
         'client': client,
         'sl': source,
         'tl': target,
-        'text': text
+        'q': text,
     }
-    url = 'http://translate.google.com/translate_a/t'
 
-    req = None
-    try:
-        req = proxy_factory.make_request(url, headers=headers, params=payload,
-            req_type=requests.post, timeout=2, pool_size=10)
-    except Exception as e:
-        logger.exception(e)
-
-    if req == None:
-        # if request via proxy fails
-        req = requests.post(url, headers=headers, data=payload)
+    req = requests.post('http://hallucination.suminb.com/r',
+        headers=headers, data=payload)
 
     if req.status_code != 200:
         raise HTTPException(
-            ('Google Translate returned HTTP {}'.format(req.status_code)),
+            ('HTTP {}'.format(req.status_code)),
             req.status_code)
-
 
     if client == 'x':
         data = json.loads(req.text)

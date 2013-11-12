@@ -228,12 +228,13 @@ class TranslationResponse(db.Model, BaseModel):
                     source_lang=source_lang, target_lang=target_lang,
                     source_text=source_text, target_text=target_text,
                     confidence=confidence, frequency=1,
+                    commit=False,
                 )
             else:
                 corpus.confidence += confidence
                 corpus.frequency += 1
 
-                db.session.commit()
+                #db.session.commit()
 
 
         source_lang, target_lang = self.source, self.target

@@ -401,7 +401,7 @@ function performTranslation() {
 
         if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
 
-            $.getJSON("http://goxcors.appspot.com/cors", {
+            $.getJSON("http://goxcors-clone.appspot.com/cors", {
                     method:"GET",
                     url:buildTranslateURL(state.source, "ja", state.text)
                 },
@@ -410,7 +410,7 @@ function performTranslation() {
                     state.intermediate = response;
 
 
-                    $.getJSON("http://goxcors.appspot.com/cors", {
+                    $.getJSON("http://goxcors-clone.appspot.com/cors", {
                             method:"GET",
                             url:buildTranslateURL("ja", state.target, extractSentences(state.intermediate))
                         },
@@ -452,7 +452,7 @@ function performTranslation() {
         }
         else {
 
-            $.getJSON("http://goxcors.appspot.com/cors", {
+            $.getJSON("http://goxcors-clone.appspot.com/cors", {
                     method:"GET",
                     url:buildTranslateURL(state.source, state.target, state.text)
                 },

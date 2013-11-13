@@ -341,15 +341,6 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
-// https://github.com/acidsound/transplus/blob/master/transplus.js
-function buildQueryString(message) {
-  var result = "http://goxcors.appspot.com/cors?method=GET" +
-    "&url=" + encodeURIComponent("http://translate.google.com/translate_a/t?client=x" +
-    "&sl=" + message.userlang + "&tl=" + message.targetlang+
-    "&text=" + encodeURIComponent(message.text));
-  return result;
-};
-
 function buildTranslateURL(sl, tl, text) {
     var url = "http://translate.google.com/translate_a/t";
     return sprintf("%s?client=x&sl=%s&tl=%s&text=%s",
@@ -383,12 +374,15 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
+    else if (encodeURIComponent(state.text).length > 1024) {
+        displayError("Text is too long.");
+    }
     else {
         // translates if the source language and the target language are not
         // identical
 
-        $("#error-message").html("");
-        $("#result").html("");
+        $("#error-message").empty();
+        $("#result").empty();
         $("#progress-message").show();
 
         enableControls(false);
@@ -512,14 +506,14 @@ function refreshExample() {
 }
 
 function displayResult(result) {
-    $("#error-message").html("");
+    $("#error-message").empty();
     $("#result").html(result);
 }
 
 function displayError(message) {
     var postfix = ' If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
     $("#error-message").html(message + postfix);
-    $("#result").html("");
+    $("#result").empty();
 }
 
 function hashChanged(hash) {

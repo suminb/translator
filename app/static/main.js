@@ -375,7 +375,8 @@ function performTranslation() {
         // TODO: Give some warning
     }
     else if (encodeURIComponent(state.text).length > 1024) {
-        displayError("Text is too long.");
+        displayError("Text is too long.",
+            "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
     else {
         // translates if the source language and the target language are not
@@ -413,7 +414,7 @@ function performTranslation() {
                         }
                     )
                     .fail(function(response) {
-                        displayError(response.responseText);
+                        displayError(response.responseText, null);
                     })
                     .always(function() {
                         $("#progress-message").hide();
@@ -430,8 +431,8 @@ function performTranslation() {
                 $("#progress-message").hide();
                 enableControls(true);
 
-                displayError(response.responseText);
-            
+                displayError(response.responseText, null);
+
             })
             .always(function() {
                 // $("#progress-message").hide();
@@ -456,8 +457,8 @@ function performTranslation() {
                     state.result = response;
 
             }).fail(function(response) {
-                displayError(response.responseText);
-            
+                displayError(response.responseText, null);
+
             }).always(function() {
                 $("#progress-message").hide();
                 enableControls(true);
@@ -510,9 +511,11 @@ function displayResult(result) {
     $("#result").html(result);
 }
 
-function displayError(message) {
-    var postfix = ' If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
-    $("#error-message").html(message + postfix);
+function displayError(message, postfix) {
+    if (postfix == null) {
+        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
+    }
+    $("#error-message").html(sprintf("%s %s", message, postfix));
     $("#result").empty();
 }
 

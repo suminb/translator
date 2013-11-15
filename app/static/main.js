@@ -341,10 +341,9 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
-function buildTranslateURL(sl, tl, text) {
+function buildTranslateURL(sl, tl) {
     var url = "http://translate.google.com/translate_a/t";
-    return sprintf("%s?client=x&sl=%s&tl=%s&text=%s",
-        url, sl, tl, encodeURIComponent(text));
+    return encodeURIComponent(sprintf("%s?client=x&sl=%s&tl=%s", url, sl, tl));
 }
 
 function extractSentences(raw) {
@@ -374,7 +373,7 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 1024) {
+    else if (encodeURIComponent(state.text).length > 1024*16) {
         displayError("Text is too long.");
     }
     else {
@@ -389,85 +388,21 @@ function performTranslation() {
 
         state.pending = true;
 
-        //
-        // FIXME: Revise the following code. TOTAL MESS
-        //
-
         if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
 
-            $.getJSON("http://goxcors-clone.appspot.com/cors", {
-                    method:"GET",
-                    url:buildTranslateURL(state.source, "ja", state.text)
-                },
-                function(response) {
+            sendTranslationRequest(state.source, "ja", state.text, function() {
 
-                    state.intermediate = response;
+                // Delay for a random interval (1-2 sec)
+                var delay = (1 + Math.random()) * 1000;
 
-
-                    $.getJSON("http://goxcors-clone.appspot.com/cors", {
-                            method:"GET",
-                            url:buildTranslateURL("ja", state.target, extractSentences(state.intermediate))
-                        },
-                        function(response) {
-                            state.result = response;
-                        }
-                    )
-                    .fail(function(response) {
-                        displayError(response.responseText);
-                    })
-                    .always(function() {
-                        $("#progress-message").hide();
-                        enableControls(true);
-
-                        // This must be called after enableControls()
-                        state.invalidateUI(false);
-
-                        state.pending = false;
-                    });
-                }
-            )
-            .fail(function(response) {
-                $("#progress-message").hide();
-                enableControls(true);
-
-                displayError(response.responseText);
-            
-            })
-            .always(function() {
-                // $("#progress-message").hide();
-                // enableControls(true);
-
-                // // This must be called after enableControls()
-                // state.invalidateUI(false);
-
-                state.pending = false;
+                setTimeout(function() {
+                    sendTranslationRequest("ja", state.target,
+                        extractSentences(state.result));
+                }, delay);
             });
-
         }
         else {
-
-            $.getJSON("http://goxcors-clone.appspot.com/cors", {
-                    method:"GET",
-                    url:buildTranslateURL(state.source, state.target, state.text)
-                },
-                function(response) {
-
-                    //state.updateWithTranslation(response);
-                    state.result = response;
-
-            }).fail(function(response) {
-                displayError(response.responseText);
-            
-            }).always(function() {
-                $("#progress-message").hide();
-                enableControls(true);
-
-                // This must be called after enableControls()
-                state.invalidateUI(false);
-
-                state.pending = false;
-            });
-
+            sendTranslationRequest(state.source, state.target, state.text, null);
         }
 
         // // For testing purposes, search feature is off by default
@@ -488,6 +423,37 @@ function performTranslation() {
     }
 
     return false;
+}
+
+function sendTranslationRequest(source, target, text, onSuccess) {
+    console.log(buildTranslateURL(source, target));
+
+    var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=POST&url=%s",
+        buildTranslateURL(source, target));
+
+    $.post(url, { q: text },
+        function(response) {
+
+            //state.updateWithTranslation(response);
+            state.result = $.parseJSON(response);
+
+            if (onSuccess != null) {
+                onSuccess();
+            }
+
+    }).fail(function(response) {
+        displayError(response.responseText);
+
+    }).always(function() {
+        $("#progress-message").hide();
+        enableControls(true);
+
+        // This must be called after enableControls()
+        state.invalidateUI(false);
+
+        state.pending = false;
+    });
+    console.log(sprintf("checkpoint %s %s", source, target));
 }
 
 

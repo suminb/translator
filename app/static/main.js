@@ -354,6 +354,16 @@ function extractSentences(raw) {
 
 function performTranslation() {
 
+    var onAlways = function() {
+        $("#progress-message").hide();
+        enableControls(true);
+
+        // This must be called after enableControls()
+        state.invalidateUI(false);
+
+        state.pending = false;
+    };
+
     if (state.pending) {
         // If there is any pending translation request,
         // silently abort the request.
@@ -373,7 +383,7 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 1024*16) {
+    else if (encodeURIComponent(state.text).length > 1024*2) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
@@ -398,12 +408,18 @@ function performTranslation() {
 
                 setTimeout(function() {
                     sendTranslationRequest("ja", state.target,
-                        extractSentences(state.result));
+                        extractSentences(state.result),
+                        onAlways
+                    );
                 }, delay);
+
+            }, function() {
+                state.invalidateUI(false);
             });
         }
         else {
-            sendTranslationRequest(state.source, state.target, state.text, null);
+            sendTranslationRequest(state.source, state.target, state.text,
+                null, onAlways);
         }
 
         // // For testing purposes, search feature is off by default
@@ -426,8 +442,7 @@ function performTranslation() {
     return false;
 }
 
-function sendTranslationRequest(source, target, text, onSuccess) {
-    console.log(buildTranslateURL(source, target));
+function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
     var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=POST&url=%s",
         buildTranslateURL(source, target));
@@ -435,8 +450,11 @@ function sendTranslationRequest(source, target, text, onSuccess) {
     $.post(url, { q: text },
         function(response) {
 
-            //state.updateWithTranslation(response);
-            state.result = $.parseJSON(response);
+            try {
+                state.result = $.parseJSON(response);
+            } catch(e) {
+                $("#result").html(response);
+            }
 
             if (onSuccess != null) {
                 onSuccess();
@@ -445,16 +463,7 @@ function sendTranslationRequest(source, target, text, onSuccess) {
     }).fail(function(response) {
         displayError(response.responseText);
 
-    }).always(function() {
-        $("#progress-message").hide();
-        enableControls(true);
-
-        // This must be called after enableControls()
-        state.invalidateUI(false);
-
-        state.pending = false;
-    });
-    console.log(sprintf("checkpoint %s %s", source, target));
+    }).always(onAlways);
 }
 
 

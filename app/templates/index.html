@@ -145,7 +145,7 @@ FIXME: There must be a better way than this
 {{ _('Spanish') }}
 -->
 
-<script type="text/javascript" src="/static/jquery.succinct.js"></script>
+<!--<script type="text/javascript" src="/static/jquery.succinct.js"></script>-->
 <script type="text/javascript">
 {% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
 
@@ -204,13 +204,6 @@ window.onload = function() {
             performTranslation();
         }
     })
-    // Temporarily disabled (2013-09-27). We will see...
-    // .bind('paste', function (event) {
-    //     // http://stackoverflow.com/questions/9494283/jquery-how-to-get-the-pasted-content
-    //     // When pasting to an input the "paste" event is fired before the value has time to update
-    //     // Therefore, performTranslation() function has to be called after the completion of this event handling function
-    //     setTimeout(performTranslation, 100);
-    // })
     .trigger("change");
 
     $("button.to-mode").click(function(evt) {
@@ -230,6 +223,9 @@ window.onload = function() {
             $("#help-request-dialog").html(response);
         });
     });
+
+    // Initialize tooltips
+    $("button[data-toggle=tooltip]").tooltip();
 };
 
 window.onpopstate = function(event) {
@@ -237,11 +233,6 @@ window.onpopstate = function(event) {
         state.initWithState(event.state);
     }
 };
-
-// Initialize tooltips
-$(function() {
-  $("button[data-toggle=tooltip]").tooltip();
-});
 
 function askForHelp() {
     var url = sprintf("%s//%s/trq/%s/response", 
@@ -294,5 +285,6 @@ function populateSearchResults(results) {
 }
 
 </script>
+
     
 {% endblock %}

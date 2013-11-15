@@ -95,6 +95,7 @@ var state = {
     target: null,
     mode: 2,
     text: null,
+    intermediate: null,
     result: null,
 
     id: null,
@@ -132,6 +133,7 @@ var state = {
     },
 
     setResult: function(v) {
+        this.result = v;
         $("#result").html(v);
     },
 
@@ -197,13 +199,15 @@ var state = {
         this.target = t.target;
         this.mode = t.mode;
         this.text = t.original_text;
-        this.result = t.translated_text;
+        //this.result = t.translated_text;
     },
 
     updateWithTranslation: function(t) {
-        this.id = t.id;
-        this.requestId = t.request_id;
-        this.result = t.translated_text;
+        // this.id = t.id;
+        // this.requestId = t.request_id;
+        // this.result = t.translated_text;
+
+        this.result = JSON.parse(t);
     },
 
     swapLanguages: function() {
@@ -241,7 +245,8 @@ var state = {
         }
 
         if (this.result) {
-            $("#result").html(this.result);
+
+            $("#result").html(extractSentences(this.result));
 
             // var resultDiv = $("#result");
             // var sourceText = this.result[0][0][1];
@@ -298,16 +303,6 @@ var state = {
 
 
 /**
- * Copied from http://stackoverflow.com/questions/5499078/fastest-method-to-escape-html-tags-as-html-entities
- */
-function replaceTag(tag) {
-    return TAGS_TO_REPLACE[tag] || tag;
-}
-function replaceTags(str) {
-    return str.replace(/[&<>]/g, replaceTag);
-}
-
-/**
  * Parsing a URL query string
  * http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
  */
@@ -346,7 +341,28 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
+function buildTranslateURL(sl, tl) {
+    var url = "http://translate.google.com/translate_a/t";
+    return encodeURIComponent(sprintf("%s?client=x&sl=%s&tl=%s", url, sl, tl));
+}
+
+function extractSentences(raw) {
+    return "".concat(
+            $.map(raw.sentences, (function(v) { return v.trans }))
+        );
+}
+
 function performTranslation() {
+
+    var onAlways = function() {
+        $("#progress-message").hide();
+        enableControls(true);
+
+        // This must be called after enableControls()
+        state.invalidateUI(false);
+
+        state.pending = false;
+    };
 
     if (state.pending) {
         // If there is any pending translation request,
@@ -367,85 +383,87 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
+    else if (encodeURIComponent(state.text).length > 1024*2) {
+        displayError("Text is too long.",
+            "For more detail, please refer <a href=\"/longtext\">this page</a>.");
+    }
     else {
         // translates if the source language and the target language are not
         // identical
 
-        $("#error-message").html("");
-        $("#result").html("");
+        $("#error-message").empty();
+        $("#result").empty();
         $("#progress-message").show();
-        $("#page-url").invisible();
-        $("#help-request").invisible();
+
         enableControls(false);
 
         state.pending = true;
 
-        $.get("/corpus/v1.2/match",
-            {q:state.text, sl:state.source, tl:state.target},
-            function(response) {
+        if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
 
-                console.log(response);
+            sendTranslationRequest(state.source, "ja", state.text, function() {
 
-            }
-        )
-        .fail(function(response) {
-        
-        });
+                // Delay for a random interval (1-2 sec)
+                var delay = (1 + Math.random()) * 1000;
 
-        $.post("/v1.2/translate",
-            {t:state.text, m:state.mode, sl:state.source, tl:state.target},
-            function(response) {
+                setTimeout(function() {
+                    sendTranslationRequest("ja", state.target,
+                        extractSentences(state.result),
+                        onAlways
+                    );
+                }, delay);
 
-            state.updateWithTranslation(response);
-
-            window.location.hash = "";
-            //window.history.pushState(currentState, "", window.location.href);
-
-            if (state.id) {
-
-                if (state.text.length <= 180) {
-                    $("a.to-mode")
-                        .attr("href", sprintf("/trq/%s/responses", response.request_id))
-                        .show();
-                }
-                else {
-                    $("a.to-mode").hide();
-                }
-            }
-
-        }).fail(function(response) {
-            displayError(response.responseText);
-        
-        }).always(function() {
-            $("#progress-message").hide();
-            enableControls(true);
-
-            // This must be called after enableControls()
-            state.invalidateUI(false);
-
-            state.pending = false;
-        });
-
-        // For testing purposes, search feature is off by default
-        if ($.cookie("search") == "on") {
-
-            $("#search-results").hide();
-            if (state.text.length <= 180) {
-                $.get("/v1.1/tresponse/search",
-                    {mode:3, source:state.source, target:state.target, query:state.text},
-                    function(response) {
-
-                    populateSearchResults(response.rows);
-                });
-            }
-
+            }, function() {
+                state.invalidateUI(false);
+            });
+        }
+        else {
+            sendTranslationRequest(state.source, state.target, state.text,
+                null, onAlways);
         }
 
+        // // For testing purposes, search feature is off by default
+        // if ($.cookie("search") == "on") {
 
+        //     $("#search-results").hide();
+        //     if (state.text.length <= 180) {
+        //         $.get("/v1.1/tresponse/search",
+        //             {mode:3, source:state.source, target:state.target, query:state.text},
+        //             function(response) {
+
+        //             populateSearchResults(response.rows);
+        //         });
+        //     }
+
+        // }
 
     }
 
     return false;
+}
+
+function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
+
+    var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=POST&url=%s",
+        buildTranslateURL(source, target));
+
+    $.post(url, { q: text },
+        function(response) {
+
+            try {
+                state.result = $.parseJSON(response);
+            } catch(e) {
+                $("#result").html(response);
+            }
+
+            if (onSuccess != null) {
+                onSuccess();
+            }
+
+    }).fail(function(response) {
+        displayError(response.responseText);
+
+    }).always(onAlways);
 }
 
 
@@ -464,14 +482,16 @@ function refreshExample() {
 }
 
 function displayResult(result) {
-    $("#error-message").html("");
+    $("#error-message").empty();
     $("#result").html(result);
 }
 
-function displayError(message) {
-    var postfix = ' If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
-    $("#error-message").html(message + postfix);
-    $("#result").html("");
+function displayError(message, postfix) {
+    if (postfix == null) {
+        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
+    }
+    $("#error-message").html(sprintf("%s %s", message, postfix));
+    $("#result").empty();
 }
 
 function hashChanged(hash) {
@@ -544,28 +564,6 @@ function fetchTranslation(serial) {
     });
 }
 
-function rateTranslation(button) {
-    //var original = $("text").val();
-    //var encoded = encodeURIComponent(original);
-
-    var buttonGroup = button.parent();
-    var translationId = button.attr("translation-id");
-    var rating = parseInt(button.attr("rating"));
-    var url = sprintf("/v1.0/tr/%s/rate", translationId);
-
-    $.post(url, {r:rating}, function(response) {
-        buttonGroup.children().removeClass("active");
-        button.addClass("active");
-
-        $(sprintf("span.rating-plus[translation-id=%s]", translationId)).text(response.plus_ratings);
-        $(sprintf("span.rating-minus[translation-id=%s]", translationId)).text(response.minus_ratings);
-    }).fail(function(response) {
-    
-    }).always(function() {
-
-    });
-}
-
 function deleteTranslation(id) {
     $("div.alert").hide();
 
@@ -587,23 +585,6 @@ function displayPermalink(id) {
     $("#request-permalink").hide();
 
     window.history.pushState(state.serialize(), "", path);
-}
-
-function askForRating(id) {
-    $("#appreciation").hide();
-
-    if (state.text.length <= 180) {
-        $("#help-request").visible();
-        //$("#help-request a.translation-challenge").attr("href", sprintf("/trq/%s/response", id));
-    }
-}
-
-function expressAppreciation() {
-    $("#text").enable();
-    $("#rating").invisible();
-    $("#alternative-translation-form").hide("medium");
-    $("#appreciation").show("medium");
-    setTimeout(function() { $("#appreciation").hide("medium"); }, 5000);
 }
 
 /**

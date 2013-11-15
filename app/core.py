@@ -50,6 +50,9 @@ facebook_app = oauth.remote_app('facebook',
 def load_user(user_id):
     return User.query.get(user_id)
 
+@app.route('/longtext')
+def longtext():
+    return render_template('longtext.html')
 
 def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGENT):
     """
@@ -79,7 +82,7 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
         'client': client,
         'sl': source,
         'tl': target,
-        'text': text
+        'text': text,
     }
     url = 'http://translate.google.com/translate_a/t'
 
@@ -87,6 +90,7 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
     try:
         req = proxy_factory.make_request(url, headers=headers, params=payload,
             req_type=requests.post, timeout=2, pool_size=10)
+
     except Exception as e:
         logger.exception(e)
 

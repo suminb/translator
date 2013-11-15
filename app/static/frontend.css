@@ -151,7 +151,6 @@ button.translate {
   color: #F03300;
 }
 #progress-message {
-  position: absolute;
   padding: 10px;
   display: none;
   color: #ccc;

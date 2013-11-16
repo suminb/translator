@@ -104,3 +104,12 @@ class CorpusIndex(db.Model, BaseModel):
         data['corpus'] = self.corpus.serialize()
 
         return data
+
+
+class CorpusRaw(db.Model, BaseModel):
+    __table_args__ = ( db.UniqueConstraint('hash'), {} )
+
+    id = db.Column(UUID, primary_key=True)
+    hash = db.Column(db.String(255))
+    raw = db.Column(db.Text)
+

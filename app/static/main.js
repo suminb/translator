@@ -207,7 +207,7 @@ var state = {
         // this.requestId = t.request_id;
         // this.result = t.translated_text;
 
-        this.result = JSON.parse(t);
+        this.result = t;
     },
 
     swapLanguages: function() {
@@ -269,10 +269,6 @@ var state = {
             //     resultDiv.append(corpusSpan);
             //     resultDiv.append(" ");
             // });
-        }
-        if (this.id) {
-            displayPermalink(this.id);
-            //askForRating(this.requestId);
         }
     },
 
@@ -341,14 +337,14 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
-function buildTranslateURL(sl, tl) {
+function buildTranslateURL(sl, tl, text) {
     var url = "http://translate.google.com/translate_a/t";
-    return encodeURIComponent(sprintf("%s?client=x&sl=%s&tl=%s", url, sl, tl));
+    return sprintf("%s?client=t&sl=%s&tl=%s&q=%s", url, sl, tl, encodeURIComponent(text));
 }
 
 function extractSentences(raw) {
     return "".concat(
-            $.map(raw.sentences, (function(v) { return v.trans }))
+            $.map(raw[0], (function(v) { return v[0]; }))
         );
 }
 
@@ -413,9 +409,7 @@ function performTranslation() {
                     );
                 }, delay);
 
-            }, function() {
-                state.invalidateUI(false);
-            });
+            }, onAlways);
         }
         else {
             sendTranslationRequest(state.source, state.target, state.text,
@@ -444,21 +438,21 @@ function performTranslation() {
 
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
-    var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=POST&url=%s",
-        buildTranslateURL(source, target));
+    var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=GET&url=%s",
+        encodeURIComponent(buildTranslateURL(source, target, text)));
 
-    $.post(url, { q: text },
-        function(response) {
+    $.get(url, function(response) {
 
-            try {
-                state.result = $.parseJSON(response);
+        try {
+            // FIXME: Potential security vulnerability
+            state.result = eval(response);
 
-                if (onSuccess != null) {
-                    onSuccess();
-                }
-           } catch(e) {
-                $("#result").html(response);
-           }
+            if (onSuccess != null) {
+                onSuccess();
+            }
+       } catch(e) {
+            $("#result").html(response);
+       }
 
     }).fail(function(response) {
         displayError(response.responseText);

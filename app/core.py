@@ -118,7 +118,7 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
 
         # Remove unneccessary white spaces
         return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
-    
+
     elif client == 't':
         # NOTE: This may break down in some cases...
         text = req.text
@@ -139,7 +139,7 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
 @app.route('/')
 @app.route('/tr/<translation_id>')
 def index(translation_id=None):
-    
+
     if request.host == 'translator.suminb.com':
         return redirect('http://better-translator.com')
 
@@ -165,8 +165,8 @@ def index(translation_id=None):
 
     translation_id = translation_id or request.args.get('tr', None)
 
-    if translation_id != None:
-        tresponse = TranslationResponse.fetch(id_b62=translation_id)
+    #if translation_id != None:
+    #    tresponse = TranslationResponse.fetch(id_b62=translation_id)
 
     if translation_id != None and tresponse == None:
         return redirect(url_for('index'))
@@ -175,7 +175,7 @@ def index(translation_id=None):
         translation = tresponse.serialize()
         translation['original_text'] = tresponse.request.original_text
         #translation['translated_text_dictlink'] = link_dictionary(
-        #    translation['translated_text'], translation['source'], translation['target'])
+        #translation['translated_text'], translation['source'], translation['target'])
 
         context['og_description'] = tresponse.request.original_text
         context['translation'] = json.dumps(translation)

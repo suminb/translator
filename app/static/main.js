@@ -239,7 +239,7 @@ var state = {
         $("select[name=tl]").val(this.target);
         $("button.to-mode").removeClass("active");
         $(sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
-        
+
         if (updateText) {
             $("#text").val(this.text);
         }
@@ -260,7 +260,7 @@ var state = {
             //     $(sourceRanges).each(function(i, v) {
             //         var sourceCorpus = sourceText.substring(v[0], v[1]);
             //         console.log(sourceCorpus);
-            //     });              
+            //     });
 
             //     var corpusSpan = $("<span></span>")
             //         .addClass("corpus")
@@ -284,8 +284,7 @@ var state = {
         this.target = $("select[name=tl]").val();
         this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
-        // NOTE: Don't make this.result string
-        //this.result = $("#result").html();
+        this.result = $("#result").html();
     },
 
     serialize: function() {
@@ -320,7 +319,8 @@ function getParameterByName(name) {
 }
 
 /**
- * Copied from http://codereview.stackexchange.com/questions/9574/faster-and-cleaner-way-to-parse-parameters-from-url-in-javascript-jquery
+ * Copied from http://codereview.stackexchange.com/questions/9574/ \
+ *     faster-and-cleaner-way-to-parse-parameters-from-url-in-javascript-jquery
  */
 function parseHash(hash) {
     var query = (window.location.search || '#').substr(1),
@@ -452,13 +452,13 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
             try {
                 state.result = $.parseJSON(response);
-            } catch(e) {
-                $("#result").html(response);
-            }
 
-            if (onSuccess != null) {
-                onSuccess();
-            }
+                if (onSuccess != null) {
+                    onSuccess();
+                }
+           } catch(e) {
+                $("#result").html(response);
+           }
 
     }).fail(function(response) {
         displayError(response.responseText);

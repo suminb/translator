@@ -151,7 +151,6 @@ button.translate {
   color: #F03300;
 }
 #progress-message {
-  position: absolute;
   padding: 10px;
   display: none;
   color: #ccc;
@@ -247,4 +246,9 @@ a.dictionary-link {
 a.dictionary-link:hover {
   text-decoration: none;
   background-color: #dfdfdf;
+}
+
+span.corpus:hover {
+  background-color: #ff0;
+  cursor: pointer;
 }

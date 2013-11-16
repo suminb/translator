@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-08 13:20-0700\n"
+"POT-Creation-Date: 2013-11-10 10:14+0000\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -15,9 +15,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 
-#: app/core.py:168
+#: app/core.py:179
 msgid "app-description-text"
 msgstr ""
 "Better Translator is a language translation service based on the idea "
@@ -27,21 +27,21 @@ msgstr ""
 " the world tries to translate Japanese porn into their language, and thus"
 " Google Translate performs better with Japanese."
 
-#: app/core.py:572
+#: app/core.py:640
 msgid ""
 "{0},\n"
 "\n"
 "Someone has posted a translation. Check out at {1}"
 msgstr ""
 
-#: app/core.py:575 app/notification.py:21
+#: app/core.py:643 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:577 app/notification.py:23 app/notification.py:44
+#: app/core.py:645 app/notification.py:23 app/notification.py:44
 #: app/translation.py:381 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:265 app/templates/translation_responses.html:114
+#: app/templates/index.html:260 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
 msgid "app-title"
 msgstr "Better Translator"
@@ -92,6 +92,28 @@ msgstr ""
 msgid "%%m/%%d/%%Y"
 msgstr ""
 
+#: app/corpus/templates/list.html:13
+msgid "Source Language"
+msgstr ""
+
+#: app/corpus/templates/list.html:14
+#: app/templates/embedded/user_translation_requests.html:6
+#: app/templates/user/translation_responses.html:6
+msgid "Target Language"
+msgstr ""
+
+#: app/corpus/templates/list.html:15
+msgid "Source Text"
+msgstr ""
+
+#: app/corpus/templates/list.html:16
+msgid "Target Text"
+msgstr ""
+
+#: app/corpus/templates/list.html:17
+msgid "Confidence"
+msgstr ""
+
 #: app/templates/404.html:6
 msgid ""
 "You are viewing this message because the page you requested is not found."
@@ -99,85 +121,85 @@ msgid ""
 msgstr ""
 
 #: app/templates/base.html:18 app/templates/credits.html:45
-#: app/templates/index.html:132
+#: app/templates/index.html:126
 msgid "Russian"
 msgstr ""
 
 #: app/templates/base.html:18 app/templates/credits.html:29
-#: app/templates/index.html:133
+#: app/templates/index.html:127
 msgid "French"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:134
+#: app/templates/base.html:18 app/templates/index.html:128
 msgid "English"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:135
+#: app/templates/base.html:18 app/templates/index.html:129
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:136
+#: app/templates/base.html:18 app/templates/index.html:130
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:137
+#: app/templates/base.html:18 app/templates/index.html:131
 msgid "German"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:138
+#: app/templates/base.html:18 app/templates/index.html:132
 msgid "Korean"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:139
+#: app/templates/base.html:18 app/templates/index.html:133
 msgid "Italian"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:140
+#: app/templates/base.html:18 app/templates/index.html:134
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:141
+#: app/templates/base.html:18 app/templates/index.html:135
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:142
+#: app/templates/base.html:18 app/templates/index.html:136
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:143
+#: app/templates/base.html:18 app/templates/index.html:137
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:144
+#: app/templates/base.html:18 app/templates/index.html:138
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:145
+#: app/templates/base.html:18 app/templates/index.html:139
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:146
+#: app/templates/base.html:18 app/templates/index.html:140
 msgid "Polish"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:147
+#: app/templates/base.html:18 app/templates/index.html:141
 msgid "Thai"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:148
+#: app/templates/base.html:18 app/templates/index.html:142
 msgid "Czech"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:149
+#: app/templates/base.html:18 app/templates/index.html:143
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:150
+#: app/templates/base.html:18 app/templates/index.html:144
 msgid "Japanese"
 msgstr ""
 
 #: app/templates/base.html:18 app/templates/credits.html:41
-#: app/templates/index.html:151
+#: app/templates/index.html:145
 msgid "Spanish"
 msgstr ""
 
@@ -185,47 +207,51 @@ msgstr ""
 msgid "Help Requests"
 msgstr ""
 
-#: app/templates/base.html:48 app/templates/discuss.html:4
+#: app/templates/base.html:48
+msgid "Corpus Dictionary"
+msgstr ""
+
+#: app/templates/base.html:49 app/templates/discuss.html:4
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:55
+#: app/templates/base.html:56
 msgid "Social Media"
 msgstr ""
 
-#: app/templates/base.html:57
+#: app/templates/base.html:58
 msgid "Facebook"
 msgstr ""
 
-#: app/templates/base.html:58
+#: app/templates/base.html:59
 msgid "Twitter"
 msgstr ""
 
-#: app/templates/base.html:65 app/templates/translation/response.html:63
+#: app/templates/base.html:66 app/templates/translation/response.html:63
 msgid "Login"
 msgstr ""
 
-#: app/templates/base.html:72
+#: app/templates/base.html:73
 msgid "My Account"
 msgstr ""
 
-#: app/templates/base.html:75
+#: app/templates/base.html:76
 msgid "Logout"
 msgstr ""
 
-#: app/templates/base.html:155 app/templates/credits.html:5
+#: app/templates/base.html:156 app/templates/credits.html:5
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:156 app/templates/privacy.html:4
+#: app/templates/base.html:157 app/templates/privacy.html:4
 msgid "Privacy Policy"
 msgstr ""
 
-#: app/templates/base.html:157 app/templates/disclaimers.html:4
+#: app/templates/base.html:158 app/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: app/templates/base.html:158
+#: app/templates/base.html:159
 msgid "Bug reporting"
 msgstr ""
 
@@ -344,12 +370,12 @@ msgstr ""
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:232 app/templates/user_page.html:16
+#: app/templates/index.html:227 app/templates/user_page.html:16
 #: app/templates/user_page.html:17
 msgid "Loading..."
 msgstr ""
 
-#: app/templates/index.html:266 app/templates/translation_responses.html:115
+#: app/templates/index.html:261 app/templates/translation_responses.html:115
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
 msgstr ""
@@ -453,11 +479,6 @@ msgstr ""
 #: app/templates/embedded/translation_help_request.html:45
 #: app/templates/translation/response.html:108
 msgid "Post"
-msgstr ""
-
-#: app/templates/embedded/user_translation_requests.html:6
-#: app/templates/user/translation_responses.html:6
-msgid "Target Language"
 msgstr ""
 
 #: app/templates/translation/recent_responses.html:8

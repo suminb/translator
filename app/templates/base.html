@@ -18,12 +18,6 @@
         content="{{ og_description }}. This translator supports {{ _('Russian') }}, {{ _('French') }}, {{ _('English') }}, {{ _('Portuguese') }}, {{ _('Vietnamese') }}, {{ _('German') }}, {{ _('Korean') }}, {{ _('Italian') }}, {{ _('Hebrew') }}, {{ _('Indonesian') }}, {{ _('Turkish') }}, {{ _('Chinese') }}, {{ _('Filipino') }}, {{ _('Arabic') }}, {{ _('Polish') }}, {{ _('Thai') }}, {{ _('Czech') }}, {{ _('Swedish') }}, {{ _('Japanese') }}, {{ _('Spanish') }}"/>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
-  <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
-  <script type="text/javascript" src="/static/sprintf.min.js"></script>
-  <script type="text/javascript" src="/static/main.js?v={{ version }}"></script>
 
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
@@ -44,7 +38,8 @@
         <a class="brand" href="/">{{ _("app-title") }}</a>
         <div class="nav-collapse collapse">
           <ul class="nav">
-            {{ render_nav_item(_("Help Requests"), "translation_help_requests") }}
+            <!--{{ render_nav_item(_("Help Requests"), "translation_help_requests") }}-->
+            {{ render_nav_item(_("Corpus Dictionary"), "corpus.corpus_list") }}
             {{ render_nav_item(_("Discussions"), "discuss") }}
             {% if locale == 'ko' %}
             <li>
@@ -161,6 +156,12 @@
       </div>
     </div>
   </div>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://static.suminb.com/jquery.autoresize.min.js"></script>
+  <script type="text/javascript" src="http://static.suminb.com/jquery.cookie.js"></script>
+  <script type="text/javascript" src="/static/sprintf.min.js"></script>
+  <script type="text/javascript" src="/static/main.js?v={{ version }}"></script>
 
   <script>
   // I'm not sure why but when the following code block is absent,

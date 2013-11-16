@@ -79,10 +79,11 @@ $.fn.enable = function() {
 window.fbAsyncInit = function() {
 // init the FB JS SDK
 FB.init({
-  appId      : '551432311581596',                        // App ID from the app dashboard
-  channelUrl : '//translator.suminb.com/static/channel.html', // Channel file for x-domain comms
-  status     : true,                                 // Check Facebook Login status
-  xfbml      : true                                  // Look for social plugins on the page
+  appId      : '551432311581596', // App ID from the app dashboard
+  channelUrl : '//translator.suminb.com/static/channel.html',
+                // Channel file for x-domain comms
+  status     : true, // Check Facebook Login status
+  xfbml      : true  // Look for social plugins on the page
 });
 
 // Additional initialization code such as adding Event Listeners goes here
@@ -94,6 +95,7 @@ var state = {
     target: null,
     mode: 2,
     text: null,
+    intermediate: null,
     result: null,
 
     id: null,
@@ -131,6 +133,7 @@ var state = {
     },
 
     setResult: function(v) {
+        this.result = v;
         $("#result").html(v);
     },
 
@@ -165,9 +168,12 @@ var state = {
     },
 
     init: function() {
-        this.setSource(typeof $.cookie("source") != "undefined" ? $.cookie("source") : "ko");
-        this.setTarget(typeof $.cookie("target") != "undefined" ? $.cookie("target") : "en");
-        this.setMode(typeof $.cookie("mode") != "undefined" ? $.cookie("mode") : 2);
+        this.setSource(typeof $.cookie("source") != "undefined" ?
+            $.cookie("source") : "ko");
+        this.setTarget(typeof $.cookie("target") != "undefined" ?
+            $.cookie("target") : "en");
+        this.setMode(typeof $.cookie("mode") != "undefined" ?
+            $.cookie("mode") : 2);
     },
 
     initWithState: function(state) {
@@ -193,13 +199,15 @@ var state = {
         this.target = t.target;
         this.mode = t.mode;
         this.text = t.original_text;
-        this.result = t.translated_text_dictlink;
+        //this.result = t.translated_text;
     },
 
     updateWithTranslation: function(t) {
-        this.id = t.id;
-        this.requestId = t.request_id;
-        this.result = t.translated_text_dictlink;
+        // this.id = t.id;
+        // this.requestId = t.request_id;
+        // this.result = t.translated_text;
+
+        this.result = JSON.parse(t);
     },
 
     swapLanguages: function() {
@@ -208,9 +216,9 @@ var state = {
 
         this.setSource(target);
         this.setTarget(source);
-        this.setText($("#result").text());
 
-        performTranslation();
+        $.cookie("source", target);
+        $.cookie("target", source);
     },
 
     // Sometimes we want to update the textarea, sometimes now.
@@ -231,17 +239,40 @@ var state = {
         $("select[name=tl]").val(this.target);
         $("button.to-mode").removeClass("active");
         $(sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
-        
+
         if (updateText) {
             $("#text").val(this.text);
         }
 
         if (this.result) {
-            $("#result").html(this.result);
+
+            $("#result").html(extractSentences(this.result));
+
+            // var resultDiv = $("#result");
+            // var sourceText = this.result[0][0][1];
+
+            // $(this.result[5]).each(function(i, v) {
+            //     console.log(v);
+
+            //     var targetCorpus = v[2][0][0];
+            //     var sourceRanges = v[3];
+
+            //     $(sourceRanges).each(function(i, v) {
+            //         var sourceCorpus = sourceText.substring(v[0], v[1]);
+            //         console.log(sourceCorpus);
+            //     });
+
+            //     var corpusSpan = $("<span></span>")
+            //         .addClass("corpus")
+            //         .text(targetCorpus);
+
+            //     resultDiv.append(corpusSpan);
+            //     resultDiv.append(" ");
+            // });
         }
         if (this.id) {
             displayPermalink(this.id);
-            askForRating(this.requestId);
+            //askForRating(this.requestId);
         }
     },
 
@@ -271,16 +302,6 @@ var state = {
 
 
 /**
- * Copied from http://stackoverflow.com/questions/5499078/fastest-method-to-escape-html-tags-as-html-entities
- */
-function replaceTag(tag) {
-    return TAGS_TO_REPLACE[tag] || tag;
-}
-function replaceTags(str) {
-    return str.replace(/[&<>]/g, replaceTag);
-}
-
-/**
  * Parsing a URL query string
  * http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
  */
@@ -298,7 +319,8 @@ function getParameterByName(name) {
 }
 
 /**
- * Copied from http://codereview.stackexchange.com/questions/9574/faster-and-cleaner-way-to-parse-parameters-from-url-in-javascript-jquery
+ * Copied from http://codereview.stackexchange.com/questions/9574/ \
+ *     faster-and-cleaner-way-to-parse-parameters-from-url-in-javascript-jquery
  */
 function parseHash(hash) {
     var query = (window.location.search || '#').substr(1),
@@ -319,17 +341,40 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
+function buildTranslateURL(sl, tl) {
+    var url = "http://translate.google.com/translate_a/t";
+    return encodeURIComponent(sprintf("%s?client=x&sl=%s&tl=%s", url, sl, tl));
+}
+
+function extractSentences(raw) {
+    return "".concat(
+            $.map(raw.sentences, (function(v) { return v.trans }))
+        );
+}
+
 function performTranslation() {
 
+    var onAlways = function() {
+        $("#progress-message").hide();
+        enableControls(true);
+
+        // This must be called after enableControls()
+        state.invalidateUI(false);
+
+        state.pending = false;
+    };
+
     if (state.pending) {
-        // If there is any pending translation request, silently abort the request.
+        // If there is any pending translation request,
+        // silently abort the request.
         return false;
     }
 
     state.update();
 
     if (state.source == state.target) {
-        // simply displays the original text when the source language and the target language are identical
+        // simply displays the original text when the source language and
+        // the target language are identical
         state.setResult(state.text);
     }
     else if (state.source == "" || state.target == "") {
@@ -338,70 +383,87 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else { // translates if the source language and the target language are not identical
+    else if (encodeURIComponent(state.text).length > 1024*2) {
+        displayError("Text is too long.",
+            "For more detail, please refer <a href=\"/longtext\">this page</a>.");
+    }
+    else {
+        // translates if the source language and the target language are not
+        // identical
 
-        $("#error-message").html("");
-        $("#result").html("");
+        $("#error-message").empty();
+        $("#result").empty();
         $("#progress-message").show();
-        $("#page-url").invisible();
-        $("#help-request").invisible();
+
         enableControls(false);
 
         state.pending = true;
 
-        $.post("/v1.1/translate",
-            {t:state.text, m:state.mode, sl:state.source, tl:state.target},
-            function(response) {
+        if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
 
-            state.updateWithTranslation(response);
+            sendTranslationRequest(state.source, "ja", state.text, function() {
 
-            window.location.hash = "";
-            //window.history.pushState(currentState, "", window.location.href);
+                // Delay for a random interval (1-2 sec)
+                var delay = (1 + Math.random()) * 1000;
 
-            if (state.id) {
-                //askForRating(response.request_id);
-                //displayPermalink(response.id);
+                setTimeout(function() {
+                    sendTranslationRequest("ja", state.target,
+                        extractSentences(state.result),
+                        onAlways
+                    );
+                }, delay);
 
-                if (state.text.length <= 180) {
-                    $("a.to-mode")
-                        .attr("href", sprintf("/trq/%s/responses", response.request_id))
-                        .show();
-                }
-                else {
-                    $("a.to-mode").hide();
-                }
-            }
-
-        }).fail(function(response) {
-            displayError(response.responseText);
-        
-        }).always(function() {
-            $("#progress-message").hide();
-            enableControls(true);
-
-            // This must be called after enableControls()
-            state.invalidateUI(false);
-
-            state.pending = false;
-        });
-
-        // For testing purposes, search feature is off by default
-        if ($.cookie("search") == "on") {
-
-            $("#search-results").hide();
-            if (state.text.length <= 180) {
-                $.get("/v1.1/tresponse/search",
-                    {mode:3, source:state.source, target:state.target, query:state.text},
-                    function(response) {
-
-                    populateSearchResults(response.rows);
-                });
-            }
-
+            }, function() {
+                state.invalidateUI(false);
+            });
         }
+        else {
+            sendTranslationRequest(state.source, state.target, state.text,
+                null, onAlways);
+        }
+
+        // // For testing purposes, search feature is off by default
+        // if ($.cookie("search") == "on") {
+
+        //     $("#search-results").hide();
+        //     if (state.text.length <= 180) {
+        //         $.get("/v1.1/tresponse/search",
+        //             {mode:3, source:state.source, target:state.target, query:state.text},
+        //             function(response) {
+
+        //             populateSearchResults(response.rows);
+        //         });
+        //     }
+
+        // }
+
     }
-    
+
     return false;
+}
+
+function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
+
+    var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=POST&url=%s",
+        buildTranslateURL(source, target));
+
+    $.post(url, { q: text },
+        function(response) {
+
+            try {
+                state.result = $.parseJSON(response);
+
+                if (onSuccess != null) {
+                    onSuccess();
+                }
+           } catch(e) {
+                $("#result").html(response);
+           }
+
+    }).fail(function(response) {
+        displayError(response.responseText);
+
+    }).always(onAlways);
 }
 
 
@@ -420,30 +482,16 @@ function refreshExample() {
 }
 
 function displayResult(result) {
-    $("#error-message").html("");
+    $("#error-message").empty();
     $("#result").html(result);
 }
 
-/**
- * @deprecated
- */
-function displayPageURL(source, target, mode, text) {
-    var encoded = encodeURIComponent(text);
-    if (encoded.length < SHORT_TRANSLATION_THRESHOLD) {
-        var url = sprintf("%s/#sl=%s&tl=%s&m=%s&t=%s", window.location.origin, source, target, mode, encoded);
-
-        $("#page-url").visible();
-        $("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
+function displayError(message, postfix) {
+    if (postfix == null) {
+        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
     }
-    else {
-        $("#page-url").invisible();
-    }
-}
-
-function displayError(message) {
-    var postfix = ' If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
-    $("#error-message").html(message + postfix);
-    $("#result").html("");
+    $("#error-message").html(sprintf("%s %s", message, postfix));
+    $("#result").empty();
 }
 
 function hashChanged(hash) {
@@ -491,7 +539,6 @@ function toggleScreenshot() {
 toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
-    //$("#progress-message").html("Fetching requested resources...");
     $("#progress-message").show();
 
     $.get("/v0.9/fetch/"+serial, function(response) {
@@ -507,35 +554,13 @@ function fetchTranslation(serial) {
 
         window.history.replaceState(state.serialize(), "", window.location.href);
 
-        askForRating(response.request_id);
+        //askForRating(response.request_id);
 
     }).fail(function(response) {
-        displayError(response.responseText)
+        displayError(response.responseText);
     
     }).always(function() {
         $("#progress-message").hide();
-    });
-}
-
-function rateTranslation(button) {
-    //var original = $("text").val();
-    //var encoded = encodeURIComponent(original);
-
-    var buttonGroup = button.parent();
-    var translationId = button.attr("translation-id");
-    var rating = parseInt(button.attr("rating"));
-    var url = sprintf("/v1.0/tr/%s/rate", translationId);
-
-    $.post(url, {r:rating}, function(response) {
-        buttonGroup.children().removeClass("active");
-        button.addClass("active");
-
-        $(sprintf("span.rating-plus[translation-id=%s]", translationId)).text(response.plus_ratings);
-        $(sprintf("span.rating-minus[translation-id=%s]", translationId)).text(response.minus_ratings);
-    }).fail(function(response) {
-    
-    }).always(function() {
-
     });
 }
 
@@ -558,27 +583,8 @@ function displayPermalink(id) {
     var url = origin + path;
 
     $("#request-permalink").hide();
-    //$("#page-url").visible();
-    //$("#page-url-value").html(sprintf("<a href=\"%s\">%s</a>", url, url));
 
     window.history.pushState(state.serialize(), "", path);
-}
-
-function askForRating(id) {
-    $("#appreciation").hide();
-
-    if (state.text.length <= 180) {
-        $("#help-request").visible();
-        //$("#help-request a.translation-challenge").attr("href", sprintf("/trq/%s/response", id));
-    }
-}
-
-function expressAppreciation() {
-    $("#text").enable();
-    $("#rating").invisible();
-    $("#alternative-translation-form").hide("medium");
-    $("#appreciation").show("medium");
-    setTimeout(function() { $("#appreciation").hide("medium"); }, 5000);
 }
 
 /**

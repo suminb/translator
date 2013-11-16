@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*- 
 
-from flask import Flask, jsonify, request, render_template, url_for, redirect, session
+from flask import Flask, jsonify, request, render_template, url_for, \
+    redirect, session
 from flask.ext.babel import gettext as _
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask_oauthlib.client import OAuth
@@ -19,12 +20,14 @@ import json
 import urllib
 import uuid
 import re
+import hashlib
 import nilsimsa # Locality Sensitive Hash
 import base62
 import os, sys
 import pytz
 import facebook
 
+# FIXME: This shall be gone someday. Replace config.* with environment variables.
 try:
     import config
 except:
@@ -42,14 +45,16 @@ facebook_app = oauth.remote_app('facebook',
     request_token_params={'scope': 'email, publish_stream'}
 )
 
-
 # DO NOT MOVE THIS TO __init__.py
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
+@app.route('/longtext')
+def longtext():
+    return render_template('longtext.html')
 
-def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
+def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGENT):
     """
     text: text to be translated
     source: source language
@@ -71,53 +76,62 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
     headers = {
         'Referer': 'http://translate.google.com',
         'User-Agent': user_agent,
-        #'Content-Length': str(sys.getsizeof(text))
+        'Content-Length': str(sys.getsizeof(text))
     }
     payload = {
-        'client': 'x',
+        'client': client,
         'sl': source,
         'tl': target,
-        'text': text
+        'text': text,
     }
     url = 'http://translate.google.com/translate_a/t'
 
-    r = None
+    req = None
     try:
-        r = proxy_factory.make_request(url, headers=headers, params=payload,
+        req = proxy_factory.make_request(url, headers=headers, params=payload,
             req_type=requests.post, timeout=2, pool_size=10)
+
     except Exception as e:
         logger.exception(e)
 
-    if r == None:
+    if req == None:
         # if request via proxy fails
-        r = requests.post(url, headers=headers, data=payload)
+        req = requests.post(url, headers=headers, data=payload)
 
-    if r.status_code != 200:
-        raise HTTPException(('Google Translate returned HTTP %d' % r.status_code), r.status_code)
-
-    data = json.loads(r.text)
-
-    try:
-        #if target == 'ja':
-        #    sentences = data['sentences']
-        sentences = data['sentences']
-    except:
-        sentences = data['results'][0]['sentences']
-
-    result = ' '.join(map(lambda x: x['trans'], sentences))
-
-    # Remove unneccessary white spaces
-    return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
+    if req.status_code != 200:
+        raise HTTPException(
+            ('Google Translate returned HTTP {}'.format(req.status_code)),
+            req.status_code)
 
 
-# def __language_options__():
-#     import operator
+    if client == 'x':
+        data = json.loads(req.text)
 
-#     tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
-#     sorted_tuples = [('', '')] + sorted(tuples, key=operator.itemgetter(1))
+        try:
+            #if target == 'ja':
+            #    sentences = data['sentences']
+            sentences = data['sentences']
+        except:
+            sentences = data['results'][0]['sentences']
 
-#     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
+        result = ' '.join(map(lambda x: x['trans'], sentences))
 
+        # Remove unneccessary white spaces
+        return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
+
+    elif client == 't':
+        # NOTE: This may break down in some cases...
+        text = req.text
+        text = text.replace(',,,', ',null,null,')
+        text = text.replace(',,', ',null,')
+        text = text.replace('[,', '[null,')
+
+        parsed = json.loads(text.encode('utf-8'))
+
+        return parsed
+
+    else:
+        raise Exception("Unsupported client '{}'".format(client))
 
 #
 # Request handlers
@@ -125,7 +139,7 @@ def __translate__(text, source, target, user_agent=DEFAULT_USER_AGENT):
 @app.route('/')
 @app.route('/tr/<translation_id>')
 def index(translation_id=None):
-    
+
     if request.host == 'translator.suminb.com':
         return redirect('http://better-translator.com')
 
@@ -147,22 +161,23 @@ def index(translation_id=None):
         debug=os.environ.get('DEBUG', None),
     )
 
-    row = None
+    tresponse = None
 
     translation_id = translation_id or request.args.get('tr', None)
 
-    if translation_id != None:
-        row = Translation.fetch(id_b62=translation_id)
+    #if translation_id != None:
+    #    tresponse = TranslationResponse.fetch(id_b62=translation_id)
 
-    if translation_id != None and row == None:
+    if translation_id != None and tresponse == None:
         return redirect(url_for('index'))
 
-    if row != None:
-        translation = row.serialize()
-        translation['translated_text_dictlink'] = link_dictionary(
-            translation['translated_text'], translation['source'], translation['target'])
+    if tresponse != None:
+        translation = tresponse.serialize()
+        translation['original_text'] = tresponse.request.original_text
+        #translation['translated_text_dictlink'] = link_dictionary(
+        #translation['translated_text'], translation['source'], translation['target'])
 
-        context['og_description'] = row.original_text
+        context['og_description'] = tresponse.request.original_text
         context['translation'] = json.dumps(translation)
     else:
         context['og_description'] = _('app-description-text')
@@ -368,7 +383,6 @@ def translate_1_0():
         return str(e), 500
 
 
-# Draft
 @app.route('/v1.1/translate', methods=['POST'])
 def translate_1_1():
     """
@@ -400,7 +414,38 @@ def translate_1_1():
         return str(e), 500
 
 
-def translate(text, mode, source, target):
+@app.route('/v1.2/translate', methods=['POST'])
+def translate_1_2():
+    """
+    :param sl: source language
+    :type sl: string
+    :param tl: target language
+    :type tl: string
+    :param m: mode ( 1 for normal, 2 for better )
+    :type m: int
+    :param t: text to be translated
+    :type t: string
+
+    Translates given text.
+    """
+    keys = ('t', 'm', 'sl', 'tl')
+    text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
+
+    try:
+        payload = translate(text, mode, source, target, 't')
+
+        return jsonify(payload)
+
+    except HTTPException as e:
+        return e.message, e.status_code
+
+    except Exception as e:
+        logger.exception(e)
+        return str(e), 500
+
+
+def translate(text, mode, source, target, client='x'):
+
     if len(text) == 0:
         raise HTTPException('Text cannot be empty.', 400)
 
@@ -448,13 +493,32 @@ def translate(text, mode, source, target):
         source=source, target=target, mode=mode)
 
     if tresp == None:
+
+        translated_raw = None
+        translated_text = None
+        intermediate_raw = None
+        intermediate_text = None
+
         # NOTE: The following may be time consuming operations
+        # FIXME: Refactor this code. Looks crappy.
         if mode == '1':
-            intermediate = None
-            translated = __translate__(text, source, target, user_agent)
+            if client == 't':
+                translated_raw = __translate__(text, source, target, client, user_agent)
+                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
+            else:
+                translated_text = __translate__(text, source, target, client, user_agent)
+            
         elif mode == '2':
-            intermediate = __translate__(text, source, 'ja', user_agent)
-            translated = __translate__(intermediate, 'ja', target, user_agent)
+            if client == 't':
+                intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
+                intermediate_text = ' '.join(map(lambda x: x[0], intermediate_raw[0]))
+                translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
+                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
+
+            else:
+                intermediate_text = __translate__(text, source, 'ja', client, user_agent)
+                translated_text = __translate__(intermediate_text, 'ja', target, client, user_agent)
+            
         else:
             return HTTPException('Invalid translation mode.', 400)
 
@@ -465,9 +529,14 @@ def translate(text, mode, source, target):
             target=target,
             mode=mode,
             original_text_hash=original_text_hash,
-            intermediate_text=intermediate,
-            translated_text=translated,
+            intermediate_text=intermediate_text,
+            intermediate_raw=intermediate_raw,
+            translated_text=translated_text,
+            translated_raw=translated_raw,
         )
+
+        #if tresp.translated_raw != None:
+        #    tresp.process_corpora()
 
         if access_log.flag == None:
             access_log.flag = TranslationAccessLog.FLAG_CREATED
@@ -487,7 +556,10 @@ def translate(text, mode, source, target):
         id=base62.encode(uuid.UUID(tresp.id).int),
         request_id=base62.encode(uuid.UUID(treq.id).int),
         intermediate_text=tresp.intermediate_text,
-        translated_text=tresp.translated_text)
+        intermediate_raw=tresp.intermediate_raw,
+        translated_text=tresp.translated_text,
+        translated_raw=tresp.translated_raw,
+    )
 
 
 def link_dictionary(text, source, target):

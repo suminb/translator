@@ -110,6 +110,8 @@ class CorpusRaw(db.Model, BaseModel):
     __table_args__ = ( db.UniqueConstraint('hash'), {} )
 
     id = db.Column(UUID, primary_key=True)
-    hash = db.Column(db.String(255))
+    source_lang = db.Column(db.String(16))
+    target_lang = db.Column(db.String(16))
+    hash = db.Column(db.String(255)) # hash (i.e., SHA1) of raw
     raw = db.Column(db.Text)
 

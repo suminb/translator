@@ -457,6 +457,8 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
             if (onSuccess != null) {
                 onSuccess();
             }
+
+            uploadRawCorpora(source, target, JSON.stringify(state.result));
        } catch(e) {
             $("#result").html(response);
        }
@@ -467,6 +469,9 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     }).always(onAlways);
 }
 
+function uploadRawCorpora(source, target, raw) {
+    $.post("/corpus/raw", {sl:source, tl:target, raw:raw});
+}
 
 // TODO: Refactor this function
 function refreshExample() {

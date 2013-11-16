@@ -4,6 +4,7 @@ from flask.ext.paginate import Pagination
 from app import logger
 from app.models import db
 from app.corpus.models import Corpus, CorpusRaw
+from app.utils import parse_javascript
 
 import json
 import uuid, base62
@@ -56,16 +57,19 @@ def corpus_match():
 def corpus_raw():
     """Collects raw corpus data."""
 
-    raw = request.form['raw']
+    raw, source_lang, target_lang = \
+        map(lambda x: request.form[x], ('raw', 'sl', 'tl'))
 
     try:
-        # See if 'raw' is a valid JSON string
-        parsed = json.loads(raw)
+        # See if 'raw' is a valid JavaScript string
+        parsed = parse_javascript(raw)
 
         # Then insert it to the database
         CorpusRaw.insert(
-            hash=hashlib.sha1(raw).hexdigest(),
-            raw=raw,
+            hash=hashlib.sha1(raw.encode('utf-8')).hexdigest(),
+            raw=json.dumps(parsed),
+            source_lang=source_lang,
+            target_lang=target_lang,
         )
     except Exception as e:
         logger.exception(e)

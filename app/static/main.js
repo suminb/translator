@@ -133,7 +133,7 @@ var state = {
     },
 
     setResult: function(v) {
-        this.result = v;
+        //this.result = v;
         $("#result").html(v);
     },
 
@@ -181,7 +181,7 @@ var state = {
         this.setTarget(state.target);
         this.setMode(state.mode);
         this.setText(state.text);
-        this.setResult(state.result);
+        //this.setResult(state.result);
     },
 
     initWithParameters: function() {
@@ -280,7 +280,6 @@ var state = {
         this.target = $("select[name=tl]").val();
         this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
-        this.result = $("#result").html();
     },
 
     serialize: function() {
@@ -339,7 +338,7 @@ function resizeTextarea(t) {
 
 function buildTranslateURL(sl, tl, text) {
     var url = "http://translate.google.com/translate_a/t";
-    return sprintf("%s?client=t&sl=%s&tl=%s&q=%s", url, sl, tl, encodeURIComponent(text));
+    return sprintf("%s?client=t&sl=%s&tl=%s", url, sl, tl);
 }
 
 function extractSentences(raw) {
@@ -379,7 +378,7 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 1024*2) {
+    else if (encodeURIComponent(text).length > 1000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
@@ -399,17 +398,22 @@ function performTranslation() {
 
             sendTranslationRequest(state.source, "ja", state.text, function() {
 
-                // Delay for a random interval (1-2 sec)
-                var delay = (1 + Math.random()) * 1000;
+                // Delay for a random interval (1.5-2.0 sec)
+                var delay = 1500 + Math.random() * 500;
 
                 setTimeout(function() {
+                    state.pending = true;
                     sendTranslationRequest("ja", state.target,
                         extractSentences(state.result),
+                        null,
                         onAlways
                     );
                 }, delay);
 
-            }, onAlways);
+            }, function() {
+                state.invalidateUI();
+                $("#progress-message").show();
+            });
         }
         else {
             sendTranslationRequest(state.source, state.target, state.text,
@@ -438,10 +442,13 @@ function performTranslation() {
 
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
-    var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=GET&url=%s",
-        encodeURIComponent(buildTranslateURL(source, target, text)));
+    var header = "Referer|http://translate.google.com";
 
-    $.get(url, function(response) {
+    var url = sprintf(
+        "http://1.goxcors-clone.appspot.com/cors?method=POST&header=%s&url=%s",
+        header, encodeURIComponent(buildTranslateURL(source, target, text)));
+
+    $.post(url, {q: text}, function(response) {
 
         try {
             // FIXME: Potential security vulnerability

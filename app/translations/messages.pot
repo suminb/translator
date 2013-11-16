@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-10 10:14+0000\n"
+"POT-Creation-Date: 2013-11-16 18:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,25 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: app/core.py:179
+#: app/core.py:183
 msgid "app-description-text"
 msgstr ""
 
-#: app/core.py:640
+#: app/core.py:644
 msgid ""
 "{0},\n"
 "\n"
 "Someone has posted a translation. Check out at {1}"
 msgstr ""
 
-#: app/core.py:643 app/notification.py:21
+#: app/core.py:647 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:645 app/notification.py:23 app/notification.py:44
+#: app/core.py:649 app/notification.py:23 app/notification.py:44
 #: app/translation.py:381 app/templates/base.html:9 app/templates/base.html:12
-#: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:260 app/templates/translation_responses.html:114
+#: app/templates/base.html:15 app/templates/base.html:38
+#: app/templates/index.html:251 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
 msgid "app-title"
 msgstr ""
@@ -197,55 +197,55 @@ msgstr ""
 msgid "Spanish"
 msgstr ""
 
-#: app/templates/base.html:47 app/templates/translation_help_requests.html:4
+#: app/templates/base.html:41 app/templates/translation_help_requests.html:4
 msgid "Help Requests"
 msgstr ""
 
-#: app/templates/base.html:48
+#: app/templates/base.html:42
 msgid "Corpus Dictionary"
 msgstr ""
 
-#: app/templates/base.html:49 app/templates/discuss.html:4
+#: app/templates/base.html:43 app/templates/discuss.html:4
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:56
+#: app/templates/base.html:50
 msgid "Social Media"
 msgstr ""
 
-#: app/templates/base.html:58
+#: app/templates/base.html:52
 msgid "Facebook"
 msgstr ""
 
-#: app/templates/base.html:59
+#: app/templates/base.html:53
 msgid "Twitter"
 msgstr ""
 
-#: app/templates/base.html:66 app/templates/translation/response.html:63
+#: app/templates/base.html:60 app/templates/translation/response.html:63
 msgid "Login"
 msgstr ""
 
-#: app/templates/base.html:73
+#: app/templates/base.html:67
 msgid "My Account"
 msgstr ""
 
-#: app/templates/base.html:76
+#: app/templates/base.html:70
 msgid "Logout"
 msgstr ""
 
-#: app/templates/base.html:156 app/templates/credits.html:5
+#: app/templates/base.html:150 app/templates/credits.html:5
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:157 app/templates/privacy.html:4
+#: app/templates/base.html:151 app/templates/privacy.html:4
 msgid "Privacy Policy"
 msgstr ""
 
-#: app/templates/base.html:158 app/templates/disclaimers.html:4
+#: app/templates/base.html:152 app/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: app/templates/base.html:159
+#: app/templates/base.html:153
 msgid "Bug reporting"
 msgstr ""
 
@@ -355,12 +355,12 @@ msgstr ""
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:227 app/templates/user_page.html:16
+#: app/templates/index.html:220 app/templates/user_page.html:16
 #: app/templates/user_page.html:17
 msgid "Loading..."
 msgstr ""
 
-#: app/templates/index.html:261 app/templates/translation_responses.html:115
+#: app/templates/index.html:252 app/templates/translation_responses.html:115
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
 msgstr ""

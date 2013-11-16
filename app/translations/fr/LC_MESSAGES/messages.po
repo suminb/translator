@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-10 10:14+0000\n"
+"POT-Creation-Date: 2013-11-16 18:12+0000\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: app/core.py:179
+#: app/core.py:183
 msgid "app-description-text"
 msgstr ""
 "La traduction aumieux est un service qui permet d'effectuer des "
@@ -27,7 +27,7 @@ msgstr ""
 " langage. Par conséquent, Google Traduction envers le japonais vous donne"
 " le meilleur résultat."
 
-#: app/core.py:640
+#: app/core.py:644
 #, fuzzy
 msgid ""
 "{0},\n"
@@ -35,15 +35,15 @@ msgid ""
 "Someone has posted a translation. Check out at {1}"
 msgstr "Postuler une tradiction en défi"
 
-#: app/core.py:643 app/notification.py:21
+#: app/core.py:647 app/notification.py:21
 #, fuzzy
 msgid "You have a notification from Better Translator"
 msgstr "Traduit par Traduction au mieux"
 
-#: app/core.py:645 app/notification.py:23 app/notification.py:44
+#: app/core.py:649 app/notification.py:23 app/notification.py:44
 #: app/translation.py:381 app/templates/base.html:9 app/templates/base.html:12
-#: app/templates/base.html:15 app/templates/base.html:44
-#: app/templates/index.html:260 app/templates/translation_responses.html:114
+#: app/templates/base.html:15 app/templates/base.html:38
+#: app/templates/index.html:251 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
 msgid "app-title"
 msgstr "Traduction de mieux "
@@ -69,11 +69,11 @@ msgstr "texte original"
 #: app/translation.py:67 app/translation.py:140 app/translation.py:157
 #: app/translation.py:337
 msgid "Requrested resource does not exist"
-msgstr ""
+msgstr "La ressource demandée n'existe pas"
 
 #: app/translation.py:110
 msgid "Please provide a non-empty translation."
-msgstr ""
+msgstr "Suggerèz une traduction, s'il vous plaît. "
 
 #: app/translation.py:133
 #, fuzzy
@@ -82,15 +82,15 @@ msgstr "Traduction directe"
 
 #: app/translation.py:383
 msgid "{} has completed a translation challenge"
-msgstr ""
+msgstr "{} a réussi un défi de traduction"
 
 #: app/translation.py:384
 msgid "How do you say \"{0}\" in {1}?"
-msgstr ""
+msgstr "Que dire \"{0}\" en {}?"
 
 #: app/translation.py:398
 msgid "Your translation has been posted on your timeline."
-msgstr ""
+msgstr "Votre traduction a publié sur votre mur."
 
 #: app/utils.py:37
 #, python-format
@@ -214,57 +214,57 @@ msgstr "japonais"
 msgid "Spanish"
 msgstr "Español"
 
-#: app/templates/base.html:47 app/templates/translation_help_requests.html:4
+#: app/templates/base.html:41 app/templates/translation_help_requests.html:4
 msgid "Help Requests"
-msgstr ""
+msgstr "Demande d'aide"
 
-#: app/templates/base.html:48
+#: app/templates/base.html:42
 msgid "Corpus Dictionary"
-msgstr ""
+msgstr "Corpus des dictionnaires "
 
-#: app/templates/base.html:49 app/templates/discuss.html:4
+#: app/templates/base.html:43 app/templates/discuss.html:4
 msgid "Discussions"
 msgstr "Discussion"
 
-#: app/templates/base.html:56
+#: app/templates/base.html:50
 msgid "Social Media"
-msgstr ""
+msgstr "Réseaux Sociaux"
 
-#: app/templates/base.html:58
+#: app/templates/base.html:52
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
-#: app/templates/base.html:59
+#: app/templates/base.html:53
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
-#: app/templates/base.html:66 app/templates/translation/response.html:63
+#: app/templates/base.html:60 app/templates/translation/response.html:63
 #, fuzzy
 msgid "Login"
-msgstr "Blog"
+msgstr "Connexion"
 
-#: app/templates/base.html:73
+#: app/templates/base.html:67
 msgid "My Account"
-msgstr ""
+msgstr "Mon compte"
 
-#: app/templates/base.html:76
+#: app/templates/base.html:70
 #, fuzzy
 msgid "Logout"
-msgstr "Blog"
+msgstr "Déconnexion"
 
-#: app/templates/base.html:156 app/templates/credits.html:5
+#: app/templates/base.html:150 app/templates/credits.html:5
 msgid "Credits"
-msgstr "Crédit"
+msgstr "Crédits"
 
-#: app/templates/base.html:157 app/templates/privacy.html:4
+#: app/templates/base.html:151 app/templates/privacy.html:4
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
-#: app/templates/base.html:158 app/templates/disclaimers.html:4
+#: app/templates/base.html:152 app/templates/disclaimers.html:4
 msgid "Disclaimers"
-msgstr ""
+msgstr "Exclusion"
 
-#: app/templates/base.html:159
+#: app/templates/base.html:153
 msgid "Bug reporting"
 msgstr "Rapports"
 
@@ -298,11 +298,11 @@ msgstr "Localisaion"
 
 #: app/templates/credits.html:34
 msgid "Former collaborators"
-msgstr ""
+msgstr "Collaborateurs précédents"
 
 #: app/templates/credits.html:36
 msgid "Show"
-msgstr ""
+msgstr "Afficher"
 
 #: app/templates/index.html:5
 msgid "app-description-html"
@@ -339,12 +339,12 @@ msgstr "Traduire"
 
 #: app/templates/index.html:42
 msgid "Type in your sentences"
-msgstr ""
+msgstr "Tapez votre phrases"
 
 #: app/templates/index.html:49
 #, fuzzy
 msgid "Similar translations"
-msgstr "Traduction directe"
+msgstr "Traduction similaire"
 
 #: app/templates/index.html:59
 #, fuzzy
@@ -355,51 +355,51 @@ msgstr "Traduction directe"
 #: app/templates/translation/response.html:27
 #, fuzzy
 msgid "Regular translation"
-msgstr "Traduction directe"
+msgstr "Traduction régulière"
 
 #: app/templates/index.html:64
 msgid "Use Japanese as an intermediate language"
-msgstr ""
+msgstr "Utilisez japonais en tant qu'une langue intermédiaire"
 
 #: app/templates/index.html:65 app/templates/translation_responses.html:19
 #: app/templates/translation/response.html:32
 #, fuzzy
 msgid "Better translation"
-msgstr "Traduction directe"
+msgstr "Traduction de mieux"
 
 #: app/templates/index.html:69
 #, fuzzy
 msgid "User translations"
-msgstr "Traduction directe"
+msgstr "Traduction des utilisateurs"
 
 #: app/templates/index.html:81
 msgid "Translation in progress..."
-msgstr ""
+msgstr "Traductioon en cours"
 
 #: app/templates/index.html:89
 msgid "Did you not like this translation?"
-msgstr ""
+msgstr "Vous n'aimez pas cette traduction?"
 
 #: app/templates/index.html:90 app/templates/index.html:104
 #: app/templates/translation_help_requests.html:30
 #: app/templates/embedded/translation_help_request.html:3
 #: app/templates/translation/request.html:14
 msgid "Ask for help"
-msgstr ""
+msgstr "Demander de l'aide"
 
 #: app/templates/index.html:94
 msgid "Thank you for your feedback."
 msgstr "Merci pour vos commentaires."
 
-#: app/templates/index.html:227 app/templates/user_page.html:16
+#: app/templates/index.html:220 app/templates/user_page.html:16
 #: app/templates/user_page.html:17
 msgid "Loading..."
-msgstr ""
+msgstr "Chargement..."
 
-#: app/templates/index.html:261 app/templates/translation_responses.html:115
+#: app/templates/index.html:252 app/templates/translation_responses.html:115
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
-msgstr ""
+msgstr "Aidez-moi à traduire cette phrase à partir du %%1$s à %%2$s"
 
 #: app/templates/maintenance.html:3
 msgid "Maintenance"
@@ -413,7 +413,7 @@ msgstr "Statistiques\t"
 #: app/templates/translation_responses.html:4
 #: app/templates/translation/response.html:4
 msgid "Beta"
-msgstr ""
+msgstr "Béta"
 
 #: app/templates/translation_help_requests.html:6
 #: app/templates/translation_responses.html:6
@@ -424,13 +424,18 @@ msgid ""
 "translation if you have proficiency in both languages. It's like Stack "
 "Overflow for language translations."
 msgstr ""
+"Si vous n'êtes pas satisfait de de la qualité des traduction à la "
+"machine, demandez à vos amis de traduire des phrases simples. Vous pouvez"
+" également soummetre votre traduction si vous avez une compétence dans "
+"les deux langages. Cela ressemble au système de Stack Overflow pour la "
+"traduction de la langue."
 
 #: app/templates/translation_help_requests.html:11
 #: app/templates/embedded/user_translation_requests.html:4
 #: app/templates/translation/recent_responses.html:7
 #: app/templates/user/translation_responses.html:4
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 #: app/templates/translation_help_requests.html:12
 #: app/templates/embedded/user_translation_requests.html:5
@@ -470,7 +475,7 @@ msgstr "Traduit par Traduction au mieux"
 
 #: app/templates/translation_responses.html:47
 msgid "No one has posted a translation. Become the first one!"
-msgstr ""
+msgstr "Personne n'a pas encore soumis. Devenez le premier!"
 
 #: app/templates/translation_responses.html:91
 #, fuzzy
@@ -479,15 +484,15 @@ msgstr "Traduction directe"
 
 #: app/templates/translation_responses.html:93
 msgid "Ask your friends for help"
-msgstr ""
+msgstr "Demander de l'aide à vos amis"
 
 #: app/templates/translation_responses.html:96
 msgid "Watch"
-msgstr ""
+msgstr "Effectuer le suivi"
 
 #: app/templates/user_page.html:7
 msgid "My Help Requests"
-msgstr ""
+msgstr "Mes demandes d'aide"
 
 #: app/templates/user_page.html:8
 #, fuzzy
@@ -497,61 +502,61 @@ msgstr "Traduction directe"
 #: app/templates/embedded/translation_help_request.html:38
 #: app/templates/translation/request.html:46
 msgid "Comment"
-msgstr ""
+msgstr "Commentaire"
 
 #: app/templates/embedded/translation_help_request.html:40
 msgid "Type in your comment"
-msgstr ""
+msgstr "Laissez votre avis en commentaire"
 
 #: app/templates/embedded/translation_help_request.html:45
 #: app/templates/translation/response.html:108
 msgid "Post"
-msgstr ""
+msgstr "Publier"
 
 #: app/templates/translation/recent_responses.html:8
 #, fuzzy
 msgid "Translated Text"
-msgstr "Traduire"
+msgstr "Text Traduit"
 
 #: app/templates/translation/recent_responses.html:9
 #, fuzzy
 msgid "Languages"
-msgstr "Intervertir des langues"
+msgstr "Langages"
 
 #: app/templates/translation/request.html:46
 msgid "Optional"
-msgstr ""
+msgstr "Optionnelle"
 
 #: app/templates/translation/response.html:54
 #, fuzzy
 msgid "Your translation"
-msgstr "Traduction directe"
+msgstr "Votre traduction"
 
 #: app/templates/translation/response.html:58
 msgid "Login with your Facebook to post a translation."
-msgstr ""
+msgstr "Se connecter avec Facebook pour publier la traduction."
 
 #: app/templates/translation/response.html:61
 #: app/templates/translation/response.html:89
 #: app/templates/translation/response.html:106
 msgid "See how others did"
-msgstr ""
+msgstr "Voir les autres suggestions"
 
 #: app/templates/translation/response.html:93
 msgid "Brag about it"
-msgstr ""
+msgstr "Parlez de la traduction"
 
 #: app/templates/translation/response.html:94
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #: app/templates/translation/response.html:103
 msgid "Brag about it on your Facebook"
-msgstr ""
+msgstr "Parlez de la traduction sur Facebook"
 
 #: app/templates/translation/response.html:155
 msgid "Please wait while posting a link on your timeline."
-msgstr ""
+msgstr "Veuillez patienter un instant pendant qu'un lien publie sur votre journal."
 
 #: app/templates/translation/response.html:185
 #, fuzzy, python-format

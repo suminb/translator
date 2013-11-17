@@ -61,17 +61,17 @@ jQuery.extend({
  */
 $.fn.visible = function() {
     return this.css('visibility', 'visible');
-}
+};
 $.fn.invisible = function() {
     return this.css('visibility', 'hidden');
-}
+};
 
 $.fn.disable = function() {
     return this.attr("disabled", "disabled");
-}
+};
 $.fn.enable = function() {
     return this.removeAttr("disabled");
-}
+};
 
 //
 // Facebook API
@@ -327,9 +327,9 @@ function parseHash(hash) {
 }
 
 function resizeTextarea(t) {
-    a = t.value.split('\n');
-    b = 1;
-    for (x=0;x < a.length; x++) {
+    var a = t.value.split('\n');
+    var b = 1;
+    for (var x=0;x < a.length; x++) {
         if (a[x].length >= t.cols) b+= Math.floor(a[x].length/t.cols);
     }
     b+= a.length;
@@ -388,7 +388,7 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else if (encodeURIComponent(text).length > 1000) {
+    else if (encodeURIComponent(state.text).length > 1000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
@@ -531,14 +531,14 @@ function displayResult(result) {
 
 function displayError(message, postfix) {
     if (postfix == null) {
-        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
+        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.';
     }
     $("#error-message").html(sprintf("%s %s", message, postfix));
     $("#result").empty();
 }
 
 function hashChanged(hash) {
-    phash = parseHash(hash.substr(1));
+    var phash = parseHash(hash.substr(1));
 
     var serial = phash.sr ? phash.sr[0] : "";
 
@@ -579,7 +579,7 @@ function toggleScreenshot() {
 }
 
 // FIXME: Deprecated
-toggle_screenshot = toggleScreenshot;
+var toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
     $("#progress-message").show();

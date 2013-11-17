@@ -133,7 +133,7 @@ var state = {
     },
 
     setResult: function(v) {
-        this.result = v;
+        //this.result = v;
         $("#result").html(v);
     },
 
@@ -181,7 +181,7 @@ var state = {
         this.setTarget(state.target);
         this.setMode(state.mode);
         this.setText(state.text);
-        this.setResult(state.result);
+        //this.setResult(state.result);
     },
 
     initWithParameters: function() {
@@ -207,7 +207,7 @@ var state = {
         // this.requestId = t.request_id;
         // this.result = t.translated_text;
 
-        this.result = JSON.parse(t);
+        this.result = t;
     },
 
     swapLanguages: function() {
@@ -270,10 +270,6 @@ var state = {
             //     resultDiv.append(" ");
             // });
         }
-        if (this.id) {
-            displayPermalink(this.id);
-            //askForRating(this.requestId);
-        }
     },
 
     /**
@@ -284,7 +280,6 @@ var state = {
         this.target = $("select[name=tl]").val();
         this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
-        this.result = $("#result").html();
     },
 
     serialize: function() {
@@ -341,14 +336,14 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
-function buildTranslateURL(sl, tl) {
+function buildTranslateURL(sl, tl, text) {
     var url = "http://translate.google.com/translate_a/t";
-    return encodeURIComponent(sprintf("%s?client=x&sl=%s&tl=%s", url, sl, tl));
+    return sprintf("%s?client=t&sl=%s&tl=%s", url, sl, tl);
 }
 
 function extractSentences(raw) {
     return "".concat(
-            $.map(raw.sentences, (function(v) { return v.trans }))
+            $.map(raw[0], (function(v) { return v[0]; }))
         );
 }
 
@@ -383,7 +378,7 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 1024*2) {
+    else if (encodeURIComponent(text).length > 1000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
@@ -403,18 +398,21 @@ function performTranslation() {
 
             sendTranslationRequest(state.source, "ja", state.text, function() {
 
-                // Delay for a random interval (1-2 sec)
-                var delay = (1 + Math.random()) * 1000;
+                // Delay for a random interval (1.5-2.0 sec)
+                var delay = 1500 + Math.random() * 500;
 
                 setTimeout(function() {
+                    state.pending = true;
                     sendTranslationRequest("ja", state.target,
                         extractSentences(state.result),
+                        null,
                         onAlways
                     );
                 }, delay);
 
             }, function() {
-                state.invalidateUI(false);
+                state.invalidateUI();
+                $("#progress-message").show();
             });
         }
         else {
@@ -444,21 +442,26 @@ function performTranslation() {
 
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
-    var url = sprintf("http://1.goxcors-clone.appspot.com/cors?method=POST&url=%s",
-        buildTranslateURL(source, target));
+    var header = "Referer|http://translate.google.com";
 
-    $.post(url, { q: text },
-        function(response) {
+    var url = sprintf(
+        "http://1.goxcors-clone.appspot.com/cors?method=POST&header=%s&url=%s",
+        header, encodeURIComponent(buildTranslateURL(source, target, text)));
 
-            try {
-                state.result = $.parseJSON(response);
+    $.post(url, {q: text}, function(response) {
 
-                if (onSuccess != null) {
-                    onSuccess();
-                }
-           } catch(e) {
-                $("#result").html(response);
-           }
+        try {
+            // FIXME: Potential security vulnerability
+            state.result = eval(response);
+
+            if (onSuccess != null) {
+                onSuccess();
+            }
+
+            uploadRawCorpora(source, target, JSON.stringify(state.result));
+       } catch(e) {
+            $("#result").html(response);
+       }
 
     }).fail(function(response) {
         displayError(response.responseText);
@@ -466,6 +469,9 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     }).always(onAlways);
 }
 
+function uploadRawCorpora(source, target, raw) {
+    $.post("/corpus/raw", {sl:source, tl:target, raw:raw});
+}
 
 // TODO: Refactor this function
 function refreshExample() {

@@ -120,15 +120,7 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
         return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
 
     elif client == 't':
-        # NOTE: This may break down in some cases...
-        text = req.text
-        text = text.replace(',,,', ',null,null,')
-        text = text.replace(',,', ',null,')
-        text = text.replace('[,', '[null,')
-
-        parsed = json.loads(text.encode('utf-8'))
-
-        return parsed
+        return parse_javascript(req.text)
 
     else:
         raise Exception("Unsupported client '{}'".format(client))

@@ -5,6 +5,7 @@ from flask import g, request, redirect, url_for, jsonify
 from __init__ import app, VALID_LANGUAGES
 
 import uuid, base62
+import json
 
 class HTTPException(RuntimeError):
     """HTTPError does not take keyword arguments, so we are defining a custom exception class."""
@@ -73,3 +74,11 @@ def language_options_html():
     sorted_tuples = [('', '')] + sorted(tuples, key=operator.itemgetter(1))
 
     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
+
+def parse_javascript(text):
+    # NOTE: This may break down in some cases...
+    text = text.replace(',,,', ',null,null,')
+    text = text.replace(',,', ',null,')
+    text = text.replace('[,', '[null,')
+
+    return json.loads(text.encode('utf-8'))

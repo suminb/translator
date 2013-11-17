@@ -445,12 +445,18 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var header = "Referer|http://translate.google.com";
 
     var url = sprintf(
-        "http://1.goxcors-clone.appspot.com/cors?method=POST&header=%s&url=%s",
+        "http://goxcors-clone.appspot.com/cors?method=POST&header=%s&url=%s",
         header, encodeURIComponent(buildTranslateURL(source, target, text)));
+
+    url = "/captcha";
 
     $.post(url, {q: text}, function(response) {
 
-        try {
+        if (String(response).substring(0, 1) == "<") {
+            console.log(response);
+            showCaptcha(response);
+        }
+        else {
             // FIXME: Potential security vulnerability
             state.result = eval(response);
 
@@ -459,8 +465,6 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
             }
 
             uploadRawCorpora(source, target, JSON.stringify(state.result));
-       } catch(e) {
-            $("#result").html(response);
        }
 
     }).fail(function(response) {
@@ -471,6 +475,18 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
 function uploadRawCorpora(source, target, raw) {
     $.post("/corpus/raw", {sl:source, tl:target, raw:raw});
+}
+
+function showCaptcha(body) {
+    
+    body = body.replace("/sorry/image",
+        "http://translate.google.com/sorry/image");
+
+    body = body.replace("action=\"CaptchaRedirect\"",
+        "action=\"http://translate.google.com/translate_a/CaptchaRedirect\"");
+
+    $("#captcha-dialog .modal-body").html(body);
+    $("#captcha-dialog").modal("show");
 }
 
 // TODO: Refactor this function

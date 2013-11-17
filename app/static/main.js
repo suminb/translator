@@ -448,12 +448,12 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
         "http://goxcors-clone.appspot.com/cors?method=POST&header=%s&url=%s",
         header, encodeURIComponent(buildTranslateURL(source, target, text)));
 
-    url = "/captcha";
+    //url = "/captcha";
 
     $.post(url, {q: text}, function(response) {
 
         if (String(response).substring(0, 1) == "<") {
-            console.log(response);
+            //console.log(response);
             showCaptcha(response);
         }
         else {

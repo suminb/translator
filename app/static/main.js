@@ -336,9 +336,19 @@ function resizeTextarea(t) {
     if (b > t.rows) t.rows = b;
 }
 
-function buildTranslateURL(sl, tl, text) {
+function buildTranslateURL(sl, tl, text, method) {
     var url = "http://translate.google.com/translate_a/t";
-    return sprintf("%s?client=t&sl=%s&tl=%s", url, sl, tl);
+
+    if (method.toLowerCase() == 'get') {
+        return sprintf("%s?client=t&sl=%s&tl=%s&text=%s", url, sl, tl,
+            encodeURIComponent(text));
+    }
+    else if (method.toLowerCase() == 'post') {
+        return sprintf("%s?client=t&sl=%s&tl=%s", url, sl, tl);
+    }
+    else {
+        throw "Unsupported method";
+    }
 }
 
 function extractSentences(raw) {
@@ -444,13 +454,30 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
     var header = "Referer|http://translate.google.com";
 
+    // Use GET for short requests and POST for long requests
+    var textLength = encodeURIComponent(text).length;
+
+    var requestFunction = textLength < SHORT_TRANSLATION_THRESHOLD ?
+        $.get : $.post;
+
+    var requestMethod = textLength < SHORT_TRANSLATION_THRESHOLD ?
+        "GET" : "POST";
+
     var url = sprintf(
-        "http://1.goxcors-clone.appspot.com/cors?method=POST&header=%s&url=%s",
-        header, encodeURIComponent(buildTranslateURL(source, target, text)));
+        "http://goxcors-clone.appspot.com/cors?method=%s&header=%s&url=%s",
+        requestMethod, header, encodeURIComponent(
+            buildTranslateURL(source, target, text, requestMethod))
+    );
 
-    $.post(url, {q: text}, function(response) {
+    //url = "/captcha";
 
-        try {
+    requestFunction(url, {q: text}, function(response) {
+
+        if (String(response).substring(0, 1) == "<") {
+            //console.log(response);
+            showCaptcha(response);
+        }
+        else {
             // FIXME: Potential security vulnerability
             state.result = eval(response);
 
@@ -459,8 +486,6 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
             }
 
             uploadRawCorpora(source, target, JSON.stringify(state.result));
-       } catch(e) {
-            $("#result").html(response);
        }
 
     }).fail(function(response) {
@@ -471,6 +496,18 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
 function uploadRawCorpora(source, target, raw) {
     $.post("/corpus/raw", {sl:source, tl:target, raw:raw});
+}
+
+function showCaptcha(body) {
+    
+    body = body.replace("/sorry/image",
+        "http://translate.google.com/sorry/image");
+
+    body = body.replace("action=\"CaptchaRedirect\"",
+        "action=\"http://translate.google.com/translate_a/CaptchaRedirect\"");
+
+    $("#captcha-dialog .modal-body").html(body);
+    $("#captcha-dialog").modal("show");
 }
 
 // TODO: Refactor this function

@@ -388,7 +388,7 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 1000) {
+    else if (encodeURIComponent(state.text).length > 8000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
@@ -457,10 +457,10 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     // Use GET for short requests and POST for long requests
     var textLength = encodeURIComponent(text).length;
 
-    var requestFunction = textLength < SHORT_TRANSLATION_THRESHOLD ?
+    var requestFunction = textLength < 900 ?
         $.get : $.post;
 
-    var requestMethod = textLength < SHORT_TRANSLATION_THRESHOLD ?
+    var requestMethod = textLength < 900 ?
         "GET" : "POST";
 
     var url = sprintf(

@@ -12,7 +12,7 @@ rm -rf $(find . -name ".AppleDouble")
 rm -rf $(find . -name "*.pyc")
 
 # Deploy files
-rsync -arzP -e ssh --exclude app/config.py --exclude app/static/statistics.js * $HOST:webapps/translator/webapp
+rsync -arzP -e ssh --exclude app/config.py --exclude app/static/statistics.js --exclude app/*.db * $HOST:webapps/translator/webapp
 
 read -p "Restart the server? " -n 1 -r
 echo

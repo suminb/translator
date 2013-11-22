@@ -401,6 +401,7 @@ function performTranslation() {
         $("#progress-message").show();
 
         enableControls(false);
+        hideAuxInfo();
 
         state.pending = true;
 
@@ -428,6 +429,10 @@ function performTranslation() {
         else {
             sendTranslationRequest(state.source, state.target, state.text,
                 null, onAlways);
+        }
+
+        if ($.cookie("locale") == "ko" && state.text.length < 60) {
+            showNaverEndic(state.text);
         }
 
         // // For testing purposes, search feature is off by default
@@ -470,8 +475,6 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
         requestMethod, header, encodeURIComponent(
             buildTranslateURL(source, target, text, requestMethod))
     );
-
-    //url = "/captcha";
 
     requestFunction(url, {q: text}, function(response) {
 
@@ -646,4 +649,19 @@ function enableControls(state) {
         $("form select").disable();
         $("form button").disable();
     }
+}
+
+function showNaverEndic(query) {
+    var url = sprintf("http://m.endic.naver.com/search.nhn?searchOption=all&query=%s",
+        encodeURIComponent(query));
+
+    $("#naver-endic-dialog .modal-body iframe")
+        .attr("src", url)
+        .load(function() {
+            $("#aux-naver-endic").show();
+        });   
+}
+
+function hideAuxInfo() {
+    $("#aux-naver-endic").hide();
 }

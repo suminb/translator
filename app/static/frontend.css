@@ -252,3 +252,18 @@ span.corpus:hover {
   background-color: #ff0;
   cursor: pointer;
 }
+
+#naver-endic-dialog {
+  /* new custom width */
+  width: 70%;
+  /* must be half of the width, minus scrollbar on the left (30px) */
+  margin-left: -35%;
+}
+#naver-endic-dialog .modal-body {
+  overflow: hidden;
+}
+#naver-endic-dialog .modal-body iframe {
+  width: 100%;
+  height: 390px;
+  border: 0;
+}

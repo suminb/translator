@@ -457,6 +457,8 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     // Use GET for short requests and POST for long requests
     var textLength = encodeURIComponent(text).length;
 
+    // TODO: also consider 'header' value which can be quite long sometimes
+
     var requestFunction = textLength < 900 ?
         $.get : $.post;
 
@@ -504,7 +506,7 @@ function showCaptcha(body) {
         "http://translate.google.com/sorry/image");
 
     body = body.replace("action=\"CaptchaRedirect\"",
-        "action=\"http://translate.google.com/translate_a/CaptchaRedirect\"");
+        "action=\"http://sorry.google.com/sorry/CaptchaRedirect\"");
 
     $("#captcha-dialog .modal-body").html(body);
     $("#captcha-dialog").modal("show");

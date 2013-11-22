@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-16 18:12+0000\n"
+"POT-Creation-Date: 2013-11-19 06:35+0000\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -17,31 +17,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: app/core.py:183
+#: app/core.py:175
 msgid "app-description-text"
 msgstr ""
 "Better Translator is a language translation service based on the idea "
 "that use of the Japanese language as an intermediate language yields a "
 "better result. The reason behind this is that a large quantity of sample "
 "data has been accumulated in the Google Translate database as everyone in"
-" the world tries to translate Japanese documents and other multimedia into their language, and thus"
-" Google Translate performs better with Japanese."
+" the world tries to translate Japanese documents and other multimedia "
+"into their language, and thus Google Translate performs better with "
+"Japanese."
 
-#: app/core.py:644
+#: app/core.py:636
 msgid ""
 "{0},\n"
 "\n"
 "Someone has posted a translation. Check out at {1}"
 msgstr ""
 
-#: app/core.py:647 app/notification.py:21
+#: app/core.py:639 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:649 app/notification.py:23 app/notification.py:44
+#: app/core.py:641 app/notification.py:23 app/notification.py:44
 #: app/translation.py:381 app/templates/base.html:9 app/templates/base.html:12
 #: app/templates/base.html:15 app/templates/base.html:38
-#: app/templates/index.html:251 app/templates/translation_responses.html:114
+#: app/templates/index.html:263 app/templates/translation_responses.html:114
 #: app/templates/translation/response.html:184
 msgid "app-title"
 msgstr "Better Translator"
@@ -87,7 +88,7 @@ msgstr ""
 msgid "Your translation has been posted on your timeline."
 msgstr ""
 
-#: app/utils.py:37
+#: app/utils.py:38
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr ""
@@ -121,85 +122,85 @@ msgid ""
 msgstr ""
 
 #: app/templates/base.html:18 app/templates/credits.html:45
-#: app/templates/index.html:126
+#: app/templates/index.html:138
 msgid "Russian"
 msgstr ""
 
 #: app/templates/base.html:18 app/templates/credits.html:29
-#: app/templates/index.html:127
+#: app/templates/index.html:139
 msgid "French"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:128
+#: app/templates/base.html:18 app/templates/index.html:140
 msgid "English"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:129
+#: app/templates/base.html:18 app/templates/index.html:141
 msgid "Portuguese"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:130
+#: app/templates/base.html:18 app/templates/index.html:142
 msgid "Vietnamese"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:131
+#: app/templates/base.html:18 app/templates/index.html:143
 msgid "German"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:132
+#: app/templates/base.html:18 app/templates/index.html:144
 msgid "Korean"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:133
+#: app/templates/base.html:18 app/templates/index.html:145
 msgid "Italian"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:134
+#: app/templates/base.html:18 app/templates/index.html:146
 msgid "Hebrew"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:135
+#: app/templates/base.html:18 app/templates/index.html:147
 msgid "Indonesian"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:136
+#: app/templates/base.html:18 app/templates/index.html:148
 msgid "Turkish"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:137
+#: app/templates/base.html:18 app/templates/index.html:149
 msgid "Chinese"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:138
+#: app/templates/base.html:18 app/templates/index.html:150
 msgid "Filipino"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:139
+#: app/templates/base.html:18 app/templates/index.html:151
 msgid "Arabic"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:140
+#: app/templates/base.html:18 app/templates/index.html:152
 msgid "Polish"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:141
+#: app/templates/base.html:18 app/templates/index.html:153
 msgid "Thai"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:142
+#: app/templates/base.html:18 app/templates/index.html:154
 msgid "Czech"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:143
+#: app/templates/base.html:18 app/templates/index.html:155
 msgid "Swedish"
 msgstr ""
 
-#: app/templates/base.html:18 app/templates/index.html:144
+#: app/templates/base.html:18 app/templates/index.html:156
 msgid "Japanese"
 msgstr ""
 
 #: app/templates/base.html:18 app/templates/credits.html:41
-#: app/templates/index.html:145
+#: app/templates/index.html:157
 msgid "Spanish"
 msgstr ""
 
@@ -297,8 +298,8 @@ msgstr ""
 "Japanese language as an intermediate language yields a better result. The"
 " reason behind this is that a large quantity of sample data has been "
 "accumulated in the Google Translate database as everyone in the world "
-"tries to translate Japanese documents and other multimedia into their language, and thus Google "
-"Translate performs better with Japanese."
+"tries to translate Japanese documents and other multimedia into their "
+"language, and thus Google Translate performs better with Japanese."
 
 #: app/templates/index.html:10
 msgid ""
@@ -359,7 +360,7 @@ msgstr ""
 msgid "Did you not like this translation?"
 msgstr ""
 
-#: app/templates/index.html:90 app/templates/index.html:104
+#: app/templates/index.html:90 app/templates/index.html:116
 #: app/templates/translation_help_requests.html:30
 #: app/templates/embedded/translation_help_request.html:3
 #: app/templates/translation/request.html:14
@@ -370,12 +371,16 @@ msgstr ""
 msgid "Thank you for your feedback."
 msgstr ""
 
-#: app/templates/index.html:220 app/templates/user_page.html:16
+#: app/templates/index.html:109
+msgid "Close"
+msgstr ""
+
+#: app/templates/index.html:232 app/templates/user_page.html:16
 #: app/templates/user_page.html:17
 msgid "Loading..."
 msgstr ""
 
-#: app/templates/index.html:252 app/templates/translation_responses.html:115
+#: app/templates/index.html:264 app/templates/translation_responses.html:115
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
 msgstr ""

@@ -388,7 +388,7 @@ function performTranslation() {
     else if (state.text == null || state.text == "") {
         // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 8000) {
+    else if (encodeURIComponent(state.text).length > 2000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }

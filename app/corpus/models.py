@@ -76,10 +76,10 @@ class Corpus(db.Model, BaseModel):
                     .filter(CorpusIndex.source_hash.in_(zip(*hashes)[1]))
 
         if source_lang != None:
-            indices.filter(Corpus.source_lang == source_lang)
+            indices = indices.filter(Corpus.source_lang == source_lang)
 
         if target_lang != None:
-            indices.filter(Corpus.target_lang == target_lang)
+            indices = indices.filter(Corpus.target_lang == target_lang)
 
         return indices
 

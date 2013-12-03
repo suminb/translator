@@ -41,17 +41,24 @@ class Corpus(db.Model, BaseModel):
         for i, h in fingerprints:
             #print i, h, self.source_text[i:]
             if i != -1:
-                try:
+                if CorpusIndex.query.filter_by(
+                    source_hash=h,
+                    source_index=i,
+                    corpus_id=self.id).first() == None:
+                
                     CorpusIndex.insert(
                         source_hash=h,
                         source_index=i,
                         corpus_id=self.id,
+                        commit=False,
                     )
-                except IntegrityError as e:
-                    db.session.rollback()
-
+                
         self.aux_info = json.dumps(dict(processed_index=True))
-        db.session.commit()
+
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
 
 
     @staticmethod
@@ -115,4 +122,55 @@ class CorpusRaw(db.Model, BaseModel):
     target_lang = db.Column(db.String(16))
     hash = db.Column(db.String(255)) # hash (i.e., SHA1) of raw
     raw = db.Column(db.Text)
+    flags = db.Column(db.Integer)
 
+
+    def extract_corpora(self):
+
+        import json
+
+        def insert_corpora(source_lang, source_text, target_lang, target_text, confidence):
+
+            #
+            # FIXME: Any better idea?
+            #
+            PUNCTUATION = '.,:;-_+={}[]()<>|\'"`~!@#$%^&*?'
+
+            if source_text == '' or source_text in PUNCTUATION:
+                return
+            if target_text == '' or target_text in PUNCTUATION:
+                return
+            if source_text == target_text:
+                return
+
+            corpus = Corpus.query.filter_by(
+                    source_lang=source_lang, target_lang=target_lang,
+                    source_text=source_text, target_text=target_text,
+                ).first()
+
+            if corpus == None:
+                corpus = Corpus.insert(
+                    source_lang=source_lang, target_lang=target_lang,
+                    source_text=source_text, target_text=target_text,
+                    confidence=confidence, frequency=1,
+                    commit=False,
+                )
+            else:
+                corpus.confidence += confidence
+                corpus.frequency += 1
+
+        raw = json.loads(self.raw)
+        if len(raw) >= 6 \
+            and raw[4] != None and len(raw[4]) > 0 \
+            and raw[5] != None and len(raw[5]) > 0:
+
+            for source, target in zip(raw[5], raw[4]):
+
+                source_text, target_text = source[0], target[0]
+                confidence = int(target[4])
+
+                insert_corpora(self.source_lang.strip(), source_text.strip(),
+                    self.target_lang.strip(), target_text.strip(), confidence)
+
+        self.flags |= 1
+        db.session.commit()

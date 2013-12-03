@@ -1,7 +1,7 @@
 from flask.ext.script import Manager
 
 from app import app
-from app.models import TranslationResponse
+from app.models import TranslationResponse, db
 from app.corpus.models import *
 
 manager = Manager(app)
@@ -11,13 +11,17 @@ manager = Manager(app)
 def extract():
     """Extract corpora from translation_response"""
 
-    for tresponse in TranslationResponse.query \
-        .filter(TranslationResponse.translated_raw != None) \
-        .filter(TranslationResponse.aux_info == None) \
+    for corpus_raw in CorpusRaw.query \
+        .filter(CorpusRaw.flags == 0) \
         .limit(1000):
 
-        print tresponse.translated_text
-        tresponse.process_corpora()
+        print corpus_raw.raw
+
+        try:
+            corpus_raw.extract_corpora()
+        except:
+            db.session.rollback()
+
 
 @manager.command
 def index():

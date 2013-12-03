@@ -15,7 +15,7 @@ def extract():
         .filter(CorpusRaw.flags == 0) \
         .limit(1000):
 
-        print corpus_raw.raw
+        print corpus_raw.raw[:80]
 
         try:
             corpus_raw.extract_corpora()

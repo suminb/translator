@@ -409,8 +409,8 @@ function performTranslation() {
 
             sendTranslationRequest(state.source, "ja", state.text, function() {
 
-                // Delay for a random interval (1.5-2.0 sec)
-                var delay = 1500 + Math.random() * 500;
+                // Delay for a random interval (0.5-1.5 sec)
+                var delay = 500 + Math.random() * 1000;
 
                 setTimeout(function() {
                     state.pending = true;

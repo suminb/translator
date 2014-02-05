@@ -74,6 +74,12 @@ $.fn.enable = function() {
 };
 
 //
+// Support CORS for IE
+// http://stackoverflow.com/questions/9160123/no-transport-error-w-jquery-ajax-call-in-ie
+//
+$.support.cors = true;
+
+//
 // Facebook API
 //
 window.fbAsyncInit = function() {
@@ -382,13 +388,13 @@ function performTranslation() {
         // the target language are identical
         state.setResult(state.text);
     }
-    else if (state.source == "" || state.target == "") {
-        // TODO: Give some warning
-    }
-    else if (state.text == null || state.text == "") {
-        // TODO: Give some warning
-    }
-    else if (encodeURIComponent(state.text).length > 2000) {
+    // else if (state.source == "" || state.target == "") {
+    //     // TODO: Give some warning
+    // }
+    // else if (state.text == null || state.text == "") {
+    //     // TODO: Give some warning
+    // }
+    else if (encodeURIComponent(state.text).length > 8000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
@@ -472,6 +478,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
     var url = sprintf(
         "http://goxcors-clone.appspot.com/cors?method=%s&header=%s&url=%s",
+        //"http://goxcors-clone.appspot.com/jsonp?callback=&method=%s&header=%s&url=%s",
         requestMethod, header, encodeURIComponent(
             buildTranslateURL(source, target, text, requestMethod))
     );
@@ -490,7 +497,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
                 onSuccess();
             }
 
-            uploadRawCorpora(source, target, JSON.stringify(state.result));
+            //uploadRawCorpora(source, target, JSON.stringify(state.result));
        }
 
     }).fail(function(response) {

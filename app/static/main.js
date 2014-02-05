@@ -74,12 +74,6 @@ $.fn.enable = function() {
 };
 
 //
-// Support CORS for IE
-// http://stackoverflow.com/questions/9160123/no-transport-error-w-jquery-ajax-call-in-ie
-//
-$.support.cors = true;
-
-//
 // Facebook API
 //
 window.fbAsyncInit = function() {

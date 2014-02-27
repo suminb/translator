@@ -61,17 +61,17 @@ jQuery.extend({
  */
 $.fn.visible = function() {
     return this.css('visibility', 'visible');
-}
+};
 $.fn.invisible = function() {
     return this.css('visibility', 'hidden');
-}
+};
 
 $.fn.disable = function() {
     return this.attr("disabled", "disabled");
-}
+};
 $.fn.enable = function() {
     return this.removeAttr("disabled");
-}
+};
 
 //
 // Facebook API
@@ -295,6 +295,9 @@ var state = {
     }
 };
 
+function msie() {
+    return $('html').is('.ie6, .ie7, .ie8');
+}
 
 /**
  * Parsing a URL query string
@@ -327,9 +330,9 @@ function parseHash(hash) {
 }
 
 function resizeTextarea(t) {
-    a = t.value.split('\n');
-    b = 1;
-    for (x=0;x < a.length; x++) {
+    var a = t.value.split('\n');
+    var b = 1;
+    for (var x=0;x < a.length; x++) {
         if (a[x].length >= t.cols) b+= Math.floor(a[x].length/t.cols);
     }
     b+= a.length;
@@ -359,6 +362,29 @@ function extractSentences(raw) {
 
 function performTranslation() {
 
+    // Function currying
+    // Rationale: It would be almost impossible to get the value of 'target' unless it
+    // is declared as a global variable, which I do not believe it is a good practice in general
+    var onSuccess = function(target) {
+        return function(response) {
+            if (!response) {
+                displayError("sendTranslationRequest(): response body is null.")
+            }
+            else if (String(response).substring(0, 1) == "<") {
+                showCaptcha(response);
+            }
+            else {
+                // FIXME: Potential security vulnerability
+                state.result = eval(response);
+
+                // detected source language
+                var source = state.result[2];
+
+                uploadRawCorpora(source, target, JSON.stringify(state.result));
+            }
+        };
+    };
+
     var onAlways = function() {
         $("#progress-message").hide();
         enableControls(true);
@@ -382,13 +408,13 @@ function performTranslation() {
         // the target language are identical
         state.setResult(state.text);
     }
-    else if (state.source == "" || state.target == "") {
-        // TODO: Give some warning
-    }
-    else if (state.text == null || state.text == "") {
-        // TODO: Give some warning
-    }
-    else if (encodeURIComponent(text).length > 1000) {
+    // else if (state.source == "" || state.target == "") {
+    //     // TODO: Give some warning
+    // }
+    // else if (state.text == null || state.text == "") {
+    //     // TODO: Give some warning
+    // }
+    else if (encodeURIComponent(state.text).length > 8000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
     }
@@ -401,21 +427,24 @@ function performTranslation() {
         $("#progress-message").show();
 
         enableControls(false);
+        hideAuxInfo();
 
         state.pending = true;
 
         if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
 
-            sendTranslationRequest(state.source, "ja", state.text, function() {
+            sendTranslationRequest(state.source, "ja", state.text, function(response) {
 
-                // Delay for a random interval (1.5-2.0 sec)
-                var delay = 1500 + Math.random() * 500;
+                onSuccess("ja")(response);
+
+                // Delay for a random interval (0.5-1.5 sec)
+                var delay = 500 + Math.random() * 1000;
 
                 setTimeout(function() {
                     state.pending = true;
                     sendTranslationRequest("ja", state.target,
                         extractSentences(state.result),
-                        null,
+                        onSuccess(state.target),
                         onAlways
                     );
                 }, delay);
@@ -427,27 +456,38 @@ function performTranslation() {
         }
         else {
             sendTranslationRequest(state.source, state.target, state.text,
-                null, onAlways);
+                onSuccess(state.target), onAlways);
         }
 
-        // // For testing purposes, search feature is off by default
-        // if ($.cookie("search") == "on") {
-
-        //     $("#search-results").hide();
-        //     if (state.text.length <= 180) {
-        //         $.get("/v1.1/tresponse/search",
-        //             {mode:3, source:state.source, target:state.target, query:state.text},
-        //             function(response) {
-
-        //             populateSearchResults(response.rows);
-        //         });
-        //     }
-
-        // }
-
+        if ($.cookie("locale") == "ko" && state.text.length < 60) {
+            //showNaverEndic(state.text);
+        }
     }
 
     return false;
+}
+
+function sendXDomainRequest(url, method, data, onSuccess, onAlways) {
+    var xdr = new XDomainRequest();
+    
+    xdr.onload = function() {
+        onSuccess(xdr.responseText);
+        onAlways();
+    };
+
+    xdr.onerror = function() {
+        onAlways();
+    }
+    
+    xdr.open(method, url);
+    
+    if (method == "POST") {
+        xdr.send(JSON.stringify(data) + '&ie=1');
+    }
+    else {
+        xdr.send();
+    }
+    // TODO: Handle exceptions
 }
 
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
@@ -457,41 +497,30 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     // Use GET for short requests and POST for long requests
     var textLength = encodeURIComponent(text).length;
 
-    var requestFunction = textLength < SHORT_TRANSLATION_THRESHOLD ?
+    // TODO: also consider 'header' value which can be quite long sometimes
+
+    var requestFunction = textLength < 900 ?
         $.get : $.post;
 
-    var requestMethod = textLength < SHORT_TRANSLATION_THRESHOLD ?
+    var requestMethod = textLength < 900 ?
         "GET" : "POST";
 
     var url = sprintf(
         "http://goxcors-clone.appspot.com/cors?method=%s&header=%s&url=%s",
+        //"http://goxcors-clone.appspot.com/jsonp?callback=&method=%s&header=%s&url=%s",
         requestMethod, header, encodeURIComponent(
             buildTranslateURL(source, target, text, requestMethod))
     );
 
-    //url = "/captcha";
+    if (msie()) {
+        sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
+    }
+    else {
+        requestFunction(url, {q: text}, onSuccess).fail(function(response) {
+            displayError(response.responseText);
 
-    requestFunction(url, {q: text}, function(response) {
-
-        if (String(response).substring(0, 1) == "<") {
-            //console.log(response);
-            showCaptcha(response);
-        }
-        else {
-            // FIXME: Potential security vulnerability
-            state.result = eval(response);
-
-            if (onSuccess != null) {
-                onSuccess();
-            }
-
-            uploadRawCorpora(source, target, JSON.stringify(state.result));
-       }
-
-    }).fail(function(response) {
-        displayError(response.responseText);
-
-    }).always(onAlways);
+        }).always(onAlways);
+    }
 }
 
 function uploadRawCorpora(source, target, raw) {
@@ -504,7 +533,7 @@ function showCaptcha(body) {
         "http://translate.google.com/sorry/image");
 
     body = body.replace("action=\"CaptchaRedirect\"",
-        "action=\"http://translate.google.com/translate_a/CaptchaRedirect\"");
+        "action=\"http://sorry.google.com/sorry/CaptchaRedirect\"");
 
     $("#captcha-dialog .modal-body").html(body);
     $("#captcha-dialog").modal("show");
@@ -531,14 +560,14 @@ function displayResult(result) {
 
 function displayError(message, postfix) {
     if (postfix == null) {
-        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.'
+        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.';
     }
     $("#error-message").html(sprintf("%s %s", message, postfix));
     $("#result").empty();
 }
 
 function hashChanged(hash) {
-    phash = parseHash(hash.substr(1));
+    var phash = parseHash(hash.substr(1));
 
     var serial = phash.sr ? phash.sr[0] : "";
 
@@ -579,7 +608,7 @@ function toggleScreenshot() {
 }
 
 // FIXME: Deprecated
-toggle_screenshot = toggleScreenshot;
+var toggle_screenshot = toggleScreenshot;
 
 function fetchTranslation(serial) {
     $("#progress-message").show();
@@ -644,4 +673,19 @@ function enableControls(state) {
         $("form select").disable();
         $("form button").disable();
     }
+}
+
+function showNaverEndic(query) {
+    var url = sprintf("http://m.endic.naver.com/search.nhn?searchOption=all&query=%s",
+        encodeURIComponent(query));
+
+    $("#naver-endic-dialog .modal-body iframe")
+        .attr("src", url)
+        .load(function() {
+            $("#aux-naver-endic").show();
+        });   
+}
+
+function hideAuxInfo() {
+    $("#aux-naver-endic").hide();
 }

@@ -83,7 +83,7 @@ class TestBasic:
         t = json.loads(req.text)
         tt = t['translated_text']
 
-        assert ('Google' in tt) or ('We' in tt)
+        assert ('Google' in tt) or ('We' in tt) or ('I' in tt)
         assert 'dream' in tt
         assert 'world' in tt
 

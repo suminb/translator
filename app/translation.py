@@ -74,9 +74,8 @@ def translation_responses(request_id):
         request_id=treq.id,
         mode=2).first()
 
-    tresponses = Translation.query.filter_by(
-        request_id=treq.id, mode=3) \
-        .order_by(Translation.rating.desc(), Translation.count.desc())
+    tresponses = TranslationResponse.query.filter_by(
+        request_id=treq.id, mode=3)
 
     if not current_user.is_anonymous():
         ratings = Rating.query.filter(

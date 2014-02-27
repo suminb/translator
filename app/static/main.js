@@ -362,19 +362,27 @@ function extractSentences(raw) {
 
 function performTranslation() {
 
-    var onSuccess = function(response) {
-        if (!response) {
-            displayError("sendTranslationRequest(): response body is null.")
-        }
-        else if (String(response).substring(0, 1) == "<") {
-            showCaptcha(response);
-        }
-        else {
-            // FIXME: Potential security vulnerability
-            state.result = eval(response);
+    // Function currying
+    // Rationale: It would be almost impossible to get the value of 'target' unless it
+    // is declared as a global variable, which I do not believe it is a good practice in general
+    var onSuccess = function(target) {
+        return function(response) {
+            if (!response) {
+                displayError("sendTranslationRequest(): response body is null.")
+            }
+            else if (String(response).substring(0, 1) == "<") {
+                showCaptcha(response);
+            }
+            else {
+                // FIXME: Potential security vulnerability
+                state.result = eval(response);
 
-            //uploadRawCorpora(source, target, JSON.stringify(state.result));
-        }
+                // detected source language
+                var source = state.result[2];
+
+                uploadRawCorpora(source, target, JSON.stringify(state.result));
+            }
+        };
     };
 
     var onAlways = function() {
@@ -427,7 +435,7 @@ function performTranslation() {
 
             sendTranslationRequest(state.source, "ja", state.text, function(response) {
 
-                onSuccess(response);
+                onSuccess("ja")(response);
 
                 // Delay for a random interval (0.5-1.5 sec)
                 var delay = 500 + Math.random() * 1000;
@@ -436,7 +444,7 @@ function performTranslation() {
                     state.pending = true;
                     sendTranslationRequest("ja", state.target,
                         extractSentences(state.result),
-                        onSuccess,
+                        onSuccess(state.target),
                         onAlways
                     );
                 }, delay);
@@ -448,7 +456,7 @@ function performTranslation() {
         }
         else {
             sendTranslationRequest(state.source, state.target, state.text,
-                onSuccess, onAlways);
+                onSuccess(state.target), onAlways);
         }
 
         if ($.cookie("locale") == "ko" && state.text.length < 60) {

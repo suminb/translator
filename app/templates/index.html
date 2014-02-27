@@ -179,7 +179,38 @@ FIXME: There must be a better way than this
 <script type="text/javascript">
 {% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
 
+
+function msie() {
+    return $('html').is('.ie6, .ie7, .ie8');
+}
+
 window.onload = function() {
+
+    if (msie() && window.XDomainRequest) {
+
+        // var xdr = new XDomainRequest(); 
+        // xdr.open("POST",Path);
+        // xdr.send(JSON.stringify(data) + '&ie=1');
+        // xdr.onerror = function() {
+        //     alert('in error');
+        // };
+        // xdr.onload = function() {
+        //     alert(xdr.responseText);
+        // }
+    } else {
+        
+        // jQuery.ajax({
+        //     type: "POST",
+        //     url: Path,
+        //     data: JSON.stringify(data),
+        //     dataType: 'json',
+        //     contentType: 'application/json',
+        //     success: function(msg) {
+        //             alert(msg);
+        //     }
+        // });
+    }
+
     // The following code was copied from
     // http://stackoverflow.com/questions/2161906/handle-url-anchor-change-event-in-js
     if ("onhashchange" in window) { // event supported?

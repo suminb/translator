@@ -295,6 +295,9 @@ var state = {
     }
 };
 
+function msie() {
+    return $('html').is('.ie6, .ie7, .ie8');
+}
 
 /**
  * Parsing a URL query string
@@ -455,6 +458,18 @@ function performTranslation() {
     return false;
 }
 
+function sendXDomainRequest(url, data, onload) {
+    var xdr = new XDomainRequest();
+    xdr.open("GET", url);
+    //xdr.send(JSON.stringify(data) + '&ie=1');
+    xdr.send();
+    // TODO: Handle exceptions
+
+    xdr.onload = function() {
+        onload(xdr.responseText);
+    };
+}
+
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
     var header = "Referer|http://translate.google.com";
@@ -477,9 +492,12 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
             buildTranslateURL(source, target, text, requestMethod))
     );
 
-    requestFunction(url, {q: text}, function(response) {
+    var onSuccess2 = function(response) {
 
-        if (String(response).substring(0, 1) == "<") {
+        if (!response) {
+            displayError("sendTranslationRequest(): response body is null.")
+        }
+        else if (String(response).substring(0, 1) == "<") {
             //console.log(response);
             showCaptcha(response);
         }
@@ -493,11 +511,19 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
             //uploadRawCorpora(source, target, JSON.stringify(state.result));
        }
+   };
 
-    }).fail(function(response) {
+    if (msie()) {
+        sendXDomainRequest(url, {q: text}, onSuccess2);
+    }
+    else {
+
+    requestFunction(url, {q: text}, onSuccess2).fail(function(response) {
         displayError(response.responseText);
 
     }).always(onAlways);
+
+    }
 }
 
 function uploadRawCorpora(source, target, raw) {

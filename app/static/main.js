@@ -362,6 +362,21 @@ function extractSentences(raw) {
 
 function performTranslation() {
 
+    var onSuccess = function(response) {
+        if (!response) {
+            displayError("sendTranslationRequest(): response body is null.")
+        }
+        else if (String(response).substring(0, 1) == "<") {
+            showCaptcha(response);
+        }
+        else {
+            // FIXME: Potential security vulnerability
+            state.result = eval(response);
+
+            //uploadRawCorpora(source, target, JSON.stringify(state.result));
+        }
+    };
+
     var onAlways = function() {
         $("#progress-message").hide();
         enableControls(true);
@@ -410,7 +425,9 @@ function performTranslation() {
 
         if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
 
-            sendTranslationRequest(state.source, "ja", state.text, function() {
+            sendTranslationRequest(state.source, "ja", state.text, function(response) {
+
+                onSuccess(response);
 
                 // Delay for a random interval (0.5-1.5 sec)
                 var delay = 500 + Math.random() * 1000;
@@ -419,7 +436,7 @@ function performTranslation() {
                     state.pending = true;
                     sendTranslationRequest("ja", state.target,
                         extractSentences(state.result),
-                        null,
+                        onSuccess,
                         onAlways
                     );
                 }, delay);
@@ -431,43 +448,38 @@ function performTranslation() {
         }
         else {
             sendTranslationRequest(state.source, state.target, state.text,
-                null, onAlways);
+                onSuccess, onAlways);
         }
 
         if ($.cookie("locale") == "ko" && state.text.length < 60) {
-            showNaverEndic(state.text);
+            //showNaverEndic(state.text);
         }
-
-        // // For testing purposes, search feature is off by default
-        // if ($.cookie("search") == "on") {
-
-        //     $("#search-results").hide();
-        //     if (state.text.length <= 180) {
-        //         $.get("/v1.1/tresponse/search",
-        //             {mode:3, source:state.source, target:state.target, query:state.text},
-        //             function(response) {
-
-        //             populateSearchResults(response.rows);
-        //         });
-        //     }
-
-        // }
-
     }
 
     return false;
 }
 
-function sendXDomainRequest(url, data, onload) {
+function sendXDomainRequest(url, method, data, onSuccess, onAlways) {
     var xdr = new XDomainRequest();
-    xdr.open("GET", url);
-    //xdr.send(JSON.stringify(data) + '&ie=1');
-    xdr.send();
-    // TODO: Handle exceptions
-
+    
     xdr.onload = function() {
-        onload(xdr.responseText);
+        onSuccess(xdr.responseText);
+        onAlways();
     };
+
+    xdr.onerror = function() {
+        onAlways();
+    }
+    
+    xdr.open(method, url);
+    
+    if (method == "POST") {
+        xdr.send(JSON.stringify(data) + '&ie=1');
+    }
+    else {
+        xdr.send();
+    }
+    // TODO: Handle exceptions
 }
 
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
@@ -492,37 +504,14 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
             buildTranslateURL(source, target, text, requestMethod))
     );
 
-    var onSuccess2 = function(response) {
-
-        if (!response) {
-            displayError("sendTranslationRequest(): response body is null.")
-        }
-        else if (String(response).substring(0, 1) == "<") {
-            //console.log(response);
-            showCaptcha(response);
-        }
-        else {
-            // FIXME: Potential security vulnerability
-            state.result = eval(response);
-
-            if (onSuccess != null) {
-                onSuccess();
-            }
-
-            //uploadRawCorpora(source, target, JSON.stringify(state.result));
-       }
-   };
-
     if (msie()) {
-        sendXDomainRequest(url, {q: text}, onSuccess2);
+        sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
     }
     else {
+        requestFunction(url, {q: text}, onSuccess).fail(function(response) {
+            displayError(response.responseText);
 
-    requestFunction(url, {q: text}, onSuccess2).fail(function(response) {
-        displayError(response.responseText);
-
-    }).always(onAlways);
-
+        }).always(onAlways);
     }
 }
 

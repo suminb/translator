@@ -234,62 +234,6 @@ def statistics():
         )
         return render_template('statistics.html', **context)
 
-# deprecated
-@app.route('/translate', methods=['POST'])
-@app.route('/v0.9/translate', methods=['POST'])
-def translate_0_9():
-    """
-    Deprecated
-    
-    :param sl: source language
-    :type sl: string
-    :param tl: target language
-    :type tl: string
-    :param m: mode ( 1 for normal, 2 for better )
-    :type m: int
-    :param t: text to be translated
-    :type t: string
-
-    Translates given text.
-
-    .. deprecated:: 2706db734a3654eed5ac84b7a2703d5b96df4cbc
-
-    **Example Request**:
-
-    .. sourcecode:: http
-
-        POST /v0.9/translate HTTP/1.1
-        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22
-        Host: 192.168.0.185:5000
-        Accept: */*
-        Content-Length: 37
-        Content-Type: application/x-www-form-urlencoded
-
-        sl=en&tl=ko&m=2&t=This is an example.
-
-    **Example Response**
-
-    .. sourcecode:: http
-
-        HTTP/1.0 200 OK
-        Content-Type: text/html; charset=utf-8
-        Content-Length: 23
-        Server: Werkzeug/0.8.3 Python/2.7.3
-        Date: Wed, 10 Apr 2013 06:37:40 GMT
-
-        이것은 예입니다.
-    """
-    keys = ('t', 'm', 'sl', 'tl')
-    text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
-
-    try:
-        return translate(text, mode, source, target)['translated_text']
-
-    except HTTPException as e:
-        return e.message, e.status_code
-
-    except Exception as e:
-        return str(e), 500
 
 @app.route('/v1.0/translate', methods=['POST'])
 def translate_1_0():
@@ -394,8 +338,6 @@ def translate_1_1():
 
     try:
         payload = translate(text, mode, source, target)
-        payload['translated_text_dictlink'] = link_dictionary(
-            payload['translated_text'], source, target)
         return jsonify(payload)
 
     except HTTPException as e:
@@ -527,17 +469,6 @@ def translate(text, mode, source, target, client='x'):
             translated_raw=translated_raw,
         )
 
-        #if tresp.translated_raw != None:
-        #    tresp.process_corpora()
-
-        if access_log.flag == None:
-            access_log.flag = TranslationAccessLog.FLAG_CREATED
-        else:
-            access_log.flag |= TranslationAccessLog.FLAG_CREATED
-
-
-    access_log.translation_id = tresp.id
-
     try:
         db.session.commit()
     except Exception as e:
@@ -552,31 +483,6 @@ def translate(text, mode, source, target, client='x'):
         translated_text=tresp.translated_text,
         translated_raw=tresp.translated_raw,
     )
-
-
-def link_dictionary(text, source, target):
-    """A naive implementation of English dictionary link feature."""
-
-    if source == 'ko' and target == 'en':
-        pattern = re.compile(r'[a-zA-Z_-]+')
-        buf = []
-
-        for line in text.split('\n'):
-            for word in line.split():
-                if len(word) > 1 and pattern.match(word) != None:
-                    # TODO: Prettify code
-                    buf.append('<a href="{}" class="dictionary-link">{}</a>'.format(
-                        url_for('dictionary', query=word, source=source, target=target), word))
-                else:
-                    buf.append(word)
-
-                buf.append(' ')
-            buf.append('\n')
-
-        return ''.join(buf)
-
-    else:
-        return text
 
 
 @app.route('/dictionary')

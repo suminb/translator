@@ -169,7 +169,7 @@ var state = {
 
     init: function() {
         this.setSource(typeof $.cookie("source") != "undefined" ?
-            $.cookie("source") : "ko");
+            $.cookie("source") : "auto");
         this.setTarget(typeof $.cookie("target") != "undefined" ?
             $.cookie("target") : "en");
         this.setMode(typeof $.cookie("mode") != "undefined" ?
@@ -422,7 +422,7 @@ function performTranslation() {
         // translates if the source language and the target language are not
         // identical
 
-        $("#error-message").empty();
+        hideError();
         $("#result").empty();
         $("#progress-message").show();
 
@@ -554,7 +554,7 @@ function refreshExample() {
 }
 
 function displayResult(result) {
-    $("#error-message").empty();
+    hideError();
     $("#result").html(result);
 }
 
@@ -562,8 +562,11 @@ function displayError(message, postfix) {
     if (postfix == null) {
         postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.';
     }
-    $("#error-message").html(sprintf("%s %s", message, postfix));
+    $("#error-message").html(sprintf("%s %s", message, postfix)).show();
     $("#result").empty();
+}
+function hideError() {
+	$("#error-message").hide();
 }
 
 function hashChanged(hash) {

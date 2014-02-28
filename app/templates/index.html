@@ -26,6 +26,7 @@
       <div class="row-fluid translation-options">
         <div class="span6">
           <select name="sl" onchange="state.selectSource(this.value)">
+            <option value="auto">{{ _("Detect language" ) }}</option>
             {{ language_options | safe }}
           </select>
         </div>
@@ -45,10 +46,6 @@
       </div>
         
       <textarea id="text" name="t" placeholder="{{ _('Type in your sentences') }}"></textarea>
-
-      <div id="page-url">
-        <div id="page-url-value"></div>
-      </div>
 
       <div id="search-results" class="hide">
         {{ _("Similar translations") }}

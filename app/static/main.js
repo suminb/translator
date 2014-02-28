@@ -169,7 +169,7 @@ var state = {
 
     init: function() {
         this.setSource(typeof $.cookie("source") != "undefined" ?
-            $.cookie("source") : "ko");
+            $.cookie("source") : "auto");
         this.setTarget(typeof $.cookie("target") != "undefined" ?
             $.cookie("target") : "en");
         this.setMode(typeof $.cookie("mode") != "undefined" ?

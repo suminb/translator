@@ -146,9 +146,7 @@ button.translate {
 }
 
 #error-message {
-  position: absolute;
-  padding: 10px;
-  color: #F03300;
+  display: none;
 }
 #progress-message {
   padding: 10px;

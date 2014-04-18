@@ -111,15 +111,15 @@ msgstr "Intervertir des langues"
 
 #: app/corpus/templates/list.html:15
 msgid "Source Text"
-msgstr ""
+msgstr "Texte de depart"
 
 #: app/corpus/templates/list.html:16
 msgid "Target Text"
-msgstr ""
+msgstr "Texte d'aariveé"
 
 #: app/corpus/templates/list.html:17
 msgid "Confidence"
-msgstr ""
+msgstr "Confidence"
 
 #: app/templates/404.html:6
 msgid ""
@@ -404,7 +404,7 @@ msgstr "Merci pour vos commentaires."
 
 #: app/templates/index.html:112 app/templates/index.html:124
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: app/templates/index.html:248 app/templates/user_page.html:16
 #: app/templates/user_page.html:17

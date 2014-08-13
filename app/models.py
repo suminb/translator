@@ -75,7 +75,7 @@ class BaseModel:
             # if not isinstance(value, str):
             #     value = json.dumps(value)
 
-            setattr(record, key, value);
+            setattr(record, key, value)
 
         db.session.add(record)
         if commit: db.session.commit()

@@ -634,7 +634,6 @@ function fetchTranslation(serial) {
 
     }).fail(function(response) {
         displayError(response.responseText, null);
-`
     }).always(function() {
         $("#progress-message").hide();
     });

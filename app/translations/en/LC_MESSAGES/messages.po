@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-28 08:05+0000\n"
+"POT-Creation-Date: 2014-09-05 00:51+0900\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -208,51 +208,47 @@ msgstr ""
 msgid "Help Requests"
 msgstr ""
 
-#: app/templates/base.html:46
-msgid "Corpus Dictionary"
-msgstr ""
-
-#: app/templates/base.html:47 app/templates/discuss.html:4
+#: app/templates/base.html:46 app/templates/discuss.html:4
 msgid "Discussions"
 msgstr ""
 
-#: app/templates/base.html:54
+#: app/templates/base.html:53
 msgid "Social Media"
 msgstr ""
 
-#: app/templates/base.html:56
+#: app/templates/base.html:55
 msgid "Facebook"
 msgstr ""
 
-#: app/templates/base.html:57
+#: app/templates/base.html:56
 msgid "Twitter"
 msgstr ""
 
-#: app/templates/base.html:64 app/templates/translation/response.html:63
+#: app/templates/base.html:63 app/templates/translation/response.html:63
 msgid "Login"
 msgstr ""
 
-#: app/templates/base.html:71
+#: app/templates/base.html:70
 msgid "My Account"
 msgstr ""
 
-#: app/templates/base.html:74
+#: app/templates/base.html:73
 msgid "Logout"
 msgstr ""
 
-#: app/templates/base.html:154 app/templates/credits.html:5
+#: app/templates/base.html:153 app/templates/credits.html:5
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:155 app/templates/privacy.html:4
+#: app/templates/base.html:154 app/templates/privacy.html:4
 msgid "Privacy Policy"
 msgstr ""
 
-#: app/templates/base.html:156 app/templates/disclaimers.html:4
+#: app/templates/base.html:155 app/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: app/templates/base.html:157
+#: app/templates/base.html:156
 msgid "Bug reporting"
 msgstr ""
 
@@ -542,4 +538,7 @@ msgstr ""
 #, python-format
 msgid "%%1$s has completed a translation challenge"
 msgstr ""
+
+#~ msgid "Corpus Dictionary"
+#~ msgstr ""
 

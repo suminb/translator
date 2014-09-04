@@ -368,7 +368,8 @@ function performTranslation() {
     var onSuccess = function(target) {
         return function(response) {
             if (!response) {
-                displayError("sendTranslationRequest(): response body is null.")
+                displayError("sendTranslationRequest(): response body is null.",
+                    null);
             }
             else if (String(response).substring(0, 1) == "<") {
                 showCaptcha(response);
@@ -517,7 +518,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     }
     else {
         requestFunction(url, {q: text}, onSuccess).fail(function(response) {
-            displayError(response.responseText);
+            displayError(response.responseText, null);
 
         }).always(onAlways);
     }
@@ -528,7 +529,7 @@ function uploadRawCorpora(source, target, raw) {
 }
 
 function showCaptcha(body) {
-    
+
     body = body.replace("/sorry/image",
         "http://translate.google.com/sorry/image");
 
@@ -632,8 +633,8 @@ function fetchTranslation(serial) {
         //askForRating(response.request_id);
 
     }).fail(function(response) {
-        displayError(response.responseText);
-    
+        displayError(response.responseText, null);
+`
     }).always(function() {
         $("#progress-message").hide();
     });

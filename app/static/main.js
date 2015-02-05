@@ -474,10 +474,10 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
     // TODO: also consider 'header' value which can be quite long sometimes
 
-    var requestFunction = textLength < 900 ?
+    var requestFunction = textLength < 550 ?
         $.get : $.post;
 
-    var requestMethod = textLength < 900 ?
+    var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
     var url = sprintf(

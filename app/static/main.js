@@ -154,7 +154,7 @@ var state = {
         this.setSource(typeof $.cookie("source") != "undefined" ?
             $.cookie("source") : "auto");
         this.setIntermediate(typeof $.cookie("intermediate") != "undefined" ?
-            $.cookie("intermediate") : "jp");
+            $.cookie("intermediate") : "ja");
         this.setTarget(typeof $.cookie("target") != "undefined" ?
             $.cookie("target") : "en");
     },

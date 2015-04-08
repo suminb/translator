@@ -22,7 +22,7 @@ var examples = {
     id: [""]
 };
 
-// URL encoded length, exclsively less than
+// URL encoded length, exclusively less than
 var SHORT_TRANSLATION_THRESHOLD = 256;
 
 var TAGS_TO_REPLACE = {
@@ -80,7 +80,7 @@ window.fbAsyncInit = function() {
 // init the FB JS SDK
 FB.init({
   appId      : '551432311581596', // App ID from the app dashboard
-  channelUrl : '//translator.suminb.com/static/channel.html',
+  channelUrl : '//better-translator.com/static/channel.html',
                 // Channel file for x-domain comms
   status     : true, // Check Facebook Login status
   xfbml      : true  // Look for social plugins on the page
@@ -91,11 +91,10 @@ FB.init({
 
 
 var state = {
-    source: null,
-    target: null,
-    mode: 2,
+    source: null, // source language
+    intermediate: null, // intermediate language
+    target: null, // target language
     text: null,
-    intermediate: null,
     result: null,
 
     id: null,
@@ -110,21 +109,14 @@ var state = {
         $("select[name=sl]").val(v);
     },
 
+    setIntermediate: function(v) {
+        this.intermediate = v;
+        $("select[name=il]").val(v);
+    },
+
     setTarget: function(v) {
         this.target = v;
         $("select[name=tl]").val(v);
-    },
-
-    setMode: function(v) {
-        v = parseInt(v);
-        if (!(v == 1 || v == 2)) {
-            // If invalid, fallback to the default value
-            v = 2;
-        }
-        this.mode = v;
-        $("button.to-mode").removeClass("active");
-        $(sprintf("button.to-mode[value=%s]", v)).addClass("active");
-        $.cookie("mode", v);
     },
 
     setText: function(v) {
@@ -141,28 +133,19 @@ var state = {
         this.source = v;
         this.setResult("");
 
-        if (v == 'ja') {
-            this.setMode(1);
-            $("button.to-mode[value=2]").disable();
-        }
-        else {
-            $("button.to-mode[value=2]").enable();
-        }
-
         $.cookie("source", v);
+    },
+
+    selectIntermediate: function(v) {
+        this.intermediate = v;
+        this.setResult("");
+
+        $.cookie("intermediate", v);
     },
 
     selectTarget: function(v) {
         this.target = v;
         this.setResult("");
-
-        if (v == 'ja') {
-            this.setMode(1);
-            $("button.to-mode[value=2]").disable();
-        }
-        else {
-            $("button.to-mode[value=2]").enable();
-        }
 
         $.cookie("target", v);
     },
@@ -170,24 +153,24 @@ var state = {
     init: function() {
         this.setSource(typeof $.cookie("source") != "undefined" ?
             $.cookie("source") : "auto");
+        this.setIntermediate(typeof $.cookie("intermediate") != "undefined" ?
+            $.cookie("intermediate") : "ja");
         this.setTarget(typeof $.cookie("target") != "undefined" ?
             $.cookie("target") : "en");
-        this.setMode(typeof $.cookie("mode") != "undefined" ?
-            $.cookie("mode") : 2);
     },
 
     initWithState: function(state) {
         this.setSource(state.source);
+        this.setIntermediate(state.intermediate);
         this.setTarget(state.target);
-        this.setMode(state.mode);
         this.setText(state.text);
         //this.setResult(state.result);
     },
 
     initWithParameters: function() {
         this.setSource(getParameterByName("sl"));
+        this.setIntermediate(getParameterByName("il"));
         this.setTarget(getParameterByName("tl"));
-        this.setMode(getParameterByName("m"));
         this.setText(getParameterByName("t"));
     },
 
@@ -196,8 +179,8 @@ var state = {
         this.requestId = t.request_id;
         this.serial = t.serial;
         this.source = t.source;
+        this.intermediate = t.intermediate; // FIXME: This is not implemented on the server side
         this.target = t.target;
-        this.mode = t.mode;
         this.text = t.original_text;
         //this.result = t.translated_text;
     },
@@ -227,18 +210,9 @@ var state = {
     invalidateUI: function(updateText) {
         updateText = typeof updateText !== 'undefined' ? updateText : true;
 
-        if (this.source == "ja" || this.target == "ja") {
-            this.setMode(1);
-            $("button.to-mode[value=2]").disable();
-        }
-        else {
-            $("button.to-mode[value=2]").enable();
-        }
-
         $("select[name=sl]").val(this.source);
+        $("select[name=il]").val(this.intermediate);
         $("select[name=tl]").val(this.target);
-        $("button.to-mode").removeClass("active");
-        $(sprintf("button.to-mode[value=%s]", this.mode)).addClass("active");
 
         if (updateText) {
             $("#text").val(this.text);
@@ -277,8 +251,8 @@ var state = {
      */
     update: function() {
         this.source = $("select[name=sl]").val();
+        this.intermediate = $("select[name=il]").val();
         this.target = $("select[name=tl]").val();
-        this.mode = $("button.to-mode.active").val();
         this.text = $("#text").val();
     },
 
@@ -287,8 +261,8 @@ var state = {
 
         return {
             source: this.source,
+            intermediate: this.intermediate,
             target: this.target,
-            mode: this.mode,
             text: this.text,
             result: this.result
         };
@@ -409,12 +383,12 @@ function performTranslation() {
         // the target language are identical
         state.setResult(state.text);
     }
-    // else if (state.source == "" || state.target == "") {
-    //     // TODO: Give some warning
-    // }
-    // else if (state.text == null || state.text == "") {
-    //     // TODO: Give some warning
-    // }
+    else if (state.source == "" || state.target == "") {
+         // TODO: Give some warning
+    }
+    else if (state.text == null || state.text == "") {
+         // TODO: Give some warning
+    }
     else if (encodeURIComponent(state.text).length > 8000) {
         displayError("Text is too long.",
             "For more detail, please refer <a href=\"/longtext\">this page</a>.");
@@ -432,18 +406,18 @@ function performTranslation() {
 
         state.pending = true;
 
-        if (state.mode == 2 && (state.source != "ja" && state.target != "ja")) {
+        if (state.intermediate) {
 
-            sendTranslationRequest(state.source, "ja", state.text, function(response) {
+            sendTranslationRequest(state.source, state.intermediate, state.text, function(response) {
 
-                onSuccess("ja")(response);
+                onSuccess(state.intermediate)(response);
 
                 // Delay for a random interval (0.5-1.5 sec)
                 var delay = 500 + Math.random() * 1000;
 
                 setTimeout(function() {
                     state.pending = true;
-                    sendTranslationRequest("ja", state.target,
+                    sendTranslationRequest(state.intermediate, state.target,
                         extractSentences(state.result),
                         onSuccess(state.target),
                         onAlways
@@ -460,9 +434,9 @@ function performTranslation() {
                 onSuccess(state.target), onAlways);
         }
 
-        if ($.cookie("locale") == "ko" && state.text.length < 60) {
-            //showNaverEndic(state.text);
-        }
+//        if ($.cookie("locale") == "ko" && state.text.length < 60) {
+//            showNaverEndic(state.text);
+//        }
     }
 
     return false;
@@ -500,10 +474,10 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
     // TODO: also consider 'header' value which can be quite long sometimes
 
-    var requestFunction = textLength < 900 ?
+    var requestFunction = textLength < 550 ?
         $.get : $.post;
 
-    var requestMethod = textLength < 900 ?
+    var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
     var url = sprintf(
@@ -591,14 +565,12 @@ function hashChanged(hash) {
     else {
         var source = phash.sl;
         var target = phash.tl;
-        var mode = phash.m;
+        var intermediate = phash.il;
         var text = phash.t;
 
         $("select[name=sl]").val(source ? source : state.source);
+        $("select[name=il]").val(intermediate ? intermediate : state.intermediate);
         $("select[name=tl]").val(target ? target : state.target);
-
-        //var mode = getParameterByName("m") == "1";
-        //$(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
         if (text) {
             $("#text").val(decodeURIComponent(text));
@@ -623,10 +595,8 @@ function fetchTranslation(serial) {
         $("#result").html(response.translated_text_dictlink);
 
         $("select[name=sl]").val(response.source);
+        $("select[name=il]").val(response.intermediate); // FIXME: Not implemented on server side
         $("select[name=tl]").val(response.target);
-
-        var mode = response.mode == "1";
-        $(mode ? "#radio-mode-1" : "#radio-mode-2").attr("checked", "checked");
 
         window.history.replaceState(state.serialize(), "", window.location.href);
 

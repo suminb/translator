@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
-__version__ = '1.2.13'
+__version__ = '1.2.14'
 
 from flask import Flask
 from flask.ext.login import LoginManager
@@ -54,7 +54,7 @@ logger = logging.getLogger('translator')
 #handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 handler = logging.StreamHandler(sys.stderr)
 handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
-logger.addHandler(handler) 
+logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 babel = Babel(app)

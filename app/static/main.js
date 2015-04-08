@@ -315,13 +315,14 @@ function resizeTextarea(t) {
 
 function buildTranslateURL(sl, tl, text, method) {
     var url = "http://translate.google.com/translate_a/single";
+    var extra = "dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at";
 
     if (method.toLowerCase() == 'get') {
-        return sprintf("%s?client=t&sl=%s&tl=%s&text=%s", url, sl, tl,
+        return sprintf("%s?client=t&sl=%s&tl=%s&%s&q=%s", url, sl, tl, extra,
             encodeURIComponent(text));
     }
     else if (method.toLowerCase() == 'post') {
-        return sprintf("%s?client=t&sl=%s&tl=%s", url, sl, tl);
+        return sprintf("%s?client=t&sl=%s&tl=%s&%s", url, sl, tl, extra);
     }
     else {
         throw "Unsupported method";
@@ -453,9 +454,9 @@ function sendXDomainRequest(url, method, data, onSuccess, onAlways) {
     xdr.onerror = function() {
         onAlways();
     }
-    
+
     xdr.open(method, url);
-    
+
     if (method == "POST") {
         xdr.send(JSON.stringify(data) + '&ie=1');
     }

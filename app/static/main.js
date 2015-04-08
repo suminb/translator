@@ -314,7 +314,7 @@ function resizeTextarea(t) {
 }
 
 function buildTranslateURL(sl, tl, text, method) {
-    var url = "http://translate.google.com/translate_a/t";
+    var url = "http://translate.google.com/translate_a/single";
 
     if (method.toLowerCase() == 'get') {
         return sprintf("%s?client=t&sl=%s&tl=%s&text=%s", url, sl, tl,

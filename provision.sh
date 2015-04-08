@@ -9,10 +9,10 @@ if [ ! -a /vagrant/.provisioned ]; then
 
     sudo pip install -r requirements.txt
 
-    su - postgres
+    sudo su - postgres
     #echo "createuser -s vagrant" | psql
     echo "CREATE ROLE vagrant SUPERUSER LOGIN" | psql
-    echo "CREATE DATABSE vagrant" | psql
+    echo "CREATE DATABASE vagrant" | psql
     exit
     cat /vagrant/scheme.sql | psql
 

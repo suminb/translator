@@ -8,7 +8,7 @@ from sqlalchemy.schema import CreateTable
 from datetime import datetime
 
 from app import app
-from utils import *
+# from utils import *
 
 import uuid
 import base62
@@ -190,12 +190,12 @@ class TranslationResponse(db.Model, BaseModel):
     request = relationship('TranslationRequest')
     user = relationship('User')
 
-    # FIXME: This may be a cause for degraded performance 
+    # FIXME: This may be a cause for degraded performance
     @property
     def plus_ratings(self):
         return Rating.query.filter_by(translation_id=self.id, rating=1).count()
 
-    # FIXME: This may be a cause for degraded performance 
+    # FIXME: This may be a cause for degraded performance
     @property
     def minus_ratings(self):
         return Rating.query.filter_by(translation_id=self.id, rating=-1).count()
@@ -260,7 +260,7 @@ class TranslationResponse(db.Model, BaseModel):
             and self.intermediate_raw[4] != None and len(self.intermediate_raw[5]) > 0:
 
             source_lang, target_lang = self.source, 'ja'
-            
+
             for source, target in zip(self.intermediate_raw[5], self.intermediate_raw[4]):
 
                 source_text, target_text = source[0], target[0]
@@ -306,7 +306,6 @@ class TranslationResponse(db.Model, BaseModel):
                 self._translated_raw = json.dumps(value)
             except:
                 self._translated_raw = value
-                
 
         def fdel(self):
             del self._translated_raw
@@ -348,7 +347,7 @@ class TranslationAccessLog(db.Model, BaseModel):
     """
 
     FLAG_CREATED = 1
-    
+
     id = db.Column(UUID, primary_key=True)
     translation_id = db.Column(UUID)
     user_id = db.Column(UUID)
@@ -483,8 +482,10 @@ class GeoIP(db.Model):
 #
 
 if __name__ == '__main__':
-    tables = (User, TranslationRequest, TranslationResponse, Rating, )
+    from app.corpus.models import Corpus, CorpusRaw, CorpusIndex
+    #tables = (User, TranslationRequest, TranslationResponse, Rating, )
+    tables = [Corpus, CorpusRaw, CorpusIndex]
     for table in tables:
         print '{};'.format(CreateTable(table.__table__).compile(db.engine))
-    
-    #db.create_all(tables=[TranslationRequest, TranslationResponse,])
+
+    # db.create_all()

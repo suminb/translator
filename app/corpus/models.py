@@ -45,14 +45,14 @@ class Corpus(db.Model, BaseModel):
                     source_hash=h,
                     source_index=i,
                     corpus_id=self.id).first() == None:
-                
+
                     CorpusIndex.insert(
                         source_hash=h,
                         source_index=i,
                         corpus_id=self.id,
                         commit=False,
                     )
-                
+
         self.aux_info = json.dumps(dict(processed_index=True))
 
         try:
@@ -64,7 +64,7 @@ class Corpus(db.Model, BaseModel):
     @staticmethod
     def match(text, source_lang=None, target_lang=None):
         #fingerprints = winnow(text)
-        
+
         agtext = zip(xrange(len(text)), text)
         agtext = sanitize(agtext)
 
@@ -76,7 +76,7 @@ class Corpus(db.Model, BaseModel):
 
         # for kgram in kgrams(agtext, FINGERPRINT_K):
         #     print kgram, ', ',
-        # print 
+        # print
         # print hashes
 
         indices = CorpusIndex.query \

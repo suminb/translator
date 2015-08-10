@@ -42,7 +42,7 @@ DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit
 MAX_TEXT_LENGTH = 8000
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
+#app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 app.secret_key = config.SECRET_KEY
 
 login_manager = LoginManager()
@@ -73,11 +73,11 @@ def get_locale():
             return request.accept_languages.best_match(['ko', 'en'])
 
 from core import *
-from corpus import corpus_module
+# from corpus import corpus_module
 from translation import *
-from user import *
+# from user import *
 
-app.register_blueprint(corpus_module, url_prefix='/corpus')
+# app.register_blueprint(corpus_module, url_prefix='/corpus')
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

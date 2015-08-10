@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*- 
-
+# -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request, render_template, url_for, \
     redirect, session
 from flask.ext.babel import gettext as _
@@ -12,7 +11,7 @@ from datetime import datetime
 
 from __init__ import __version__, app, logger, login_manager, get_locale, \
     VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
-from models import *
+# from models import *
 from utils import *
 
 import requests
@@ -678,8 +677,7 @@ def get_facebook_oauth_token():
 @app.teardown_request
 def teardown_request(exception):
     """Refer http://flask.pocoo.org/docs/tutorial/dbcon/ for more details."""
-    if db is not None:
-        db.session.close()
+    pass
 
 
 @app.errorhandler(404)

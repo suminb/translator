@@ -7,7 +7,7 @@ from datetime import datetime
 
 from __init__ import __version__, app, logger, login_manager, get_locale, \
     VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
-from models import *
+# from models import *
 from utils import *
 from forms import *
 
@@ -26,6 +26,8 @@ try:
     import config
 except:
     import dummyconfig as config
+
+db = None
 
 # @app.route('/tr/<translation_id>/request')
 # @login_required

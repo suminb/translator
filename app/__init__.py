@@ -74,7 +74,6 @@ def get_locale():
 
 from core import *
 # from corpus import corpus_module
-from translation import *
 # from user import *
 
 # app.register_blueprint(corpus_module, url_prefix='/corpus')

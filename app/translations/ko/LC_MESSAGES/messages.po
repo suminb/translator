@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-06 01:05+0900\n"
+"POT-Creation-Date: 2015-08-14 01:45+0900\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -15,13 +15,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.0\n"
 
-#: app/core.py:175
+#: app/core.py:174
 msgid "app-description-text"
 msgstr "구글 번역기와 일본어 중역을 이용한 번역 서비스입니다."
 
-#: app/core.py:542
+#: app/core.py:541
 msgid ""
 "{0},\n"
 "\n"
@@ -31,69 +31,39 @@ msgstr ""
 "\n"
 "요청하신 번역문이 올라왔습니다. {1} 에서 확인하세요."
 
-#: app/core.py:545 app/notification.py:21
+#: app/core.py:544 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:547 app/notification.py:23 app/notification.py:44
-#: app/translation.py:380 app/templates/base.html:13 app/templates/base.html:16
+#: app/core.py:546 app/notification.py:23 app/notification.py:44
+#: app/templates/base.html:13 app/templates/base.html:16
 #: app/templates/base.html:19 app/templates/base.html:42
-#: app/templates/index.html:272 app/templates/translation_responses.html:114
-#: app/templates/translation/response.html:184
+#: app/templates/index.html:267
 msgid "app-title"
 msgstr "더 나은 번역기"
 
-#: app/forms.py:9 app/templates/translation/request.html:27
+#: app/forms.py:9
 msgid "Source language"
 msgstr "원문 언어"
 
-#: app/forms.py:10 app/templates/translation/request.html:38
+#: app/forms.py:10
 msgid "Target language"
 msgstr "번역문 언어"
 
-#: app/forms.py:11 app/templates/translation_request.html:8
-#: app/templates/translation_responses.html:10
-#: app/templates/embedded/translation_help_request.html:33
-#: app/templates/translation/request.html:17
-#: app/templates/translation/response.html:23
+#: app/forms.py:11 app/templates/embedded/translation_help_request.html:33
 msgid "Original text"
 msgstr "원문"
-
-#: app/translation.py:67 app/translation.py:139 app/translation.py:156
-#: app/translation.py:336
-msgid "Requrested resource does not exist"
-msgstr ""
-
-#: app/translation.py:109
-msgid "Please provide a non-empty translation."
-msgstr "번역문을 입력해주세요."
-
-#: app/translation.py:132
-msgid "Your translation has been posted."
-msgstr "번역문이 등록되었습니다."
-
-#: app/translation.py:382
-msgid "{} has completed a translation challenge"
-msgstr "{}님이 번역 도전 과제를 해결했습니다"
-
-#: app/translation.py:383
-msgid "How do you say \"{0}\" in {1}?"
-msgstr "\"{0}\"을(를) {1}로 하면?"
-
-#: app/translation.py:397
-msgid "Your translation has been posted on your timeline."
-msgstr ""
 
 #: app/utils.py:38
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr "%%Y-%%m-%%d"
 
-#: app/corpus/templates/list.html:13 app/templates/index.html:28
+#: app/corpus/templates/list.html:13 app/templates/index.html:23
 msgid "Source Language"
 msgstr "원문 언어"
 
-#: app/corpus/templates/list.html:14 app/templates/index.html:44
+#: app/corpus/templates/list.html:14 app/templates/index.html:39
 #: app/templates/embedded/user_translation_requests.html:6
 #: app/templates/user/translation_responses.html:6
 msgid "Target Language"
@@ -118,134 +88,118 @@ msgid ""
 msgstr "요청하신 페이지가 존재하지 않습니다. <a href=\"/\">첫 페이지로 돌아가기</a>"
 
 #: app/templates/base.html:22 app/templates/credits.html:45
-#: app/templates/index.html:39 app/templates/index.html:146
+#: app/templates/index.html:34 app/templates/index.html:141
 msgid "Russian"
 msgstr "러시아어"
 
 #: app/templates/base.html:22 app/templates/credits.html:29
-#: app/templates/index.html:147
+#: app/templates/index.html:142
 msgid "French"
 msgstr "프랑스어"
 
-#: app/templates/base.html:22 app/templates/index.html:148
+#: app/templates/base.html:22 app/templates/index.html:143
 msgid "English"
 msgstr "영어"
 
-#: app/templates/base.html:22 app/templates/index.html:149
+#: app/templates/base.html:22 app/templates/index.html:144
 msgid "Portuguese"
 msgstr "포르투갈어"
 
-#: app/templates/base.html:22 app/templates/index.html:150
+#: app/templates/base.html:22 app/templates/index.html:145
 msgid "Vietnamese"
 msgstr "베트남어"
 
-#: app/templates/base.html:22 app/templates/index.html:151
+#: app/templates/base.html:22 app/templates/index.html:146
 msgid "German"
 msgstr "독일어"
 
-#: app/templates/base.html:22 app/templates/index.html:152
+#: app/templates/base.html:22 app/templates/index.html:147
 msgid "Korean"
 msgstr "한국어"
 
-#: app/templates/base.html:22 app/templates/index.html:153
+#: app/templates/base.html:22 app/templates/index.html:148
 msgid "Italian"
 msgstr "이탈리아어"
 
-#: app/templates/base.html:22 app/templates/index.html:154
+#: app/templates/base.html:22 app/templates/index.html:149
 msgid "Hebrew"
 msgstr "히브리어"
 
-#: app/templates/base.html:22 app/templates/index.html:155
+#: app/templates/base.html:22 app/templates/index.html:150
 msgid "Indonesian"
 msgstr "인도네시아어"
 
-#: app/templates/base.html:22 app/templates/index.html:156
+#: app/templates/base.html:22 app/templates/index.html:151
 msgid "Turkish"
 msgstr "터키어"
 
-#: app/templates/base.html:22 app/templates/index.html:157
+#: app/templates/base.html:22 app/templates/index.html:152
 msgid "Chinese"
 msgstr "중국어"
 
-#: app/templates/base.html:22 app/templates/index.html:158
+#: app/templates/base.html:22 app/templates/index.html:153
 msgid "Filipino"
 msgstr "필리핀어"
 
-#: app/templates/base.html:22 app/templates/index.html:159
+#: app/templates/base.html:22 app/templates/index.html:154
 msgid "Arabic"
 msgstr "아랍어"
 
-#: app/templates/base.html:22 app/templates/index.html:160
+#: app/templates/base.html:22 app/templates/index.html:155
 msgid "Polish"
 msgstr "폴란드어"
 
-#: app/templates/base.html:22 app/templates/index.html:161
+#: app/templates/base.html:22 app/templates/index.html:156
 msgid "Thai"
 msgstr "태국어"
 
-#: app/templates/base.html:22 app/templates/index.html:162
+#: app/templates/base.html:22 app/templates/index.html:157
 msgid "Czech"
 msgstr "체코어"
 
-#: app/templates/base.html:22 app/templates/index.html:163
+#: app/templates/base.html:22 app/templates/index.html:158
 msgid "Swedish"
 msgstr "스웨덴어"
 
-#: app/templates/base.html:22 app/templates/index.html:38
-#: app/templates/index.html:164
+#: app/templates/base.html:22 app/templates/index.html:33
+#: app/templates/index.html:159
 msgid "Japanese"
 msgstr "일본어"
 
 #: app/templates/base.html:22 app/templates/credits.html:41
-#: app/templates/index.html:165
+#: app/templates/index.html:160
 msgid "Spanish"
 msgstr "스페인어"
 
-#: app/templates/base.html:45 app/templates/translation_help_requests.html:4
-msgid "Help Requests"
-msgstr "번역 도움 요청"
-
-#: app/templates/base.html:46 app/templates/discuss.html:4
+#: app/templates/base.html:45 app/templates/discuss.html:4
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: app/templates/base.html:53
+#: app/templates/base.html:52
 msgid "Social Media"
 msgstr "소셜 미디어"
 
-#: app/templates/base.html:55
+#: app/templates/base.html:54
 msgid "Facebook"
 msgstr "페이스북"
 
-#: app/templates/base.html:56
+#: app/templates/base.html:55
 msgid "Twitter"
 msgstr "트위터"
 
-#: app/templates/base.html:63 app/templates/translation/response.html:63
-msgid "Login"
-msgstr "로그인"
-
-#: app/templates/base.html:70
-msgid "My Account"
-msgstr "내 계정"
-
-#: app/templates/base.html:73
-msgid "Logout"
-msgstr "로그아웃"
-
-#: app/templates/base.html:153 app/templates/credits.html:5
+#: app/templates/base.html:136 app/templates/credits.html:5
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: app/templates/base.html:154 app/templates/privacy.html:4
+#: app/templates/base.html:137 app/templates/privacy.html:4
 msgid "Privacy Policy"
 msgstr "개인정보 취급방침"
 
-#: app/templates/base.html:155 app/templates/disclaimers.html:4
+#: app/templates/base.html:138 app/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr "책임의 한계와 법적 고지"
 
-#: app/templates/base.html:156
+#: app/templates/base.html:139
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -296,71 +250,61 @@ msgstr ""
 "더 나은 번역기는 인터넷 익스플로러 9 이하에서 제대로 작동하지 않을 수도 있습니다. 파이어폭스, 크롬, 사파리와 같은 현대적인 "
 "브라우저를 권장합니다."
 
-#: app/templates/index.html:16
-msgid ""
-"Better Translator is currently unable to process long text. For more "
-"info, please refer <a href=\"/longtext\">this page</a>."
-msgstr ""
-"현재 일시적으로 긴 문장 번역이 되지 않고 있습니다. 자세한 정보를 보려면 <a href=\"/longtext\">이 "
-"페이지</a>를 참고해주세요."
-
-#: app/templates/index.html:30
+#: app/templates/index.html:25
 msgid "Detect language"
 msgstr "언어 자동 감지"
 
-#: app/templates/index.html:35
+#: app/templates/index.html:30
 msgid "Intermediate Language"
 msgstr "중간 언어"
 
-#: app/templates/index.html:37
+#: app/templates/index.html:32
 msgid "None"
 msgstr ""
 
-#: app/templates/index.html:54 app/templates/index.html:55
+#: app/templates/index.html:49 app/templates/index.html:50
 msgid "Swap languages"
 msgstr "언어 맞바꾸기"
 
-#: app/templates/index.html:57 app/templates/user/translation_responses.html:16
+#: app/templates/index.html:52 app/templates/user/translation_responses.html:16
 msgid "Translate"
 msgstr "번역"
 
-#: app/templates/index.html:64
+#: app/templates/index.html:59
 msgid "Type in your sentences"
 msgstr "번역할 내용을 입력해주세요"
 
-#: app/templates/index.html:67
+#: app/templates/index.html:62
 msgid "Similar translations"
 msgstr "비슷한 번역문"
 
-#: app/templates/index.html:76
+#: app/templates/index.html:71
 msgid "Translation in progress..."
 msgstr "번역중입니다..."
 
-#: app/templates/index.html:84
+#: app/templates/index.html:79
 msgid "Did you not like this translation?"
 msgstr "번역 결과가 마음에 안 들었나요?"
 
-#: app/templates/index.html:85 app/templates/index.html:124
-#: app/templates/translation_help_requests.html:30
+#: app/templates/index.html:80 app/templates/index.html:119
 #: app/templates/embedded/translation_help_request.html:3
-#: app/templates/translation/request.html:14
 msgid "Ask for help"
 msgstr "도움 요청하기"
 
-#: app/templates/index.html:89
+#: app/templates/index.html:84
 msgid "Thank you for your feedback."
 msgstr "감사합니다."
 
-#: app/templates/index.html:105 app/templates/index.html:117
+#: app/templates/index.html:100 app/templates/index.html:112
 msgid "Close"
 msgstr ""
 
-#: app/templates/index.html:241 app/templates/user_page.html:16
+#: app/templates/index.html:236 app/templates/user_page.html:16
 #: app/templates/user_page.html:17
 msgid "Loading..."
 msgstr "불러오는 중..."
 
-#: app/templates/index.html:273 app/templates/translation_responses.html:115
+#: app/templates/index.html:268
 #, python-format
 msgid "Please help to me translate this from %%1$s to %%2$s"
 msgstr "다음 문장을 %%1$s에서 %%2$s로 번역하는 것을 도와주세요"
@@ -373,89 +317,6 @@ msgstr ""
 msgid "Statistics"
 msgstr "통계"
 
-#: app/templates/translation_help_requests.html:4
-#: app/templates/translation_responses.html:4
-#: app/templates/translation/response.html:4
-msgid "Beta"
-msgstr ""
-
-#: app/templates/translation_help_requests.html:6
-#: app/templates/translation_responses.html:6
-#: app/templates/translation/response.html:6
-msgid ""
-"If you are not satisfied with machine translations, you may ask your "
-"friends to translate short sentences. You may also post your own "
-"translation if you have proficiency in both languages. It's like Stack "
-"Overflow for language translations."
-msgstr ""
-"기계 번역이 마음에 들지 않았다면 친구들에게 도움을 요청해보세요. 두 언어를 모두 잘 한다면 직접 번역문을 올릴 수도 있습니다. "
-"번역계의 네이버 지식인 같은 곳이죠."
-
-#: app/templates/translation_help_requests.html:11
-#: app/templates/embedded/user_translation_requests.html:4
-#: app/templates/translation/recent_responses.html:7
-#: app/templates/user/translation_responses.html:4
-msgid "Date"
-msgstr "날짜"
-
-#: app/templates/translation_help_requests.html:12
-#: app/templates/embedded/user_translation_requests.html:5
-#: app/templates/translation/recent_responses.html:8
-#: app/templates/user/translation_responses.html:5
-msgid "Original Text"
-msgstr "원문"
-
-#: app/templates/translation_help_requests.html:13
-msgid "Language"
-msgstr "언어"
-
-#: app/templates/translation_request.html:4
-msgid "Post a Translation Challenge"
-msgstr ""
-
-#: app/templates/translation_request.html:12
-msgid "Translation by Better Translator"
-msgstr ""
-
-#: app/templates/translation_request.html:17
-msgid "Post a translation challenge on Facebook"
-msgstr ""
-
-#: app/templates/translation_responses.html:4
-#: app/templates/translation/response.html:4
-msgid "Translation Challenge"
-msgstr "번역 도전하기"
-
-#: app/templates/translation_responses.html:14
-#: app/templates/translation/response.html:27
-msgid "Regular translation"
-msgstr "일반 번역"
-
-#: app/templates/translation_responses.html:19
-#: app/templates/translation/response.html:32
-msgid "Better translation"
-msgstr "더 나은 번역"
-
-#: app/templates/translation_responses.html:41
-msgid "Translations by others"
-msgstr "다른 사람들이 한 번역"
-
-#: app/templates/translation_responses.html:47
-msgid "No one has posted a translation. Become the first one!"
-msgstr "아직 번역문이 없습니다. 일등으로 번역문을 올려보세요!"
-
-#: app/templates/translation_responses.html:91
-msgid "Post a translation"
-msgstr "번역문 올리기"
-
-#: app/templates/translation_responses.html:93
-msgid "Ask your friends for help"
-msgstr "친구들에게 도움을 요청해보세요"
-
-#: app/templates/translation_responses.html:96
-msgid "Watch"
-msgstr ""
-
 #: app/templates/user_page.html:7
 msgid "My Help Requests"
 msgstr "나의 번역 도움 요청"
@@ -465,7 +326,6 @@ msgid "My Translations"
 msgstr "내가 한 번역"
 
 #: app/templates/embedded/translation_help_request.html:38
-#: app/templates/translation/request.html:46
 msgid "Comment"
 msgstr ""
 
@@ -474,56 +334,18 @@ msgid "Type in your comment"
 msgstr ""
 
 #: app/templates/embedded/translation_help_request.html:45
-#: app/templates/translation/response.html:108
 msgid "Post"
 msgstr "올리기"
 
-#: app/templates/translation/recent_responses.html:8
-msgid "Translated Text"
-msgstr "번역문"
+#: app/templates/embedded/user_translation_requests.html:4
+#: app/templates/user/translation_responses.html:4
+msgid "Date"
+msgstr "날짜"
 
-#: app/templates/translation/recent_responses.html:9
-msgid "Languages"
-msgstr "언어"
-
-#: app/templates/translation/request.html:46
-msgid "Optional"
-msgstr "선택 사항"
-
-#: app/templates/translation/response.html:54
-msgid "Your translation"
-msgstr "나의 번역"
-
-#: app/templates/translation/response.html:58
-msgid "Login with your Facebook to post a translation."
-msgstr "번역문을 올리기 위해 페이스북 계정으로 로그인 하세요."
-
-#: app/templates/translation/response.html:61
-#: app/templates/translation/response.html:89
-#: app/templates/translation/response.html:106
-msgid "See how others did"
-msgstr "다른 사람들이 한 번역 보기"
-
-#: app/templates/translation/response.html:93
-msgid "Brag about it"
-msgstr "자랑하기"
-
-#: app/templates/translation/response.html:94
-msgid "Delete"
-msgstr "삭제"
-
-#: app/templates/translation/response.html:103
-msgid "Brag about it on your Facebook"
-msgstr "페이스북에 자랑하기"
-
-#: app/templates/translation/response.html:155
-msgid "Please wait while posting a link on your timeline."
-msgstr "타임라인에 포스팅 하는 동안 잠시만 기다려주세요."
-
-#: app/templates/translation/response.html:185
-#, python-format
-msgid "%%1$s has completed a translation challenge"
-msgstr "%%1$s님이 번역 도전 과제를 해결했습니다"
+#: app/templates/embedded/user_translation_requests.html:5
+#: app/templates/user/translation_responses.html:5
+msgid "Original Text"
+msgstr "원문"
 
 #~ msgid ""
 #~ msgstr ""
@@ -539,4 +361,106 @@ msgstr "%%1$s님이 번역 도전 과제를 해결했습니다"
 
 #~ msgid "User translations"
 #~ msgstr "사용자 번역"
+
+#~ msgid "Requrested resource does not exist"
+#~ msgstr ""
+
+#~ msgid "Please provide a non-empty translation."
+#~ msgstr "번역문을 입력해주세요."
+
+#~ msgid "Your translation has been posted."
+#~ msgstr "번역문이 등록되었습니다."
+
+#~ msgid "{} has completed a translation challenge"
+#~ msgstr "{}님이 번역 도전 과제를 해결했습니다"
+
+#~ msgid "How do you say \"{0}\" in {1}?"
+#~ msgstr "\"{0}\"을(를) {1}로 하면?"
+
+#~ msgid "Your translation has been posted on your timeline."
+#~ msgstr ""
+
+#~ msgid "Help Requests"
+#~ msgstr "번역 도움 요청"
+
+#~ msgid "Login"
+#~ msgstr "로그인"
+
+#~ msgid "My Account"
+#~ msgstr "내 계정"
+
+#~ msgid "Logout"
+#~ msgstr "로그아웃"
+
+#~ msgid "Beta"
+#~ msgstr ""
+
+#~ msgid "Language"
+#~ msgstr "언어"
+
+#~ msgid "Post a Translation Challenge"
+#~ msgstr ""
+
+#~ msgid "Translation by Better Translator"
+#~ msgstr ""
+
+#~ msgid "Post a translation challenge on Facebook"
+#~ msgstr ""
+
+#~ msgid "Translation Challenge"
+#~ msgstr "번역 도전하기"
+
+#~ msgid "Regular translation"
+#~ msgstr "일반 번역"
+
+#~ msgid "Better translation"
+#~ msgstr "더 나은 번역"
+
+#~ msgid "Translations by others"
+#~ msgstr "다른 사람들이 한 번역"
+
+#~ msgid "No one has posted a translation. Become the first one!"
+#~ msgstr "아직 번역문이 없습니다. 일등으로 번역문을 올려보세요!"
+
+#~ msgid "Post a translation"
+#~ msgstr "번역문 올리기"
+
+#~ msgid "Ask your friends for help"
+#~ msgstr "친구들에게 도움을 요청해보세요"
+
+#~ msgid "Watch"
+#~ msgstr ""
+
+#~ msgid "Translated Text"
+#~ msgstr "번역문"
+
+#~ msgid "Languages"
+#~ msgstr "언어"
+
+#~ msgid "Optional"
+#~ msgstr "선택 사항"
+
+#~ msgid "Your translation"
+#~ msgstr "나의 번역"
+
+#~ msgid "Login with your Facebook to post a translation."
+#~ msgstr "번역문을 올리기 위해 페이스북 계정으로 로그인 하세요."
+
+#~ msgid "See how others did"
+#~ msgstr "다른 사람들이 한 번역 보기"
+
+#~ msgid "Brag about it"
+#~ msgstr "자랑하기"
+
+#~ msgid "Delete"
+#~ msgstr "삭제"
+
+#~ msgid "Brag about it on your Facebook"
+#~ msgstr "페이스북에 자랑하기"
+
+#~ msgid "Please wait while posting a link on your timeline."
+#~ msgstr "타임라인에 포스팅 하는 동안 잠시만 기다려주세요."
+
+#~ msgid "%%1$s has completed a translation challenge"
+#~ msgstr "%%1$s님이 번역 도전 과제를 해결했습니다"
 

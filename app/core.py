@@ -44,14 +44,17 @@ facebook_app = oauth.remote_app('facebook',
     request_token_params={'scope': 'email, publish_stream'}
 )
 
+
 # DO NOT MOVE THIS TO __init__.py
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
+
 @app.route('/longtext')
 def longtext():
     return render_template('longtext.html')
+
 
 def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGENT):
     """

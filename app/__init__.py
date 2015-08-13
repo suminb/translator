@@ -59,6 +59,7 @@ logger.setLevel(logging.INFO)
 
 babel = Babel(app)
 
+
 @babel.localeselector
 def get_locale():
     """Selects an appropriate locale.
@@ -71,6 +72,7 @@ def get_locale():
             return request.cookies['locale']
         except KeyError:
             return request.accept_languages.best_match(['ko', 'en'])
+
 
 from core import *
 # from corpus import corpus_module

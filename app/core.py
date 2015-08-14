@@ -6,14 +6,14 @@ from datetime import datetime
 
 from __init__ import __version__, app, logger, get_locale, \
     VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
-# from models import *
 from utils import *
 
 import requests
 import json
 import re
-import nilsimsa # Locality Sensitive Hash
-import os, sys
+import nilsimsa  # Locality Sensitive Hash
+import os
+import sys
 
 
 @app.route('/longtext')

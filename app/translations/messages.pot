@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-08-14 01:45+0900\n"
+"POT-Creation-Date: 2015-08-14 14:12+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,22 +17,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.0\n"
 
-#: app/core.py:174
+#: app/core.py:177
 msgid "app-description-text"
 msgstr ""
 
-#: app/core.py:541
+#: app/core.py:535
 msgid ""
 "{0},\n"
 "\n"
 "Someone has posted a translation. Check out at {1}"
 msgstr ""
 
-#: app/core.py:544 app/notification.py:21
+#: app/core.py:538 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:546 app/notification.py:23 app/notification.py:44
+#: app/core.py:540 app/notification.py:23 app/notification.py:44
 #: app/templates/base.html:13 app/templates/base.html:16
 #: app/templates/base.html:19 app/templates/base.html:42
 #: app/templates/index.html:267
@@ -188,15 +188,11 @@ msgstr ""
 msgid "Credits"
 msgstr ""
 
-#: app/templates/base.html:137 app/templates/privacy.html:4
-msgid "Privacy Policy"
-msgstr ""
-
-#: app/templates/base.html:138 app/templates/disclaimers.html:4
+#: app/templates/base.html:137 app/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: app/templates/base.html:139
+#: app/templates/base.html:138
 msgid "Bug reporting"
 msgstr ""
 

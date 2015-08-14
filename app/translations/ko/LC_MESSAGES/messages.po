@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-08-14 01:45+0900\n"
+"POT-Creation-Date: 2015-08-14 14:12+0900\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ko <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.0\n"
 
-#: app/core.py:174
+#: app/core.py:177
 msgid "app-description-text"
 msgstr "구글 번역기와 일본어 중역을 이용한 번역 서비스입니다."
 
-#: app/core.py:541
+#: app/core.py:535
 msgid ""
 "{0},\n"
 "\n"
@@ -31,11 +31,11 @@ msgstr ""
 "\n"
 "요청하신 번역문이 올라왔습니다. {1} 에서 확인하세요."
 
-#: app/core.py:544 app/notification.py:21
+#: app/core.py:538 app/notification.py:21
 msgid "You have a notification from Better Translator"
 msgstr ""
 
-#: app/core.py:546 app/notification.py:23 app/notification.py:44
+#: app/core.py:540 app/notification.py:23 app/notification.py:44
 #: app/templates/base.html:13 app/templates/base.html:16
 #: app/templates/base.html:19 app/templates/base.html:42
 #: app/templates/index.html:267
@@ -191,15 +191,11 @@ msgstr "트위터"
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: app/templates/base.html:137 app/templates/privacy.html:4
-msgid "Privacy Policy"
-msgstr "개인정보 취급방침"
-
-#: app/templates/base.html:138 app/templates/disclaimers.html:4
+#: app/templates/base.html:137 app/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr "책임의 한계와 법적 고지"
 
-#: app/templates/base.html:139
+#: app/templates/base.html:138
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -463,4 +459,7 @@ msgstr "원문"
 
 #~ msgid "%%1$s has completed a translation challenge"
 #~ msgstr "%%1$s님이 번역 도전 과제를 해결했습니다"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "개인정보 취급방침"
 

@@ -18,7 +18,7 @@ def setup_module(module):
 
 class TestBasic:
     def test_pages(self):
-        pages = ('', 'credits', 'discuss', 'disclaimers', 'privacy')
+        pages = ('', 'credits', 'discuss', 'disclaimers')
 
         for page in pages:
             req = requests.get('{}/{}'.format(HOST, page))

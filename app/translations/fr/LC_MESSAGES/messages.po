@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-08-14 01:45+0900\n"
+"POT-Creation-Date: 2015-08-14 14:12+0900\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.0\n"
 
-#: app/core.py:174
+#: app/core.py:177
 msgid "app-description-text"
 msgstr ""
 "La traduction aumieux est un service qui permet d'effectuer des "
@@ -27,7 +27,7 @@ msgstr ""
 " langage. Par conséquent, Google Traduction envers le japonais vous donne"
 " le meilleur résultat."
 
-#: app/core.py:541
+#: app/core.py:535
 #, fuzzy
 msgid ""
 "{0},\n"
@@ -35,12 +35,12 @@ msgid ""
 "Someone has posted a translation. Check out at {1}"
 msgstr "Postuler une tradiction en défi"
 
-#: app/core.py:544 app/notification.py:21
+#: app/core.py:538 app/notification.py:21
 #, fuzzy
 msgid "You have a notification from Better Translator"
 msgstr "Traduit par Traduction au mieux"
 
-#: app/core.py:546 app/notification.py:23 app/notification.py:44
+#: app/core.py:540 app/notification.py:23 app/notification.py:44
 #: app/templates/base.html:13 app/templates/base.html:16
 #: app/templates/base.html:19 app/templates/base.html:42
 #: app/templates/index.html:267
@@ -204,15 +204,11 @@ msgstr "Twitter"
 msgid "Credits"
 msgstr "Crédits"
 
-#: app/templates/base.html:137 app/templates/privacy.html:4
-msgid "Privacy Policy"
-msgstr "Politique de confidentialité"
-
-#: app/templates/base.html:138 app/templates/disclaimers.html:4
+#: app/templates/base.html:137 app/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr "Exclusion"
 
-#: app/templates/base.html:139
+#: app/templates/base.html:138
 msgid "Bug reporting"
 msgstr "Rapports"
 
@@ -491,4 +487,7 @@ msgstr "texte original"
 
 #~ msgid "%%1$s has completed a translation challenge"
 #~ msgstr "Postuler une tradiction en défi"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Politique de confidentialité"
 

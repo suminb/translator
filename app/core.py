@@ -524,15 +524,6 @@ def disclaimers():
     return render_template('disclaimers.html', **context)
 
 
-@app.route('/privacy')
-def privacy():
-    context = dict(
-        version=__version__,
-        locale=get_locale(),
-    )
-    return render_template('privacy.html', **context)
-
-
 @app.route('/flush-queue')
 def flush_notification_queue():
     """I know this is a pretty silly solution, but for some reason gettext()

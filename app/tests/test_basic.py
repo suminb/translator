@@ -51,7 +51,6 @@ class TestBasic:
         with pytest.raises(HTTPException):
             translate('The cake was a lie', 1, 'en', 'unknown')
 
-    @pytest.mark.xfail
     def test_translate_5(self):
         params = dict(
             t=u'도요타는 일본의 자동차 제조사이다.',
@@ -69,7 +68,6 @@ class TestBasic:
         assert 'Toyota' in t['translated_text']
         assert 'Japan' in t['translated_text']
 
-    @pytest.mark.xfail
     def test_translate_6(self):
         params = dict(
             t=u'구글은 세계 정복을 꿈꾸고 있다.',
@@ -85,7 +83,6 @@ class TestBasic:
         assert 'dream' in tt
         assert 'world' in tt
 
-    @pytest.mark.xfail
     def test_translate_7(self):
         params = dict(
             t=u'Coca Cola is one of the most widely known brand names.',

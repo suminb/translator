@@ -56,7 +56,8 @@ def longtext():
     return render_template('longtext.html')
 
 
-def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGENT):
+def __translate__(text, source, target, client='x',
+                  user_agent=DEFAULT_USER_AGENT):
     """
     text: text to be translated
     source: source language
@@ -65,12 +66,6 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
 
     if source == target:
         return text
-
-    from hallucination import ProxyFactory
-    proxy_factory = ProxyFactory(
-        db_engine=db.engine,
-        logger=logger
-    )
 
     if not re.match(r'Mozilla/\d+\.\d+ \(.*', user_agent):
         user_agent = 'Mozilla/5.0 (%s)' % user_agent
@@ -88,23 +83,12 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
     }
     url = 'http://translate.google.com/translate_a/t'
 
-    req = None
-    try:
-        req = proxy_factory.make_request(url, headers=headers, params=payload,
-            req_type=requests.post, timeout=2, pool_size=10)
-
-    except Exception as e:
-        logger.exception(e)
-
-    if req == None:
-        # if request via proxy fails
-        req = requests.post(url, headers=headers, data=payload)
+    req = requests.post(url, headers=headers, data=payload)
 
     if req.status_code != 200:
         raise HTTPException(
             ('Google Translate returned HTTP {}'.format(req.status_code)),
             req.status_code)
-
 
     if client == 'x':
         data = json.loads(req.text)
@@ -293,7 +277,7 @@ def translate_1_0():
                                         @"m": @"2",
                                         @"t": @"Google translation that you did not know."
             };
-            
+
             [client postPath:@"/v1.0/translate"
                   parameters:params
                  loadingText:@"Loading..."
@@ -403,87 +387,41 @@ def translate(text, mode, source, target, client='x'):
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
     user_agent = request.headers.get('User-Agent')
 
-    access_log = TranslationAccessLog.insert(
-        commit=False,
-        user_id=current_user.id if not current_user.is_anonymous() else None,
-        user_agent=user_agent,
-        remote_address=get_remote_address(request),
-    )
+    translated_raw = None
+    translated_text = None
+    intermediate_raw = None
+    intermediate_text = None
 
-    treq = TranslationRequest.fetch(
-        original_text_hash=original_text_hash,
-        source=source, target=target)
+    # NOTE: The following may be time consuming operations
+    # FIXME: Refactor this code. Looks crappy.
+    if mode == '1':
+        if client == 't':
+            translated_raw = __translate__(text, source, target, client, user_agent)
+            translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
+        else:
+            translated_text = __translate__(text, source, target, client, user_agent)
 
-    if treq == None:
-        treq = TranslationRequest.insert(
-            commit=False,
-            user_id=None,
-            source=source,
-            target=target,
-            original_text=text,
-            original_text_hash=original_text_hash,
-        )
-
-    tresp = TranslationResponse.fetch(
-        original_text_hash=original_text_hash,
-        source=source, target=target, mode=mode)
-
-    if tresp == None:
-
-        translated_raw = None
-        translated_text = None
-        intermediate_raw = None
-        intermediate_text = None
-
-        # NOTE: The following may be time consuming operations
-        # FIXME: Refactor this code. Looks crappy.
-        if mode == '1':
-            if client == 't':
-                translated_raw = __translate__(text, source, target, client, user_agent)
-                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
-            else:
-                translated_text = __translate__(text, source, target, client, user_agent)
-
-        elif mode == '2':
-            if client == 't':
-                intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
-                intermediate_text = ' '.join(map(lambda x: x[0], intermediate_raw[0]))
-                translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
-                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
-
-            else:
-                intermediate_text = __translate__(text, source, 'ja', client, user_agent)
-                translated_text = __translate__(intermediate_text, 'ja', target, client, user_agent)
+    elif mode == '2':
+        if client == 't':
+            intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
+            intermediate_text = ' '.join(map(lambda x: x[0], intermediate_raw[0]))
+            translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
+            translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
 
         else:
-            return HTTPException('Invalid translation mode.', 400)
+            intermediate_text = __translate__(text, source, 'ja', client, user_agent)
+            translated_text = __translate__(intermediate_text, 'ja', target, client, user_agent)
 
-        tresp = TranslationResponse.insert(
-            commit=False,
-            request_id=treq.id,
-            source=source,
-            target=target,
-            mode=mode,
-            original_text_hash=original_text_hash,
-            intermediate_text=intermediate_text,
-            intermediate_raw=intermediate_raw,
-            translated_text=translated_text,
-            translated_raw=translated_raw,
-        )
-
-    try:
-        db.session.commit()
-    except Exception as e:
-        logger.exception(e)
-        db.session.rollback()
+    else:
+        return HTTPException('Invalid translation mode.', 400)
 
     return dict(
-        id=base62.encode(uuid.UUID(tresp.id).int),
-        request_id=base62.encode(uuid.UUID(treq.id).int),
-        intermediate_text=tresp.intermediate_text,
-        intermediate_raw=tresp.intermediate_raw,
-        translated_text=tresp.translated_text,
-        translated_raw=tresp.translated_raw,
+        id=None,
+        request_id=None,
+        intermediate_text=intermediate_text,
+        intermediate_raw=intermediate_raw,
+        translated_text=translated_text,
+        translated_raw=translated_raw,
     )
 
 

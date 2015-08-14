@@ -42,7 +42,6 @@
         <a class="brand" href="/">{{ _("app-title") }}</a>
         <div class="nav-collapse collapse">
           <ul class="nav">
-            <!--{{ render_nav_item(_("Help Requests"), "translation_help_requests") }}-->
             {{ render_nav_item(_("Discussions"), "discuss") }}
             {% if locale == 'ko' %}
             <li>
@@ -58,22 +57,6 @@
             </li>
           </ul>
           <ul class="nav pull-right">
-            {% if current_user.is_anonymous() %}
-            <li>
-              <a href="/login">{{ _("Login") }}</a>
-            </li>
-            {% else %}
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ current_user.name }} <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="{{ url_for('user_page') }}">{{ _("My Account") }}</a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="/logout">{{ _("Logout") }}</a></li>
-              </ul>
-            </li>
-            {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -151,7 +134,6 @@
       </div> 
       <div id="copyright">
           <a href="/credits">{{ _("Credits") }}</a> |
-          <a href="/privacy">{{ _("Privacy Policy") }}</a> |
           <a href="/disclaimers">{{ _("Disclaimers") }}</a> |
           <a href="http://github.com/suminb/translator/issues" target="_blank">{{ _("Bug reporting") }}</a>
           <br/>

@@ -1,60 +1,28 @@
-# -*- coding: utf-8 -*- 
-
+# -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request, render_template, url_for, \
     redirect, session
 from flask.ext.babel import gettext as _
-from flask.ext.login import login_required, login_user, logout_user, current_user
-from flask_oauthlib.client import OAuth
-from jinja2 import evalcontextfilter, Markup, escape
-from jinja2.environment import Environment
-from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 
-from __init__ import __version__, app, logger, login_manager, get_locale, \
+from __init__ import __version__, app, logger, get_locale, \
     VALID_LANGUAGES, DEFAULT_USER_AGENT, MAX_TEXT_LENGTH
-from models import *
 from utils import *
 
 import requests
 import json
-import urllib
-import uuid
 import re
-import hashlib
-import nilsimsa # Locality Sensitive Hash
-import base62
-import os, sys
-import pytz
-import facebook
+import nilsimsa  # Locality Sensitive Hash
+import os
+import sys
 
-# FIXME: This shall be gone someday. Replace config.* with environment variables.
-try:
-    import config
-except:
-    import dummyconfig as config
-
-oauth = OAuth()
-
-facebook_app = oauth.remote_app('facebook',
-    base_url='https://graph.facebook.com/',
-    request_token_url=None,
-    access_token_url='/oauth/access_token',
-    authorize_url='https://www.facebook.com/dialog/oauth',
-    consumer_key=config.FACEBOOK_APP_ID,
-    consumer_secret=config.FACEBOOK_APP_SECRET,
-    request_token_params={'scope': 'email, publish_stream'}
-)
-
-# DO NOT MOVE THIS TO __init__.py
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
 
 @app.route('/longtext')
 def longtext():
     return render_template('longtext.html')
 
-def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGENT):
+
+def __translate__(text, source, target, client='x',
+                  user_agent=DEFAULT_USER_AGENT):
     """
     text: text to be translated
     source: source language
@@ -63,12 +31,6 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
 
     if source == target:
         return text
-
-    from hallucination import ProxyFactory
-    proxy_factory = ProxyFactory(
-        db_engine=db.engine,
-        logger=logger
-    )
 
     if not re.match(r'Mozilla/\d+\.\d+ \(.*', user_agent):
         user_agent = 'Mozilla/5.0 (%s)' % user_agent
@@ -86,23 +48,12 @@ def __translate__(text, source, target, client='x', user_agent=DEFAULT_USER_AGEN
     }
     url = 'http://translate.google.com/translate_a/t'
 
-    req = None
-    try:
-        req = proxy_factory.make_request(url, headers=headers, params=payload,
-            req_type=requests.post, timeout=2, pool_size=10)
-
-    except Exception as e:
-        logger.exception(e)
-
-    if req == None:
-        # if request via proxy fails
-        req = requests.post(url, headers=headers, data=payload)
+    req = requests.post(url, headers=headers, data=payload)
 
     if req.status_code != 200:
         raise HTTPException(
             ('Google Translate returned HTTP {}'.format(req.status_code)),
             req.status_code)
-
 
     if client == 'x':
         data = json.loads(req.text)
@@ -291,7 +242,7 @@ def translate_1_0():
                                         @"m": @"2",
                                         @"t": @"Google translation that you did not know."
             };
-            
+
             [client postPath:@"/v1.0/translate"
                   parameters:params
                  loadingText:@"Loading..."
@@ -401,87 +352,41 @@ def translate(text, mode, source, target, client='x'):
     original_text_hash = nilsimsa.Nilsimsa(text.encode('utf-8')).hexdigest()
     user_agent = request.headers.get('User-Agent')
 
-    access_log = TranslationAccessLog.insert(
-        commit=False,
-        user_id=current_user.id if not current_user.is_anonymous() else None,
-        user_agent=user_agent,
-        remote_address=get_remote_address(request),
-    )
+    translated_raw = None
+    translated_text = None
+    intermediate_raw = None
+    intermediate_text = None
 
-    treq = TranslationRequest.fetch(
-        original_text_hash=original_text_hash,
-        source=source, target=target)
-
-    if treq == None:
-        treq = TranslationRequest.insert(
-            commit=False,
-            user_id=None,
-            source=source,
-            target=target,
-            original_text=text,
-            original_text_hash=original_text_hash,
-        )
-
-    tresp = TranslationResponse.fetch(
-        original_text_hash=original_text_hash,
-        source=source, target=target, mode=mode)
-
-    if tresp == None:
-
-        translated_raw = None
-        translated_text = None
-        intermediate_raw = None
-        intermediate_text = None
-
-        # NOTE: The following may be time consuming operations
-        # FIXME: Refactor this code. Looks crappy.
-        if mode == '1':
-            if client == 't':
-                translated_raw = __translate__(text, source, target, client, user_agent)
-                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
-            else:
-                translated_text = __translate__(text, source, target, client, user_agent)
-            
-        elif mode == '2':
-            if client == 't':
-                intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
-                intermediate_text = ' '.join(map(lambda x: x[0], intermediate_raw[0]))
-                translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
-                translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
-
-            else:
-                intermediate_text = __translate__(text, source, 'ja', client, user_agent)
-                translated_text = __translate__(intermediate_text, 'ja', target, client, user_agent)
-            
+    # NOTE: The following may be time consuming operations
+    # FIXME: Refactor this code. Looks crappy.
+    if mode == '1':
+        if client == 't':
+            translated_raw = __translate__(text, source, target, client, user_agent)
+            translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
         else:
-            return HTTPException('Invalid translation mode.', 400)
+            translated_text = __translate__(text, source, target, client, user_agent)
 
-        tresp = TranslationResponse.insert(
-            commit=False,
-            request_id=treq.id,
-            source=source,
-            target=target,
-            mode=mode,
-            original_text_hash=original_text_hash,
-            intermediate_text=intermediate_text,
-            intermediate_raw=intermediate_raw,
-            translated_text=translated_text,
-            translated_raw=translated_raw,
-        )
+    elif mode == '2':
+        if client == 't':
+            intermediate_raw = __translate__(text, source, 'ja', client, user_agent)
+            intermediate_text = ' '.join(map(lambda x: x[0], intermediate_raw[0]))
+            translated_raw = __translate__(intermediate_text, 'ja', target, client, user_agent)
+            translated_text = ' '.join(map(lambda x: x[0], translated_raw[0]))
 
-    try:
-        db.session.commit()
-    except Exception as e:
-        logger.exception(e)
-        db.session.rollback()
+        else:
+            intermediate_text = __translate__(text, source, 'ja', client, user_agent)
+            translated_text = __translate__(intermediate_text, 'ja', target, client, user_agent)
+
+    else:
+        return HTTPException('Invalid translation mode.', 400)
 
     return dict(
-        id=base62.encode(uuid.UUID(tresp.id).int),
-        request_id=base62.encode(uuid.UUID(treq.id).int),
-        intermediate_text=tresp.intermediate_text,
-        intermediate_raw=tresp.intermediate_raw,
-        translated_text=tresp.translated_text,
-        translated_raw=tresp.translated_raw,
+        id=None,
+        request_id=None,
+        intermediate_text=intermediate_text,
+        intermediate_raw=intermediate_raw,
+        translated_text=translated_text,
+        translated_raw=translated_raw,
     )
 
 
@@ -522,164 +427,10 @@ def disclaimers():
     return render_template('disclaimers.html', **context)
 
 
-@app.route('/privacy')
-def privacy():
-    context = dict(
-        version=__version__,
-        locale=get_locale(),
-    )
-    return render_template('privacy.html', **context)
-
-
-@app.route('/flush-queue')
-def flush_notification_queue():
-    """I know this is a pretty silly solution, but for some reason gettext()
-    does not work when I invoke it from notification.py that runs on a shell."""
-
-    def sendmail(notification):
-
-        url = url_for('translation_responses', request_id=notification.payload, _external=True)
-        body = _('{0},\n\nSomeone has posted a translation. Check out at {1}').format(notification.user.name, url)
-
-        message = Message(
-            subject=_('You have a notification from Better Translator'),
-            body=body,
-            sender=(_('app-title'), 'translator@suminb.com'),
-            recipients=[notification.user.email]
-        )
-
-        mail.send(message)
-        db.session.delete(notification)
-
-    from flask.ext.mail import Mail, Message
-
-    app.config['MAIL_SERVER'] = config.MAIL_SERVER
-    app.config['MAIL_PORT'] = config.MAIL_PORT
-    app.config['MAIL_USERNAME'] = config.MAIL_USERNAME
-    app.config['MAIL_PASSWORD'] = config.MAIL_PASSWORD
-
-    mail = Mail(app)
-
-    try:
-        for notification in NotificationQueue.query.limit(100):
-            sendmail(notification)
-
-        db.session.commit()
-
-        return ''
-
-    except Exception as e:
-        logger.exception(e)
-        return str(e), 500
-
-
-@app.route('/login')
-def login():
-    session['login'] = True
-    return facebook_app.authorize(callback=url_for('facebook_authorized',
-        next=request.args.get('next') or request.referrer or None,
-        _external=True))
-
-
-@app.route('/login/authorized')
-@facebook_app.authorized_handler
-def facebook_authorized(resp):
-    if resp is None:
-        return 'Access denied: reason=%s error=%s' % (
-            request.args['error_reason'],
-            request.args['error_description']
-        ), 401
-
-    session['oauth_token'] = (resp['access_token'], '')
-
-    # Fields to fetch
-    # https://developers.facebook.com/docs/reference/api/user/
-    fields = ('id', 'name', 'first_name', 'last_name', 'middle_name',
-        'username', 'gender', 'locale', 'picture', 'link', 'age_range', 'timezone',
-        'updated_time', 'verified', 'bio', 'birthday', 'email', 'location',
-        'website', 'work')
-
-    me = facebook_app.get('/me', data=dict(fields=','.join(fields)))
-
-    print me.data
-
-    # Somehow this not only is disfunctional, but also it prevents other 
-    # session values to be set
-    #session['oauth_data'] = me.data
-
-    key_mappings = {
-        # User model : Facebook OAuth
-        'oauth_id': 'id',
-        'oauth_username': 'username',
-        'given_name': 'first_name',
-        'family_name': 'last_name',
-        'email': 'email',
-        'locale': 'locale',
-        'gender': 'gender',
-    }
-
-    try:
-        user = User.query.filter_by(oauth_id=me.data['id']).first()
-
-        if user == None:
-            payload = dict(extra_info=json.dumps(me.data))
-
-            for key in key_mappings:
-                oauth_key = key_mappings[key]
-                payload[key] = me.data[oauth_key]
-
-            user = User.insert(**payload)
-
-        else:
-            key_mappings.pop('oauth_id')
-            for key in key_mappings:
-                oauth_key = key_mappings[key]
-                setattr(user, key, me.data[oauth_key])
-
-            user.extra_info = json.dumps(me.data)
-
-            db.session.commit()
-
-    # except IntegrityError as e:
-    #     logger.info('User %s (%s) already exists.' % (payload['oauth_username'],
-    #         payload['oauth_id']))
-
-    except Exception as e:
-        logger.exception(e)
-        return str(e), 500
-
-    login_user(user)
-    
-    keys = ('id', 'username', 'first_name', 'last_name', 'email', 'locale', 'gender',)
-    for key in keys:
-        session['oauth_%s' % key] = me.data[key]
-
-    return redirect(request.args.get('next', '/'))
-
-    #return 'Logged in as id=%s name=%s, email=%s, redirect=%s' % \
-    #    (me.data['id'], me.data['name'], me.data['email'], request.args.get('next'))
-
-
-@app.route('/logout')
-def logout():
-    session['login'] = False
-    logout_user()
-    # if request.referrer:
-    #     return redirect(request.referrer)
-    # else:
-    return redirect('/')
-
-
-@facebook_app.tokengetter
-def get_facebook_oauth_token():
-    return session.get('oauth_token')
-
-
 @app.teardown_request
 def teardown_request(exception):
     """Refer http://flask.pocoo.org/docs/tutorial/dbcon/ for more details."""
-    if db is not None:
-        db.session.close()
+    pass
 
 
 @app.errorhandler(404)

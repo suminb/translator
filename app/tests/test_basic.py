@@ -15,9 +15,6 @@ def setup_module(module):
     from app.models import db
     db.create_all()
 
-    from app.corpus.models import db as corpus_db
-    corpus_db.create_all()
-
 
 class TestBasic:
     def test_pages(self):

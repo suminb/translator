@@ -3,10 +3,10 @@
 __version__ = '1.2.14'
 
 from flask import Flask
-from flask.ext.login import LoginManager
 from flask.ext.babel import Babel
 
-import os, sys
+import os
+import sys
 import logging
 
 try:
@@ -44,10 +44,6 @@ MAX_TEXT_LENGTH = 8000
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 app.secret_key = config.SECRET_KEY
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
 
 logger = logging.getLogger('translator')
 #handler = logging.FileHandler('translator.log')
@@ -92,5 +88,5 @@ if app.config['DEBUG']:
     from werkzeug import SharedDataMiddleware
     import os
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
-      '/': os.path.join(os.path.dirname(__file__), 'static')
+        '/': os.path.join(os.path.dirname(__file__), 'static')
     })

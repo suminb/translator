@@ -1,6 +1,5 @@
 flask-babel
 flask-sqlalchemy
-flask-login
 flask-wtf
 flask-paginate
 flask-script
@@ -11,7 +10,6 @@ sphinx
 sphinxcontrib-httpdomain
 psycopg2
 nilsimsa
-facebook-sdk
 hallucination
 winnowing
 pybase62

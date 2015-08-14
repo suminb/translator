@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-08-14 14:12+0900\n"
+"POT-Creation-Date: 2015-08-14 20:16+0900\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language-Team: Leon Garcia <leonmcervantes@gmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.0\n"
 
-#: app/core.py:177
+#: app/core.py:126
 msgid "app-description-text"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en la "
@@ -28,24 +28,6 @@ msgstr ""
 "pornografía Japonesa a su idioma. Usando esta base de datos, la "
 "traducción de idiomas funciona mejor a través del uso del Japonés."
 
-#: app/core.py:535
-msgid ""
-"{0},\n"
-"\n"
-"Someone has posted a translation. Check out at {1}"
-msgstr ""
-
-#: app/core.py:538 app/notification.py:21
-msgid "You have a notification from Better Translator"
-msgstr ""
-
-#: app/core.py:540 app/notification.py:23 app/notification.py:44
-#: app/templates/base.html:13 app/templates/base.html:16
-#: app/templates/base.html:19 app/templates/base.html:42
-#: app/templates/index.html:267
-msgid "app-title"
-msgstr "Un Mejor Traductor"
-
 #: app/forms.py:9
 msgid "Source language"
 msgstr ""
@@ -54,9 +36,19 @@ msgstr ""
 msgid "Target language"
 msgstr ""
 
-#: app/forms.py:11 app/templates/embedded/translation_help_request.html:33
+#: app/forms.py:11
 msgid "Original text"
 msgstr ""
+
+#: app/notification.py:21
+msgid "You have a notification from Better Translator"
+msgstr ""
+
+#: app/notification.py:23 app/notification.py:44 app/templates/base.html:13
+#: app/templates/base.html:16 app/templates/base.html:19
+#: app/templates/base.html:42 app/templates/index.html:267
+msgid "app-title"
+msgstr "Un Mejor Traductor"
 
 #: app/utils.py:38
 #, python-format
@@ -68,8 +60,6 @@ msgid "Source Language"
 msgstr ""
 
 #: app/corpus/templates/list.html:14 app/templates/index.html:39
-#: app/templates/embedded/user_translation_requests.html:6
-#: app/templates/user/translation_responses.html:6
 msgid "Target Language"
 msgstr ""
 
@@ -273,7 +263,7 @@ msgstr ""
 msgid "Swap languages"
 msgstr ""
 
-#: app/templates/index.html:52 app/templates/user/translation_responses.html:16
+#: app/templates/index.html:52
 msgid "Translate"
 msgstr "Traducir"
 
@@ -295,7 +285,6 @@ msgid "Did you not like this translation?"
 msgstr ""
 
 #: app/templates/index.html:80 app/templates/index.html:119
-#: app/templates/embedded/translation_help_request.html:3
 msgid "Ask for help"
 msgstr ""
 
@@ -307,8 +296,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: app/templates/index.html:236 app/templates/user_page.html:16
-#: app/templates/user_page.html:17
+#: app/templates/index.html:236
 msgid "Loading..."
 msgstr ""
 
@@ -323,37 +311,6 @@ msgstr ""
 
 #: app/templates/statistics.html:4
 msgid "Statistics"
-msgstr ""
-
-#: app/templates/user_page.html:7
-msgid "My Help Requests"
-msgstr ""
-
-#: app/templates/user_page.html:8
-#, fuzzy
-msgid "My Translations"
-msgstr "Traducción directa"
-
-#: app/templates/embedded/translation_help_request.html:38
-msgid "Comment"
-msgstr ""
-
-#: app/templates/embedded/translation_help_request.html:40
-msgid "Type in your comment"
-msgstr ""
-
-#: app/templates/embedded/translation_help_request.html:45
-msgid "Post"
-msgstr ""
-
-#: app/templates/embedded/user_translation_requests.html:4
-#: app/templates/user/translation_responses.html:4
-msgid "Date"
-msgstr ""
-
-#: app/templates/embedded/user_translation_requests.html:5
-#: app/templates/user/translation_responses.html:5
-msgid "Original Text"
 msgstr ""
 
 #~ msgid "Corpus Dictionary"
@@ -477,5 +434,26 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Privacy Policy"
+#~ msgstr ""
+
+#~ msgid "Comment"
+#~ msgstr ""
+
+#~ msgid "Type in your comment"
+#~ msgstr ""
+
+#~ msgid "Post"
+#~ msgstr ""
+
+#~ msgid "My Help Requests"
+#~ msgstr ""
+
+#~ msgid "My Translations"
+#~ msgstr "Traducción directa"
+
+#~ msgid "Date"
+#~ msgstr ""
+
+#~ msgid "Original Text"
 #~ msgstr ""
 

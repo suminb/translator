@@ -1,65 +1,59 @@
-from sqlalchemy.orm import relationship
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.dialects.postgresql import UUID, ARRAY
-
 from winnowing import winnow, kgrams, winnowing_hash, sanitize
-
-from app import app
-from app.models import db, BaseModel
-
-if db.engine.driver != 'psycopg2':
-    UUID = db.String
-    ARRAY = db.String
+from google.appengine.ext import ndb
 
 
 FINGERPRINT_K = 4
 
 
-class Corpus(db.Model, BaseModel):
+class Corpus(ndb.Model):
+    source_lang = ndb.StringProperty(indexed=True)
+    target_lang = ndb.StringProperty(indexed=True)
+
+
+class _Corpus():
     """A corpus is a pair of strings shorter than 255 characters each."""
 
-    __table_args__ = ( db.UniqueConstraint('source_lang', 'target_lang',
-        'source_text', 'target_text'), )
+    # __table_args__ = ( db.UniqueConstraint('source_lang', 'target_lang',
+    #    'source_text', 'target_text'), )
 
-    id = db.Column(UUID, primary_key=True)
-    source_lang = db.Column(db.String(16))
-    target_lang = db.Column(db.String(16))
-    source_text = db.Column(db.String(255)) # NOTE: Not sure if this is the number of bytes or the number of characters
-    target_text = db.Column(db.String(255))
-    confidence = db.Column(db.Integer)
-    frequency = db.Column(db.Integer)
-    aux_info = db.Column(db.String(255))
-    avg_confidence = confidence / frequency
+    # id = db.Column(UUID, primary_key=True)
+    # source_lang = db.Column(db.String(16))
+    # target_lang = db.Column(db.String(16))
+    # source_text = db.Column(db.String(255)) # NOTE: Not sure if this is the number of bytes or the number of characters
+    # target_text = db.Column(db.String(255))
+    # confidence = db.Column(db.Integer)
+    # frequency = db.Column(db.Integer)
+    # aux_info = db.Column(db.String(255))
+    # avg_confidence = confidence / frequency
 
 
-    def create_index(self):
-        import json
+    # def create_index(self):
+    #     import json
 
-        fingerprints = winnow(self.source_text, FINGERPRINT_K)
-        #fingerprints = kgrams(self.source_text, 4)
+    #     fingerprints = winnow(self.source_text, FINGERPRINT_K)
+    #     #fingerprints = kgrams(self.source_text, 4)
 
-        for i, h in fingerprints:
-            #print i, h, self.source_text[i:]
-            if i != -1:
-                if CorpusIndex.query.filter_by(
-                    source_hash=h,
-                    source_index=i,
-                    corpus_id=self.id).first() == None:
+    #     for i, h in fingerprints:
+    #         #print i, h, self.source_text[i:]
+    #         if i != -1:
+    #             if CorpusIndex.query.filter_by(
+    #                 source_hash=h,
+    #                 source_index=i,
+    #                 corpus_id=self.id).first() == None:
 
-                    CorpusIndex.insert(
-                        source_hash=h,
-                        source_index=i,
-                        corpus_id=self.id,
-                        commit=False,
-                    )
+    #                 CorpusIndex.insert(
+    #                     source_hash=h,
+    #                     source_index=i,
+    #                     corpus_id=self.id,
+    #                     commit=False,
+    #                 )
 
-        self.aux_info = json.dumps(dict(processed_index=True))
+    #     self.aux_info = json.dumps(dict(processed_index=True))
 
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-
+    #     try:
+    #         db.session.commit()
+    #     except:
+    #         db.session.rollback()
 
     @staticmethod
     def match(text, source_lang=None, target_lang=None):
@@ -91,45 +85,44 @@ class Corpus(db.Model, BaseModel):
         return indices
 
 
-class CorpusIndex(db.Model, BaseModel):
+class CorpusIndex():
     # Without __tablename__ attribute, the following error will occur.
     # sqlalchemy.exc.InvalidRequestError: Class <class 'app.models.Watching'>
     # does not have a __table__ or __tablename__ specified and does not inherit
     # from an existing table-mapped class.
-    __tablename__ = 'corpus_index'
-    __table_args__ = ( db.PrimaryKeyConstraint('source_hash', 'source_index',
-        'corpus_id'), {} )
+    pass
+    # __tablename__ = 'corpus_index'
+    # __table_args__ = ( db.PrimaryKeyConstraint('source_hash', 'source_index',
+    #     'corpus_id'), {} )
 
-    source_hash = db.Column(db.Integer)
-    source_index = db.Column(db.Integer)
-    corpus_id = db.Column(UUID, db.ForeignKey('corpus.id'))
-    corpus = relationship('Corpus')
+    # source_hash = db.Column(db.Integer)
+    # source_index = db.Column(db.Integer)
+    # corpus_id = db.Column(UUID, db.ForeignKey('corpus.id'))
+    # corpus = relationship('Corpus')
 
-    def serialize(self):
-        data = super(CorpusIndex, self).serialize()
+    # def serialize(self):
+    #     data = super(CorpusIndex, self).serialize()
 
-        data['corpus'] = self.corpus.serialize()
+    #     data['corpus'] = self.corpus.serialize()
 
-        return data
+    #     return data
 
 
-class CorpusRaw(db.Model, BaseModel):
-    __table_args__ = ( db.UniqueConstraint('hash'), {} )
-
-    id = db.Column(UUID, primary_key=True)
-    timestamp = db.Column(db.DateTime(timezone=True))
-    source_lang = db.Column(db.String(16))
-    target_lang = db.Column(db.String(16))
-    hash = db.Column(db.String(255)) # hash (i.e., SHA1) of raw
-    raw = db.Column(db.Text)
-    flags = db.Column(db.Integer)
-
+class CorpusRaw(ndb.Model):
+    timestamp = ndb.DateTimeProperty()
+    source_lang = ndb.StringProperty(indexed=True)
+    target_lang = ndb.StringProperty(indexed=True)
+    # How do we enforce 'unique' constraints?
+    hash = ndb.StringProperty(indexed=True)
+    raw = ndb.TextProperty()
+    flags = ndb.IntegerProperty()
 
     def extract_corpora(self):
 
         import json
 
-        def insert_corpora(source_lang, source_text, target_lang, target_text, confidence):
+        def insert_corpora(source_lang, source_text, target_lang, target_text,
+                           confidence):
 
             #
             # FIXME: Any better idea?
@@ -144,11 +137,11 @@ class CorpusRaw(db.Model, BaseModel):
                 return
 
             corpus = Corpus.query.filter_by(
-                    source_lang=source_lang, target_lang=target_lang,
-                    source_text=source_text, target_text=target_text,
-                ).first()
+                source_lang=source_lang, target_lang=target_lang,
+                source_text=source_text, target_text=target_text,
+            ).first()
 
-            if corpus == None:
+            if corpus is None:
                 corpus = Corpus.insert(
                     source_lang=source_lang, target_lang=target_lang,
                     source_text=source_text, target_text=target_text,

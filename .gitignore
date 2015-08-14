@@ -4,6 +4,7 @@
 *.mo
 *.log
 *.db
+*.swp
 
 config.py
 

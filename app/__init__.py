@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.2.14'
+__version__ = '1.3.0'
 
 from flask import Flask
-from flask.ext.login import LoginManager
 from flask.ext.babel import Babel
 
-import os, sys
+import os
+import sys
 import logging
 
 try:
@@ -42,12 +42,8 @@ DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit
 MAX_TEXT_LENGTH = 8000
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
+#app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 app.secret_key = config.SECRET_KEY
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
 
 logger = logging.getLogger('translator')
 #handler = logging.FileHandler('translator.log')
@@ -58,6 +54,7 @@ logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 babel = Babel(app)
+
 
 @babel.localeselector
 def get_locale():
@@ -72,10 +69,10 @@ def get_locale():
         except KeyError:
             return request.accept_languages.best_match(['ko', 'en'])
 
+
 from core import *
 from corpus import corpus_module
-from translation import *
-from user import *
+# from user import *
 
 app.register_blueprint(corpus_module, url_prefix='/corpus')
 
@@ -91,5 +88,5 @@ if app.config['DEBUG']:
     from werkzeug import SharedDataMiddleware
     import os
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
-      '/': os.path.join(os.path.dirname(__file__), 'static')
+        '/': os.path.join(os.path.dirname(__file__), 'static')
     })

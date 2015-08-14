@@ -19,5 +19,7 @@ libraries:
   version: "0.15"
 
 handlers:
+- url: /static
+  static_dir: app/static
 - url: .*
   script: run.app.app

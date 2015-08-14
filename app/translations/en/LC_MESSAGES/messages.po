@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-08-14 20:16+0900\n"
+"POT-Creation-Date: 2015-08-14 20:24+0900\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -40,16 +40,6 @@ msgstr ""
 msgid "Original text"
 msgstr ""
 
-#: app/notification.py:21
-msgid "You have a notification from Better Translator"
-msgstr ""
-
-#: app/notification.py:23 app/notification.py:44 app/templates/base.html:13
-#: app/templates/base.html:16 app/templates/base.html:19
-#: app/templates/base.html:42 app/templates/index.html:267
-msgid "app-title"
-msgstr "Better Translator"
-
 #: app/utils.py:38
 #, python-format
 msgid "%%m/%%d/%%Y"
@@ -81,12 +71,18 @@ msgid ""
 " You may go back to the <a href=\"/\">home page</a>."
 msgstr ""
 
+#: app/templates/base.html:13 app/templates/base.html:16
+#: app/templates/base.html:19 app/templates/base.html:42
+#: app/templates/index.html:267
+msgid "app-title"
+msgstr "Better Translator"
+
 #: app/templates/base.html:22 app/templates/credits.html:45
 #: app/templates/index.html:34 app/templates/index.html:141
 msgid "Russian"
 msgstr ""
 
-#: app/templates/base.html:22 app/templates/credits.html:29
+#: app/templates/base.html:22 app/templates/credits.html:36
 #: app/templates/index.html:142
 msgid "French"
 msgstr ""
@@ -198,7 +194,7 @@ msgid "Lead Developer"
 msgstr ""
 
 #: app/templates/credits.html:11 app/templates/credits.html:25
-#: app/templates/credits.html:31
+#: app/templates/credits.html:38
 msgid "Web"
 msgstr ""
 
@@ -214,17 +210,17 @@ msgstr ""
 msgid "iOS App Developer"
 msgstr ""
 
-#: app/templates/credits.html:29 app/templates/credits.html:41
-#: app/templates/credits.html:45
-msgid "Localization"
-msgstr ""
-
-#: app/templates/credits.html:34
+#: app/templates/credits.html:29
 msgid "Former collaborators"
 msgstr ""
 
-#: app/templates/credits.html:36
+#: app/templates/credits.html:31
 msgid "Show"
+msgstr ""
+
+#: app/templates/credits.html:36 app/templates/credits.html:41
+#: app/templates/credits.html:45
+msgid "Localization"
 msgstr ""
 
 #: app/templates/index.html:5
@@ -453,5 +449,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Original Text"
+#~ msgstr ""
+
+#~ msgid "You have a notification from Better Translator"
 #~ msgstr ""
 

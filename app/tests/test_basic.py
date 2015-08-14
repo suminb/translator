@@ -11,9 +11,7 @@ HOST = 'http://localhost:5000'
 
 def setup_module(module):
     """ setup any state specific to the execution of the given module."""
-
-    from app.models import db
-    db.create_all()
+    pass
 
 
 class TestBasic:

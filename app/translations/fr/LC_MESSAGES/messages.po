@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-08-14 20:16+0900\n"
+"POT-Creation-Date: 2015-08-14 20:24+0900\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
@@ -40,17 +40,6 @@ msgstr "Intervertir des langues"
 #: app/forms.py:11
 msgid "Original text"
 msgstr "texte original"
-
-#: app/notification.py:21
-#, fuzzy
-msgid "You have a notification from Better Translator"
-msgstr "Traduit par Traduction au mieux"
-
-#: app/notification.py:23 app/notification.py:44 app/templates/base.html:13
-#: app/templates/base.html:16 app/templates/base.html:19
-#: app/templates/base.html:42 app/templates/index.html:267
-msgid "app-title"
-msgstr "Traduction de mieux "
 
 #: app/utils.py:38
 #, python-format
@@ -88,12 +77,18 @@ msgstr ""
 "introuvable. Vous pouvez revenir à l'étape précédente pour retourner à la"
 " page d'accueil."
 
+#: app/templates/base.html:13 app/templates/base.html:16
+#: app/templates/base.html:19 app/templates/base.html:42
+#: app/templates/index.html:267
+msgid "app-title"
+msgstr "Traduction de mieux "
+
 #: app/templates/base.html:22 app/templates/credits.html:45
 #: app/templates/index.html:34 app/templates/index.html:141
 msgid "Russian"
 msgstr "Russe"
 
-#: app/templates/base.html:22 app/templates/credits.html:29
+#: app/templates/base.html:22 app/templates/credits.html:36
 #: app/templates/index.html:142
 msgid "French"
 msgstr "Français"
@@ -206,7 +201,7 @@ msgid "Lead Developer"
 msgstr "Développeur"
 
 #: app/templates/credits.html:11 app/templates/credits.html:25
-#: app/templates/credits.html:31
+#: app/templates/credits.html:38
 msgid "Web"
 msgstr "Web"
 
@@ -224,18 +219,18 @@ msgstr "Développeur"
 msgid "iOS App Developer"
 msgstr "Développeur"
 
-#: app/templates/credits.html:29 app/templates/credits.html:41
-#: app/templates/credits.html:45
-msgid "Localization"
-msgstr "Localisaion"
-
-#: app/templates/credits.html:34
+#: app/templates/credits.html:29
 msgid "Former collaborators"
 msgstr "Collaborateurs précédents"
 
-#: app/templates/credits.html:36
+#: app/templates/credits.html:31
 msgid "Show"
 msgstr "Afficher"
+
+#: app/templates/credits.html:36 app/templates/credits.html:41
+#: app/templates/credits.html:45
+msgid "Localization"
+msgstr "Localisaion"
 
 #: app/templates/index.html:5
 msgid "app-description-html"
@@ -466,4 +461,7 @@ msgstr "Statistiques\t"
 
 #~ msgid "Original Text"
 #~ msgstr "texte original"
+
+#~ msgid "You have a notification from Better Translator"
+#~ msgstr "Traduit par Traduction au mieux"
 

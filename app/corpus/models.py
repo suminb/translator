@@ -109,13 +109,10 @@ class CorpusIndex():
 
 
 class CorpusRaw(ndb.Model):
-    timestamp = ndb.DateTimeProperty()
-    source_lang = ndb.StringProperty(indexed=True)
-    target_lang = ndb.StringProperty(indexed=True)
-    # How do we enforce 'unique' constraints?
-    hash = ndb.StringProperty(indexed=True)
-    raw = ndb.TextProperty()
-    flags = ndb.IntegerProperty()
+    timestamp = ndb.DateTimeProperty(indexed=False)
+    source_lang = ndb.StringProperty(indexed=False)
+    target_lang = ndb.StringProperty(indexed=False)
+    raw = ndb.TextProperty(indexed=False)
 
     def extract_corpora(self):
 

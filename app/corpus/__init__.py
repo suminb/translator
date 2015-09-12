@@ -38,11 +38,9 @@ def corpus_raw():
     # Then insert it to the database
     corpus_raw = CorpusRaw(
         timestamp=datetime.now(),
-        hash=hashlib.sha1(raw.encode('utf-8')).hexdigest(),
         raw=json.dumps(parsed),
         source_lang=source_lang,
         target_lang=target_lang,
-        flags=0,
     )
     corpus_raw.put()
 

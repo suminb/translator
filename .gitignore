@@ -7,4 +7,5 @@
 *.swp
 
 config.py
+config.yml
 

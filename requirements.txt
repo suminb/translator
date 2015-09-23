@@ -4,6 +4,7 @@ flask-wtf
 flask-paginate
 flask-script
 flask_oauthlib
+flask-login
 jinja2
 requests
 sphinx
@@ -15,3 +16,5 @@ winnowing
 pybase62
 pytest
 pyyaml
+python-dateutil
+click

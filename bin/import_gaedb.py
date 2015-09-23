@@ -2,6 +2,7 @@ import hashlib
 import sys
 import json
 import time
+from datetime import datetime
 
 import click
 from sqlalchemy.dialects.postgresql import JSON
@@ -19,6 +20,18 @@ class Translation(db.Model):
     hash = db.Column(db.String, unique=True)
     data = db.Column(JSON)
 
+
+def str2datetime(s):
+    """Parse a datetime string (with milliseconds)."""
+    parts = s.split('.')
+    dt = datetime.strptime(parts[0], "%Y-%m-%d %H:%M:%S")
+    return dt.replace(microsecond=int(parts[1]))
+
+
+def unix_time(dt):
+    epoch = datetime.utcfromtimestamp(0)
+    delta = dt - epoch
+    return delta.total_seconds()
 
 
 @click.group()
@@ -42,7 +55,7 @@ def import_data(filename):
             sys.stderr.write('{}\n'.format(line))
             continue
 
-        timestamp = time.mktime(datetime_parser.parse(cols[2]).timetuple())
+        timestamp = unix_time(str2datetime(cols[2]))
         translation = Translation(
             id=uuid64.issue(timestamp),
             source_lang=cols[0].strip(),
@@ -51,7 +64,8 @@ def import_data(filename):
             data=json.loads(cols[3])
         )
 
-        print('Processing data ({}, {}, {})'.format(translation.source_lang,
+        print('Processing data ({}, {}, {})'.format(
+            translation.source_lang,
             translation.target_lang, timestamp))
         try:
             db.session.add(translation)

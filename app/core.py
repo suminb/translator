@@ -14,11 +14,29 @@ import re
 import nilsimsa  # Locality Sensitive Hash
 import os
 import sys
+import yaml
 
 
 @app.route('/longtext')
 def longtext():
     return render_template('longtext.html')
+
+
+@app.route('/backupdb')
+def backupdb():
+    api_key = request.args.get('api_key')
+    config = yaml.load(open('config.yml'))
+    if api_key != config['api_key']:
+        return 'Invalid API key', 401
+
+    limit = int(request.args.get('limit', 1000))
+    from corpus.models import CorpusRaw, ndb
+    query = CorpusRaw.query()
+    entries = query.fetch(limit)
+    output = '\n'.join(['{}\t{}\t{}\t{}'.format(
+        x.source_lang, x.target_lang, x.timestamp, x.raw) for x in entries])
+    ndb.delete_multi([x.key for x in entries])
+    return output
 
 
 def __translate__(text, source, target, client='x',

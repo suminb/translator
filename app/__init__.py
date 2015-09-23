@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.0'
+__version__ = '1.3.1'
 
 from flask import Flask
 from flask.ext.babel import Babel
@@ -42,7 +42,7 @@ DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit
 MAX_TEXT_LENGTH = 8000
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
 app.secret_key = config.SECRET_KEY
 
 logger = logging.getLogger('translator')

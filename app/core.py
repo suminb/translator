@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify, request, render_template, url_for, \
-    redirect, session
+from flask import jsonify, request, render_template, url_for, redirect
 from flask.ext.babel import gettext as _
 from datetime import datetime
 
@@ -14,11 +13,34 @@ import re
 import nilsimsa  # Locality Sensitive Hash
 import os
 import sys
+import yaml
 
 
 @app.route('/longtext')
 def longtext():
     return render_template('longtext.html')
+
+
+@app.route('/backupdb')
+def backupdb():
+    """This is a temporary workaround. We shall figure out how to store
+    data in a relational database directly from the GAE. The problem we had
+    was that we could not use psycopg2 package on GAE."""
+
+    # NOTE: Minimal protection against malicious parties...
+    api_key = request.args.get('api_key')
+    config = yaml.load(open('config.yml'))
+    if api_key != config['api_key']:
+        return 'Invalid API key', 401
+
+    limit = int(request.args.get('limit', 1000))
+    from corpus.models import CorpusRaw, ndb
+    query = CorpusRaw.query()
+    entries = query.fetch(limit)
+    output = '\n'.join(['{}\t{}\t{}\t{}'.format(
+        x.source_lang, x.target_lang, x.timestamp, x.raw) for x in entries])
+    ndb.delete_multi([x.key for x in entries])
+    return output
 
 
 def __translate__(text, source, target, client='x',
@@ -59,8 +81,6 @@ def __translate__(text, source, target, client='x',
         data = json.loads(req.text)
 
         try:
-            #if target == 'ja':
-            #    sentences = data['sentences']
             sentences = data['sentences']
         except:
             sentences = data['results'][0]['sentences']
@@ -75,6 +95,7 @@ def __translate__(text, source, target, client='x',
 
     else:
         raise Exception("Unsupported client '{}'".format(client))
+
 
 #
 # Request handlers
@@ -111,10 +132,10 @@ def index(translation_id=None):
     #if translation_id != None:
     #    tresponse = TranslationResponse.fetch(id_b62=translation_id)
 
-    if translation_id != None and tresponse == None:
+    if translation_id is not None and tresponse is None:
         return redirect(url_for('index'))
 
-    if tresponse != None:
+    if tresponse is not None:
         translation = tresponse.serialize()
         translation['original_text'] = tresponse.request.original_text
         #translation['translated_text_dictlink'] = link_dictionary(
@@ -130,7 +151,7 @@ def index(translation_id=None):
 
 @app.route('/locale', methods=['GET', 'POST'])
 def set_locale():
-    """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
     if request.method == 'GET':
         locale = request.args['locale']
     else:
@@ -151,9 +172,11 @@ def set_locale():
 def languages():
     """Returns a list of supported languages."""
     locale = request.args['locale']
-    langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(), VALID_LANGUAGES.values())}
+    langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(),
+                                       VALID_LANGUAGES.values())}
 
     return jsonify(langs)
+
 
 @app.route('/discuss')
 def discuss():
@@ -171,6 +194,7 @@ def credits():
         locale=get_locale(),
     )
     return render_template('credits.html', **context)
+
 
 @app.route('/statistics')
 def statistics():
@@ -255,7 +279,7 @@ def translate_1_0():
                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      }
             ];
-    """
+    """  # noqa
     keys = ('t', 'm', 'sl', 'tl')
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 

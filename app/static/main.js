@@ -315,9 +315,14 @@ function resizeTextarea(t) {
 
 function buildTranslateURL(sl, tl, text, method) {
     var url = "http://translate.google.com/translate_a/single";
+
+    // Some extra values that Google Translate sends to its server
     var extra = "dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at";
 
+    // 'tk' seems to be the length of the source text
     extra += "&tk=" + text.length;
+
+    // Not sure what these values are but adding them regardless...
     extra += "&ssel=0&tsel=3";
 
     if (method.toLowerCase() == 'get') {

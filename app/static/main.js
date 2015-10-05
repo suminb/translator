@@ -317,6 +317,9 @@ function buildTranslateURL(sl, tl, text, method) {
     var url = "http://translate.google.com/translate_a/single";
     var extra = "dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at";
 
+    extra += "&tk=" + text.length;
+    extra += "&ssel=0&tsel=3";
+
     if (method.toLowerCase() == 'get') {
         return sprintf("%s?client=t&sl=%s&tl=%s&%s&q=%s", url, sl, tl, extra,
             encodeURIComponent(text));

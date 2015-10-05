@@ -48,7 +48,7 @@ def create_db():
 @click.argument('filename')
 def import_data(filename):
 
-    for line in open(filename):
+    for index, line in enumerate(open(filename)):
         cols = line.split('\t')
 
         if len(cols) != 4:
@@ -64,7 +64,8 @@ def import_data(filename):
             data=json.loads(cols[3])
         )
 
-        print('Processing data ({}, {}, {})'.format(
+        print('{}: Processing data ({}, {}, {})'.format(
+            index + 1,
             translation.source_lang,
             translation.target_lang, timestamp))
         try:

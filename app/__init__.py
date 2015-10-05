@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.1'
+__version__ = '1.3.2'
 
 from flask import Flask
 from flask.ext.babel import Babel

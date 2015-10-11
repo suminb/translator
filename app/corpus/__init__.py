@@ -1,6 +1,7 @@
-from datetime import datetime
 import json
 import hashlib
+import os
+from datetime import datetime
 
 import yaml
 from elasticsearch import Elasticsearch
@@ -45,6 +46,7 @@ def corpus_raw():
         'raw': json.dumps(parsed, ensure_ascii=False),
         'source_lang': source_lang,
         'target_lang': target_lang,
+        'server': os.environ['SERVER_SOFTWARE'],
     }
 
     config = yaml.load(open('config.yml'))

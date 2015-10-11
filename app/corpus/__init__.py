@@ -43,7 +43,7 @@ def corpus_raw():
     body = {
         'timestamp': datetime.now(),
         'hash': hash,
-        'raw': json.dumps(parsed, ensure_ascii=False),
+        'raw': parsed,
         'source_lang': source_lang,
         'target_lang': target_lang,
         'server': os.environ['SERVER_SOFTWARE'],

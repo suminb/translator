@@ -2,6 +2,8 @@ from datetime import datetime
 import json
 import hashlib
 
+import yaml
+from elasticsearch import Elasticsearch
 from flask import Flask, Blueprint, jsonify, request, render_template, url_for
 from flask.ext.paginate import Pagination
 
@@ -35,15 +37,20 @@ def corpus_raw():
     # See if 'raw' is a valid JavaScript string
     parsed = parse_javascript(raw)
 
-    # Then insert it to the database
-    corpus_raw = CorpusRaw(
-        timestamp=datetime.now(),
-        hash=hashlib.sha1(raw.encode('utf-8')).hexdigest(),
-        raw=json.dumps(parsed),
-        source_lang=source_lang,
-        target_lang=target_lang,
-        flags=0,
-    )
-    corpus_raw.put()
+    hash = hashlib.sha1(raw.encode('utf-8')).hexdigest(),
 
+    body = {
+        'timestamp': datetime.now(),
+        'hash': hash,
+        'raw': json.dumps(parsed),
+        'source_lang': source_lang,
+        'target_lang': target_lang,
+    }
+
+    config = yaml.load(open('config.yml'))
+    index = 'translator'
+    doc_type = 'translation'
+
+    es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
+    res = es.index(index=index, doc_type=doc_type, id=hash, body=body)
     return ''

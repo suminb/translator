@@ -43,6 +43,42 @@ def backupdb():
     return output
 
 
+def __params__(text, source, target, client='x',
+               user_agent=DEFAULT_USER_AGENT):
+    """Returns a dictionary containing all parameters to send a translation
+    request to Google Translate."""
+
+    headers = {
+        'Referer': 'http://translate.google.com',
+        'User-Agent': user_agent,
+        'Content-Length': str(sys.getsizeof(text))
+    }
+    payload = {
+        'client': client,
+        'sl': source,
+        'tl': target,
+        'q': text,
+        'dt': ['bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't', 'at'],
+        'tk': len(text),
+        'ssel': 0,
+        'tsel': 3,
+    }
+    url = 'http://translate.google.com/translate_a/single'
+
+    return {
+        'headers': headers,
+        'payload': payload,
+        'url': url,
+    }
+
+
+@app.route('/params')
+def params():
+    text, source, target = \
+        [request.args[x] for x in ('text', 'source', 'target')]
+    return jsonify(__params__(text, source, target))
+
+
 def __translate__(text, source, target, client='x',
                   user_agent=DEFAULT_USER_AGENT):
     """

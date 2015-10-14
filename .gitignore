@@ -5,6 +5,10 @@
 *.log
 *.db
 *.swp
+*.csv
 
+.cache
 config.py
-
+config.yml
+lib
+provision.sh

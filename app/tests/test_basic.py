@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from app import translate, HTTPException
+from app.api import translate, HTTPException
 
 import pytest
 import requests
 import json
 
-HOST = 'http://localhost:5000'
+HOST = 'http://localhost:8001'
 
 
 def setup_module(module):

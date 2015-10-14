@@ -72,7 +72,7 @@ def __params__(text, source, target, client='x',
     }
 
 
-@app.route('/params')
+@app.route('/api/v1.3/params')
 def params():
     text, source, target = \
         [request.args[x] for x in ('text', 'source', 'target')]
@@ -203,8 +203,8 @@ def set_locale():
     return response
 
 
-@app.route('/languages')
 @app.route('/v1.0/languages')
+@app.route('/api/v1.0/languages')
 def languages():
     """Returns a list of supported languages."""
     locale = request.args['locale']

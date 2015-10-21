@@ -15,7 +15,7 @@ from utils import HTTPException, parse_javascript
 api_module = Blueprint('api', __name__)
 
 
-def __params__(text, source, target, client='x',
+def __params__(text, source, target, client='t',
                user_agent=DEFAULT_USER_AGENT):
     """Returns a dictionary containing all parameters to send a translation
     request to Google Translate."""

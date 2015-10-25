@@ -74,7 +74,14 @@ def parse_result():
     """Parses a translation result."""
     raw = request.form['raw']
     parsed = parse_javascript(raw)
-    import pdb; pdb.set_trace()
+
+    # Extract translated sentences
+    translations = [x[0] for x in parsed[0]]
+
+    # Filter out None elements
+    translations = filter(None, translations)
+
+    return jsonify({'translated': ''.join(translations)})
 
 
 @api_module.route('/v1.0/languages')

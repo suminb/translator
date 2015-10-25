@@ -2,6 +2,7 @@
 import sys
 import json
 import re
+import urllib
 
 import requests
 from flask import Blueprint, request, jsonify
@@ -13,6 +14,15 @@ from utils import HTTPException, parse_javascript
 
 
 api_module = Blueprint('api', __name__)
+
+
+def __payload_as_tuples__(payload):
+    for key, value in payload.iteritems():
+        if isinstance(value, list):
+            for v in value:
+                yield key, v
+        else:
+            yield key, value
 
 
 def __params__(text, source, target, client='t',
@@ -41,6 +51,7 @@ def __params__(text, source, target, client='t',
         'headers': headers,
         'payload': payload,
         'url': url,
+        'query': urllib.urlencode(list(__payload_as_tuples__(payload)))
     }
 
 

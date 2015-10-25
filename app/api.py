@@ -17,6 +17,7 @@ api_module = Blueprint('api', __name__)
 
 
 def __payload_as_tuples__(payload):
+    """Takes a dictionary and converts it to a list of tuples."""
     for key, value in payload.iteritems():
         if isinstance(value, list):
             for v in value:
@@ -59,7 +60,21 @@ def __params__(text, source, target, client='t',
 def params():
     text, source, target = \
         [request.args[x] for x in ('text', 'source', 'target')]
-    return jsonify(__params__(text, source, target))
+    return jsonify(__params__(text.encode('utf-8'), source, target))
+
+
+@api_module.route('/api/v1.3/parse_javascript', methods=['post'])
+def _parse_javascript():
+    raw = request.form['raw']
+    return jsonify({'parsed': parse_javascript(raw)})
+
+
+@api_module.route('/api/v1.3/parse_result', methods=['post'])
+def parse_result():
+    """Parses a translation result."""
+    raw = request.form['raw']
+    parsed = parse_javascript(raw)
+    import pdb; pdb.set_trace()
 
 
 @api_module.route('/v1.0/languages')

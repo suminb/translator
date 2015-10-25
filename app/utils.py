@@ -76,7 +76,7 @@ def language_options_html():
     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
 
 def parse_javascript(text):
-    # NOTE: This may break down in some cases...
+    # NOTE: This may not work in some cases...
     text = text.replace(',,,', ',null,null,')
     text = text.replace(',,', ',null,')
     text = text.replace('[,', '[null,')

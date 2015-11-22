@@ -21,8 +21,7 @@
       <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
   </p>
 
-  <!--<form id="translation-form" method="get" onsubmit="return performTranslation()">-->
-  <form id="translation-form" method="get" onsubmit="window.external.notify('test')">
+  <form id="translation-form" method="get" onsubmit="return performTranslation()">
   <div class="row-fluid">
 
 
@@ -197,24 +196,6 @@ window.onload = function() {
     })
     .trigger("change");
 
-    $("button.to-mode").click(function(evt) {
-        var button = $(evt.target);
-        button.addClass("active");
-
-        state.setMode(button.attr("value"));
-        performTranslation();
-    });
-
-
-    $("#help-request-dialog").on("show", function() {
-        $("#help-request-dialog .modal-body")
-            .html('{{ _("Loading...") }} <img src="/static/progress.gif"/>');
-
-        $.get(sprintf("/trq/%s/help", state.requestId), function(response) {
-            $("#help-request-dialog").html(response);
-        });
-    });
-
     // Initialize tooltips
     $("button[data-toggle=tooltip]").tooltip();
 };
@@ -224,27 +205,5 @@ window.onpopstate = function(event) {
         state.initWithState(event.state);
     }
 };
-
-function populateSearchResults(results) {
-    var ul = $("#search-results ul");
-    ul.empty();
-
-    $.each(results, function(index, value) {
-        // http://stackoverflow.com/questions/4637942/how-can-i-truncate-a-string-in-jquery
-        //var originalText = $.trim(value.original_text).substring(0, 80).trim(this) + " ...";
-        //var translatedText = $.trim(value.translated_text).substring(0, 80).trim(this) + " ...";
-
-        var li = $("<li></li>")
-            .append(sprintf('<div><a href="/trequest/%s/responses?rel=search" class="truncate">%s</a></div>', value.request_id, value.original_text))
-            .append(sprintf('<div class="truncate">%s</div>', value.translated_text));
-
-        ul.append(li);
-    });
-
-    if (results.length > 0) {
-        $('.truncate').succinct({size: 60});
-        $("#search-results").show();
-    }
-}
 </script>
 {% endblock %}

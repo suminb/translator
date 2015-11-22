@@ -665,7 +665,7 @@ function showNaverEndic(query) {
         .attr("src", url)
         .load(function() {
             $("#aux-naver-endic").show();
-        });   
+        });
 }
 
 function hideAuxInfo() {

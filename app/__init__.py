@@ -73,12 +73,16 @@ def get_locale():
 from core import *
 from corpus import corpus_module
 # from user import *
+from api import api_module
+
 
 app.register_blueprint(corpus_module, url_prefix='/corpus')
+app.register_blueprint(api_module, url_prefix='')
+
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 8001))
     debug = bool(os.environ.get('DEBUG', 0))
 
     app.run(host=host, port=port, debug=debug)

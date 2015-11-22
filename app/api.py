@@ -320,7 +320,7 @@ def translate(text, mode, source, target, client='x'):
     if target not in VALID_LANGUAGES.keys():
         raise HTTPException('Invalid target language.', 400)
 
-    user_agent = request.headers.get('User-Agent')
+    user_agent = request.headers.get('User-Agent', 'Unknown')
 
     translated_raw = None
     translated_text = None

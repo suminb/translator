@@ -12,5 +12,7 @@ install:
 script:
   - ./localization.sh
   - export PYTHONPATH=$PYTHONPATH:.:./lib
-  - python app/__init__.py &
-  - py.test app/tests/test_basic.py
+  - py.test app/tests/test_basic.py --cov app --durations=10
+
+after_success:
+- coveralls

@@ -443,9 +443,8 @@ function performTranslation() {
                 onSuccess(state.target), onAlways);
         }
 
-//        if ($.cookie("locale") == "ko" && state.text.length < 60) {
-//            showNaverEndic(state.text);
-//        }
+        ga('send', 'event', 'api', 'translate',
+           sprintf('sl=%s&il=%s&tl=%s', state.source, state.intermediate, state.target));
     }
 
     return false;
@@ -453,7 +452,7 @@ function performTranslation() {
 
 function sendXDomainRequest(url, method, data, onSuccess, onAlways) {
     var xdr = new XDomainRequest();
-    
+
     xdr.onload = function() {
         onSuccess(xdr.responseText);
         onAlways();
@@ -665,7 +664,7 @@ function showNaverEndic(query) {
         .attr("src", url)
         .load(function() {
             $("#aux-naver-endic").show();
-        });   
+        });
 }
 
 function hideAuxInfo() {

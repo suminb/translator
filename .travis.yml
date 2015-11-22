@@ -13,3 +13,6 @@ script:
   - ./localization.sh
   - export PYTHONPATH=$PYTHONPATH:.:./lib
   - py.test app/tests/test_basic.py --cov app --durations=10
+
+after_success:
+- coveralls

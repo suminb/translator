@@ -16,6 +16,7 @@ winnowing
 pybase62
 pytest
 pytest-cov
+coveralls
 pyyaml
 python-dateutil
 click

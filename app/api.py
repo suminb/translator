@@ -32,7 +32,7 @@ def __params__(text, source, target, client='t',
     request to Google Translate."""
 
     headers = {
-        'Referer': 'http://translate.google.com',
+        'Referer': 'https://translate.google.com',
         'User-Agent': user_agent,
         'Content-Length': str(sys.getsizeof(text))
     }
@@ -42,15 +42,23 @@ def __params__(text, source, target, client='t',
         'tl': target,
         'q': text,
         'dt': ['bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't', 'at'],
-        'tk': len(text),
+        'tk': '676518.815608',
         'ssel': 0,
-        'tsel': 3,
+        'tsel': 0,
+        'source': 'btn',
     }
-    url = 'http://translate.google.com/translate_a/single'
+    url = 'https://translate.google.com/translate_a/single'
+
+    if len(text) > 1000:
+        method = 'post'
+        del payload['q']
+    else:
+        method = 'get'
 
     return {
         'headers': headers,
         'payload': payload,
+        'method': method,
         'url': url,
         'query': urllib.urlencode(list(__payload_as_tuples__(payload)))
     }

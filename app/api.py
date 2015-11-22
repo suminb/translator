@@ -64,10 +64,10 @@ def __params__(text, source, target, client='t',
     }
 
 
-@api_module.route('/api/v1.3/params')
+@api_module.route('/api/v1.3/params', methods=['post'])
 def params():
     text, source, target = \
-        [request.args[x] for x in ('text', 'source', 'target')]
+        [request.form[x] for x in ('text', 'source', 'target')]
     return jsonify(__params__(text.encode('utf-8'), source, target))
 
 

@@ -4,8 +4,10 @@ from flask import g, request, redirect, url_for, jsonify
 
 from __init__ import app, VALID_LANGUAGES
 
-import uuid, base62
+import uuid
+import base62
 import json
+
 
 class HTTPException(RuntimeError):
     """HTTPError does not take keyword arguments, so we are defining a custom exception class."""
@@ -26,8 +28,10 @@ def get_remote_address(req):
 def uuid_to_b62(value):
     return base62.encode(uuid.UUID(value).int)
 
+
 def b62_to_uuid(value):
     return uuid.UUID(int=base62.decode(value))
+
 
 @app.template_filter('date')
 def _jinja2_filter_datetime(date, fmt=None):
@@ -44,6 +48,7 @@ def _jinja2_filter_language_name(value):
         return _(VALID_LANGUAGES[value])
     else:
         return value
+
 
 @app.template_filter('jsonify')
 def _jinja2_filter_jsonify(value):
@@ -67,6 +72,7 @@ def language_options():
     tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
     return sorted(tuples, key=operator.itemgetter(1))
 
+
 def language_options_html():
     import operator
 
@@ -75,8 +81,9 @@ def language_options_html():
 
     return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
 
+
 def parse_javascript(text):
-    # NOTE: This may break down in some cases...
+    # NOTE: This may not work in some cases...
     text = text.replace(',,,', ',null,null,')
     text = text.replace(',,', ',null,')
     text = text.replace('[,', '[null,')

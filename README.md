@@ -1,4 +1,8 @@
 
+Build Status
+------------
+![Better Translator build status](https://travis-ci.org/suminb/translator.svg)
+
 
 Credits
 -------

@@ -44,6 +44,7 @@ def backupdb():
 @app.route('/')
 @app.route('/tr/<translation_id>')
 def index(translation_id=None):
+    """The main page."""
 
     if request.host == 'translator.suminb.com':
         return redirect('http://better-translator.com')
@@ -52,7 +53,7 @@ def index(translation_id=None):
     NOTE: Do not use HTTP GET parameters 'sl', 'tl', 'm' and 't'. These are
     reserved for special purposes.
     """
-    user_agent = request.headers.get('User-Agent')
+    user_agent = request.headers.get('User-Agent', [])
     is_android = 'Android' in user_agent
     is_iphone = 'iPhone' in user_agent
     is_msie = 'MSIE' in user_agent

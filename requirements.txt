@@ -15,6 +15,7 @@ hallucination
 winnowing
 pybase62
 pytest
+pytest-cov
 pyyaml
 python-dateutil
 click

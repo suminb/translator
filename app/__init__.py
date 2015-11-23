@@ -36,7 +36,7 @@ VALID_LANGUAGES = {
     'tr': 'Turkish',
 }
 
-DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'
+DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'  # noqa
 MAX_TEXT_LENGTH = 8000
 
 
@@ -47,8 +47,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
 app.secret_key = config['secret_key']
 
 logger = logging.getLogger('translator')
-#handler = logging.FileHandler('translator.log')
-#handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 handler = logging.StreamHandler(sys.stderr)
 handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
 logger.addHandler(handler)
@@ -61,7 +59,7 @@ babel = Babel(app)
 def get_locale():
     """Selects an appropriate locale.
 
-    Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
     try:
         return request.args['locale']
     except KeyError:

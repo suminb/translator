@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.4'
-
-from flask import Flask
-from flask.ext.babel import Babel
+__version__ = '1.3.5'
 
 import os
 import sys
 import logging
 
-try:
-    import config
-except:
-    import dummyconfig as config
+from flask import got_request_exception, Flask
+from flask.ext.babel import Babel
+import rollbar
+import rollbar.contrib.flask
+import yaml
 
 
 VALID_LANGUAGES = {
@@ -38,16 +36,21 @@ VALID_LANGUAGES = {
     'tr': 'Turkish',
 }
 
-DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'
+DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'  # noqa
 MAX_TEXT_LENGTH = 8000
+
+
+try:
+    config = yaml.load(open('config.yml'))
+except IOError:
+    # FIXME: This is a temporary workaround; use a dummy config object
+    config = yaml.load(open('config.yml.dist'))
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
-app.secret_key = config.SECRET_KEY
+app.secret_key = config['secret_key']
 
 logger = logging.getLogger('translator')
-#handler = logging.FileHandler('translator.log')
-#handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 handler = logging.StreamHandler(sys.stderr)
 handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
 logger.addHandler(handler)
@@ -60,7 +63,7 @@ babel = Babel(app)
 def get_locale():
     """Selects an appropriate locale.
 
-    Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""
+    Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
     try:
         return request.args['locale']
     except KeyError:
@@ -78,6 +81,25 @@ from api import api_module
 
 app.register_blueprint(corpus_module, url_prefix='/corpus')
 app.register_blueprint(api_module, url_prefix='')
+
+
+@app.before_first_request
+def init_rollbar():
+    """init rollbar module"""
+    rollbar.init(
+        # access token
+        config['rollbar_token'],
+        # environment name
+        config['rollbar_env'],
+        # server root directory, makes tracebacks prettier
+        root=os.path.dirname(os.path.realpath(__file__)),
+        # flask already sets up logging
+        allow_logging_basic_config=False,
+        # Use HTTP as GAE does not allow the use of the SSL package
+        endpoint='http://api.rollbar.com/api/1/')
+
+    # send exceptions from `app` to rollbar, using flask's signal system.
+    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
 
 if __name__ == '__main__':

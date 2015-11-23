@@ -20,3 +20,5 @@ coveralls
 pyyaml
 python-dateutil
 click
+rollbar
+blinker

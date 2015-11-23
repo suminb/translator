@@ -365,3 +365,8 @@ def translate(text, mode, source, target, client='x'):
         translated_text=translated_text,
         translated_raw=translated_raw,
     )
+
+
+@api_module.route('/api/v1.3/exception')
+def exception():
+    raise Exception(request.args.get('message', 'Anything you can imagine'))

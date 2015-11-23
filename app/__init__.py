@@ -40,7 +40,11 @@ DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit
 MAX_TEXT_LENGTH = 8000
 
 
-config = yaml.load(open('config.yml'))
+try:
+    config = yaml.load(open('config.yml'))
+except IOError:
+    # FIXME: This is a temporary workaround; use a dummy config object
+    config = yaml.load(open('config.yml.dist'))
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')

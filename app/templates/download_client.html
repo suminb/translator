@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block addtional_head %}
+<style>
+  div.download-icons {
+    margin-bottom: 120px;
+  }
+  div.download-icon {
+    text-align: center;
+  }
+  div.download-icon img {
+    margin: 12px;
+  }
+  div.download-icon a {
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    width: 180px;
+    color: #303030;
+    border-radius: 8px;
+  }
+  div.download-icon a:hover {
+    background-color: #EFEFE4;
+    text-decoration: none;
+  }
+  p.description {
+    margin: 1em 0 4em 0;
+  }
+</style>
+{% endblock %}
+{% block content %}
+
+<h1>더 나은 번역기 프로그램 다운로드</h1>
+
+<p class="description">
+  전용 프로그램으로 더 쾌적한 환경에서 더 나은 번역기를 이용하실 수 있습니다.
+</p>
+
+<div class="row-fluid download-icons">
+  <div class="span4 download-icon">
+    <a href="{{ config.windows_client_url }}">
+      <img src="/static/icon_windows_128.png" alt="Windows"/>
+      <div>Windows</div>
+    </a>
+  </div>
+
+  <div class="span4 download-icon">
+    <a href="{{ config.mac_client_url }}">
+      <img src="/static/icon_mac_128.png" alt="Mac OSX"/>
+      <div>Mac OS X</div>
+    </a>
+  </div>
+
+  <div class="span4 download-icon">
+    <a href="{{ config.linux_client_url }}">
+      <img src="/static/icon_linux_128.png" alt="Linux"/>
+      <div>Linux</div>
+    </a>
+  </div>
+</div>
+{% endblock %}

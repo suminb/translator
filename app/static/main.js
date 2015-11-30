@@ -400,7 +400,7 @@ function performTranslation() {
     }
     else if (encodeURIComponent(state.text).length > 8000) {
         displayError("Text is too long.",
-            "For more detail, please refer <a href=\"/longtext\">this page</a>.");
+            "<a href=\"/download-client\">Try the Better Translator client</a> to circumvent this issue.");
     }
     else {
         // translates if the source language and the target language are not

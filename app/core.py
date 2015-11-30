@@ -4,7 +4,7 @@ from flask.ext.babel import gettext as _
 from datetime import datetime
 
 from __init__ import __version__, app, get_locale
-from utils import *
+from utils import language_options_html
 
 import json
 import os
@@ -14,6 +14,12 @@ import yaml
 @app.route('/longtext')
 def longtext():
     return render_template('longtext.html')
+
+
+@app.route('/download-client')
+def download_client():
+    from app import config
+    return render_template('download_client.html', config=config)
 
 
 @app.route('/backupdb')
@@ -141,23 +147,6 @@ def statistics():
         return render_template('statistics.html', **context)
 
 
-
-
-@app.route('/dictionary')
-def dictionary():
-    keys = ('query', 'source', 'target')
-    query, source, target = map(lambda k: request.args[k].strip(), keys)
-
-    # TODO: URL encode
-
-    if source == 'ko' and target == 'en':
-        return redirect('http://endic.naver.com/search.nhn?searchOption=all&query={}'.format(query))
-    elif source == 'en' and target == 'ko':
-        return redirect('http://endic.naver.com/search.nhn?searchOption=all&query={}'.format(query))
-    else:
-        return 'Dictionary not available', 406
-
-
 @app.route('/v1.0/test')
 def test():
     """Produces arbitrary HTTP responses for debugging purposes."""
@@ -188,8 +177,8 @@ def teardown_request(exception):
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html',
-        version=__version__, message='Page Not Found'), 404
+    return render_template('404.html', version=__version__,
+                           message='Page Not Found'), 404
 
 
 @app.route('/captcha', methods=['GET', 'POST'])
@@ -211,8 +200,8 @@ def captcha():
     <div id="infoDiv" style="display:none; background-color:#eee; padding:10px; margin:0 0 15px 0; line-height:1.4em;">
      This page appears when Google automatically detects requests coming from your computer network which appear to be in violation of the <a href="//www.google.com/policies/terms/">Terms of Service</a>. The block will expire shortly after those requests stop.  In the meantime, solving the above CAPTCHA will let you continue to use our services.<br><br>This traffic may have been sent by malicious software, a browser plug-in, or a script that sends automated requests.  If you share your network connection, ask your administrator for help &mdash; a different computer using the same IP address may be responsible.  <a href="//support.google.com/websearch/answer/86640">Learn more</a><br><br>Sometimes you may be asked to solve the CAPTCHA if you are using advanced terms that robots are known to use, or sending requests very quickly.
     </div>
-  
-  
+
+ 
  
  
  IP address: 8.35.200.36<br>Time: 2013-11-17T10:28:53Z<br>URL: http://translate.google.com/translate_a/t?client=t<br>

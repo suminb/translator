@@ -16,8 +16,8 @@ def longtext():
     return render_template('longtext.html')
 
 
-@app.route('/download-client')
-def download_client():
+@app.route('/download-clients')
+def download_clients():
     from app import config
     return render_template('download_client.html', config=config)
 

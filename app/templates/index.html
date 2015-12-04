@@ -19,13 +19,11 @@
   </div>
 
   <p id="google-translate">
-      <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
+    <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
   </p>
 
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
-  <div class="row-fluid">
-
-
+    <div class="row-fluid">
       <div class="span3">
         <label>{{ _("Source Language") }}</label>
         <select name="sl" onchange="state.selectSource(this.value)">
@@ -59,29 +57,29 @@
         <button class="btn btn-primary translate">{{ _("Translate") }}</button>
       </div>
 
-  </div>
-  <div class="row-fluid" style="margin-top:1em;">
-    <div class="span6">
-
-      <textarea id="text" name="t" placeholder="{{ _('Type in your sentences') }}"></textarea>
-
-      <div id="search-results" class="hide">
-        {{ _("Similar translations") }}
-        <ul></ul>
-      </div>
     </div>
-    <div class="span6">
+    <div class="row-fluid" style="margin-top:1em;">
+      <div class="span6">
 
-      <div id="error-message" class="alert alert-error"></div>
-      <div>
-        <div id="progress-message" style="float:left;">
-          {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+        <textarea id="text" name="t" placeholder="{{ _('Type in your sentences') }}"></textarea>
+
+        <div id="search-results" class="hide">
+          {{ _("Similar translations") }}
+          <ul></ul>
         </div>
-        <pre id="result"></pre>
       </div>
+      <div class="span6">
 
+        <div id="error-message" class="alert alert-error"></div>
+        <div>
+          <div id="progress-message" style="float:left;">
+            {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+          </div>
+          <pre id="result"></pre>
+        </div>
+
+      </div>
     </div>
-  </div>
   </form>
 
   <div id="captcha-dialog" class="modal hide fade">

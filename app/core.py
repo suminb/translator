@@ -8,7 +8,6 @@ from utils import language_options_html
 
 import json
 import os
-import yaml
 
 
 @app.route('/longtext')
@@ -16,8 +15,8 @@ def longtext():
     return render_template('longtext.html')
 
 
-@app.route('/download-client')
-def download_client():
+@app.route('/download-clients')
+def download_clients():
     from app import config
     return render_template('download_client.html', config=config)
 
@@ -30,7 +29,7 @@ def backupdb():
 
     # NOTE: Minimal protection against malicious parties...
     api_key = request.args.get('api_key')
-    config = yaml.load(open('config.yml'))
+    from app import config
     if api_key != config['api_key']:
         return 'Invalid API key', 401
 

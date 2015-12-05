@@ -49,7 +49,7 @@
 
       <div class="span3" style="text-align:right;">
         <label>&nbsp;</label>
-        <button class="btn" onclick="state.swapLanguages()"
+        <button class="btn" onclick="swapLanguages()"
           data-toggle="tooltip" data-placement="top"
           title="{{ _('Swap languages') }}">
           <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
@@ -184,7 +184,7 @@ window.onload = function() {
     .trigger("change");
 
     // Dynamically set the available languages
-    $.get('/api/v1.3/languages?locale=' + locale, function(response) {
+    $.get(sprintf('/api/v1.3/languages?locale=%s&field=source', locale), function(response) {
       var languages = $.map(response.languages, function(pair) {
         return {label: pair[1], value: pair[0]};
       });

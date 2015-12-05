@@ -15,14 +15,13 @@ var BindingView = Backbone.Epoxy.View.extend({
 
   // FIXME: The following event handlers could be further simplified
   onChangeSourceLanguage: function(e) {
-    localStorage.setItem('sourceLanguage', model.get('sourceLanguage'));
+    $.cookie('sourceLanguage', model.get('sourceLanguage'));
   },
   onChangeIntermediateLanguage: function(e) {
-    localStorage.setItem('intermediateLanguage',
-                         model.get('intermediateLanguage'));
+    $.cookie('intermediateLanguage', model.get('intermediateLanguage'));
   },
   onChangeTargetLanguage: function(e) {
-    localStorage.setItem('targetLanguage', model.get('targetLanguage'));
+    $.cookie('targetLanguage', model.get('targetLanguage'));
   },
 });
 
@@ -222,17 +221,6 @@ var state = {
         this.result = t;
     },
 
-    swapLanguages: function() {
-        var source = this.source;
-        var target = this.target;
-
-        this.setSource(target);
-        this.setTarget(source);
-
-        $.cookie("source", target);
-        $.cookie("target", source);
-    },
-
     // Sometimes we want to update the textarea, sometimes now.
     // The 'updateText' parameter indicates whether we want to do that. However,
     // this meant to be a temporary solution.
@@ -362,6 +350,15 @@ function buildTranslateURL(sl, tl, text, method) {
 
 function extractSentences(raw) {
   return $.map(raw[0], (function(v) { return v[0]; })).join('');
+}
+
+/**
+ * Swap between the source language and the target language.
+ */
+function swapLanguages() {
+  var sourceLang = model.get('sourceLanguage');
+  model.set('sourceLanguage', model.get('targetLanguage'));
+  model.set('targetLanguage', sourceLang);
 }
 
 function performTranslation() {

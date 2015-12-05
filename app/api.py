@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import sys
 import json
+import operator
 import re
+import sys
 import urllib
 
 import requests
@@ -90,17 +91,26 @@ def parse_result():
 
 @api_module.route('/v1.0/languages')
 @api_module.route('/api/v1.0/languages')
-def languages():
+def languages_v1_0():
     """Returns a list of supported languages."""
     locale = request.args['locale']  # noqa
     langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(),
                                        VALID_LANGUAGES.values())}
-
     return jsonify(langs)
 
 
+@api_module.route('/api/v1.3/languages')
+def languages_v1_3():
+    """Returns a list of supported languages."""
+    locale = request.args['locale']  # noqa
+    languages = [(x, _(y)) for x, y in VALID_LANGUAGES.items()]
+    languages = sorted(languages, key=operator.itemgetter(1))
+
+    return jsonify({'languages': languages})
+
+
 @api_module.route('/v1.0/translate', methods=['POST'])
-def translate_1_0():
+def translate_v1_0():
     """
     :param sl: source language
     :type sl: string

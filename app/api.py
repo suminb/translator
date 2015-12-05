@@ -9,7 +9,8 @@ import requests
 from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext as _
 
-from __init__ import logger, VALID_LANGUAGES, DEFAULT_USER_AGENT, \
+from __init__ import logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
+    TARGET_LANGUAGES, INTERMEDIATE_LANGUAGES, DEFAULT_USER_AGENT, \
     MAX_TEXT_LENGTH
 from utils import HTTPException, parse_javascript
 
@@ -61,6 +62,23 @@ def __params__(text, source, target, client='at',
     }
 
 
+def get_languages(field):
+    """Returns a list of languages.
+
+    :param field: Indicate one of source, target and intermediate language.
+    :type field: str
+    """
+
+    if field == 'source':
+        return [(key, VALID_LANGUAGES[key]) for key in SOURCE_LANGUAGES]
+    elif field == 'target':
+        return [(key, VALID_LANGUAGES[key]) for key in TARGET_LANGUAGES]
+    elif field == 'intermediate':
+        return [(key, VALID_LANGUAGES[key]) for key in INTERMEDIATE_LANGUAGES]
+    else:
+        raise Exception('Invalid field: {}'.format(field))
+
+
 @api_module.route('/api/v1.3/params', methods=['post'])
 def params():
     text, source, target = \
@@ -94,8 +112,7 @@ def parse_result():
 def languages_v1_0():
     """Returns a list of supported languages."""
     locale = request.args['locale']  # noqa
-    langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(),
-                                       VALID_LANGUAGES.values())}
+    langs = {k: _(v) for (k, v) in get_languages('target')}
     return jsonify(langs)
 
 
@@ -103,7 +120,9 @@ def languages_v1_0():
 def languages_v1_3():
     """Returns a list of supported languages."""
     locale = request.args['locale']  # noqa
-    languages = [(x, _(y)) for x, y in VALID_LANGUAGES.items()]
+    field = request.args['field']  # NOTE: Any better name?
+
+    languages = [(x, _(y)) for x, y in get_languages(field)]
     languages = sorted(languages, key=operator.itemgetter(1))
 
     return jsonify({'languages': languages})

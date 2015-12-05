@@ -14,6 +14,8 @@ import yaml
 
 
 VALID_LANGUAGES = {
+    '': 'None',
+    'auto': 'Auto',
     'en': 'English',
     'es': 'Spanish',
     'fr': 'French',
@@ -35,6 +37,12 @@ VALID_LANGUAGES = {
     'sv': 'Swedish',
     'tr': 'Turkish',
 }
+
+SOURCE_LANGUAGES = filter(lambda x: x not in ['', 'auto'],
+                          VALID_LANGUAGES.keys())
+TARGET_LANGUAGES = filter(lambda x: x not in ['', 'auto'],
+                          VALID_LANGUAGES.keys())
+INTERMEDIATE_LANGUAGES = ['', 'ja', 'ru']
 
 DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'  # noqa
 MAX_TEXT_LENGTH = 8000

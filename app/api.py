@@ -122,7 +122,12 @@ def languages_v1_3():
     locale = request.args['locale']  # noqa
     field = request.args['field']  # NOTE: Any better name?
 
-    languages = [(x, _(y)) for x, y in get_languages(field)]
+    try:
+        languages = get_languages(field)
+    except Exception as e:
+        return e.message, 400
+
+    languages = [(x, _(y)) for x, y in languages]
     languages = sorted(languages, key=operator.itemgetter(1))
 
     return jsonify({'languages': languages})

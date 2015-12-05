@@ -61,7 +61,7 @@
     <div class="row-fluid" style="margin-top:1em;">
       <div class="span6">
 
-        <textarea id="text" name="t" placeholder="{{ _('Type in your sentences') }}"></textarea>
+        <textarea id="source-text" name="t" placeholder="{{ _('Type in your sentences') }}"></textarea>
 
         <div id="search-results" class="hide">
           {{ _("Similar translations") }}
@@ -75,7 +75,7 @@
           <div id="progress-message" style="float:left;">
             {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
           </div>
-          <pre id="result"></pre>
+          <pre id="target-text"></pre>
         </div>
 
       </div>
@@ -160,7 +160,7 @@ window.onload = function() {
 
     state.invalidateUI();
 
-    $("#text, #result").autoResize({
+    $("#source-text, #target-text").autoResize({
         // On resize:
         onResize: function() {
             $(this).css({opacity:0.8});
@@ -175,12 +175,23 @@ window.onload = function() {
         extraSpace: 40
     })
     .keypress(function (event) {
-        state.text = $("#text").val();
         if (event.keyCode == 13) {
             performTranslation();
         }
     })
     .trigger("change");
+
+    // Dynamically set the available languages
+    $.get('/api/v1.0/languages?locale=ko', function(response) {
+      var languages = $.map(response, function(value, key) {
+        return {label: value, value: key};
+      });
+      var sl = localStorage.getItem('sourceLanguage');
+      var tl = localStorage.getItem('targetLanguage');
+      model.set('languages', languages);
+      model.set('sourceLanguage', sl ? sl : 'en');
+      model.set('targetLanguage', tl ? tl : 'ko');
+    });
 
     // Initialize tooltips
     $("button[data-toggle=tooltip]").tooltip();

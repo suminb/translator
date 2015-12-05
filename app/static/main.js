@@ -1,3 +1,56 @@
+var BindingView = Backbone.Epoxy.View.extend({
+  el: '#translation-form',
+  bindings: {
+    "select[name=sl]": "value:sourceLanguage,options:languages",
+    "select[name=il]": "value:intermediateLanguage,options:intermediateLanguages",
+    "select[name=tl]": "value:targetLanguage,options:languages",
+    "#source-text": "value:sourceText,events:['keyup']",
+    "#target-text": "text:targetText"
+  },
+  events: {
+    'change select[name=sl]': 'onChangeSourceLanguage',
+    'change select[name=il]': 'onChangeIntermediateLanguage',
+    'change select[name=tl]': 'onChangeTargetLanguage'
+  },
+
+  // FIXME: The following event handlers could be further simplified
+  onChangeSourceLanguage: function(e) {
+    localStorage.setItem('sourceLanguage', model.get('sourceLanguage'));
+  },
+  onChangeIntermediateLanguage: function(e) {
+    localStorage.setItem('intermediateLanguage',
+                         model.get('intermediateLanguage'));
+  },
+  onChangeTargetLanguage: function(e) {
+    localStorage.setItem('targetLanguage', model.get('targetLanguage'));
+  },
+});
+
+var Model = Backbone.Model.extend({
+  defaults: {
+    languages: [],
+    intermediateLanguages: [
+      {label:'없음', value:''},
+      {label:'일본어', value:'ja'},
+      {label:'러시아어', value:'ru'}
+    ],
+    sourceLanguage: null,
+    intermediateLanguage: localStorage.getItem('intermediateLanguage') ?
+      localStorage.getItem('intermediateLanguage') : 'ja',
+    targetLanguage: null,
+    sourceText: '',
+    targetText: '',
+    raw: null
+  },
+  hasIntermediateLanguage: function() {
+    return this.get('intermediateLanguage') != null &&
+           this.get('intermediateLanguage') != '';
+  }
+});
+
+var model = new Model();
+var bindingView = new BindingView({model: model});
+
 var examples = {
     en: [
         "The Google translator that you did not know about",
@@ -91,11 +144,6 @@ FB.init({
 
 
 var state = {
-    source: null, // source language
-    intermediate: null, // intermediate language
-    target: null, // target language
-    text: null,
-    result: null,
 
     id: null,
     requestId: null,
@@ -103,31 +151,6 @@ var state = {
     exampleIndex: 0,
 
     pending: false,
-
-    setSource: function(v) {
-        this.source = v;
-        $("select[name=sl]").val(v);
-    },
-
-    setIntermediate: function(v) {
-        this.intermediate = v;
-        $("select[name=il]").val(v);
-    },
-
-    setTarget: function(v) {
-        this.target = v;
-        $("select[name=tl]").val(v);
-    },
-
-    setText: function(v) {
-        this.text = v;
-        $("#text").val(v);
-    },
-
-    setResult: function(v) {
-        //this.result = v;
-        $("#result").html(v);
-    },
 
     selectSource: function(v) {
         this.source = v;
@@ -151,27 +174,33 @@ var state = {
     },
 
     init: function() {
+        /*
         this.setSource(typeof $.cookie("source") != "undefined" ?
             $.cookie("source") : "auto");
         this.setIntermediate(typeof $.cookie("intermediate") != "undefined" ?
             $.cookie("intermediate") : "ja");
         this.setTarget(typeof $.cookie("target") != "undefined" ?
             $.cookie("target") : "en");
+        */
     },
 
     initWithState: function(state) {
+        /*
         this.setSource(state.source);
         this.setIntermediate(state.intermediate);
         this.setTarget(state.target);
         this.setText(state.text);
         //this.setResult(state.result);
+        */
     },
 
     initWithParameters: function() {
+        /*
         this.setSource(getParameterByName("sl"));
         this.setIntermediate(getParameterByName("il"));
         this.setTarget(getParameterByName("tl"));
         this.setText(getParameterByName("t"));
+        */
     },
 
     initWithTranslation: function(t) {
@@ -332,16 +361,21 @@ function buildTranslateURL(sl, tl, text, method) {
 }
 
 function extractSentences(raw) {
-    return "".concat(
-            $.map(raw[0], (function(v) { return v[0]; }))
-        );
+  return $.map(raw[0], (function(v) { return v[0]; })).join('');
 }
 
 function performTranslation() {
 
+  var sourceLang = model.get('sourceLanguage');
+  var intermediateLang = model.get('intermediateLanguage');
+  var targetLang = model.get('targetLanguage');
+
+  var sourceText = model.get('sourceText');
+
     // Function currying
-    // Rationale: It would be almost impossible to get the value of 'target' unless it
-    // is declared as a global variable, which I do not believe it is a good practice in general
+    // Rationale: It would be almost impossible to get the value of 'target'
+    // unless it is declared as a global variable, which I do not believe it is
+    // a good practice in general
     var onSuccess = function(target) {
         return function(response) {
             if (!response) {
@@ -353,10 +387,13 @@ function performTranslation() {
             }
             else {
                 // FIXME: Potential security vulnerability
-                state.result = eval(response);
+                var raw = eval(response);
+
+                model.set('raw', raw);
+                model.set('targetText', extractSentences(raw));
 
                 // detected source language
-                var source = state.result[2];
+                var source = raw[2];
 
                 uploadRawCorpora(source, target, JSON.stringify(state.result));
             }
@@ -381,18 +418,18 @@ function performTranslation() {
 
     state.update();
 
-    if (state.source == state.target) {
+    if (sourceLang == targetLang) {
         // simply displays the original text when the source language and
         // the target language are identical
-        state.setResult(state.text);
+        model.set('targetText', sourceText);
     }
-    else if (state.source == "" || state.target == "") {
+    else if (sourceLang == '' || targetLang == '') {
          // TODO: Give some warning
     }
-    else if (state.text == null || state.text == "") {
+    else if (sourceLang == null || sourceText == '') {
          // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 8000) {
+    else if (encodeURIComponent(sourceText).length > 8000) {
         displayError("Text is too long.",
             "<a href=\"/download-clients\">Try the Better Translator client</a> to circumvent this issue.");
     }
@@ -401,7 +438,6 @@ function performTranslation() {
         // identical
 
         hideError();
-        $("#result").empty();
         $("#progress-message").show();
 
         enableControls(false);
@@ -409,20 +445,20 @@ function performTranslation() {
 
         state.pending = true;
 
-        if (state.intermediate) {
+        if (intermediateLang) {
 
-            sendTranslationRequest(state.source, state.intermediate, state.text, function(response) {
+            sendTranslationRequest(sourceLang, intermediateLang, sourceText, function(response) {
 
-                onSuccess(state.intermediate)(response);
+                onSuccess(intermediateLang)(response);
 
                 // Delay for a random interval (0.5-1.5 sec)
                 var delay = 500 + Math.random() * 1000;
 
                 setTimeout(function() {
                     state.pending = true;
-                    sendTranslationRequest(state.intermediate, state.target,
-                        extractSentences(state.result),
-                        onSuccess(state.target),
+                    sendTranslationRequest(intermediateLang, targetLang,
+                        extractSentences(model.get('raw')),
+                        onSuccess(targetLang),
                         onAlways
                     );
                 }, delay);
@@ -433,12 +469,12 @@ function performTranslation() {
             });
         }
         else {
-            sendTranslationRequest(state.source, state.target, state.text,
-                onSuccess(state.target), onAlways);
+            sendTranslationRequest(sourceLang, targetLang, sourceText,
+                onSuccess(targetLang), onAlways);
         }
 
         ga('send', 'event', 'api', 'translate',
-           sprintf('sl=%s&il=%s&tl=%s', state.source, state.intermediate, state.target));
+           sprintf('sl=%s&il=%s&tl=%s', sourceLang, intermediateLang, targetLang));
     }
 
     return false;

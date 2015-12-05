@@ -124,6 +124,8 @@ FIXME: There must be a better way than this
 <script type="text/javascript">
 {% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
 
+var locale = '{{ locale }}';
+
 window.onload = function() {
 
     // The following code was copied from
@@ -182,9 +184,9 @@ window.onload = function() {
     .trigger("change");
 
     // Dynamically set the available languages
-    $.get('/api/v1.0/languages?locale=ko', function(response) {
-      var languages = $.map(response, function(value, key) {
-        return {label: value, value: key};
+    $.get('/api/v1.3/languages?locale=' + locale, function(response) {
+      var languages = $.map(response.languages, function(pair) {
+        return {label: pair[1], value: pair[0]};
       });
       var sl = localStorage.getItem('sourceLanguage');
       var tl = localStorage.getItem('targetLanguage');

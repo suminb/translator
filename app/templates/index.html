@@ -184,7 +184,8 @@ window.onload = function() {
     .trigger("change");
 
     // Dynamically set the available languages
-    $.get(sprintf('/api/v1.3/languages?locale=%s&field=source', locale), function(response) {
+    var lurl = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
+    $.get(lurl, function(response) {
       var languages = $.map(response.languages, function(pair) {
         return {label: pair[1], value: pair[0]};
       });
@@ -195,7 +196,8 @@ window.onload = function() {
       model.set('targetLanguage', tl ? tl : 'ko');
     });
 
-    $.get(sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale), function(response) {
+    var ilurl = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
+    $.get(ilurl, function(response) {
       var languages = $.map(response.languages, function(pair) {
         return {label: pair[1], value: pair[0]};
       });

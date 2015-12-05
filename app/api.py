@@ -121,6 +121,7 @@ def languages_v1_3():
     """Returns a list of supported languages."""
     locale = request.args['locale']  # noqa
     field = request.args['field']  # NOTE: Any better name?
+    sortby = int(request.args.get('sortby', 1))
 
     try:
         languages = get_languages(field)
@@ -128,7 +129,10 @@ def languages_v1_3():
         return e.message, 400
 
     languages = [(x, _(y)) for x, y in languages]
-    languages = sorted(languages, key=operator.itemgetter(1))
+
+    # -1 indicates no sorting
+    if sortby != -1:
+        languages = sorted(languages, key=operator.itemgetter(sortby))
 
     return jsonify({'languages': languages})
 

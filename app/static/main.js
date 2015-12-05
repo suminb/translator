@@ -28,14 +28,10 @@ var BindingView = Backbone.Epoxy.View.extend({
 var Model = Backbone.Model.extend({
   defaults: {
     languages: [],
-    intermediateLanguages: [
-      {label:'없음', value:''},
-      {label:'일본어', value:'ja'},
-      {label:'러시아어', value:'ru'}
-    ],
+    intermediateLanguages: [],
     sourceLanguage: null,
-    intermediateLanguage: localStorage.getItem('intermediateLanguage') ?
-      localStorage.getItem('intermediateLanguage') : 'ja',
+    intermediateLanguage: $.cookie('intermediateLanguage') ?
+      $.cookie('intermediateLanguage') : 'ja',
     targetLanguage: null,
     sourceText: '',
     targetText: '',

@@ -7,8 +7,10 @@ from datetime import datetime
 
 from elasticsearch import Elasticsearch
 
+from app import config
 
-es = Elasticsearch([{'host': '52.68.65.104', 'port': 9200}])
+
+es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
 
 
 def str2datetime(s):

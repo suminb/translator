@@ -7,9 +7,10 @@ from datetime import datetime
 
 import click
 from elasticsearch import Elasticsearch
+import sqlalchemy
 
 from app import config
-from app.analysis.model import db
+from app.analysis.model import db, Phrase, Sentence
 
 
 es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
@@ -38,12 +39,22 @@ def extract_sentences(raw):
         yield (s[1].strip(), s[0].strip())  # source, target
 
 
-def store_sentences(sentences):
+def store_sentences(source_lang, target_lang, sentences):
     """
     :param sentences: list of (source, target) sentences
     """
-    for source, target in sentences:
-        pass
+    for source_text, target_text in sentences:
+        source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
+        try:
+            Sentence.create(
+                observed_at=datetime.utcnow(),
+                source_lang=source_lang,
+                target_lang=target_lang,
+                source_text_hash=source_hash,
+                source_text=source_text,
+                target_text=target_text)
+        except sqlalchemy.exc.IntegrityError:
+            db.session.rollback()
 
 
 def extract_phrases(raw):
@@ -54,11 +65,23 @@ def extract_phrases(raw):
         source = p[0]
         targets = [x[0] for x in p[2]]
 
-        print(source, targets)
+        yield source, targets
 
 
-def store_phrases(phrases):
-    pass
+def store_phrases(source_lang, target_lang, phrases, raw):
+    for source_text, target_texts in phrases:
+        source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
+        try:
+            Phrase.create(
+                observed_at=datetime.utcnow(),
+                source_lang=source_lang,
+                target_lang=target_lang,
+                source_text_hash=source_hash,
+                source_text=source_text,
+                target_texts=target_texts,
+                raw=raw)
+        except sqlalchemy.exc.IntegrityError:
+            db.session.rollback()
 
 
 @click.group()
@@ -103,10 +126,15 @@ def process():
     print("Got %d Hits:" % res['hits']['total'])
     for hit in res['hits']['hits']:
         raw_data = hit['_source']['raw']
+        source_lang = raw_data[2] if raw_data[2] else \
+            hit['_source']['source_lang']
+        target_lang = hit['_source']['target_lang']
         # for i in [1, 2, 3, 4, 6, 7, 8]:
         #    print('raw_data[{}]: {}'.format(i, raw_data[i]))
-        extract_sentences(raw_data[0])
-        extract_phrases(raw_data[5])
+        store_sentences(source_lang, target_lang,
+                        extract_sentences(raw_data[0]))
+        store_phrases(source_lang, target_lang,
+                      extract_phrases(raw_data[5]), raw_data)
         # raw_data[0]: sentences
         # raw_data[1]: dictionary data?
         # raw_data[2]: source language
@@ -116,8 +144,6 @@ def process():
         # raw_data[6]: some floating point value; potentially confidence?
         # raw_data[7]: (null)
         # raw_data[8]: source languages along with confidence?
-
-        import pdb; pdb.set_trace()
 
 
 @cli.command()

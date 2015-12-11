@@ -62,20 +62,24 @@ class CRUDMixin(object):
 
 class Sentence(db.Model, CRUDMixin):
     __tablename__ = 'sentence'
+    __table_args__ = (db.UniqueConstraint('source_lang', 'target_lang',
+                                          'source_text_hash'), {})
     observed_at = db.Column(db.DateTime(timezone=False))
     source_lang = db.Column(db.String(16))
     target_lang = db.Column(db.String(16))
-    source_text_hash = db.Column(db.String(255), unique=True)
+    source_text_hash = db.Column(db.String(255))
     source_text = db.Column(db.Text)
     target_text = db.Column(db.Text)
 
 
 class Phrase(db.Model, CRUDMixin):
     __tablename__ = 'phrase'
+    __table_args__ = (db.UniqueConstraint('source_lang', 'target_lang',
+                                          'source_text_hash'), {})
     observed_at = db.Column(db.DateTime(timezone=False))
     source_lang = db.Column(db.String(16))
     target_lang = db.Column(db.String(16))
-    source_text_hash = db.Column(db.String(255), unique=True)
+    source_text_hash = db.Column(db.String(255))
     source_text = db.Column(db.String(255))
     target_texts = db.Column(ARRAY(db.String))
     raw = db.Column(JSON)

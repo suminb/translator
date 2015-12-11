@@ -63,7 +63,10 @@ def extract_phrases(raw):
     """
     for p in raw:
         source = p[0]
-        targets = [x[0] for x in p[2]]
+        try:
+            targets = [x[0] for x in p[2]]
+        except TypeError:
+            continue
 
         yield source, targets
 
@@ -120,21 +123,30 @@ def process():
 
     # Get all data (the batch size will be 10 or so)
     res = es.search(index=config['es_index'],
-                    body={'query': {'term': {'raw': 'nexon'}}})
-    # body={'query': {'match_all': {}}})
+                    body={'query': {'match_all': {}}})
 
     print("Got %d Hits:" % res['hits']['total'])
     for hit in res['hits']['hits']:
-        raw_data = hit['_source']['raw']
+        doc_id = hit['_id']
+        try:
+            raw_data = hit['_source']['raw']
+        except KeyError:
+            raw_data = hit['_source']['data']
         source_lang = raw_data[2] if raw_data[2] else \
             hit['_source']['source_lang']
         target_lang = hit['_source']['target_lang']
+        # import pdb; pdb.set_trace()
         # for i in [1, 2, 3, 4, 6, 7, 8]:
         #    print('raw_data[{}]: {}'.format(i, raw_data[i]))
-        store_sentences(source_lang, target_lang,
-                        extract_sentences(raw_data[0]))
-        store_phrases(source_lang, target_lang,
-                      extract_phrases(raw_data[5]), raw_data)
+        print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
+
+        if raw_data[0]:
+            store_sentences(source_lang, target_lang,
+                            extract_sentences(raw_data[0]))
+
+        if raw_data[5]:
+            store_phrases(source_lang, target_lang,
+                          extract_phrases(raw_data[5]), raw_data)
         # raw_data[0]: sentences
         # raw_data[1]: dictionary data?
         # raw_data[2]: source language
@@ -144,6 +156,9 @@ def process():
         # raw_data[6]: some floating point value; potentially confidence?
         # raw_data[7]: (null)
         # raw_data[8]: source languages along with confidence?
+
+        es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
+                  id=doc_id)
 
 
 @cli.command()

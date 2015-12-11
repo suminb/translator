@@ -9,6 +9,7 @@ import click
 from elasticsearch import Elasticsearch
 
 from app import config
+from app.analysis.model import db
 
 
 es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
@@ -49,8 +50,11 @@ def extract_phrases(raw):
     """
     :type raw: list
     """
-    for s in raw:
-        print(s)
+    for p in raw:
+        source = p[0]
+        targets = [x[0] for x in p[2]]
+
+        print(source, targets)
 
 
 def store_phrases(phrases):
@@ -99,8 +103,8 @@ def process():
     print("Got %d Hits:" % res['hits']['total'])
     for hit in res['hits']['hits']:
         raw_data = hit['_source']['raw']
-        for i in [1, 2, 3, 4, 6, 7, 8]:
-            print('raw_data[{}]: {}'.format(i, raw_data[i]))
+        # for i in [1, 2, 3, 4, 6, 7, 8]:
+        #    print('raw_data[{}]: {}'.format(i, raw_data[i]))
         extract_sentences(raw_data[0])
         extract_phrases(raw_data[5])
         # raw_data[0]: sentences
@@ -113,8 +117,14 @@ def process():
         # raw_data[7]: (null)
         # raw_data[8]: source languages along with confidence?
 
-        # print("%(timestamp)s %(raw)s" % hit["_source"])
         import pdb; pdb.set_trace()
+
+
+@cli.command()
+def create_db():
+    from app import app
+    with app.app_context():
+        db.create_all()
 
 
 if __name__ == '__main__':

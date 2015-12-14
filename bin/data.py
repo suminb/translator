@@ -118,12 +118,14 @@ def import_to_es(filename):
 
 
 @cli.command()
-def process():
+@click.option('-t', '--term', help='Search term')
+def process(term):
     """Processes data on Elasticsearch"""
 
     # Get all data (the batch size will be 10 or so)
     res = es.search(index=config['es_index'],
-                    body={'query': {'match_all': {}}})
+    #                body={'query': {'match_all': {}}})
+                    body={'query': {'match': {'raw': term}}})
 
     print("Got %d Hits:" % res['hits']['total'])
     for hit in res['hits']['hits']:

@@ -1,27 +1,29 @@
 # -*- coding: utf-8 -*-
-from flask import request, render_template, url_for, redirect
+from flask import Blueprint, request, render_template, url_for, redirect
 from flask.ext.babel import gettext as _
 from datetime import datetime
 
-from __init__ import __version__, app, get_locale
+from __init__ import __version__, get_locale
 from utils import language_options_html
 
 import json
 import os
 
+main_module = Blueprint('main', __name__)
 
-@app.route('/longtext')
+
+@main_module.route('/longtext')
 def longtext():
     return render_template('longtext.html')
 
 
-@app.route('/download-clients')
+@main_module.route('/download-clients')
 def download_clients():
     from app import config
     return render_template('download_client.html', config=config)
 
 
-@app.route('/backupdb')
+@main_module.route('/backupdb')
 def backupdb():
     """This is a temporary workaround. We shall figure out how to store
     data in a relational database directly from the GAE. The problem we had
@@ -46,8 +48,8 @@ def backupdb():
 #
 # Request handlers
 #
-@app.route('/')
-@app.route('/tr/<translation_id>')
+@main_module.route('/')
+@main_module.route('/tr/<translation_id>')
 def index(translation_id=None):
     """The main page."""
 
@@ -96,7 +98,7 @@ def index(translation_id=None):
     return render_template('index.html', **context)
 
 
-@app.route('/locale', methods=['GET', 'POST'])
+@main_module.route('/locale', methods=['GET', 'POST'])
 def set_locale():
     """Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
     if request.method == 'GET':
@@ -114,7 +116,7 @@ def set_locale():
     return response
 
 
-@app.route('/discuss')
+@main_module.route('/discuss')
 def discuss():
     context = dict(
         version=__version__,
@@ -123,7 +125,7 @@ def discuss():
     return render_template('discuss.html', **context)
 
 
-@app.route('/credits')
+@main_module.route('/credits')
 def credits():
     context = dict(
         version=__version__,
@@ -132,7 +134,7 @@ def credits():
     return render_template('credits.html', **context)
 
 
-@app.route('/statistics')
+@main_module.route('/statistics')
 def statistics():
     if request.args.get('format') == 'json':
         from analytics import generate_output
@@ -146,7 +148,7 @@ def statistics():
         return render_template('statistics.html', **context)
 
 
-@app.route('/v1.0/test')
+@main_module.route('/v1.0/test')
 def test():
     """Produces arbitrary HTTP responses for debugging purposes."""
 
@@ -159,7 +161,7 @@ def test():
         return '', 400
 
 
-@app.route('/disclaimers')
+@main_module.route('/disclaimers')
 def disclaimers():
     context = dict(
         version=__version__,
@@ -168,19 +170,19 @@ def disclaimers():
     return render_template('disclaimers.html', **context)
 
 
-@app.teardown_request
+@main_module.teardown_request
 def teardown_request(exception):
     """Refer http://flask.pocoo.org/docs/tutorial/dbcon/ for more details."""
     pass
 
 
-@app.errorhandler(404)
+@main_module.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html', version=__version__,
                            message='Page Not Found'), 404
 
 
-@app.route('/captcha', methods=['GET', 'POST'])
+@main_module.route('/captcha', methods=['GET', 'POST'])
 def captcha():
     return """
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

@@ -5,19 +5,6 @@ from app.api import translate, HTTPException
 import pytest
 import json
 
-HOST = 'http://localhost:8001'
-
-
-@pytest.fixture
-def testapp():
-    from app import app
-    return app.test_client()
-
-
-def setup_module(module):
-    """ setup any state specific to the execution of the given module."""
-    pass
-
 
 def test_pages(testapp):
     pages = ('/', '/credits', '/discuss', '/disclaimers')

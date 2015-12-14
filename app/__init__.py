@@ -61,7 +61,7 @@ def create_app(name=__name__, config={},
                 template_folder=template_folder)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
     app.config['SQLALCHEMY_POOL_SIZE'] = 10
-    app.secret_key = config['secret_key']
+    app.secret_key = config.get('secret_key', '(secret key is not set)')
 
     app.config.update(config)
 
@@ -88,9 +88,9 @@ def create_app(name=__name__, config={},
         """init rollbar module"""
         rollbar.init(
             # access token
-            config['rollbar_token'],
+            config.get('rollbar_token', ''),
             # environment name
-            config['rollbar_env'],
+            config.get('rollbar_env', 'development'),
             # server root directory, makes tracebacks prettier
             root=os.path.dirname(os.path.realpath(__file__)),
             # flask already sets up logging

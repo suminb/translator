@@ -109,7 +109,7 @@ def set_locale():
     if request.referrer:
         dest = request.referrer
     else:
-        dest = url_for('index')
+        dest = url_for('main.index')
 
     response = redirect(dest)
     response.set_cookie('locale', locale, 60 * 60 * 24 * 14)

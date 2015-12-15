@@ -128,44 +128,49 @@ def process(term):
                     body={'query': {'match': {'raw': term}}})
 
     print("Got %d Hits:" % res['hits']['total'])
-    for hit in res['hits']['hits']:
-        doc_id = hit['_id']
-        try:
-            raw_data = hit['_source']['raw']
-        except KeyError:
-            raw_data = hit['_source']['data']
-        source_lang = raw_data[2] if raw_data[2] else \
-            hit['_source']['source_lang']
-        target_lang = hit['_source']['target_lang']
-        # import pdb; pdb.set_trace()
-        # for i in [1, 2, 3, 4, 6, 7, 8]:
-        #    print('raw_data[{}]: {}'.format(i, raw_data[i]))
-        print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
 
-        if raw_data[0]:
-            store_sentences(source_lang, target_lang,
-                            extract_sentences(raw_data[0]))
+    from app import create_app
+    app = create_app()
+    with app.app_context():
+        for hit in res['hits']['hits']:
+            doc_id = hit['_id']
+            try:
+                raw_data = hit['_source']['raw']
+            except KeyError:
+                raw_data = hit['_source']['data']
+            source_lang = raw_data[2] if raw_data[2] else \
+                hit['_source']['source_lang']
+            target_lang = hit['_source']['target_lang']
+            # import pdb; pdb.set_trace()
+            # for i in [1, 2, 3, 4, 6, 7, 8]:
+            #    print('raw_data[{}]: {}'.format(i, raw_data[i]))
+            print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
 
-        if raw_data[5]:
-            store_phrases(source_lang, target_lang,
-                          extract_phrases(raw_data[5]), raw_data)
-        # raw_data[0]: sentences
-        # raw_data[1]: dictionary data?
-        # raw_data[2]: source language
-        # raw_data[3]: (null)
-        # raw_data[4]: (null)
-        # raw_data[5]: phrases
-        # raw_data[6]: some floating point value; potentially confidence?
-        # raw_data[7]: (null)
-        # raw_data[8]: source languages along with confidence?
+            if raw_data[0]:
+                store_sentences(source_lang, target_lang,
+                                extract_sentences(raw_data[0]))
 
-        es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
-                  id=doc_id)
+            if raw_data[5]:
+                store_phrases(source_lang, target_lang,
+                              extract_phrases(raw_data[5]), raw_data)
+            # raw_data[0]: sentences
+            # raw_data[1]: dictionary data?
+            # raw_data[2]: source language
+            # raw_data[3]: (null)
+            # raw_data[4]: (null)
+            # raw_data[5]: phrases
+            # raw_data[6]: some floating point value; potentially confidence?
+            # raw_data[7]: (null)
+            # raw_data[8]: source languages along with confidence?
+
+            es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
+                      id=doc_id)
 
 
 @cli.command()
 def create_db():
-    from app import app
+    from app import create_app
+    app = create_app()
     with app.app_context():
         db.create_all()
 

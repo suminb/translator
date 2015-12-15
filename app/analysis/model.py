@@ -3,11 +3,10 @@ from datetime import datetime
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
 
-from app import app
 import uuid64
 
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
 class CRUDMixin(object):

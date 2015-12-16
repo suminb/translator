@@ -71,7 +71,7 @@ def extract_phrases(raw):
         yield source, targets
 
 
-def store_phrases(source_lang, target_lang, phrases, raw):
+def store_phrases(source_lang, target_lang, phrases):
     for source_text, target_texts in phrases:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
         try:
@@ -81,8 +81,7 @@ def store_phrases(source_lang, target_lang, phrases, raw):
                 target_lang=target_lang,
                 source_text_hash=source_hash,
                 source_text=source_text,
-                target_texts=target_texts,
-                raw=raw)
+                target_texts=target_texts)
         except sqlalchemy.exc.IntegrityError:
             db.session.rollback()
 
@@ -152,7 +151,7 @@ def process(term):
 
             if raw_data[5]:
                 store_phrases(source_lang, target_lang,
-                              extract_phrases(raw_data[5]), raw_data)
+                              extract_phrases(raw_data[5]))
             # raw_data[0]: sentences
             # raw_data[1]: dictionary data?
             # raw_data[2]: source language

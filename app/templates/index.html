@@ -49,7 +49,7 @@
 
       <div class="span3" style="text-align:right;">
         <label>&nbsp;</label>
-        <button class="btn" onclick="swapLanguages()"
+        <button class="btn" onclick="swapLanguages(event)"
           data-toggle="tooltip" data-placement="top"
           title="{{ _('Swap languages') }}">
           <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
@@ -154,8 +154,6 @@ window.onload = function() {
             performTranslation();
         }
         else {
-            state.init();
-
             hashChanged(window.location.hash ? window.location.hash : "");
         }
     }
@@ -201,7 +199,7 @@ window.onload = function() {
       });
       var il = $.cookie('intermediateLanguage');
       model.set('intermediateLanguages', languages);
-      model.set('intermediateLanguage', il ? il : 'ja');
+      model.set('intermediateLanguage', il != null ? il : 'ja');
     });
 
     // Initialize tooltips

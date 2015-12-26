@@ -30,8 +30,7 @@ var Model = Backbone.Model.extend({
     languages: [],
     intermediateLanguages: [],
     sourceLanguage: null,
-    intermediateLanguage: $.cookie('intermediateLanguage') ?
-      $.cookie('intermediateLanguage') : 'ja',
+    intermediateLanguage: null,
     targetLanguage: null,
     sourceText: '',
     targetText: '',
@@ -147,27 +146,6 @@ var state = {
 
     pending: false,
 
-    init: function() {
-        /*
-        this.setSource(typeof $.cookie("source") != "undefined" ?
-            $.cookie("source") : "auto");
-        this.setIntermediate(typeof $.cookie("intermediate") != "undefined" ?
-            $.cookie("intermediate") : "ja");
-        this.setTarget(typeof $.cookie("target") != "undefined" ?
-            $.cookie("target") : "en");
-        */
-    },
-
-    initWithState: function(state) {
-        /*
-        this.setSource(state.source);
-        this.setIntermediate(state.intermediate);
-        this.setTarget(state.target);
-        this.setText(state.text);
-        //this.setResult(state.result);
-        */
-    },
-
     initWithParameters: function() {
         /*
         this.setSource(getParameterByName("sl"));
@@ -266,7 +244,8 @@ function extractSentences(raw) {
 /**
  * Swap between the source language and the target language.
  */
-function swapLanguages() {
+function swapLanguages(evt) {
+  evt.preventDefault();
   var sourceLang = model.get('sourceLanguage');
   model.set('sourceLanguage', model.get('targetLanguage'));
   model.set('targetLanguage', sourceLang);

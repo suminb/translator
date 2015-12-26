@@ -65,6 +65,10 @@
 
   <div id="content" class="container {% if request.endpoint == 'index' %}wide{% endif %}">
 {% block content %}{% endblock %}
+    <div class="locales">
+      <a href="/locale?locale=ko">한국어</a> |
+      <a href="/locale?locale=en">English</a>
+    </div>
 
     <div class="adsense">
       {% if request.endpoint == 'index' %}
@@ -97,11 +101,6 @@
       (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
       {% endif %}
-    </div>
-
-    <div class="locales">
-      <a href="/locale?locale=ko">한국어</a> |
-      <a href="/locale?locale=en">English</a>
     </div>
   </div>
 

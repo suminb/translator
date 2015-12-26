@@ -127,36 +127,7 @@ FIXME: There must be a better way than this
 var locale = '{{ locale }}';
 
 window.onload = function() {
-
-    // The following code was copied from
-    // http://stackoverflow.com/questions/2161906/handle-url-anchor-change-event-in-js
-    if ("onhashchange" in window) { // event supported?
-        window.onhashchange = function () {
-            hashChanged(window.location.hash);
-        };
-    }
-    else { // event not supported:
-        var storedHash = window.location.hash;
-        window.setInterval(function () {
-            if (window.location.hash != storedHash) {
-                storedHash = window.location.hash;
-                hashChanged(storedHash);
-            }
-        }, 250);
-    }
-
-    if (state.id) {
-        //askForRating(state.requestId);
-    }
-    else {
-        if (getParameterByName("t")) {
-            state.initWithParameters();
-            performTranslation();
-        }
-        else {
-            hashChanged(window.location.hash ? window.location.hash : "");
-        }
-    }
+    loadLanguages();
 
     $("#source-text, #target-text").autoResize({
         // On resize:
@@ -178,29 +149,6 @@ window.onload = function() {
         }
     })
     .trigger("change");
-
-    // Dynamically set the available languages
-    var lurl = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
-    $.get(lurl, function(response) {
-      var languages = $.map(response.languages, function(pair) {
-        return {label: pair[1], value: pair[0]};
-      });
-      var sl = $.cookie('sourceLanguage');
-      var tl = $.cookie('targetLanguage');
-      model.set('languages', languages);
-      model.set('sourceLanguage', sl ? sl : 'en');
-      model.set('targetLanguage', tl ? tl : 'ko');
-    });
-
-    var ilurl = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
-    $.get(ilurl, function(response) {
-      var languages = $.map(response.languages, function(pair) {
-        return {label: pair[1], value: pair[0]};
-      });
-      var il = $.cookie('intermediateLanguage');
-      model.set('intermediateLanguages', languages);
-      model.set('intermediateLanguage', il != null ? il : 'ja');
-    });
 
     // Initialize tooltips
     $("button[data-toggle=tooltip]").tooltip();

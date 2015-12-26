@@ -136,7 +136,7 @@ FB.init({
 // Additional initialization code such as adding Event Listeners goes here
 };
 
-
+// FIMXE: This 'state' object shall be gone completely
 var state = {
 
     id: null,
@@ -147,12 +147,10 @@ var state = {
     pending: false,
 
     initWithParameters: function() {
-        /*
-        this.setSource(getParameterByName("sl"));
-        this.setIntermediate(getParameterByName("il"));
-        this.setTarget(getParameterByName("tl"));
-        this.setText(getParameterByName("t"));
-        */
+      model.set('sourceLanguage', getParameterByName("sl"));
+      model.set('intermediateLanguage', getParameterByName("il"));
+      model.set('targetLanguage', getParameterByName("tl"));
+      model.set('sourceText', getParameterByName("t"));
     },
 
     initWithTranslation: function(t) {
@@ -242,6 +240,37 @@ function extractSentences(raw) {
 }
 
 /**
+ * Initializes things with URL hashes or HTTP GET parameters depending on
+ * what's available.
+ */
+function initWithHashesOrParameters() {
+  // The following code was copied from
+  // http://stackoverflow.com/questions/2161906/handle-url-anchor-change-event-in-js
+  if ("onhashchange" in window) { // event supported?
+      window.onhashchange = function () {
+          hashChanged(window.location.hash);
+      };
+  }
+  else { // event not supported:
+      var storedHash = window.location.hash;
+      window.setInterval(function () {
+          if (window.location.hash != storedHash) {
+              storedHash = window.location.hash;
+              hashChanged(storedHash);
+          }
+      }, 250);
+  }
+
+  if (getParameterByName("t")) {
+      state.initWithParameters();
+      performTranslation();
+  }
+  else {
+      hashChanged(window.location.hash ? window.location.hash : "");
+  }
+}
+
+/**
  * Swap between the source language and the target language.
  */
 function swapLanguages(evt) {
@@ -249,6 +278,44 @@ function swapLanguages(evt) {
   var sourceLang = model.get('sourceLanguage');
   model.set('sourceLanguage', model.get('targetLanguage'));
   model.set('targetLanguage', sourceLang);
+}
+
+/**
+ * Dynamically loads available languages from the server
+ */
+function loadLanguages() {
+  var sltlLoaded = false;
+  var lurl = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
+  $.get(lurl, function(response) {
+    var languages = $.map(response.languages, function(pair) {
+      return {label: pair[1], value: pair[0]};
+    });
+    var sl = $.cookie('sourceLanguage');
+    var tl = $.cookie('targetLanguage');
+    model.set('languages', languages);
+    model.set('sourceLanguage', sl ? sl : 'en');
+    model.set('targetLanguage', tl ? tl : 'ko');
+    sltlLoaded = true;
+  });
+
+  var ilLoaded = false;
+  var ilurl = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
+  $.get(ilurl, function(response) {
+    var languages = $.map(response.languages, function(pair) {
+      return {label: pair[1], value: pair[0]};
+    });
+    var il = $.cookie('intermediateLanguage');
+    model.set('intermediateLanguages', languages);
+    model.set('intermediateLanguage', il != null ? il : 'ja');
+    ilLoaded = true;
+  });
+
+  var timer = setInterval(function() {
+    if (sltlLoaded && ilLoaded) {
+      initWithHashesOrParameters();
+      clearInterval(timer);
+    }
+  }, 100);
 }
 
 function performTranslation() {

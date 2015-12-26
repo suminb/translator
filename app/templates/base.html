@@ -65,6 +65,10 @@
 
   <div id="content" class="container {% if request.endpoint == 'index' %}wide{% endif %}">
 {% block content %}{% endblock %}
+    <div class="locales">
+      <a href="/locale?locale=ko">한국어</a> |
+      <a href="/locale?locale=en">English</a>
+    </div>
 
     <div class="adsense">
       {% if request.endpoint == 'index' %}
@@ -98,19 +102,6 @@
       </script>
       {% endif %}
     </div>
-
-    <div class="locales">
-      <a href="/locale?locale=ko">한국어</a> |
-      <a href="/locale?locale=en">English</a>
-    </div>
-    {% if is_android %}
-    <div id="app-markets">
-        <a href="https://play.google.com/store/apps/details?id=better.translator" target="_blank">
-            <img alt="Android app on Google Play"
-                src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
-        </a>
-    </div>
-    {% endif %}
   </div>
 
   <div id="footer">
@@ -141,6 +132,9 @@
   <script type="text/javascript" src="/static/jquery.autoresize.min.js"></script>
   <script type="text/javascript" src="/static/jquery.cookie.js"></script>
   <script type="text/javascript" src="/static/sprintf.min.js"></script>
+  <script type="text/javascript" src="/static/underscore.min.js"></script>
+  <script type="text/javascript" src="/static/backbone.min.js"></script>
+  <script type="text/javascript" src="/static/backbone.epoxy.min.js"></script>
   <script type="text/javascript" src="/static/main.js?v={{ version }}"></script>
 
   <script>
@@ -167,7 +161,6 @@
 
     ga('create', 'UA-346833-18', 'auto');
     ga('send', 'pageview');
-
   </script>
 
 </body>

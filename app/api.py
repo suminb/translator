@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-import sys
 import json
+import operator
 import re
+import sys
 import urllib
 
 import requests
 from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext as _
 
-from __init__ import logger, VALID_LANGUAGES, DEFAULT_USER_AGENT, \
+from __init__ import logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
+    TARGET_LANGUAGES, INTERMEDIATE_LANGUAGES, DEFAULT_USER_AGENT, \
     MAX_TEXT_LENGTH
 from utils import HTTPException, parse_javascript
 
@@ -26,7 +28,7 @@ def __payload_as_tuples__(payload):
             yield key, value
 
 
-def __params__(text, source, target, client='t',
+def __params__(text, source, target, client='at',
                user_agent=DEFAULT_USER_AGENT):
     """Returns a dictionary containing all parameters to send a translation
     request to Google Translate."""
@@ -42,10 +44,6 @@ def __params__(text, source, target, client='t',
         'tl': target,
         'q': text,
         'dt': ['bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't', 'at'],
-        'tk': '676518.815608',
-        'ssel': 0,
-        'tsel': 0,
-        'source': 'btn',
     }
     url = 'https://translate.google.com/translate_a/single'
 
@@ -62,6 +60,23 @@ def __params__(text, source, target, client='t',
         'url': url,
         'query': urllib.urlencode(list(__payload_as_tuples__(payload)))
     }
+
+
+def get_languages(field):
+    """Returns a list of languages.
+
+    :param field: Indicate one of source, target and intermediate language.
+    :type field: str
+    """
+
+    if field == 'source':
+        return [(key, VALID_LANGUAGES[key]) for key in SOURCE_LANGUAGES]
+    elif field == 'target':
+        return [(key, VALID_LANGUAGES[key]) for key in TARGET_LANGUAGES]
+    elif field == 'intermediate':
+        return [(key, VALID_LANGUAGES[key]) for key in INTERMEDIATE_LANGUAGES]
+    else:
+        raise Exception('Invalid field: {}'.format(field))
 
 
 @api_module.route('/api/v1.3/params', methods=['post'])
@@ -94,17 +109,36 @@ def parse_result():
 
 @api_module.route('/v1.0/languages')
 @api_module.route('/api/v1.0/languages')
-def languages():
+def languages_v1_0():
     """Returns a list of supported languages."""
     locale = request.args['locale']  # noqa
-    langs = {k: _(v) for (k, v) in zip(VALID_LANGUAGES.keys(),
-                                       VALID_LANGUAGES.values())}
-
+    langs = {k: _(v) for (k, v) in get_languages('target')}
     return jsonify(langs)
 
 
+@api_module.route('/api/v1.3/languages')
+def languages_v1_3():
+    """Returns a list of supported languages."""
+    locale = request.args['locale']  # noqa
+    field = request.args['field']  # NOTE: Any better name?
+    sortby = int(request.args.get('sortby', 1))
+
+    try:
+        languages = get_languages(field)
+    except Exception as e:
+        return e.message, 400
+
+    languages = [(x, _(y)) for x, y in languages]
+
+    # -1 indicates no sorting
+    if sortby != -1:
+        languages = sorted(languages, key=operator.itemgetter(sortby))
+
+    return jsonify({'languages': languages})
+
+
 @api_module.route('/v1.0/translate', methods=['POST'])
-def translate_1_0():
+def translate_v1_0():
     """
     :param sl: source language
     :type sl: string
@@ -234,7 +268,7 @@ def translate_1_2():
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
     try:
-        payload = translate(text, mode, source, target, 't')
+        payload = translate(text, mode, source, target)
 
         return jsonify(payload)
 

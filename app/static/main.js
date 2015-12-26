@@ -1,3 +1,50 @@
+var BindingView = Backbone.Epoxy.View.extend({
+  el: '#translation-form',
+  bindings: {
+    "select[name=sl]": "value:sourceLanguage,options:languages",
+    "select[name=il]": "value:intermediateLanguage,options:intermediateLanguages",
+    "select[name=tl]": "value:targetLanguage,options:languages",
+    "#source-text": "value:sourceText,events:['keyup']",
+    "#target-text": "text:targetText"
+  },
+  events: {
+    'change select[name=sl]': 'onChangeSourceLanguage',
+    'change select[name=il]': 'onChangeIntermediateLanguage',
+    'change select[name=tl]': 'onChangeTargetLanguage'
+  },
+
+  // FIXME: The following event handlers could be further simplified
+  onChangeSourceLanguage: function(e) {
+    $.cookie('sourceLanguage', model.get('sourceLanguage'));
+  },
+  onChangeIntermediateLanguage: function(e) {
+    $.cookie('intermediateLanguage', model.get('intermediateLanguage'));
+  },
+  onChangeTargetLanguage: function(e) {
+    $.cookie('targetLanguage', model.get('targetLanguage'));
+  },
+});
+
+var Model = Backbone.Model.extend({
+  defaults: {
+    languages: [],
+    intermediateLanguages: [],
+    sourceLanguage: null,
+    intermediateLanguage: null,
+    targetLanguage: null,
+    sourceText: '',
+    targetText: '',
+    raw: null
+  },
+  hasIntermediateLanguage: function() {
+    return this.get('intermediateLanguage') != null &&
+           this.get('intermediateLanguage') != '';
+  }
+});
+
+var model = new Model();
+var bindingView = new BindingView({model: model});
+
 var examples = {
     en: [
         "The Google translator that you did not know about",
@@ -89,13 +136,8 @@ FB.init({
 // Additional initialization code such as adding Event Listeners goes here
 };
 
-
+// FIMXE: This 'state' object shall be gone completely
 var state = {
-    source: null, // source language
-    intermediate: null, // intermediate language
-    target: null, // target language
-    text: null,
-    result: null,
 
     id: null,
     requestId: null,
@@ -104,74 +146,11 @@ var state = {
 
     pending: false,
 
-    setSource: function(v) {
-        this.source = v;
-        $("select[name=sl]").val(v);
-    },
-
-    setIntermediate: function(v) {
-        this.intermediate = v;
-        $("select[name=il]").val(v);
-    },
-
-    setTarget: function(v) {
-        this.target = v;
-        $("select[name=tl]").val(v);
-    },
-
-    setText: function(v) {
-        this.text = v;
-        $("#text").val(v);
-    },
-
-    setResult: function(v) {
-        //this.result = v;
-        $("#result").html(v);
-    },
-
-    selectSource: function(v) {
-        this.source = v;
-        this.setResult("");
-
-        $.cookie("source", v);
-    },
-
-    selectIntermediate: function(v) {
-        this.intermediate = v;
-        this.setResult("");
-
-        $.cookie("intermediate", v);
-    },
-
-    selectTarget: function(v) {
-        this.target = v;
-        this.setResult("");
-
-        $.cookie("target", v);
-    },
-
-    init: function() {
-        this.setSource(typeof $.cookie("source") != "undefined" ?
-            $.cookie("source") : "auto");
-        this.setIntermediate(typeof $.cookie("intermediate") != "undefined" ?
-            $.cookie("intermediate") : "ja");
-        this.setTarget(typeof $.cookie("target") != "undefined" ?
-            $.cookie("target") : "en");
-    },
-
-    initWithState: function(state) {
-        this.setSource(state.source);
-        this.setIntermediate(state.intermediate);
-        this.setTarget(state.target);
-        this.setText(state.text);
-        //this.setResult(state.result);
-    },
-
     initWithParameters: function() {
-        this.setSource(getParameterByName("sl"));
-        this.setIntermediate(getParameterByName("il"));
-        this.setTarget(getParameterByName("tl"));
-        this.setText(getParameterByName("t"));
+      model.set('sourceLanguage', getParameterByName("sl"));
+      model.set('intermediateLanguage', getParameterByName("il"));
+      model.set('targetLanguage', getParameterByName("tl"));
+      model.set('sourceText', getParameterByName("t"));
     },
 
     initWithTranslation: function(t) {
@@ -191,81 +170,6 @@ var state = {
         // this.result = t.translated_text;
 
         this.result = t;
-    },
-
-    swapLanguages: function() {
-        var source = this.source;
-        var target = this.target;
-
-        this.setSource(target);
-        this.setTarget(source);
-
-        $.cookie("source", target);
-        $.cookie("target", source);
-    },
-
-    // Sometimes we want to update the textarea, sometimes now.
-    // The 'updateText' parameter indicates whether we want to do that. However,
-    // this meant to be a temporary solution.
-    invalidateUI: function(updateText) {
-        updateText = typeof updateText !== 'undefined' ? updateText : true;
-
-        $("select[name=sl]").val(this.source);
-        $("select[name=il]").val(this.intermediate);
-        $("select[name=tl]").val(this.target);
-
-        if (updateText) {
-            $("#text").val(this.text);
-        }
-
-        if (this.result) {
-
-            $("#result").html(extractSentences(this.result));
-
-            // var resultDiv = $("#result");
-            // var sourceText = this.result[0][0][1];
-
-            // $(this.result[5]).each(function(i, v) {
-            //     console.log(v);
-
-            //     var targetCorpus = v[2][0][0];
-            //     var sourceRanges = v[3];
-
-            //     $(sourceRanges).each(function(i, v) {
-            //         var sourceCorpus = sourceText.substring(v[0], v[1]);
-            //         console.log(sourceCorpus);
-            //     });
-
-            //     var corpusSpan = $("<span></span>")
-            //         .addClass("corpus")
-            //         .text(targetCorpus);
-
-            //     resultDiv.append(corpusSpan);
-            //     resultDiv.append(" ");
-            // });
-        }
-    },
-
-    /**
-     * Updates state based on the values of the UI controls
-     */
-    update: function() {
-        this.source = $("select[name=sl]").val();
-        this.intermediate = $("select[name=il]").val();
-        this.target = $("select[name=tl]").val();
-        this.text = $("#text").val();
-    },
-
-    serialize: function() {
-        this.update();
-
-        return {
-            source: this.source,
-            intermediate: this.intermediate,
-            target: this.target,
-            text: this.text,
-            result: this.result
-        };
     }
 };
 
@@ -319,14 +223,8 @@ function buildTranslateURL(sl, tl, text, method) {
     // Some extra values that Google Translate sends to its server
     var extra = "dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at";
 
-    // 'tk' seems to be the length of the source text
-    extra += "&tk=" + text.length;
-
-    // Not sure what these values are but adding them regardless...
-    extra += "&ssel=0&tsel=3";
-
     if (method.toLowerCase() == 'get') {
-        return sprintf("%s?client=t&sl=%s&tl=%s&%s&q=%s", url, sl, tl, extra,
+        return sprintf("%s?client=at&sl=%s&tl=%s&%s&q=%s", url, sl, tl, extra,
             encodeURIComponent(text));
     }
     else if (method.toLowerCase() == 'post') {
@@ -338,16 +236,100 @@ function buildTranslateURL(sl, tl, text, method) {
 }
 
 function extractSentences(raw) {
-    return "".concat(
-            $.map(raw[0], (function(v) { return v[0]; }))
-        );
+  return $.map(raw[0], (function(v) { return v[0]; })).join('');
+}
+
+/**
+ * Initializes things with URL hashes or HTTP GET parameters depending on
+ * what's available.
+ */
+function initWithHashesOrParameters() {
+  // The following code was copied from
+  // http://stackoverflow.com/questions/2161906/handle-url-anchor-change-event-in-js
+  if ("onhashchange" in window) { // event supported?
+      window.onhashchange = function () {
+          hashChanged(window.location.hash);
+      };
+  }
+  else { // event not supported:
+      var storedHash = window.location.hash;
+      window.setInterval(function () {
+          if (window.location.hash != storedHash) {
+              storedHash = window.location.hash;
+              hashChanged(storedHash);
+          }
+      }, 250);
+  }
+
+  if (getParameterByName("t")) {
+      state.initWithParameters();
+      performTranslation();
+  }
+  else {
+      hashChanged(window.location.hash ? window.location.hash : "");
+  }
+}
+
+/**
+ * Swap between the source language and the target language.
+ */
+function swapLanguages(evt) {
+  evt.preventDefault();
+  var sourceLang = model.get('sourceLanguage');
+  model.set('sourceLanguage', model.get('targetLanguage'));
+  model.set('targetLanguage', sourceLang);
+}
+
+/**
+ * Dynamically loads available languages from the server
+ */
+function loadLanguages() {
+  var sltlLoaded = false;
+  var lurl = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
+  $.get(lurl, function(response) {
+    var languages = $.map(response.languages, function(pair) {
+      return {label: pair[1], value: pair[0]};
+    });
+    var sl = $.cookie('sourceLanguage');
+    var tl = $.cookie('targetLanguage');
+    model.set('languages', languages);
+    model.set('sourceLanguage', sl ? sl : 'en');
+    model.set('targetLanguage', tl ? tl : 'ko');
+    sltlLoaded = true;
+  });
+
+  var ilLoaded = false;
+  var ilurl = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
+  $.get(ilurl, function(response) {
+    var languages = $.map(response.languages, function(pair) {
+      return {label: pair[1], value: pair[0]};
+    });
+    var il = $.cookie('intermediateLanguage');
+    model.set('intermediateLanguages', languages);
+    model.set('intermediateLanguage', il != null ? il : 'ja');
+    ilLoaded = true;
+  });
+
+  var timer = setInterval(function() {
+    if (sltlLoaded && ilLoaded) {
+      initWithHashesOrParameters();
+      clearInterval(timer);
+    }
+  }, 100);
 }
 
 function performTranslation() {
 
+  var sourceLang = model.get('sourceLanguage');
+  var intermediateLang = model.get('intermediateLanguage');
+  var targetLang = model.get('targetLanguage');
+
+  var sourceText = model.get('sourceText');
+
     // Function currying
-    // Rationale: It would be almost impossible to get the value of 'target' unless it
-    // is declared as a global variable, which I do not believe it is a good practice in general
+    // Rationale: It would be almost impossible to get the value of 'target'
+    // unless it is declared as a global variable, which I do not believe it is
+    // a good practice in general
     var onSuccess = function(target) {
         return function(response) {
             if (!response) {
@@ -359,12 +341,16 @@ function performTranslation() {
             }
             else {
                 // FIXME: Potential security vulnerability
-                state.result = eval(response);
+                var raw = eval(response);
+                var targetText = extractSentences(raw);
+
+                model.set('raw', raw);
+                model.set('targetText', targetText);
 
                 // detected source language
-                var source = state.result[2];
+                var source = raw[2];
 
-                uploadRawCorpora(source, target, JSON.stringify(state.result));
+                uploadRawCorpora(source, target, JSON.stringify(targetText));
             }
         };
     };
@@ -372,9 +358,6 @@ function performTranslation() {
     var onAlways = function() {
         $("#progress-message").hide();
         enableControls(true);
-
-        // This must be called after enableControls()
-        state.invalidateUI(false);
 
         state.pending = false;
     };
@@ -385,20 +368,18 @@ function performTranslation() {
         return false;
     }
 
-    state.update();
-
-    if (state.source == state.target) {
+    if (sourceLang == targetLang) {
         // simply displays the original text when the source language and
         // the target language are identical
-        state.setResult(state.text);
+        model.set('targetText', sourceText);
     }
-    else if (state.source == "" || state.target == "") {
+    else if (sourceLang == '' || targetLang == '') {
          // TODO: Give some warning
     }
-    else if (state.text == null || state.text == "") {
+    else if (sourceLang == null || sourceText == '') {
          // TODO: Give some warning
     }
-    else if (encodeURIComponent(state.text).length > 8000) {
+    else if (encodeURIComponent(sourceText).length > 8000) {
         displayError("Text is too long.",
             "<a href=\"/download-clients\">Try the Better Translator client</a> to circumvent this issue.");
     }
@@ -407,44 +388,41 @@ function performTranslation() {
         // identical
 
         hideError();
-        $("#result").empty();
         $("#progress-message").show();
 
         enableControls(false);
-        hideAuxInfo();
 
         state.pending = true;
 
-        if (state.intermediate) {
+        if (intermediateLang) {
 
-            sendTranslationRequest(state.source, state.intermediate, state.text, function(response) {
+            sendTranslationRequest(sourceLang, intermediateLang, sourceText, function(response) {
 
-                onSuccess(state.intermediate)(response);
+                onSuccess(intermediateLang)(response);
 
                 // Delay for a random interval (0.5-1.5 sec)
                 var delay = 500 + Math.random() * 1000;
 
                 setTimeout(function() {
                     state.pending = true;
-                    sendTranslationRequest(state.intermediate, state.target,
-                        extractSentences(state.result),
-                        onSuccess(state.target),
+                    sendTranslationRequest(intermediateLang, targetLang,
+                        extractSentences(model.get('raw')),
+                        onSuccess(targetLang),
                         onAlways
                     );
                 }, delay);
 
             }, function() {
-                state.invalidateUI();
                 $("#progress-message").show();
             });
         }
         else {
-            sendTranslationRequest(state.source, state.target, state.text,
-                onSuccess(state.target), onAlways);
+            sendTranslationRequest(sourceLang, targetLang, sourceText,
+                onSuccess(targetLang), onAlways);
         }
 
         ga('send', 'event', 'api', 'translate',
-           sprintf('sl=%s&il=%s&tl=%s', state.source, state.intermediate, state.target));
+           sprintf('sl=%s&il=%s&tl=%s', sourceLang, intermediateLang, targetLang));
     }
 
     return false;
@@ -553,38 +531,28 @@ function hideError() {
 }
 
 function hashChanged(hash) {
-    var phash = parseHash(hash.substr(1));
+  var phash = parseHash(hash.substr(1));
 
-    var serial = phash.sr ? phash.sr[0] : "";
+  if(getParameterByName("t")) {
+      // Perform no action
+  }
+  else {
+    var source = phash.sl;
+    var target = phash.tl;
+    var intermediate = phash.il;
+    var text = phash.t;
 
-    if (serial) {
-        $("#request-permalink").hide();
-
-        // If a translation record is not newly loaded
-        if (serial != state.serial) {
-            fetchTranslation(serial);
-        }
-
-        state.serial = serial;
+    if (source)
+      model.set('sourceLanguage', source);
+    if (target)
+      model.set('targetLanguage', target);
+    if (intermediate)
+      model.set('intermediateLanguage', intermediate);
+    if (text) {
+      model.set('sourceText', decodeURIComponent(text));
+      performTranslation();
     }
-    else if(getParameterByName("t")) {
-        // Perform no action
-    }
-    else {
-        var source = phash.sl;
-        var target = phash.tl;
-        var intermediate = phash.il;
-        var text = phash.t;
-
-        $("select[name=sl]").val(source ? source : state.source);
-        $("select[name=il]").val(intermediate ? intermediate : state.intermediate);
-        $("select[name=tl]").val(target ? target : state.target);
-
-        if (text) {
-            $("#text").val(decodeURIComponent(text));
-            performTranslation();
-        }
-    }
+  }
 }
 
 function toggleScreenshot() {
@@ -654,19 +622,4 @@ function enableControls(state) {
         $("form select").disable();
         $("form button").disable();
     }
-}
-
-function showNaverEndic(query) {
-    var url = sprintf("http://m.endic.naver.com/search.nhn?searchOption=all&query=%s",
-        encodeURIComponent(query));
-
-    $("#naver-endic-dialog .modal-body iframe")
-        .attr("src", url)
-        .load(function() {
-            $("#aux-naver-endic").show();
-        });
-}
-
-function hideAuxInfo() {
-    $("#aux-naver-endic").hide();
 }

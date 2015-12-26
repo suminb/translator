@@ -7,8 +7,10 @@ from datetime import datetime
 
 from elasticsearch import Elasticsearch
 
+from app import config
 
-es = Elasticsearch([{'host': '52.68.65.104', 'port': 9200}])
+
+es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
 
 
 def str2datetime(s):
@@ -30,13 +32,17 @@ def main(filename):
         if len(cols) != 4:
             continue
 
-        id = hashlib.sha1(cols[3]).hexdigest()
-        doc = {'data': json.loads(cols[3]),
-               'timestamp': int(unix_time(str2datetime(cols[2])) * 1000),
-               'source_lang': cols[0],
-               'target_lang': cols[1]}
-        res = es.index(index='translation', doc_type='translation', id=id, body=doc)
-        print(res)
+        try:
+            id = hashlib.sha1(cols[3]).hexdigest()
+            doc = {'data': json.loads(cols[3]),
+                   'timestamp': int(unix_time(str2datetime(cols[2])) * 1000),
+                   'source_lang': cols[0],
+                   'target_lang': cols[1]}
+            res = es.index(index=config['es_index'],
+                           doc_type=config['es_doc_type'], id=id, body=doc)
+            print(res)
+        except:
+            sys.stderr.write('Bad data: {}\n'.format(line))
 
 
 if __name__ == '__main__':

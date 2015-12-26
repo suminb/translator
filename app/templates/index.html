@@ -26,14 +26,14 @@
     <div class="row-fluid">
       <div class="span3">
         <label>{{ _("Source Language") }}</label>
-        <select name="sl" onchange="state.selectSource(this.value)">
+        <select name="sl">
           <option value="auto">{{ _("Detect language" ) }}</option>
           {{ language_options | safe }}
         </select>
       </div>
       <div class="span3">
         <label>{{ _("Intermediate Language") }}</label>
-        <select name="il" onchange="state.selectIntermediate(this.value)">
+        <select name="il">
           <option value="">{{ _("None") }}</option>
           <option value="ja">{{ _("Japanese") }}</option>
           <option value="ru">{{ _("Russian") }}</option>
@@ -42,7 +42,7 @@
 
       <div class="span3">
         <label>{{ _("Target Language") }}</label>
-        <select name="tl" onchange="state.selectTarget(this.value)">
+        <select name="tl">
             {{ language_options | safe }}
         </select>
       </div>
@@ -159,8 +159,6 @@ window.onload = function() {
             hashChanged(window.location.hash ? window.location.hash : "");
         }
     }
-
-    state.invalidateUI();
 
     $("#source-text, #target-text").autoResize({
         // On resize:

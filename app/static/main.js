@@ -147,27 +147,6 @@ var state = {
 
     pending: false,
 
-    selectSource: function(v) {
-        this.source = v;
-        this.setResult("");
-
-        $.cookie("source", v);
-    },
-
-    selectIntermediate: function(v) {
-        this.intermediate = v;
-        this.setResult("");
-
-        $.cookie("intermediate", v);
-    },
-
-    selectTarget: function(v) {
-        this.target = v;
-        this.setResult("");
-
-        $.cookie("target", v);
-    },
-
     init: function() {
         /*
         this.setSource(typeof $.cookie("source") != "undefined" ?
@@ -215,70 +194,6 @@ var state = {
         // this.result = t.translated_text;
 
         this.result = t;
-    },
-
-    // Sometimes we want to update the textarea, sometimes now.
-    // The 'updateText' parameter indicates whether we want to do that. However,
-    // this meant to be a temporary solution.
-    invalidateUI: function(updateText) {
-        updateText = typeof updateText !== 'undefined' ? updateText : true;
-
-        $("select[name=sl]").val(this.source);
-        $("select[name=il]").val(this.intermediate);
-        $("select[name=tl]").val(this.target);
-
-        if (updateText) {
-            $("#text").val(this.text);
-        }
-
-        if (this.result) {
-
-            $("#result").html(extractSentences(this.result));
-
-            // var resultDiv = $("#result");
-            // var sourceText = this.result[0][0][1];
-
-            // $(this.result[5]).each(function(i, v) {
-            //     console.log(v);
-
-            //     var targetCorpus = v[2][0][0];
-            //     var sourceRanges = v[3];
-
-            //     $(sourceRanges).each(function(i, v) {
-            //         var sourceCorpus = sourceText.substring(v[0], v[1]);
-            //         console.log(sourceCorpus);
-            //     });
-
-            //     var corpusSpan = $("<span></span>")
-            //         .addClass("corpus")
-            //         .text(targetCorpus);
-
-            //     resultDiv.append(corpusSpan);
-            //     resultDiv.append(" ");
-            // });
-        }
-    },
-
-    /**
-     * Updates state based on the values of the UI controls
-     */
-    update: function() {
-        this.source = $("select[name=sl]").val();
-        this.intermediate = $("select[name=il]").val();
-        this.target = $("select[name=tl]").val();
-        this.text = $("#text").val();
-    },
-
-    serialize: function() {
-        this.update();
-
-        return {
-            source: this.source,
-            intermediate: this.intermediate,
-            target: this.target,
-            text: this.text,
-            result: this.result
-        };
     }
 };
 
@@ -381,14 +296,15 @@ function performTranslation() {
             else {
                 // FIXME: Potential security vulnerability
                 var raw = eval(response);
+                var targetText = extractSentences(raw);
 
                 model.set('raw', raw);
-                model.set('targetText', extractSentences(raw));
+                model.set('targetText', targetText);
 
                 // detected source language
                 var source = raw[2];
 
-                uploadRawCorpora(source, target, JSON.stringify(state.result));
+                uploadRawCorpora(source, target, JSON.stringify(targetText));
             }
         };
     };
@@ -396,9 +312,6 @@ function performTranslation() {
     var onAlways = function() {
         $("#progress-message").hide();
         enableControls(true);
-
-        // This must be called after enableControls()
-        state.invalidateUI(false);
 
         state.pending = false;
     };
@@ -408,8 +321,6 @@ function performTranslation() {
         // silently abort the request.
         return false;
     }
-
-    state.update();
 
     if (sourceLang == targetLang) {
         // simply displays the original text when the source language and
@@ -434,7 +345,6 @@ function performTranslation() {
         $("#progress-message").show();
 
         enableControls(false);
-        hideAuxInfo();
 
         state.pending = true;
 
@@ -457,7 +367,6 @@ function performTranslation() {
                 }, delay);
 
             }, function() {
-                state.invalidateUI();
                 $("#progress-message").show();
             });
         }
@@ -576,38 +485,28 @@ function hideError() {
 }
 
 function hashChanged(hash) {
-    var phash = parseHash(hash.substr(1));
+  var phash = parseHash(hash.substr(1));
 
-    var serial = phash.sr ? phash.sr[0] : "";
+  if(getParameterByName("t")) {
+      // Perform no action
+  }
+  else {
+    var source = phash.sl;
+    var target = phash.tl;
+    var intermediate = phash.il;
+    var text = phash.t;
 
-    if (serial) {
-        $("#request-permalink").hide();
-
-        // If a translation record is not newly loaded
-        if (serial != state.serial) {
-            fetchTranslation(serial);
-        }
-
-        state.serial = serial;
+    if (source)
+      model.set('sourceLanguage', source);
+    if (target)
+      model.set('targetLanguage', target);
+    if (intermediate)
+      model.set('intermediateLanguage', intermediate);
+    if (text) {
+      model.set('sourceText', decodeURIComponent(text));
+      performTranslation();
     }
-    else if(getParameterByName("t")) {
-        // Perform no action
-    }
-    else {
-        var source = phash.sl;
-        var target = phash.tl;
-        var intermediate = phash.il;
-        var text = phash.t;
-
-        $("select[name=sl]").val(source ? source : state.source);
-        $("select[name=il]").val(intermediate ? intermediate : state.intermediate);
-        $("select[name=tl]").val(target ? target : state.target);
-
-        if (text) {
-            $("#text").val(decodeURIComponent(text));
-            performTranslation();
-        }
-    }
+  }
 }
 
 function toggleScreenshot() {
@@ -677,19 +576,4 @@ function enableControls(state) {
         $("form select").disable();
         $("form button").disable();
     }
-}
-
-function showNaverEndic(query) {
-    var url = sprintf("http://m.endic.naver.com/search.nhn?searchOption=all&query=%s",
-        encodeURIComponent(query));
-
-    $("#naver-endic-dialog .modal-body iframe")
-        .attr("src", url)
-        .load(function() {
-            $("#aux-naver-endic").show();
-        });
-}
-
-function hideAuxInfo() {
-    $("#aux-naver-endic").hide();
 }

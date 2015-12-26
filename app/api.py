@@ -26,7 +26,7 @@ def __payload_as_tuples__(payload):
             yield key, value
 
 
-def __params__(text, source, target, client='t',
+def __params__(text, source, target, client='at',
                user_agent=DEFAULT_USER_AGENT):
     """Returns a dictionary containing all parameters to send a translation
     request to Google Translate."""
@@ -42,10 +42,6 @@ def __params__(text, source, target, client='t',
         'tl': target,
         'q': text,
         'dt': ['bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't', 'at'],
-        'tk': '676518.815608',
-        'ssel': 0,
-        'tsel': 0,
-        'source': 'btn',
     }
     url = 'https://translate.google.com/translate_a/single'
 
@@ -234,7 +230,7 @@ def translate_1_2():
     text, mode, source, target = map(lambda k: request.form[k].strip(), keys)
 
     try:
-        payload = translate(text, mode, source, target, 't')
+        payload = translate(text, mode, source, target)
 
         return jsonify(payload)
 

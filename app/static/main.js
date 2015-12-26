@@ -319,14 +319,8 @@ function buildTranslateURL(sl, tl, text, method) {
     // Some extra values that Google Translate sends to its server
     var extra = "dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at";
 
-    // 'tk' seems to be the length of the source text
-    extra += "&tk=" + text.length;
-
-    // Not sure what these values are but adding them regardless...
-    extra += "&ssel=0&tsel=3";
-
     if (method.toLowerCase() == 'get') {
-        return sprintf("%s?client=t&sl=%s&tl=%s&%s&q=%s", url, sl, tl, extra,
+        return sprintf("%s?client=at&sl=%s&tl=%s&%s&q=%s", url, sl, tl, extra,
             encodeURIComponent(text));
     }
     else if (method.toLowerCase() == 'post') {

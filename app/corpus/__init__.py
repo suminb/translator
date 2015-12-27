@@ -3,13 +3,11 @@ import hashlib
 import os
 from datetime import datetime
 
-import yaml
 from elasticsearch import Elasticsearch
-from flask import Flask, Blueprint, jsonify, request, render_template, url_for
-from flask.ext.paginate import Pagination
+from flask import Blueprint, jsonify, request
 
-from app import logger
-from app.corpus.models import Corpus, CorpusRaw
+from app import config
+from app.corpus.models import Corpus
 from app.utils import parse_javascript
 
 
@@ -49,8 +47,7 @@ def corpus_raw():
         'server': os.environ['SERVER_SOFTWARE'],
     }
 
-    config = yaml.load(open('config.yml'))
-    index = 'translator'
+    index = 'translator_android'
     doc_type = 'translation'
 
     es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])

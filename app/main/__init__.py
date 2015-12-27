@@ -3,13 +3,13 @@ from flask import Blueprint, request, render_template, url_for, redirect
 from flask.ext.babel import gettext as _
 from datetime import datetime
 
-from __init__ import __version__, get_locale
-from utils import language_options_html
+from app import __version__, get_locale
+from app.utils import language_options_html
 
 import json
 import os
 
-main_module = Blueprint('main', __name__)
+main_module = Blueprint('main', __name__, template_folder='templates')
 
 
 @main_module.route('/longtext')
@@ -19,8 +19,13 @@ def longtext():
 
 @main_module.route('/download-clients')
 def download_clients():
+    # Indicates whether we want to show a 'your client is outdated' message
+    outdated = bool(request.args.get('outdated', False))
+
     from app import config
-    return render_template('download_client.html', config=config)
+    context = {'config': config, 'outdated': outdated}
+
+    return render_template('download_clients.html', **context)
 
 
 @main_module.route('/backupdb')

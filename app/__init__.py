@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.8'
+__version__ = '1.3.9'
 
 import os
 import sys
@@ -44,7 +44,8 @@ TARGET_LANGUAGES = filter(lambda x: x not in ['', 'auto'],
                           VALID_LANGUAGES.keys())
 INTERMEDIATE_LANGUAGES = ['', 'ja', 'ru']
 
-DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.99 Safari/537.22'  # noqa
+DEFAULT_USER_AGENT = 'AndroidTranslate/4.4.0.RC01.104701208-44000162 5.1 ' \
+    'tablet GTR_TRANS_WLOPV1_ANDROID GTR_TRANS_WLOPV1_DE_EN_AR'
 MAX_TEXT_LENGTH = 8000
 
 
@@ -63,10 +64,8 @@ logger.setLevel(logging.INFO)
 babel = Babel()
 
 
-def create_app(name=__name__, config={},
-               static_folder='static', template_folder='templates'):
-    app = Flask(name, static_folder=static_folder,
-                template_folder=template_folder)
+def create_app(name=__name__, config={}):
+    app = Flask(name)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
     app.config['SQLALCHEMY_POOL_SIZE'] = 10
     app.secret_key = config.get('secret_key', '(secret key is not set)')
@@ -74,7 +73,7 @@ def create_app(name=__name__, config={},
     app.config.update(config)
 
     from api import api_module
-    from core import main_module
+    from main import main_module
     from corpus import corpus_module
     app.register_blueprint(api_module, url_prefix='')
     app.register_blueprint(main_module, url_prefix='')

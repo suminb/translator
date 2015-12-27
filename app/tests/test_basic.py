@@ -159,3 +159,13 @@ def test_languages_v1_3_t5(testapp):
 def test_languages_v1_3_t6(testapp):
     req = testapp.get('/api/v1.3/languages?field=source')
     assert req.status_code == 400
+
+
+def test_version_check(testapp):
+    resp = testapp.get('/api/v1.3/version-check')
+    assert resp.status_code == 400
+
+    resp = testapp.get('/api/v1.3/version-check?version=0.0.0')
+    result = json.loads(resp.data)
+    assert not result['is_latest']
+    assert 'latest_version' in result

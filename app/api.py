@@ -4,6 +4,7 @@ import operator
 import re
 import sys
 import urllib
+import uuid
 
 import requests
 from flask import Blueprint, request, jsonify
@@ -34,7 +35,6 @@ def __params__(text, source, target, client='at',
     request to Google Translate."""
 
     headers = {
-        'Referer': 'https://translate.google.com',
         'User-Agent': user_agent,
         'Content-Length': str(sys.getsizeof(text))
     }
@@ -43,11 +43,17 @@ def __params__(text, source, target, client='at',
         'sl': source,
         'tl': target,
         'q': text,
-        'dt': ['bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't', 'at'],
+        'dt': ['t', 'ld', 'qc', 'rm', 'bd'],
+        'dj': 1,
+        # Generate a UUID based on the remote client's IP address
+        'iid': uuid.uuid5(uuid.NAMESPACE_DNS, request.remote_addr),
+        # 'itid': 'pk',
+        # 'otf': 1,
+        'ie': 'UTF-8',
     }
     url = 'https://translate.google.com/translate_a/single'
 
-    if len(text) > 1000:
+    if len(urllib.quote(text)) > 1000:
         method = 'post'
         del payload['q']
     else:
@@ -79,10 +85,21 @@ def get_languages(field):
         raise Exception('Invalid field: {}'.format(field))
 
 
-@api_module.route('/api/v1.3/params', methods=['post'])
+@api_module.route('/api/v1.3/version-check')
+def version_check():
+    """Checks whether the client is the latest."""
+    from app import config
+    current_version = request.args['version']
+    latest_version = config['latest_client_version']
+    return jsonify({'is_latest': current_version == latest_version,
+                    'latest_version': latest_version})
+
+
+@api_module.route('/api/v1.3/params', methods=['get', 'post'])
 def params():
+    request_params = request.form if request.method == 'POST' else request.args
     text, source, target = \
-        [request.form[x] for x in ('text', 'source', 'target')]
+        [request_params[x] for x in ('text', 'source', 'target')]
     return jsonify(__params__(text.encode('utf-8'), source, target))
 
 

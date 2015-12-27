@@ -4,6 +4,7 @@ import sys
 import hashlib
 import json
 from datetime import datetime
+from dateutil import parser
 
 import click
 from elasticsearch import Elasticsearch
@@ -39,15 +40,17 @@ def extract_sentences(raw):
         yield (s[1].strip(), s[0].strip())  # source, target
 
 
-def store_sentences(source_lang, target_lang, sentences):
+def store_sentences(source_lang, target_lang, observed_at, sentences):
     """
+    :type observed_at: datetime
+
     :param sentences: list of (source, target) sentences
     """
     for source_text, target_text in sentences:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
         try:
             Sentence.create(
-                observed_at=datetime.utcnow(),
+                observed_at=observed_at,
                 source_lang=source_lang,
                 target_lang=target_lang,
                 source_text_hash=source_hash,
@@ -71,12 +74,15 @@ def extract_phrases(raw):
         yield source, targets
 
 
-def store_phrases(source_lang, target_lang, phrases):
+def store_phrases(source_lang, target_lang, observed_at, phrases):
+    """
+    :type observed_at: datetime
+    """
     for source_text, target_texts in phrases:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
         try:
             Phrase.create(
-                observed_at=datetime.utcnow(),
+                observed_at=observed_at,
                 source_lang=source_lang,
                 target_lang=target_lang,
                 source_text_hash=source_hash,
@@ -137,6 +143,7 @@ def process(term):
                 raw_data = hit['_source']['raw']
             except KeyError:
                 raw_data = hit['_source']['data']
+            observed_at = parser.parse(hit['_source']['timestamp'])
             source_lang = raw_data[2] if raw_data[2] else \
                 hit['_source']['source_lang']
             target_lang = hit['_source']['target_lang']
@@ -146,11 +153,11 @@ def process(term):
             print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
 
             if raw_data[0]:
-                store_sentences(source_lang, target_lang,
+                store_sentences(source_lang, target_lang, observed_at,
                                 extract_sentences(raw_data[0]))
 
             if raw_data[5]:
-                store_phrases(source_lang, target_lang,
+                store_phrases(source_lang, target_lang, observed_at,
                               extract_phrases(raw_data[5]))
             # raw_data[0]: sentences
             # raw_data[1]: dictionary data?

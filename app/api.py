@@ -35,7 +35,6 @@ def __params__(text, source, target, client='at',
     request to Google Translate."""
 
     headers = {
-        'Referer': 'https://translate.google.com',
         'User-Agent': user_agent,
         'Content-Length': str(sys.getsizeof(text))
     }
@@ -44,13 +43,17 @@ def __params__(text, source, target, client='at',
         'sl': source,
         'tl': target,
         'q': text,
-        'dt': ['bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't', 'at'],
+        'dt': ['t', 'ld', 'qc', 'rm', 'bd'],
+        'dj': 1,
         # Generate a UUID based on the remote client's IP address
         'iid': uuid.uuid5(uuid.NAMESPACE_DNS, request.remote_addr),
+        # 'itid': 'pk',
+        # 'otf': 1,
+        'ie': 'UTF-8',
     }
     url = 'https://translate.google.com/translate_a/single'
 
-    if len(text) > 1000:
+    if len(urllib.quote(text)) > 1000:
         method = 'post'
         del payload['q']
     else:

@@ -94,7 +94,7 @@ def version_check():
 
 @api_module.route('/api/v1.3/params', methods=['get', 'post'])
 def params():
-    request_params = request.form if request.method == 'post' else request.args
+    request_params = request.form if request.method == 'POST' else request.args
     text, source, target = \
         [request_params[x] for x in ('text', 'source', 'target')]
     return jsonify(__params__(text.encode('utf-8'), source, target))

@@ -63,10 +63,7 @@ logger.setLevel(logging.INFO)
 babel = Babel()
 
 
-def create_app(name=__name__, config={},
-               static_folder='static', template_folder='templates'):
-    #app = Flask(name, static_folder=static_folder,
-    #            template_folder=template_folder)
+def create_app(name=__name__, config={}):
     app = Flask(name)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
     app.config['SQLALCHEMY_POOL_SIZE'] = 10
@@ -77,11 +74,9 @@ def create_app(name=__name__, config={},
     from api import api_module
     from main import main_module
     from corpus import corpus_module
-    from desktop import desktop_module
     app.register_blueprint(api_module, url_prefix='')
     app.register_blueprint(main_module, url_prefix='')
     app.register_blueprint(corpus_module, url_prefix='/corpus')
-    app.register_blueprint(desktop_module, url_prefix='/desktop')
 
     from utils import register_filters
     register_filters(app)

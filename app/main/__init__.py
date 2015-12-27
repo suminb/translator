@@ -19,8 +19,13 @@ def longtext():
 
 @main_module.route('/download-clients')
 def download_clients():
+    # Indicates whether we want to show a 'your client is outdated' message
+    outdated = bool(request.args.get('outdated', False))
+
     from app import config
-    return render_template('download_client.html', config=config)
+    context = {'config': config, 'outdated': outdated}
+
+    return render_template('download_clients.html', **context)
 
 
 @main_module.route('/backupdb')

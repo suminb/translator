@@ -3,13 +3,11 @@ import hashlib
 import os
 from datetime import datetime
 
-import yaml
 from elasticsearch import Elasticsearch
-from flask import Flask, Blueprint, jsonify, request, render_template, url_for
-from flask.ext.paginate import Pagination
+from flask import Blueprint, jsonify, request
 
-from app import config, logger
-from app.corpus.models import Corpus, CorpusRaw
+from app import config
+from app.corpus.models import Corpus
 from app.utils import parse_javascript
 
 
@@ -35,19 +33,22 @@ def corpus_raw():
     raw, source_lang, target_lang = \
         map(lambda x: request.form[x], ('raw', 'sl', 'tl'))
 
+    # See if 'raw' is a valid JavaScript string
+    parsed = parse_javascript(raw)
+
     hash = hashlib.sha1(raw.encode('utf-8')).hexdigest(),
 
     body = {
         'timestamp': datetime.now(),
         'hash': hash,
-        'raw': raw,
+        'raw': parsed,
         'source_lang': source_lang,
         'target_lang': target_lang,
         'server': os.environ['SERVER_SOFTWARE'],
     }
 
-    index = 'translator'
-    doc_type = 'translation_android'
+    index = 'translator_android'
+    doc_type = 'translation'
 
     es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
     res = es.index(index=index, doc_type=doc_type, id=hash, body=body)

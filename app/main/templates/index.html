@@ -11,13 +11,6 @@
   </div>
   {% endif %}
 
-  <div class="alert">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    "Our systems have detected unusual traffic from your computer network."
-    오류 메세지가 뜬다면 전용 클라이언트를 이용해보세요.
-    &lt;<a href="/download-clients">바로가기</a>&gt;
-  </div>
-
   <p id="google-translate">
     <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
   </p>
@@ -85,12 +78,31 @@
   <div id="captcha-dialog" class="modal hide fade">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3>Opps...</h3>
+      <h3>Oops...</h3>
     </div>
     <div class="modal-body">
     </div>
     <div class="modal-footer">
       <a href="#" class="btn" data-dismiss="modal">{{ _("Close") }}</a>
+    </div>
+  </div>
+
+  <div id="service-503" class="modal hide fade">
+    <div class="modal-header">
+      <h3>알려드립니다</h3>
+    </div>
+    <div class="modal-body">
+      <p>
+        구글 번역기의 작동 방식이 변경되어 더 나은 번역기의 웹 버전이 기존의
+        방식대로는 더 이상 작동하지 않게 되었습니다. 문제를 해결하는 중이긴
+        하지만, 시간이 조금 걸릴 것으로 예상되오니 그동안 데스크탑 앱을
+        이용해주시기 바랍니다. 이용에 불편을 드려 죄송합니다.
+      </p>
+      <p>
+        <a href="/download-clients">더 나은 번역기 데스크탑 앱 받기</a>
+      </p>
+    </div>
+    <div class="modal-footer">
     </div>
   </div>
 
@@ -127,6 +139,7 @@ FIXME: There must be a better way than this
 var locale = '{{ locale }}';
 
 window.onload = function() {
+    $('#service-503').modal({backdrop: 'static'});
     loadLanguages();
 
     $("#source-text, #target-text").autoResize({

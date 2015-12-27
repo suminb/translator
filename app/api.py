@@ -79,6 +79,16 @@ def get_languages(field):
         raise Exception('Invalid field: {}'.format(field))
 
 
+@api_module.route('/api/v1.3/version-check')
+def version_check():
+    """Checks whether the client is the latest."""
+    from app import config
+    current_version = request.args['version']
+    latest_version = config['latest_client_version']
+    return jsonify({'is_latest': current_version == latest_version,
+                    'latest_version': latest_version})
+
+
 @api_module.route('/api/v1.3/params', methods=['post'])
 def params():
     text, source, target = \

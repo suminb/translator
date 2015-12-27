@@ -3,13 +3,13 @@ from flask import Blueprint, request, render_template, url_for, redirect
 from flask.ext.babel import gettext as _
 from datetime import datetime
 
-from __init__ import __version__, get_locale
-from utils import language_options_html
+from app import __version__, get_locale
+from app.utils import language_options_html
 
 import json
 import os
 
-main_module = Blueprint('main', __name__)
+main_module = Blueprint('main', __name__, template_folder='templates')
 
 
 @main_module.route('/longtext')

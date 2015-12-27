@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>더 나은 번역기 (Beta)</title>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="/static/main.css"/>
+
+    <script>
+      window.$ = window.jQuery = require('jquery');
+      window.Backbone = require('backbone');
+      window.Backbone.Epoxy = require('backbone.epoxy');
+    </script>
+    <script src="/static/jquery.cookie.js"></script>
+    <script src="/static/jquery.autoresize.js"></script>
+    <script src="/static/sprintf.js"></script>
+    <script src="/static/frontend.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+
+    <form id="translation-form">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>원문 언어</label>
+          <select name="sl">
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label>중간 언어</label>
+          <select name="il">
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label>번역문 언어</label>
+          <select name="tl">
+          </select>
+        </div>
+        <div class="col-sm-3" style="text-align:right;">
+          <button class="btn btn-primary translate">번역하기</button>
+        </div>
+      </div><!-- div.row -->
+      <div class="row" style="margin-top:1em;">
+        <div class="col-sm-6">
+          <textarea id="source-text" class="source-text" name="t" placeholder=""></textarea>
+        </div>
+        <div class="col-sm-6">
+          <div id="error-message" class="alert alert-error"></div>
+          <div class="target-text">
+            <div id="progress-message">
+             번역중... <img src="./progress.gif"/>
+            </div>
+            <pre id="target-text"></pre>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div id="captcha-dialog" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Opps...</h3>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">{{ _("Close") }}</a>
+      </div>
+    </div>
+
+    <div class="adsense">
+      <script type="text/javascript"><!--
+      google_ad_client = "ca-pub-2353453386862167";
+      /* Better Translator (Long Text) */
+      google_ad_slot = "7696826285";
+      google_ad_width = 728;
+      google_ad_height = 15;
+      //-->
+      </script>
+      <script type="text/javascript"
+      src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+      </script>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <!-- TODO: Put social media share plugins -->
+        <div id="copyright">
+          <a href="http://better-translator.com/credits" target="_blank">Credits</a> |
+          <a href="http://better-translator.com/disclaimers" target="_blank">Disclaimers</a> |
+          <a href="http://github.com/suminb/translator/issues" target="_blank">Bug reporting</a>
+          <br/>
+          &copy; 2015 <a href="http://labs.suminb.com" target="_blank">Sumin's Labs</a>.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

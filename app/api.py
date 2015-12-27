@@ -4,6 +4,7 @@ import operator
 import re
 import sys
 import urllib
+import uuid
 
 import requests
 from flask import Blueprint, request, jsonify
@@ -44,6 +45,8 @@ def __params__(text, source, target, client='at',
         'tl': target,
         'q': text,
         'dt': ['bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't', 'at'],
+        # Generate a UUID based on the remote client's IP address
+        'iid': uuid.uuid5(uuid.NAMESPACE_DNS, request.remote_addr),
     }
     url = 'https://translate.google.com/translate_a/single'
 
@@ -89,10 +92,11 @@ def version_check():
                     'latest_version': latest_version})
 
 
-@api_module.route('/api/v1.3/params', methods=['post'])
+@api_module.route('/api/v1.3/params', methods=['get', 'post'])
 def params():
+    request_params = request.form if request.method == 'post' else request.args
     text, source, target = \
-        [request.form[x] for x in ('text', 'source', 'target')]
+        [request_params[x] for x in ('text', 'source', 'target')]
     return jsonify(__params__(text.encode('utf-8'), source, target))
 
 

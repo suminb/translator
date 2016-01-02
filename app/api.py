@@ -39,6 +39,7 @@ def __params__(text, source, target, client='at',
         'User-Agent': user_agent,
         'Content-Length': str(sys.getsizeof(text))
     }
+    remote_addr = request.remote_addr if request.remote_addr else ''
     payload = {
         'client': client,
         'sl': source,
@@ -47,7 +48,7 @@ def __params__(text, source, target, client='at',
         'dt': ['t', 'ld', 'qc', 'rm', 'bd'],
         'dj': 1,
         # Generate a UUID based on the remote client's IP address
-        'iid': uuid.uuid5(uuid.NAMESPACE_DNS, request.remote_addr),
+        'iid': str(uuid.uuid5(uuid.NAMESPACE_DNS, remote_addr)),
         # 'itid': 'pk',
         # 'otf': 1,
         'ie': 'UTF-8',
@@ -59,6 +60,7 @@ def __params__(text, source, target, client='at',
         del payload['q']
     else:
         method = 'get'
+        del headers['Content-Length']
 
     return {
         'headers': headers,
@@ -297,16 +299,16 @@ def translate_1_2():
         return str(e), 500
 
 
-def lambda_get(url, query='', data={}, headers={}):
+def lambda_get(url, params={}, data={}, headers={}):
     """Sends an HTTP GET request via AWS Lambda."""
     session = Session(aws_access_key_id=config['aws']['access_key'],
                       aws_secret_access_key=config['aws']['secret_key'],
                       region_name=config['aws']['region'])
-    lambda_client = session.resource('lambda')
+    lambda_client = session.client('lambda')
 
     payload = {
         'url': url,
-        'query': query,
+        'params': params,
         'data': data,
         'headers': headers,
     }
@@ -440,10 +442,20 @@ def translate(text, mode, source, target, client='x'):
     )
 
 
-@api_module.route('/api/v1.3/translate')
+@api_module.route('/api/v1.3/translate', methods=['get', 'post'])
 def translate_v1_3():
     # TODO: Use AWS Lambda to make translation requests
-    pass
+    request_params = request.form if request.method == 'POST' else request.args
+    text, source, target = \
+        [request_params[k] for k in ('text', 'source', 'target')]
+    params = __params__(text.encode('utf-8'), source, target)
+    resp = lambda_get(params['url'], params=params['payload'],
+                      headers=params['headers'])
+    resp_content = json.loads(resp['Payload'].read())
+    resp_text = resp_content['text']
+    resp_status_code = resp_content['status_code']
+
+    return resp_text, resp_status_code
 
 
 @api_module.route('/api/v1.3/exception')

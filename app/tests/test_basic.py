@@ -95,6 +95,26 @@ def test_translate_7(testapp):
     assert u'브랜드' in tt
 
 
+def test_translate_v1_3_1(testapp):
+    params = {
+        'text': 'Python can be easy to pick up whether you\'re a first time '
+                'programmer or you\'re experienced with other languages.',
+        'source': 'en',
+        'target': 'es',
+    }
+    resp = testapp.post('/api/v1.3/translate', data=params)
+    assert resp.status_code == 200
+
+    resp_data = json.loads(resp.data)
+    assert resp_data['sentences']
+
+    sentences = ' '.join([x['trans'] for x in resp_data['sentences']])
+    assert 'Python' in sentences
+    assert 'programador' in sentences
+    assert 'experiencia' in sentences
+    assert 'lenguajes' in sentences
+
+
 def test_locale_1(testapp):
     req = testapp.get('/locale?locale=ko')
     assert req.status_code == 302

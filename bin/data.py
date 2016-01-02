@@ -58,6 +58,8 @@ def store_sentences(source_lang, target_lang, observed_at, sentences):
                 target_text=target_text)
         except sqlalchemy.exc.IntegrityError:
             db.session.rollback()
+        except sqlalchemy.exc.DataError:
+            db.session.rollback()
 
 
 def extract_phrases(raw):
@@ -89,6 +91,8 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
                 source_text=source_text,
                 target_texts=target_texts)
         except sqlalchemy.exc.IntegrityError:
+            db.session.rollback()
+        except sqlalchemy.exc.DataError:
             db.session.rollback()
 
 

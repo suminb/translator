@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import operator
+import os
 import re
 import sys
 import urllib
@@ -18,6 +19,43 @@ from utils import HTTPException, parse_javascript
 
 
 api_module = Blueprint('api', __name__)
+
+
+def get_lambda_client():
+    """First attempt to get AWS configuration from the environment variables;
+    then try to access the config object if environment variables are not
+    available."""
+    access_key = os.environ.get('AWS_ACCESS_KEY_ID',
+                                config['aws']['access_key'])
+    secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY',
+                                config['aws']['secret_key'])
+    region = os.environ.get('AWS_DEFAULT_REGION',
+                            config['aws']['region'])
+
+    session = Session(aws_access_key_id=access_key,
+                      aws_secret_access_key=secret_key,
+                      region_name=region)
+
+    return session.client('lambda')
+
+
+def lambda_get(url, params={}, data={}, headers={}):
+    """Sends an HTTP GET request via AWS Lambda."""
+    lambda_client = get_lambda_client()
+
+    payload = {
+        'url': url,
+        'params': params,
+        'data': data,
+        'headers': headers,
+    }
+    resp = lambda_client.invoke(
+        FunctionName='web_proxy',
+        InvocationType='RequestResponse',
+        LogType='Tail',
+        Payload=json.dumps(payload)
+    )
+    return resp
 
 
 def __payload_as_tuples__(payload):
@@ -297,28 +335,6 @@ def translate_1_2():
     except Exception as e:
         logger.exception(e)
         return str(e), 500
-
-
-def lambda_get(url, params={}, data={}, headers={}):
-    """Sends an HTTP GET request via AWS Lambda."""
-    session = Session(aws_access_key_id=config['aws']['access_key'],
-                      aws_secret_access_key=config['aws']['secret_key'],
-                      region_name=config['aws']['region'])
-    lambda_client = session.client('lambda')
-
-    payload = {
-        'url': url,
-        'params': params,
-        'data': data,
-        'headers': headers,
-    }
-    resp = lambda_client.invoke(
-        FunctionName='web_proxy',
-        InvocationType='RequestResponse',
-        LogType='Tail',
-        Payload=json.dumps(payload)
-    )
-    return resp
 
 
 def __translate__(text, source, target, client='x',

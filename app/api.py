@@ -6,11 +6,12 @@ import sys
 import urllib
 import uuid
 
+from boto3.session import Session
 import requests
 from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext as _
 
-from __init__ import logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
+from __init__ import config, logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
     TARGET_LANGUAGES, INTERMEDIATE_LANGUAGES, DEFAULT_USER_AGENT, \
     MAX_TEXT_LENGTH
 from utils import HTTPException, parse_javascript
@@ -88,7 +89,6 @@ def get_languages(field):
 @api_module.route('/api/v1.3/version-check')
 def version_check():
     """Checks whether the client is the latest."""
-    from app import config
     current_version = request.args['version']
     latest_version = config['latest_client_version']
     return jsonify({'is_latest': current_version == latest_version,
@@ -297,6 +297,28 @@ def translate_1_2():
         return str(e), 500
 
 
+def lambda_get(url, query='', data={}, headers={}):
+    """Sends an HTTP GET request via AWS Lambda."""
+    session = Session(aws_access_key_id=config['aws']['access_key'],
+                      aws_secret_access_key=config['aws']['secret_key'],
+                      region_name=config['aws']['region'])
+    lambda_client = session.resource('lambda')
+
+    payload = {
+        'url': url,
+        'query': query,
+        'data': data,
+        'headers': headers,
+    }
+    resp = lambda_client.invoke(
+        FunctionName='web_proxy',
+        InvocationType='RequestResponse',
+        LogType='Tail',
+        Payload=json.dumps(payload)
+    )
+    return resp
+
+
 def __translate__(text, source, target, client='x',
                   user_agent=DEFAULT_USER_AGENT):
     """
@@ -416,6 +438,12 @@ def translate(text, mode, source, target, client='x'):
         translated_text=translated_text,
         translated_raw=translated_raw,
     )
+
+
+@api_module.route('/api/v1.3/translate')
+def translate_v1_3():
+    # TODO: Use AWS Lambda to make translation requests
+    pass
 
 
 @api_module.route('/api/v1.3/exception')

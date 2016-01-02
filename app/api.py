@@ -7,7 +7,6 @@ import sys
 import urllib
 import uuid
 
-from boto3.session import Session
 import requests
 from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext as _
@@ -25,6 +24,7 @@ def get_lambda_client():
     """First attempt to get AWS configuration from the environment variables;
     then try to access the config object if environment variables are not
     available."""
+    from boto3.session import Session
     access_key = os.environ.get('AWS_ACCESS_KEY_ID',
                                 config['aws']['access_key'])
     secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY',

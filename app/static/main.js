@@ -50,7 +50,10 @@ var examples = {
         "The Google translator that you did not know about",
         "Google is dreaming of the world conquest.",
         "When in Rome do as the Romans do.",
-        "An eigenvector of a square matrix A is a non-zero vector v that, when multiplied by A, yields the original vector multiplied by a single number L; that is, Av = Lv. The number L is called the eigenvalue of A corresponding to v.",
+        "An eigenvector of a square matrix A is a non-zero vector v that, \
+          when multiplied by A, yields the original vector multiplied by ai \
+          single number L; that is, Av = Lv. The number L is called the \
+          eigenvalue of A corresponding to v.",
         "What the hell is going on"
     ],
     ko: [
@@ -466,18 +469,22 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
+    /*
     var url = sprintf(
         "http://goxcors-clone.appspot.com/cors?method=%s&header=%s&url=%s",
         //"http://goxcors-clone.appspot.com/jsonp?callback=&method=%s&header=%s&url=%s",
         requestMethod, header, encodeURIComponent(
             buildTranslateURL(source, target, text, requestMethod))
     );
+    */
+
+    var url = '/api/v1.3/translate';
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
     }
     else {
-        requestFunction(url, {q: text}, onSuccess).fail(function(response) {
+        requestFunction(url, {text: text, source: source, target: target}, onSuccess).fail(function(response) {
             displayError(response.responseText, null);
 
         }).always(onAlways);

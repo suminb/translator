@@ -45,11 +45,7 @@ def test_translate_5(testapp):
     resp = testapp.post('/v1.1/translate', data=params)
     assert resp.status_code == 200
 
-    t = json.loads(resp.data)
-
-    with open('/tmp/output.log', 'w') as f:
-        f.write(resp.data)
-        f.write('\n')
+    t = json.loads(resp.get_data(as_text=True))
 
     assert 'Toyota' in t['translated_text']
     assert 'Japan' in t['translated_text']
@@ -63,7 +59,7 @@ def test_translate_6(testapp):
     req = testapp.post('/v1.2/translate', data=params)
     assert req.status_code == 200
 
-    t = json.loads(req.data)
+    t = json.loads(req.get_data(as_text=True))
     tt = t['translated_text']
 
     assert ('Google' in tt) or ('We' in tt) or ('I' in tt)
@@ -79,7 +75,7 @@ def test_translate_7(testapp):
     resp = testapp.post('/v1.2/translate', data=params)
     assert resp.status_code == 200
 
-    data = json.loads(resp.data)
+    data = json.loads(resp.get_data(as_text=True))
     tt = data['translated_text']
 
     assert u'코카콜라' in tt
@@ -97,7 +93,7 @@ def test_translate_v1_3_1(testapp):
     resp = testapp.post('/api/v1.3/translate', data=params)
     assert resp.status_code == 200
 
-    resp_data = json.loads(resp.data)
+    resp_data = json.loads(resp.get_data(as_text=True))
     assert resp_data['sentences']
 
     sentences = ' '.join([x['trans'] for x in resp_data['sentences']])

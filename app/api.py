@@ -195,7 +195,7 @@ def languages_v1_3():
     try:
         languages = get_languages(field)
     except Exception as e:
-        return e.message, 400
+        return str(e), 400
 
     languages = [(x, _(y)) for x, y in languages]
 

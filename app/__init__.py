@@ -142,9 +142,6 @@ def get_locale():
         except KeyError:
             return request.accept_languages.best_match(['ko', 'en'])
 
-# from core import *
-# from user import *
-
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

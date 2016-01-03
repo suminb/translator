@@ -11,10 +11,10 @@ import requests
 from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext as _
 
-from __init__ import config, logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
+from app import config, logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
     TARGET_LANGUAGES, INTERMEDIATE_LANGUAGES, DEFAULT_USER_AGENT, \
     MAX_TEXT_LENGTH
-from utils import HTTPException, parse_javascript
+from app.utils import HTTPException, parse_javascript
 
 
 api_module = Blueprint('api', __name__)

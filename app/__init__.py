@@ -75,14 +75,14 @@ def create_app(name=__name__, config={}):
     from app.analysis.model import db
     db.init_app(app)
 
-    from api import api_module
-    from main import main_module
-    from corpus import corpus_module
+    from app.api import api_module
+    from app.main import main_module
+    from app.corpus import corpus_module
     app.register_blueprint(api_module, url_prefix='')
     app.register_blueprint(main_module, url_prefix='')
     app.register_blueprint(corpus_module, url_prefix='/corpus')
 
-    from utils import register_filters
+    from app.utils import register_filters
     register_filters(app)
 
     babel.init_app(app)

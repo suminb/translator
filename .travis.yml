@@ -3,10 +3,10 @@ sudo: false
 
 python:
   - "2.7"
+  - "3.4"
 
 install:
   - mkdir lib
-  - tar xf google.tgz -C lib
   - pip install -r requirements.txt --use-mirrors
 
 script:

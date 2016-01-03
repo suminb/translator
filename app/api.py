@@ -38,6 +38,10 @@ def get_lambda_client():
 
     return session.client('lambda')
 
+    import boto3
+    client = boto3.client('lambda')
+    return client
+
 
 def lambda_get(url, params={}, data={}, headers={}):
     """Sends an HTTP GET request via AWS Lambda."""

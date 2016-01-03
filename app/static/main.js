@@ -239,7 +239,7 @@ function buildTranslateURL(sl, tl, text, method) {
 }
 
 function extractSentences(raw) {
-  return $.map(raw[0], (function(v) { return v[0]; })).join('');
+    return $.map(raw.sentences, function(v) { return v.trans }).join('');
 }
 
 /**
@@ -343,8 +343,7 @@ function performTranslation() {
                 showCaptcha(response);
             }
             else {
-                // FIXME: Potential security vulnerability
-                var raw = eval(response);
+                var raw = JSON.parse(response);
                 var targetText = extractSentences(raw);
 
                 model.set('raw', raw);

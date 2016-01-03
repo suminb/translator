@@ -12,7 +12,6 @@ import rollbar
 import rollbar.contrib.flask
 import yaml
 
-
 VALID_LANGUAGES = {
     '': 'None',
     'auto': 'Auto',
@@ -38,10 +37,10 @@ VALID_LANGUAGES = {
     'tr': 'Turkish',
 }
 
-SOURCE_LANGUAGES = filter(lambda x: x not in ['', 'auto'],
-                          VALID_LANGUAGES.keys())
-TARGET_LANGUAGES = filter(lambda x: x not in ['', 'auto'],
-                          VALID_LANGUAGES.keys())
+SOURCE_LANGUAGES = list(filter(lambda x: x not in ['', 'auto'],
+                               VALID_LANGUAGES.keys()))
+TARGET_LANGUAGES = list(filter(lambda x: x not in ['', 'auto'],
+                               VALID_LANGUAGES.keys()))
 INTERMEDIATE_LANGUAGES = ['', 'ja', 'ru']
 
 DEFAULT_USER_AGENT = 'AndroidTranslate/4.4.0.RC01.104701208-44000162 5.1 ' \

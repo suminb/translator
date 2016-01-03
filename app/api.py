@@ -64,7 +64,7 @@ def lambda_get(url, params={}, data={}, headers={}):
 
 def __payload_as_tuples__(payload):
     """Takes a dictionary and converts it to a list of tuples."""
-    for key, value in payload.iteritems():
+    for key, value in payload.items():
         if isinstance(value, list):
             for v in value:
                 yield key, v
@@ -97,7 +97,15 @@ def __params__(text, source, target, client='at',
     }
     url = 'https://translate.google.com/translate_a/single'
 
-    if len(urllib.quote(text)) > 1000:
+    try:
+        # Python 3
+        from urllib.parse import quote, urlencode
+    except ImportError:
+        # Python 2
+        quote = urllib.quote
+        urlencode = urllib.urlencode
+
+    if len(quote(text)) > 1000:
         method = 'post'
         del payload['q']
     else:
@@ -109,7 +117,7 @@ def __params__(text, source, target, client='at',
         'payload': payload,
         'method': method,
         'url': url,
-        'query': urllib.urlencode(list(__payload_as_tuples__(payload)))
+        'query': urlencode(list(__payload_as_tuples__(payload)))
     }
 
 
@@ -468,10 +476,10 @@ def translate_v1_3():
     request_params = request.form if request.method == 'POST' else request.args
     text, source, target = \
         [request_params[k] for k in ('text', 'source', 'target')]
-    params = __params__(text.encode('utf-8'), source, target)
+    params = __params__(text, source, target)
     resp = lambda_get(params['url'], params=params['payload'],
                       headers=params['headers'])
-    resp_content = json.loads(resp['Payload'].read())
+    resp_content = json.loads(resp['Payload'].read().decode('utf-8'))
     resp_text = resp_content['text']
     resp_status_code = resp_content['status_code']
 

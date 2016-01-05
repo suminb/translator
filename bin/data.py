@@ -5,6 +5,7 @@ import hashlib
 import json
 from datetime import datetime
 from dateutil import parser
+from multiprocessing import Pool
 
 import click
 from elasticsearch import Elasticsearch
@@ -49,6 +50,7 @@ def store_sentences(source_lang, target_lang, observed_at, sentences):
     for source_text, target_text in sentences:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
         try:
+            print('  - {} -> {}'.format(source_text, target_text))
             Sentence.create(
                 observed_at=observed_at,
                 source_lang=source_lang,
@@ -126,12 +128,49 @@ def import_to_es(filename):
             sys.stderr.write('Bad data: {}\n'.format(line))
 
 
+def process_entry(hit):
+    """Processes a single ES hit entry."""
+
+    doc_id = hit['_id']
+    try:
+        raw_data = hit['_source']['raw']
+    except KeyError:
+        raw_data = hit['_source']['data']
+    observed_at = parser.parse(hit['_source']['timestamp'])
+    source_lang = raw_data[2] if raw_data[2] else \
+        hit['_source']['source_lang']
+    target_lang = hit['_source']['target_lang']
+    print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
+
+    if len(raw_data) > 0 and raw_data[0]:
+        store_sentences(source_lang, target_lang, observed_at,
+                        extract_sentences(raw_data[0]))
+
+    if len(raw_data) > 5 and raw_data[5]:
+        store_phrases(source_lang, target_lang, observed_at,
+                      extract_phrases(raw_data[5]))
+    # raw_data[0]: sentences
+    # raw_data[1]: dictionary data?
+    # raw_data[2]: source language
+    # raw_data[3]: (null)
+    # raw_data[4]: (null)
+    # raw_data[5]: phrases
+    # raw_data[6]: some floating point value; potentially confidence?
+    # raw_data[7]: (null)
+    # raw_data[8]: source languages along with confidence?
+
+    es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
+              id=doc_id)
+
+
 @cli.command()
 @click.option('-n', '--size', type=int, default=10,
               help='# of documents to fetch at once')
 @click.option('-m', '--skip', type=int, default=0,
               help='# of documents to skip')
-def process(size, skip):
+@click.option('-p', '--processes', type=int, default=16,
+              help='# of processes')
+def process(size, skip, processes):
     """Processes data on Elasticsearch"""
 
     # Get all data (the batch size will be 10 or so)
@@ -144,40 +183,8 @@ def process(size, skip):
     from app import create_app
     app = create_app()
     with app.app_context():
-        for hit in res['hits']['hits']:
-            doc_id = hit['_id']
-            try:
-                raw_data = hit['_source']['raw']
-            except KeyError:
-                raw_data = hit['_source']['data']
-            observed_at = parser.parse(hit['_source']['timestamp'])
-            source_lang = raw_data[2] if raw_data[2] else \
-                hit['_source']['source_lang']
-            target_lang = hit['_source']['target_lang']
-            # import pdb; pdb.set_trace()
-            # for i in [1, 2, 3, 4, 6, 7, 8]:
-            #    print('raw_data[{}]: {}'.format(i, raw_data[i]))
-            print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
-
-            if raw_data[0]:
-                store_sentences(source_lang, target_lang, observed_at,
-                                extract_sentences(raw_data[0]))
-
-            if raw_data[5]:
-                store_phrases(source_lang, target_lang, observed_at,
-                              extract_phrases(raw_data[5]))
-            # raw_data[0]: sentences
-            # raw_data[1]: dictionary data?
-            # raw_data[2]: source language
-            # raw_data[3]: (null)
-            # raw_data[4]: (null)
-            # raw_data[5]: phrases
-            # raw_data[6]: some floating point value; potentially confidence?
-            # raw_data[7]: (null)
-            # raw_data[8]: source languages along with confidence?
-
-            es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
-                      id=doc_id)
+        p = Pool(processes)
+        p.map(process_entry, res['hits']['hits'])
 
 
 @cli.command()

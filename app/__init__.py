@@ -66,7 +66,7 @@ babel = Babel()
 def create_app(name=__name__, config={}):
     app = Flask(name)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
-    app.config['SQLALCHEMY_POOL_SIZE'] = 10
+    # app.config['SQLALCHEMY_POOL_SIZE'] = 10
     app.secret_key = config.get('secret_key', '(secret key is not set)')
 
     app.config.update(config)

@@ -1,11 +1,12 @@
 """Script to import data to Elasticsearch."""
 
-import sys
 import hashlib
 import json
 from datetime import datetime
 from dateutil import parser
 from multiprocessing import Pool
+import os
+import sys
 
 import click
 from elasticsearch import Elasticsearch
@@ -15,7 +16,9 @@ from app import config
 from app.analysis.model import db, Phrase, Sentence
 
 
-es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
+es_host = os.environ.get('ES_HOST', 'localhost')
+es_port = int(os.environ.get('ES_PORT', 9200))
+es = Elasticsearch([{'host': es_host, 'port': es_port}])
 
 
 def str2datetime(s):

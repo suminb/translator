@@ -32,10 +32,9 @@ def corpus_raw():
     raw, source_lang, target_lang = \
         map(lambda x: request.form[x], ('raw', 'sl', 'tl'))
 
-    # See if 'raw' is a valid JavaScript string
-    parsed = parse_javascript(raw)
+    parsed = json.loads(raw)
 
-    hash = hashlib.sha1(raw.encode('utf-8')).hexdigest(),
+    hash = hashlib.sha1(raw).hexdigest(),
 
     body = {
         'timestamp': datetime.now(),

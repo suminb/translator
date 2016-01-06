@@ -86,4 +86,4 @@ def parse_javascript(text):
     text = text.replace(',,', ',null,')
     text = text.replace('[,', '[null,')
 
-    return json.loads(text.encode('utf-8'))
+    return json.loads(text)

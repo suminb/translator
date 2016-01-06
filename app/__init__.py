@@ -97,9 +97,9 @@ def create_app(name=__name__, config={}):
         """init rollbar module"""
         rollbar.init(
             # access token
-            config.get('rollbar_token', ''),
+            os.environ.get('ROLLBAR_TOKEN', ''),
             # environment name
-            config.get('rollbar_env', 'development'),
+            os.environ.get('ROLLBAR_ENV', 'development'),
             # server root directory, makes tracebacks prettier
             root=os.path.dirname(os.path.realpath(__file__)),
             # flask already sets up logging

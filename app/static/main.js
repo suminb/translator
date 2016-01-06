@@ -352,7 +352,7 @@ function performTranslation() {
                 // detected source language
                 var source = raw[2];
 
-                uploadRawCorpora(source, target, JSON.stringify(targetText));
+                uploadRawCorpora(sourceLang, target, JSON.stringify(raw));
             }
         };
     };

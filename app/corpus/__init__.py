@@ -6,7 +6,6 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 from flask import Blueprint, jsonify, request
 
-from app import config
 from app.corpus.models import Corpus
 from app.utils import parse_javascript
 
@@ -33,10 +32,9 @@ def corpus_raw():
     raw, source_lang, target_lang = \
         map(lambda x: request.form[x], ('raw', 'sl', 'tl'))
 
-    # See if 'raw' is a valid JavaScript string
-    parsed = parse_javascript(raw)
+    parsed = json.loads(raw)
 
-    hash = hashlib.sha1(raw.encode('utf-8')).hexdigest(),
+    hash = hashlib.sha1(raw).hexdigest(),
 
     body = {
         'timestamp': datetime.now(),
@@ -50,6 +48,9 @@ def corpus_raw():
     index = 'translator_android'
     doc_type = 'translation'
 
-    es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
+    es_host = os.environ.get('ES_HOST', 'http://localhost')
+    es_port = int(os.environ.get('ES_PORT', 9200))
+
+    es = Elasticsearch([{'host': es_host, 'port': es_port}])
     res = es.index(index=index, doc_type=doc_type, id=hash, body=body)
     return ''

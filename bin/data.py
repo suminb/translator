@@ -1,11 +1,12 @@
 """Script to import data to Elasticsearch."""
 
-import sys
 import hashlib
 import json
 from datetime import datetime
 from dateutil import parser
 from multiprocessing import Pool
+import os
+import sys
 
 import click
 from elasticsearch import Elasticsearch
@@ -15,7 +16,9 @@ from app import config
 from app.analysis.model import db, Phrase, Sentence
 
 
-es = Elasticsearch([{'host': config['es_host'], 'port': config['es_port']}])
+es_host = os.environ.get('ES_HOST', 'localhost')
+es_port = int(os.environ.get('ES_PORT', 9200))
+es = Elasticsearch([{'host': es_host, 'port': es_port}])
 
 
 def str2datetime(s):
@@ -131,36 +134,45 @@ def import_to_es(filename):
 def process_entry(hit):
     """Processes a single ES hit entry."""
 
-    doc_id = hit['_id']
-    try:
-        raw_data = hit['_source']['raw']
-    except KeyError:
-        raw_data = hit['_source']['data']
-    observed_at = parser.parse(hit['_source']['timestamp'])
-    source_lang = raw_data[2] if raw_data[2] else \
-        hit['_source']['source_lang']
-    target_lang = hit['_source']['target_lang']
-    print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
+    from app import create_app
+    app = create_app()
+    with app.app_context():
+        doc_id = hit['_id']
+        try:
+            raw_data = hit['_source']['raw']
+        except KeyError:
+            raw_data = hit['_source']['data']
 
-    if len(raw_data) > 0 and raw_data[0]:
-        store_sentences(source_lang, target_lang, observed_at,
-                        extract_sentences(raw_data[0]))
+        timestamp = hit['_source']['timestamp']
+        if isinstance(timestamp, int):
+            observed_at = datetime.fromtimestamp(timestamp / 1000.0)
+        else:
+            observed_at = parser.parse(hit['_source']['timestamp'])
 
-    if len(raw_data) > 5 and raw_data[5]:
-        store_phrases(source_lang, target_lang, observed_at,
-                      extract_phrases(raw_data[5]))
-    # raw_data[0]: sentences
-    # raw_data[1]: dictionary data?
-    # raw_data[2]: source language
-    # raw_data[3]: (null)
-    # raw_data[4]: (null)
-    # raw_data[5]: phrases
-    # raw_data[6]: some floating point value; potentially confidence?
-    # raw_data[7]: (null)
-    # raw_data[8]: source languages along with confidence?
+        source_lang = raw_data[2] if raw_data[2] else \
+            hit['_source']['source_lang']
+        target_lang = hit['_source']['target_lang']
+        print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
 
-    es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
-              id=doc_id)
+        if len(raw_data) > 0 and raw_data[0]:
+            store_sentences(source_lang, target_lang, observed_at,
+                            extract_sentences(raw_data[0]))
+
+        if len(raw_data) > 5 and raw_data[5]:
+            store_phrases(source_lang, target_lang, observed_at,
+                          extract_phrases(raw_data[5]))
+        # raw_data[0]: sentences
+        # raw_data[1]: dictionary data?
+        # raw_data[2]: source language
+        # raw_data[3]: (null)
+        # raw_data[4]: (null)
+        # raw_data[5]: phrases
+        # raw_data[6]: some floating point value; potentially confidence?
+        # raw_data[7]: (null)
+        # raw_data[8]: source languages along with confidence?
+
+        es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
+                  id=doc_id)
 
 
 @cli.command()
@@ -180,11 +192,8 @@ def process(size, skip, processes):
 
     print("Got %d Hits:" % res['hits']['total'])
 
-    from app import create_app
-    app = create_app()
-    with app.app_context():
-        p = Pool(processes)
-        p.map(process_entry, res['hits']['hits'])
+    p = Pool(processes)
+    p.map(process_entry, res['hits']['hits'])
 
 
 @cli.command()

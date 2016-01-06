@@ -21,8 +21,8 @@ es_host = os.environ.get('ES_HOST', 'localhost')
 es_port = int(os.environ.get('ES_PORT', 9200))
 es = Elasticsearch([{'host': es_host, 'port': es_port}])
 
-StreamHandler(sys.stdout, level='INFO').push_application()
-log = Logger()
+StreamHandler(sys.stderr, level='INFO').push_application()
+log = Logger('')
 
 
 def str2datetime(s):
@@ -147,7 +147,7 @@ def import_to_es(filename):
                    'target_lang': target_lang}
             res = es.index(index=config['es_index'],
                            doc_type=config['es_doc_type'], id=id, body=doc)
-            print(res)
+            log.info(res)
         except:
             sys.stderr.write('Bad data: {}\n'.format(line))
 
@@ -173,7 +173,7 @@ def process_entry(hit):
         source_lang = raw_data[2] if raw_data[2] else \
             hit['_source']['source_lang']
         target_lang = hit['_source']['target_lang']
-        print('{}, {}, {}'.format(source_lang, target_lang, doc_id))
+        log.info('{}, {}, {}'.format(source_lang, target_lang, doc_id))
 
         if len(raw_data) > 0 and raw_data[0]:
             store_sentences(source_lang, target_lang, observed_at,
@@ -211,7 +211,7 @@ def process(size, skip, processes):
                     body={'query': {'match_all': {}}},
                     params={'size': size, 'from': skip})
 
-    print("Got %d Hits:" % res['hits']['total'])
+    log.info("Got %d Hits:" % res['hits']['total'])
 
     p = Pool(processes)
     p.map(process_entry, res['hits']['hits'])

@@ -60,8 +60,8 @@ def store_sentences(source_lang, target_lang, observed_at, sentences):
             "VALUES('{}', '{}', '{}', '{}', '{}', '{}', '{}');".format(
                 uuid64.issue(), observed_at, source_lang, target_lang,
                 source_hash,
-                source_text.replace("'", r"\'"),
-                target_text.replace("'", r"\'"))
+                source_text.replace("'", "''"),
+                target_text.replace("'", "''"))
         print(statement)
 
 
@@ -91,8 +91,8 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
                 'target_lang, source_text, target_text, count) VALUES(' \
                 "'{}', '{}', '{}', '{}', '{}', '{}', '0');".format(
                     record_id, observed_at, source_lang, target_lang,
-                    source_text.replace("'", r"\'"),
-                    target_text.replace("'", r"\'"))
+                    source_text.replace("'", "''"),
+                    target_text.replace("'", "''"))
             print(statement)
             statement2 = \
                 "UPDATE phrase SET count = count + 1 WHERE " \
@@ -101,8 +101,8 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
                 "source_text = '{}' AND " \
                 "target_text = '{}';".format(
                     source_lang, target_lang,
-                    source_text.replace("'", r"\'"),
-                    target_text.replace("'", r"\'"))
+                    source_text.replace("'", "''"),
+                    target_text.replace("'", "''"))
             print(statement2)
 
 

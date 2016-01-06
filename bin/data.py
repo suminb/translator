@@ -12,6 +12,7 @@ import click
 from elasticsearch import Elasticsearch
 from logbook import Logger, StreamHandler
 import sqlalchemy
+import uuid64
 
 from app import config
 from app.analysis.model import db, Phrase, Sentence
@@ -54,21 +55,18 @@ def store_sentences(source_lang, target_lang, observed_at, sentences):
 
     :param sentences: list of (source, target) sentences
     """
+    table = 'sentence'
     for source_text, target_text in sentences:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
-        try:
-            log.info('  - {} -> {}'.format(source_text, target_text))
-            Sentence.create(
-                observed_at=observed_at,
-                source_lang=source_lang,
-                target_lang=target_lang,
-                source_text_hash=source_hash,
-                source_text=source_text,
-                target_text=target_text)
-        except sqlalchemy.exc.IntegrityError:
-            db.session.rollback()
-        except sqlalchemy.exc.DataError:
-            db.session.rollback()
+        statement = \
+            'INSERT INTO {} (id, observed_at, source_lang, target_lang, ' \
+            'source_text_hash, source_text, target_text) VALUES (' \
+            "'{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
+                table, uuid64.issue(), observed_at, source_lang, target_lang,
+                source_hash,
+                source_text.replace("'", r"\'"),
+                target_text.replace("'", r"\'"))
+        print(statement)
 
 
 def extract_phrases(raw):
@@ -192,8 +190,8 @@ def process_entry(hit):
         # raw_data[7]: (null)
         # raw_data[8]: source languages along with confidence?
 
-        es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
-                  id=doc_id)
+        #es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
+        #          id=doc_id)
 
 
 @cli.command()
@@ -214,7 +212,8 @@ def process(size, skip, processes):
     log.info("Got %d Hits:" % res['hits']['total'])
 
     p = Pool(processes)
-    p.map(process_entry, res['hits']['hits'])
+    #p.map(process_entry, res['hits']['hits'])
+    list(map(process_entry, res['hits']['hits']))
 
 
 @cli.command()

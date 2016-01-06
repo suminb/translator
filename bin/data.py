@@ -55,14 +55,13 @@ def store_sentences(source_lang, target_lang, observed_at, sentences):
 
     :param sentences: list of (source, target) sentences
     """
-    table = 'sentence'
     for source_text, target_text in sentences:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
         statement = \
-            'INSERT INTO {} (id, observed_at, source_lang, target_lang, ' \
-            'source_text_hash, source_text, target_text) VALUES (' \
-            "'{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
-                table, uuid64.issue(), observed_at, source_lang, target_lang,
+            'INSERT INTO sentence (id, observed_at, source_lang, ' \
+            'target_lang, source_text_hash, source_text, target_text) ' \
+            "VALUES('{}', '{}', '{}', '{}', '{}', '{}', '{}');".format(
+                uuid64.issue(), observed_at, source_lang, target_lang,
                 source_hash,
                 source_text.replace("'", r"\'"),
                 target_text.replace("'", r"\'"))
@@ -89,35 +88,25 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
     """
     for source_text, target_texts in phrases:
         for target_text in target_texts:
-            phrase = Phrase.query.filter(
-                Phrase.source_lang == source_lang,
-                Phrase.target_lang == target_lang,
-                Phrase.source_text == source_text,
-                Phrase.target_text == target_text).first()
-
-            log.info('  - {} -> {}'.format(source_text, target_text))
-
-            if phrase:
-                if phrase.observed_at != observed_at:
-                    log.debug('Identical phrase with different timestamp')
-                    phrase.count += 1
-                    db.session.commit()
-                else:
-                    log.debug('Identical phrase (skipped)')
-            else:
-                try:
-                    log.debug('Unseen phrase')
-                    Phrase.create(
-                        observed_at=observed_at,
-                        source_lang=source_lang,
-                        target_lang=target_lang,
-                        source_text=source_text,
-                        target_text=target_text,
-                        count=1)
-                except sqlalchemy.exc.IntegrityError:
-                    db.session.rollback()
-                except sqlalchemy.exc.DataError:
-                    db.session.rollback()
+            record_id = uuid64.issue()
+            statement = \
+                'INSERT INTO phrase (id, observed_at, source_lang, ' \
+                'target_lang, source_text, target_text, count) VALUES(' \
+                "'{}', '{}', '{}', '{}', '{}', '{}', '0');".format(
+                    record_id, observed_at, source_lang, target_lang,
+                    source_text.replace("'", r"\'"),
+                    target_text.replace("'", r"\'"))
+            print(statement)
+            statement2 = \
+                "UPDATE phrase SET count = count + 1 WHERE " \
+                "source_lang = '{}' AND " \
+                "target_lang = '{}' AND " \
+                "source_text = '{}' AND " \
+                "target_text = '{}';".format(
+                    source_lang, target_lang,
+                    source_text.replace("'", r"\'"),
+                    target_text.replace("'", r"\'"))
+            print(statement2)
 
 
 @click.group()
@@ -190,8 +179,8 @@ def process_entry(hit):
         # raw_data[7]: (null)
         # raw_data[8]: source languages along with confidence?
 
-        #es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
-        #          id=doc_id)
+        es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
+                  id=doc_id)
 
 
 @cli.command()

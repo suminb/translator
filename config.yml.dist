@@ -1,10 +1,6 @@
 db_uri: ""
 secret_key: ""
 api_key: ""
-es_host: ""
-es_port: 8080
-rollbar_token: ""
-rollbar_env: "production"
 mac_client_url: ''
 windows_client_url: ''
 linux_client_url: ''

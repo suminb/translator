@@ -4,18 +4,15 @@ import hashlib
 import json
 from datetime import datetime
 from dateutil import parser
-from multiprocessing import Pool
 import os
 import sys
 
 import click
 from elasticsearch import Elasticsearch
 from logbook import Logger, StreamHandler
-import sqlalchemy
 import uuid64
 
 from app import config
-from app.analysis.model import db, Phrase, Sentence
 
 
 es_host = os.environ.get('ES_HOST', 'localhost')
@@ -200,9 +197,10 @@ def process(size, skip, processes):
 
     log.info("Got %d Hits:" % res['hits']['total'])
 
-    p = Pool(processes)
-    #p.map(process_entry, res['hits']['hits'])
-    list(map(process_entry, res['hits']['hits']))
+    # p = Pool(processes)
+    # p.map(process_entry, res['hits']['hits'])
+    for hit in res['hits']['hits']:
+        process_entry(hit)
 
 
 @cli.command()

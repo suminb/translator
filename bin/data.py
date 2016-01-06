@@ -10,6 +10,7 @@ import sys
 
 import click
 from elasticsearch import Elasticsearch
+from logbook import Logger, StreamHandler
 import sqlalchemy
 
 from app import config
@@ -19,6 +20,9 @@ from app.analysis.model import db, Phrase, Sentence
 es_host = os.environ.get('ES_HOST', 'localhost')
 es_port = int(os.environ.get('ES_PORT', 9200))
 es = Elasticsearch([{'host': es_host, 'port': es_port}])
+
+StreamHandler(sys.stdout, level='INFO').push_application()
+log = Logger()
 
 
 def str2datetime(s):
@@ -53,7 +57,7 @@ def store_sentences(source_lang, target_lang, observed_at, sentences):
     for source_text, target_text in sentences:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
         try:
-            print('  - {} -> {}'.format(source_text, target_text))
+            log.info('  - {} -> {}'.format(source_text, target_text))
             Sentence.create(
                 observed_at=observed_at,
                 source_lang=source_lang,
@@ -86,19 +90,36 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
     :type observed_at: datetime
     """
     for source_text, target_texts in phrases:
-        source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
-        try:
-            Phrase.create(
-                observed_at=observed_at,
-                source_lang=source_lang,
-                target_lang=target_lang,
-                source_text_hash=source_hash,
-                source_text=source_text,
-                target_texts=target_texts)
-        except sqlalchemy.exc.IntegrityError:
-            db.session.rollback()
-        except sqlalchemy.exc.DataError:
-            db.session.rollback()
+        for target_text in target_texts:
+            phrase = Phrase.query.filter(
+                Phrase.source_lang == source_lang,
+                Phrase.target_lang == target_lang,
+                Phrase.source_text == source_text,
+                Phrase.target_text == target_text).first()
+
+            log.info('  - {} -> {}'.format(source_text, target_text))
+
+            if phrase:
+                if phrase.observed_at != observed_at:
+                    log.debug('Identical phrase with different timestamp')
+                    phrase.count += 1
+                    db.session.commit()
+                else:
+                    log.debug('Identical phrase (skipped)')
+            else:
+                try:
+                    log.debug('Unseen phrase')
+                    Phrase.create(
+                        observed_at=observed_at,
+                        source_lang=source_lang,
+                        target_lang=target_lang,
+                        source_text=source_text,
+                        target_text=target_text,
+                        count=1)
+                except sqlalchemy.exc.IntegrityError:
+                    db.session.rollback()
+                except sqlalchemy.exc.DataError:
+                    db.session.rollback()
 
 
 @click.group()

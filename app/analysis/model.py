@@ -73,6 +73,18 @@ class Sentence(db.Model, CRUDMixin):
 
 class Phrase(db.Model, CRUDMixin):
     __tablename__ = 'phrase'
+    __table_args__ = (db.UniqueConstraint(
+        'source_lang', 'target_lang', 'source_text', 'target_text'), {})
+    observed_at = db.Column(db.DateTime(timezone=False))
+    source_lang = db.Column(db.String(16))
+    target_lang = db.Column(db.String(16))
+    source_text = db.Column(db.String(255))
+    target_text = db.Column(db.String(255))
+    count = db.Column(db.Integer)
+
+
+class PhraseOld(db.Model, CRUDMixin):
+    __tablename__ = 'phrase_old'
     __table_args__ = (db.UniqueConstraint('source_lang', 'target_lang',
                                           'source_text_hash'), {})
     observed_at = db.Column(db.DateTime(timezone=False))

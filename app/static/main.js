@@ -73,7 +73,7 @@ var examples = {
 };
 
 // URL encoded length, exclusively less than
-var SHORT_TRANSLATION_THRESHOLD = 256;
+var LONG_TRANSLATION_THRESHOLD = 1024;
 
 var TAGS_TO_REPLACE = {
     '&': '&amp;',
@@ -381,10 +381,6 @@ function performTranslation() {
     else if (sourceLang == null || sourceText == '') {
          // TODO: Give some warning
     }
-    else if (encodeURIComponent(sourceText).length > 8000) {
-        displayError("Text is too long.",
-            "<a href=\"/download-clients\">Try the Better Translator client</a> to circumvent this issue.");
-    }
     else {
         // translates if the source language and the target language are not
         // identical
@@ -461,6 +457,22 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var textLength = encodeURIComponent(text).length;
 
     // TODO: also consider 'header' value which can be quite long sometimes
+
+    if (textLength > LONG_TRANSLATION_THRESHOLD) {
+      // FIXME: We would like to throw an exception here, but for now we are
+      // directly manipulating the UI here.
+      // throw new LongtextException();
+      displayError('Text is too long. ' +
+        '<a href="/download-clients">Try the Better Translator client</a> ' +
+        'to circumvent this issue.');
+
+      // FIXME: The following section must be bound to the model
+      state.pending = false;
+      enableControls(true);
+      $("#progress-message").hide();
+
+      return;
+    }
 
     var requestFunction = textLength < 550 ?
         $.get : $.post;

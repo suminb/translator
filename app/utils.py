@@ -2,7 +2,7 @@ from functools import wraps
 from flask.ext.babel import gettext as _
 from flask import g, request, redirect, url_for, jsonify
 
-from __init__ import VALID_LANGUAGES
+from app import VALID_LANGUAGES
 
 import uuid
 import base62
@@ -86,4 +86,4 @@ def parse_javascript(text):
     text = text.replace(',,', ',null,')
     text = text.replace('[,', '[null,')
 
-    return json.loads(text.encode('utf-8'))
+    return json.loads(text)

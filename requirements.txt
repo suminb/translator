@@ -23,3 +23,4 @@ click
 rollbar
 blinker
 elasticsearch
+boto3

@@ -50,7 +50,10 @@ var examples = {
         "The Google translator that you did not know about",
         "Google is dreaming of the world conquest.",
         "When in Rome do as the Romans do.",
-        "An eigenvector of a square matrix A is a non-zero vector v that, when multiplied by A, yields the original vector multiplied by a single number L; that is, Av = Lv. The number L is called the eigenvalue of A corresponding to v.",
+        "An eigenvector of a square matrix A is a non-zero vector v that, \
+          when multiplied by A, yields the original vector multiplied by ai \
+          single number L; that is, Av = Lv. The number L is called the \
+          eigenvalue of A corresponding to v.",
         "What the hell is going on"
     ],
     ko: [
@@ -70,7 +73,7 @@ var examples = {
 };
 
 // URL encoded length, exclusively less than
-var SHORT_TRANSLATION_THRESHOLD = 256;
+var LONG_TRANSLATION_THRESHOLD = 1200;
 
 var TAGS_TO_REPLACE = {
     '&': '&amp;',
@@ -236,7 +239,7 @@ function buildTranslateURL(sl, tl, text, method) {
 }
 
 function extractSentences(raw) {
-  return $.map(raw[0], (function(v) { return v[0]; })).join('');
+    return $.map(raw.sentences, function(v) { return v.trans }).join('');
 }
 
 /**
@@ -340,8 +343,7 @@ function performTranslation() {
                 showCaptcha(response);
             }
             else {
-                // FIXME: Potential security vulnerability
-                var raw = eval(response);
+                var raw = JSON.parse(response);
                 var targetText = extractSentences(raw);
 
                 model.set('raw', raw);
@@ -350,7 +352,7 @@ function performTranslation() {
                 // detected source language
                 var source = raw[2];
 
-                uploadRawCorpora(source, target, JSON.stringify(targetText));
+                uploadRawCorpora(sourceLang, target, JSON.stringify(raw));
             }
         };
     };
@@ -378,10 +380,6 @@ function performTranslation() {
     }
     else if (sourceLang == null || sourceText == '') {
          // TODO: Give some warning
-    }
-    else if (encodeURIComponent(sourceText).length > 8000) {
-        displayError("Text is too long.",
-            "<a href=\"/download-clients\">Try the Better Translator client</a> to circumvent this issue.");
     }
     else {
         // translates if the source language and the target language are not
@@ -451,14 +449,31 @@ function sendXDomainRequest(url, method, data, onSuccess, onAlways) {
     // TODO: Handle exceptions
 }
 
+/**
+ * Sends a translation request to a remote server
+ */
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
-
-    var header = "Referer|http://translate.google.com";
 
     // Use GET for short requests and POST for long requests
     var textLength = encodeURIComponent(text).length;
 
     // TODO: also consider 'header' value which can be quite long sometimes
+
+    if (textLength > LONG_TRANSLATION_THRESHOLD) {
+      // FIXME: We would like to throw an exception here, but for now we are
+      // directly manipulating the UI here.
+      // throw new LongtextException();
+      displayError('Text is too long. ' +
+        '<a href="/download-clients">Try the Better Translator client</a> ' +
+        'to circumvent this issue.');
+
+      // FIXME: The following section must be bound to the model
+      state.pending = false;
+      enableControls(true);
+      $("#progress-message").hide();
+
+      return;
+    }
 
     var requestFunction = textLength < 550 ?
         $.get : $.post;
@@ -466,18 +481,13 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
-    var url = sprintf(
-        "http://goxcors-clone.appspot.com/cors?method=%s&header=%s&url=%s",
-        //"http://goxcors-clone.appspot.com/jsonp?callback=&method=%s&header=%s&url=%s",
-        requestMethod, header, encodeURIComponent(
-            buildTranslateURL(source, target, text, requestMethod))
-    );
+    var url = '/api/v1.3/translate';
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
     }
     else {
-        requestFunction(url, {q: text}, onSuccess).fail(function(response) {
+        requestFunction(url, {text: text, source: source, target: target}, onSuccess).fail(function(response) {
             displayError(response.responseText, null);
 
         }).always(onAlways);

@@ -1,13 +1,11 @@
 from winnowing import winnow, kgrams, winnowing_hash, sanitize
-from google.appengine.ext import ndb
 
 
 FINGERPRINT_K = 4
 
 
-class Corpus(ndb.Model):
-    source_lang = ndb.StringProperty(indexed=True)
-    target_lang = ndb.StringProperty(indexed=True)
+class Corpus():
+    pass
 
 
 class _Corpus():
@@ -83,87 +81,3 @@ class _Corpus():
             indices = indices.filter(Corpus.target_lang == target_lang)
 
         return indices
-
-
-class CorpusIndex():
-    # Without __tablename__ attribute, the following error will occur.
-    # sqlalchemy.exc.InvalidRequestError: Class <class 'app.models.Watching'>
-    # does not have a __table__ or __tablename__ specified and does not inherit
-    # from an existing table-mapped class.
-    pass
-    # __tablename__ = 'corpus_index'
-    # __table_args__ = ( db.PrimaryKeyConstraint('source_hash', 'source_index',
-    #     'corpus_id'), {} )
-
-    # source_hash = db.Column(db.Integer)
-    # source_index = db.Column(db.Integer)
-    # corpus_id = db.Column(UUID, db.ForeignKey('corpus.id'))
-    # corpus = relationship('Corpus')
-
-    # def serialize(self):
-    #     data = super(CorpusIndex, self).serialize()
-
-    #     data['corpus'] = self.corpus.serialize()
-
-    #     return data
-
-
-class CorpusRaw(ndb.Model):
-    timestamp = ndb.DateTimeProperty(indexed=False)
-    source_lang = ndb.StringProperty(indexed=False)
-    target_lang = ndb.StringProperty(indexed=False)
-    # How do we enforce 'unique' constraints?
-    hash = ndb.StringProperty(indexed=False)
-    raw = ndb.TextProperty(indexed=False)
-    flags = ndb.IntegerProperty(indexed=False)
-
-    def extract_corpora(self):
-
-        import json
-
-        def insert_corpora(source_lang, source_text, target_lang, target_text,
-                           confidence):
-
-            #
-            # FIXME: Any better idea?
-            #
-            PUNCTUATION = '.,:;-_+={}[]()<>|\'"`~!@#$%^&*?'
-
-            if source_text == '' or source_text in PUNCTUATION:
-                return
-            if target_text == '' or target_text in PUNCTUATION:
-                return
-            if source_text == target_text:
-                return
-
-            corpus = Corpus.query.filter_by(
-                source_lang=source_lang, target_lang=target_lang,
-                source_text=source_text, target_text=target_text,
-            ).first()
-
-            if corpus is None:
-                corpus = Corpus.insert(
-                    source_lang=source_lang, target_lang=target_lang,
-                    source_text=source_text, target_text=target_text,
-                    confidence=confidence, frequency=1,
-                    commit=False,
-                )
-            else:
-                corpus.confidence += confidence
-                corpus.frequency += 1
-
-        raw = json.loads(self.raw)
-        if len(raw) >= 6 \
-            and raw[4] != None and len(raw[4]) > 0 \
-            and raw[5] != None and len(raw[5]) > 0:
-
-            for source, target in zip(raw[5], raw[4]):
-
-                source_text, target_text = source[0], target[0]
-                confidence = int(target[4])
-
-                insert_corpora(self.source_lang.strip(), source_text.strip(),
-                    self.target_lang.strip(), target_text.strip(), confidence)
-
-        self.flags |= 1
-        db.session.commit()

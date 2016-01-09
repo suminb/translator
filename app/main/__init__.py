@@ -41,7 +41,7 @@ def backupdb():
         return 'Invalid API key', 401
 
     limit = int(request.args.get('limit', 1000))
-    from corpus.models import CorpusRaw, ndb
+    from app.corpus.models import CorpusRaw, ndb
     query = CorpusRaw.query()
     entries = query.fetch(limit)
     output = '\n'.join(['{}\t{}\t{}\t{}'.format(

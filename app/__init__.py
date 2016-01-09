@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.9'
+__version__ = '1.3.10'
 
 import os
 import sys
@@ -11,7 +11,6 @@ from flask.ext.babel import Babel
 import rollbar
 import rollbar.contrib.flask
 import yaml
-
 
 VALID_LANGUAGES = {
     '': 'None',
@@ -38,10 +37,10 @@ VALID_LANGUAGES = {
     'tr': 'Turkish',
 }
 
-SOURCE_LANGUAGES = filter(lambda x: x not in ['', 'auto'],
-                          VALID_LANGUAGES.keys())
-TARGET_LANGUAGES = filter(lambda x: x not in ['', 'auto'],
-                          VALID_LANGUAGES.keys())
+SOURCE_LANGUAGES = list(filter(lambda x: x not in ['', 'auto'],
+                               VALID_LANGUAGES.keys()))
+TARGET_LANGUAGES = list(filter(lambda x: x not in ['', 'auto'],
+                               VALID_LANGUAGES.keys()))
 INTERMEDIATE_LANGUAGES = ['', 'ja', 'ru']
 
 DEFAULT_USER_AGENT = 'AndroidTranslate/4.4.0.RC01.104701208-44000162 5.1 ' \
@@ -67,19 +66,22 @@ babel = Babel()
 def create_app(name=__name__, config={}):
     app = Flask(name)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
-    app.config['SQLALCHEMY_POOL_SIZE'] = 10
+    # app.config['SQLALCHEMY_POOL_SIZE'] = 10
     app.secret_key = config.get('secret_key', '(secret key is not set)')
 
     app.config.update(config)
 
-    from api import api_module
-    from main import main_module
-    from corpus import corpus_module
+    from app.analysis.model import db
+    db.init_app(app)
+
+    from app.api import api_module
+    from app.main import main_module
+    from app.corpus import corpus_module
     app.register_blueprint(api_module, url_prefix='')
     app.register_blueprint(main_module, url_prefix='')
     app.register_blueprint(corpus_module, url_prefix='/corpus')
 
-    from utils import register_filters
+    from app.utils import register_filters
     register_filters(app)
 
     babel.init_app(app)
@@ -95,9 +97,9 @@ def create_app(name=__name__, config={}):
         """init rollbar module"""
         rollbar.init(
             # access token
-            config.get('rollbar_token', ''),
+            os.environ.get('ROLLBAR_TOKEN', ''),
             # environment name
-            config.get('rollbar_env', 'development'),
+            os.environ.get('ROLLBAR_ENV', 'development'),
             # server root directory, makes tracebacks prettier
             root=os.path.dirname(os.path.realpath(__file__)),
             # flask already sets up logging
@@ -138,15 +140,3 @@ def get_locale():
             return request.cookies['locale']
         except KeyError:
             return request.accept_languages.best_match(['ko', 'en'])
-
-# from core import *
-# from user import *
-
-
-if __name__ == '__main__':
-    host = os.environ.get('HOST', '0.0.0.0')
-    port = int(os.environ.get('PORT', 8001))
-    debug = bool(os.environ.get('DEBUG', 0))
-
-    app = create_app()
-    app.run(host=host, port=port, debug=debug)

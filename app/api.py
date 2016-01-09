@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import operator
+import os
 import re
 import sys
 import urllib
@@ -10,18 +11,60 @@ import requests
 from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext as _
 
-from __init__ import logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
+from app import config, logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
     TARGET_LANGUAGES, INTERMEDIATE_LANGUAGES, DEFAULT_USER_AGENT, \
     MAX_TEXT_LENGTH
-from utils import HTTPException, parse_javascript
+from app.utils import HTTPException, parse_javascript
 
 
 api_module = Blueprint('api', __name__)
 
 
+def get_lambda_client():
+    """First attempt to get AWS configuration from the environment variables;
+    then try to access the config object if environment variables are not
+    available."""
+    from boto3.session import Session
+    access_key = os.environ.get('AWS_ACCESS_KEY_ID',
+                                config['aws']['access_key'])
+    secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY',
+                                config['aws']['secret_key'])
+    region = os.environ.get('AWS_DEFAULT_REGION',
+                            config['aws']['region'])
+
+    session = Session(aws_access_key_id=access_key,
+                      aws_secret_access_key=secret_key,
+                      region_name=region)
+
+    return session.client('lambda')
+
+    import boto3
+    client = boto3.client('lambda')
+    return client
+
+
+def lambda_get(url, params={}, data={}, headers={}):
+    """Sends an HTTP GET request via AWS Lambda."""
+    lambda_client = get_lambda_client()
+
+    payload = {
+        'url': url,
+        'params': params,
+        'data': data,
+        'headers': headers,
+    }
+    resp = lambda_client.invoke(
+        FunctionName='web_proxy',
+        InvocationType='RequestResponse',
+        LogType='Tail',
+        Payload=json.dumps(payload)
+    )
+    return resp
+
+
 def __payload_as_tuples__(payload):
     """Takes a dictionary and converts it to a list of tuples."""
-    for key, value in payload.iteritems():
+    for key, value in payload.items():
         if isinstance(value, list):
             for v in value:
                 yield key, v
@@ -38,6 +81,7 @@ def __params__(text, source, target, client='at',
         'User-Agent': user_agent,
         'Content-Length': str(sys.getsizeof(text))
     }
+    remote_addr = request.remote_addr if request.remote_addr else ''
     payload = {
         'client': client,
         'sl': source,
@@ -46,25 +90,34 @@ def __params__(text, source, target, client='at',
         'dt': ['t', 'ld', 'qc', 'rm', 'bd'],
         'dj': 1,
         # Generate a UUID based on the remote client's IP address
-        'iid': uuid.uuid5(uuid.NAMESPACE_DNS, request.remote_addr),
+        'iid': str(uuid.uuid5(uuid.NAMESPACE_DNS, remote_addr)),
         # 'itid': 'pk',
         # 'otf': 1,
         'ie': 'UTF-8',
     }
     url = 'https://translate.google.com/translate_a/single'
 
-    if len(urllib.quote(text)) > 1000:
+    try:
+        # Python 3
+        from urllib.parse import quote, urlencode
+    except ImportError:
+        # Python 2
+        quote = urllib.quote
+        urlencode = urllib.urlencode
+
+    if len(quote(text)) > 1000:
         method = 'post'
         del payload['q']
     else:
         method = 'get'
+        del headers['Content-Length']
 
     return {
         'headers': headers,
         'payload': payload,
         'method': method,
         'url': url,
-        'query': urllib.urlencode(list(__payload_as_tuples__(payload)))
+        'query': urlencode(list(__payload_as_tuples__(payload)))
     }
 
 
@@ -88,9 +141,8 @@ def get_languages(field):
 @api_module.route('/api/v1.3/version-check')
 def version_check():
     """Checks whether the client is the latest."""
-    from app import config
     current_version = request.args['version']
-    latest_version = config['latest_client_version']
+    latest_version = os.environ.get('LATEST_CLIENT_VERSION', '(unknown)')
     return jsonify({'is_latest': current_version == latest_version,
                     'latest_version': latest_version})
 
@@ -143,7 +195,7 @@ def languages_v1_3():
     try:
         languages = get_languages(field)
     except Exception as e:
-        return e.message, 400
+        return str(e), 400
 
     languages = [(x, _(y)) for x, y in languages]
 
@@ -416,6 +468,22 @@ def translate(text, mode, source, target, client='x'):
         translated_text=translated_text,
         translated_raw=translated_raw,
     )
+
+
+@api_module.route('/api/v1.3/translate', methods=['get', 'post'])
+def translate_v1_3():
+    # TODO: Use AWS Lambda to make translation requests
+    request_params = request.form if request.method == 'POST' else request.args
+    text, source, target = \
+        [request_params[k] for k in ('text', 'source', 'target')]
+    params = __params__(text, source, target)
+    resp = lambda_get(params['url'], params=params['payload'],
+                      headers=params['headers'])
+    resp_content = json.loads(resp['Payload'].read().decode('utf-8'))
+    resp_text = resp_content['text']
+    resp_status_code = resp_content['status_code']
+
+    return resp_text, resp_status_code
 
 
 @api_module.route('/api/v1.3/exception')

@@ -3,16 +3,16 @@ sudo: false
 
 python:
   - "2.7"
+  - "3.4"
 
 install:
   - mkdir lib
-  - tar xf google.tgz -C lib
   - pip install -r requirements.txt --use-mirrors
 
 script:
   - ./localization.sh
   - export PYTHONPATH=$PYTHONPATH:.:./lib
-  - py.test app/tests/test_basic.py --cov app --durations=10
+  - py.test app/tests --cov app --durations=10
 
 after_success:
 - coveralls

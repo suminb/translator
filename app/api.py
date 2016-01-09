@@ -142,7 +142,7 @@ def get_languages(field):
 def version_check():
     """Checks whether the client is the latest."""
     current_version = request.args['version']
-    latest_version = config['latest_client_version']
+    latest_version = os.environ.get('LATEST_CLIENT_VERSION', '(unknown)')
     return jsonify({'is_latest': current_version == latest_version,
                     'latest_version': latest_version})
 

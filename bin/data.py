@@ -41,6 +41,8 @@ def extract_sentences(raw):
     :type raw: list
     """
     for s in raw:
+        if isinstance(s, str):
+            continue
         if s[0] is None or s[1] is None:
             continue
         yield (s[1].strip(), s[0].strip())  # source, target
@@ -70,6 +72,8 @@ def extract_phrases(raw):
     :type raw: list
     """
     for p in raw:
+        if isinstance(p, str):
+            continue
         source = p[0]
         try:
             targets = [x[0] for x in p[2]]

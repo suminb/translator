@@ -10,8 +10,6 @@ requests
 sphinx
 sphinxcontrib-httpdomain
 psycopg2
-nilsimsa
-hallucination
 winnowing
 pybase62
 pytest

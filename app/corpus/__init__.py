@@ -43,7 +43,7 @@ def corpus_raw():
         'raw': parsed,
         'source_lang': source_lang,
         'target_lang': target_lang,
-        'server': os.environ['SERVER_SOFTWARE'],
+        'server': os.environ.get('SERVER_SOFTWARE', '(unknown)'),
     }
 
     index = 'translator_android'

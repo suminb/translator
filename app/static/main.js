@@ -73,7 +73,7 @@ var examples = {
 };
 
 // URL encoded length, exclusively less than
-var LONG_TRANSLATION_THRESHOLD = 1024;
+var LONG_TRANSLATION_THRESHOLD = 1200;
 
 var TAGS_TO_REPLACE = {
     '&': '&amp;',

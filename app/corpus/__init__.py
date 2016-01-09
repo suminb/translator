@@ -34,7 +34,8 @@ def corpus_raw():
 
     parsed = json.loads(raw)
 
-    hash = hashlib.sha1(raw).hexdigest(),
+    # Unicode-objects must be encoded before hashing
+    hash = hashlib.sha1(raw.encode('utf-8')).hexdigest(),
 
     body = {
         'timestamp': datetime.now(),

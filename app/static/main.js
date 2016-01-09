@@ -449,9 +449,10 @@ function sendXDomainRequest(url, method, data, onSuccess, onAlways) {
     // TODO: Handle exceptions
 }
 
+/**
+ * Sends a translation request to a remote server
+ */
 function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
-
-    var header = "Referer|http://translate.google.com";
 
     // Use GET for short requests and POST for long requests
     var textLength = encodeURIComponent(text).length;
@@ -479,15 +480,6 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
-
-    /*
-    var url = sprintf(
-        "http://goxcors-clone.appspot.com/cors?method=%s&header=%s&url=%s",
-        //"http://goxcors-clone.appspot.com/jsonp?callback=&method=%s&header=%s&url=%s",
-        requestMethod, header, encodeURIComponent(
-            buildTranslateURL(source, target, text, requestMethod))
-    );
-    */
 
     var url = '/api/v1.3/translate';
 

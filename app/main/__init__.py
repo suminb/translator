@@ -87,7 +87,7 @@ def index(translation_id=None):
     #    tresponse = TranslationResponse.fetch(id_b62=translation_id)
 
     if translation_id is not None and tresponse is None:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     if tresponse is not None:
         translation = tresponse.serialize()

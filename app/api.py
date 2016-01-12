@@ -2,6 +2,7 @@
 import json
 import operator
 import os
+import random
 import re
 import sys
 import urllib
@@ -47,6 +48,8 @@ def lambda_get(url, params={}, data={}, headers={}):
     """Sends an HTTP GET request via AWS Lambda."""
     lambda_client = get_lambda_client()
 
+    function_names = ['web_proxy', 'web_proxy2']
+
     payload = {
         'url': url,
         'params': params,
@@ -54,7 +57,7 @@ def lambda_get(url, params={}, data={}, headers={}):
         'headers': headers,
     }
     resp = lambda_client.invoke(
-        FunctionName='web_proxy',
+        FunctionName=random.choice(function_names),
         InvocationType='RequestResponse',
         LogType='Tail',
         Payload=json.dumps(payload)

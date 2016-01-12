@@ -1,11 +1,14 @@
-__version__ = '0.1.0'
+__version__ = '0.1.1'
+
+import socket
 
 import requests
 
 
 def lambda_handler(event, context):
-    print(event)
-    print(context)
+    hostname = socket.gethostbyname(socket.gethostname())
+    print('{}: {}'.format(hostname, event))
+
     url = event['url']
     params = event.get('params', {})
     data = event.get('data', {})

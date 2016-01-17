@@ -22,3 +22,4 @@ rollbar
 blinker
 elasticsearch
 boto3
+pynamodb

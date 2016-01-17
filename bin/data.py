@@ -152,6 +152,10 @@ def process_entry(hit):
         except KeyError:
             raw_data = hit['_source']['data']
 
+        # Ignore bad data
+        if isinstance(raw_data, str):
+            return
+
         timestamp = hit['_source']['timestamp']
         if isinstance(timestamp, int):
             observed_at = datetime.fromtimestamp(timestamp / 1000.0)

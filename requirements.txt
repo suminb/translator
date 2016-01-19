@@ -6,6 +6,7 @@ flask-script
 flask_oauthlib
 flask-login
 jinja2
+markupsafe
 requests
 sphinx
 sphinxcontrib-httpdomain
@@ -22,3 +23,4 @@ rollbar
 blinker
 elasticsearch
 boto3
+logbook

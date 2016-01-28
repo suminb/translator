@@ -22,8 +22,7 @@ def download_clients():
     # Indicates whether we want to show a 'your client is outdated' message
     outdated = bool(request.args.get('outdated', False))
 
-    from app import config
-    context = {'config': config, 'outdated': outdated}
+    context = {'env': os.environ, 'outdated': outdated}
 
     return render_template('download_clients.html', **context)
 

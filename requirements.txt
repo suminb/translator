@@ -11,7 +11,6 @@ requests
 sphinx
 sphinxcontrib-httpdomain
 psycopg2
-winnowing
 pybase62
 pytest
 pytest-cov

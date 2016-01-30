@@ -12,6 +12,11 @@ import os
 main_module = Blueprint('main', __name__, template_folder='templates')
 
 
+@main_module.route('/about')
+def about():
+    return render_template('about.html')
+
+
 @main_module.route('/longtext')
 def longtext():
     return render_template('longtext.html')

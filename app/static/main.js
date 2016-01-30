@@ -565,13 +565,6 @@ function hashChanged(hash) {
   }
 }
 
-function toggleScreenshot() {
-    $("#google-translate").toggle("medium");
-}
-
-// FIXME: Deprecated
-var toggle_screenshot = toggleScreenshot;
-
 function fetchTranslation(serial) {
     $("#progress-message").show();
 

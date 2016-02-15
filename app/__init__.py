@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.10'
+__version__ = '1.3.11'
 
 import os
 import sys

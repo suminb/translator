@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-01-03 21:10+0900\n"
+"POT-Creation-Date: 2016-02-16 01:27+0900\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,28 +19,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.2.0\n"
 
-#: app/forms.py:9
-msgid "Source language"
-msgstr ""
-
-#: app/forms.py:10
-msgid "Target language"
-msgstr ""
-
-#: app/forms.py:11
-msgid "Original text"
-msgstr ""
-
-#: app/utils.py:43
+#: app/utils.py:44
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr ""
 
-#: app/corpus/templates/list.html:13 app/main/templates/index.html:21
+#: app/corpus/templates/list.html:13 app/main/templates/index.html:15
 msgid "Source Language"
 msgstr ""
 
-#: app/corpus/templates/list.html:14 app/main/templates/index.html:37
+#: app/corpus/templates/list.html:14 app/main/templates/index.html:31
 msgid "Target Language"
 msgstr ""
 
@@ -56,11 +44,7 @@ msgstr ""
 msgid "Confidence"
 msgstr ""
 
-#: app/desktop/templates/index.html:74 app/main/templates/index.html:86
-msgid "Close"
-msgstr ""
-
-#: app/main/__init__.py:101
+#: app/main/__init__.py:105
 msgid "app-description-text"
 msgstr ""
 "Лучший переводчик – языкового переводчика на идее, что перевод через "
@@ -75,93 +59,107 @@ msgid ""
 " You may go back to the <a href=\"/\">home page</a>."
 msgstr ""
 
+#: app/main/templates/about.html:3
+msgid "What is Better Translator?"
+msgstr ""
+
+#: app/main/templates/about.html:4
+msgid "app-description-html"
+msgstr ""
+"Лучший переводчик – языкового переводчика на <a href=\"#\" "
+"onclick=\"toggle_screenshot()\">идее</a>, что перевод через японскому "
+"языку дает лучший результат. Причиной этого является то, что большое "
+"количество образцов данных было накоплено в базе данных Google Translate,"
+" как и все в мире пытается перевести японские порно на свой язык, и, "
+"таким образом Google Translate работает лучше с японцами."
+
 #: app/main/templates/base.html:13 app/main/templates/base.html:16
 #: app/main/templates/base.html:19 app/main/templates/base.html:42
 msgid "app-title"
 msgstr "Лучший переводчик"
 
 #: app/main/templates/base.html:22 app/main/templates/credits.html:45
-#: app/main/templates/index.html:32 app/main/templates/index.html:93
+#: app/main/templates/index.html:26 app/main/templates/index.html:103
 msgid "Russian"
 msgstr "Pусский"
 
 #: app/main/templates/base.html:22 app/main/templates/credits.html:36
-#: app/main/templates/index.html:94
+#: app/main/templates/index.html:104
 msgid "French"
 msgstr "Французский"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:95
+#: app/main/templates/base.html:22 app/main/templates/index.html:105
 msgid "English"
 msgstr "Английский"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:96
+#: app/main/templates/base.html:22 app/main/templates/index.html:106
 msgid "Portuguese"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:97
+#: app/main/templates/base.html:22 app/main/templates/index.html:107
 msgid "Vietnamese"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:98
+#: app/main/templates/base.html:22 app/main/templates/index.html:108
 msgid "German"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:99
+#: app/main/templates/base.html:22 app/main/templates/index.html:109
 msgid "Korean"
 msgstr "Корейский"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:100
+#: app/main/templates/base.html:22 app/main/templates/index.html:110
 msgid "Italian"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:101
+#: app/main/templates/base.html:22 app/main/templates/index.html:111
 msgid "Hebrew"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:102
+#: app/main/templates/base.html:22 app/main/templates/index.html:112
 msgid "Indonesian"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:103
+#: app/main/templates/base.html:22 app/main/templates/index.html:113
 msgid "Turkish"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:104
+#: app/main/templates/base.html:22 app/main/templates/index.html:114
 msgid "Chinese"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:105
+#: app/main/templates/base.html:22 app/main/templates/index.html:115
 msgid "Filipino"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:106
+#: app/main/templates/base.html:22 app/main/templates/index.html:116
 msgid "Arabic"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:107
+#: app/main/templates/base.html:22 app/main/templates/index.html:117
 #, fuzzy
 msgid "Polish"
 msgstr "Испанский"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:108
+#: app/main/templates/base.html:22 app/main/templates/index.html:118
 msgid "Thai"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:109
+#: app/main/templates/base.html:22 app/main/templates/index.html:119
 msgid "Czech"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:110
+#: app/main/templates/base.html:22 app/main/templates/index.html:120
 msgid "Swedish"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:31
-#: app/main/templates/index.html:111
+#: app/main/templates/base.html:22 app/main/templates/index.html:25
+#: app/main/templates/index.html:121
 msgid "Japanese"
 msgstr "Японский"
 
 #: app/main/templates/base.html:22 app/main/templates/credits.html:41
-#: app/main/templates/index.html:112
+#: app/main/templates/index.html:122
 msgid "Spanish"
 msgstr "Испанский"
 
@@ -181,15 +179,19 @@ msgstr ""
 msgid "Twitter"
 msgstr ""
 
-#: app/main/templates/base.html:122 app/main/templates/credits.html:5
+#: app/main/templates/base.html:122
+msgid "About"
+msgstr ""
+
+#: app/main/templates/base.html:123 app/main/templates/credits.html:5
 msgid "Credits"
 msgstr "Титры"
 
-#: app/main/templates/base.html:123 app/main/templates/disclaimers.html:4
+#: app/main/templates/base.html:124 app/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: app/main/templates/base.html:124
+#: app/main/templates/base.html:125
 msgid "Bug reporting"
 msgstr "Сообщить об ошибке"
 
@@ -233,54 +235,48 @@ msgstr "Локализации"
 msgid "Your desktop app is outdated. Get the latest version below."
 msgstr ""
 
-#: app/main/templates/index.html:5
-msgid "app-description-html"
-msgstr ""
-"Лучший переводчик – языкового переводчика на <a href=\"#\" "
-"onclick=\"toggle_screenshot()\">идее</a>, что перевод через японскому "
-"языку дает лучший результат. Причиной этого является то, что большое "
-"количество образцов данных было накоплено в базе данных Google Translate,"
-" как и все в мире пытается перевести японские порно на свой язык, и, "
-"таким образом Google Translate работает лучше с японцами."
-
-#: app/main/templates/index.html:10
+#: app/main/templates/index.html:8
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
 "below. We encourage you to try modern browsers such as Firefox, Chrome "
 "and Safari."
 msgstr ""
 
-#: app/main/templates/index.html:23
+#: app/main/templates/index.html:17
 msgid "Detect language"
 msgstr ""
 
-#: app/main/templates/index.html:28
+#: app/main/templates/index.html:22
 msgid "Intermediate Language"
 msgstr ""
 
-#: app/main/templates/index.html:30
+#: app/main/templates/index.html:24
 msgid "None"
 msgstr ""
 
-#: app/main/templates/index.html:47 app/main/templates/index.html:48
+#: app/main/templates/index.html:41 app/main/templates/index.html:42
 msgid "Swap languages"
 msgstr ""
 
-#: app/main/templates/index.html:50
+#: app/main/templates/index.html:44
 msgid "Translate"
 msgstr "Перевести"
 
-#: app/main/templates/index.html:57
+#: app/main/templates/index.html:51
 msgid "Type in your sentences"
 msgstr ""
 
-#: app/main/templates/index.html:60
+#: app/main/templates/index.html:54
 #, fuzzy
 msgid "Similar translations"
 msgstr "Прямой перевод"
 
-#: app/main/templates/index.html:69
+#: app/main/templates/index.html:63
 msgid "Translation in progress..."
+msgstr ""
+
+#: app/main/templates/index.html:83 app/main/templates/index.html:96
+msgid "Close"
 msgstr ""
 
 #: app/main/templates/maintenance.html:3
@@ -451,5 +447,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Please help to me translate this from %%1$s to %%2$s"
+#~ msgstr ""
+
+#~ msgid "Source language"
+#~ msgstr ""
+
+#~ msgid "Target language"
+#~ msgstr ""
+
+#~ msgid "Original text"
 #~ msgstr ""
 

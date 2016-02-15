@@ -391,18 +391,22 @@ def __translate__(text, source, target, client='x',
 
         # It appears in some cases the Google Translate returns a string
         # rather than a dictionary
-        if isinstance(data, str):
-            return data
-        else:
-            try:
-                sentences = data['sentences']
-            except TypeError:
-                sentences = data['results'][0]['sentences']
+        try:
+            if isinstance(data, unicode):
+                return data
+        except NameError:
+            if isinstance(data, str):
+                return data
 
-            result = ' '.join(map(lambda x: x['trans'], sentences))
+        try:
+            sentences = data['sentences']
+        except TypeError:
+            sentences = data['results'][0]['sentences']
 
-            # Remove unneccessary white spaces
-            return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
+        result = ' '.join(map(lambda x: x['trans'], sentences))
+
+        # Remove unneccessary white spaces
+        return '\n'.join(map(lambda x: x.strip(), result.split('\n')))
 
     elif client == 't':
         return parse_javascript(req.text)

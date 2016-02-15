@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-01-03 21:10+0900\n"
+"POT-Creation-Date: 2016-02-16 01:27+0900\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language: fr\n"
@@ -18,31 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.2.0\n"
 
-#: app/forms.py:9
-#, fuzzy
-msgid "Source language"
-msgstr "Intervertir des langues"
-
-#: app/forms.py:10
-#, fuzzy
-msgid "Target language"
-msgstr "Intervertir des langues"
-
-#: app/forms.py:11
-msgid "Original text"
-msgstr "texte original"
-
-#: app/utils.py:43
+#: app/utils.py:44
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr ""
 
-#: app/corpus/templates/list.html:13 app/main/templates/index.html:21
+#: app/corpus/templates/list.html:13 app/main/templates/index.html:15
 #, fuzzy
 msgid "Source Language"
 msgstr "Intervertir des langues"
 
-#: app/corpus/templates/list.html:14 app/main/templates/index.html:37
+#: app/corpus/templates/list.html:14 app/main/templates/index.html:31
 #, fuzzy
 msgid "Target Language"
 msgstr "Intervertir des langues"
@@ -59,11 +45,7 @@ msgstr "Texte d'aariveé"
 msgid "Confidence"
 msgstr "Confidence"
 
-#: app/desktop/templates/index.html:74 app/main/templates/index.html:86
-msgid "Close"
-msgstr "Fermer"
-
-#: app/main/__init__.py:101
+#: app/main/__init__.py:105
 msgid "app-description-text"
 msgstr ""
 "La traduction aumieux est un service qui permet d'effectuer des "
@@ -82,93 +64,108 @@ msgstr ""
 "introuvable. Vous pouvez revenir à l'étape précédente pour retourner à la"
 " page d'accueil."
 
+#: app/main/templates/about.html:3
+msgid "What is Better Translator?"
+msgstr ""
+
+#: app/main/templates/about.html:4
+msgid "app-description-html"
+msgstr ""
+"La traduction aumieux est un service qui permet d'effectuer des "
+"traductions de la langue envers le japonais. Le motif déterminant de ce "
+"service est <a href=\"#\" onclick=\"toggle_screenshot()\">cela</a>, il y "
+"a des donnés accumulés par utilisateurs partout dans le monde qui "
+"essaient de traduire le porno japonais dans leur propre langage. Par "
+"conséquent, Google Traduction envers le japonais vous donne le meilleur "
+"résultat."
+
 #: app/main/templates/base.html:13 app/main/templates/base.html:16
 #: app/main/templates/base.html:19 app/main/templates/base.html:42
 msgid "app-title"
 msgstr "Traduction de mieux "
 
 #: app/main/templates/base.html:22 app/main/templates/credits.html:45
-#: app/main/templates/index.html:32 app/main/templates/index.html:93
+#: app/main/templates/index.html:26 app/main/templates/index.html:103
 msgid "Russian"
 msgstr "Russe"
 
 #: app/main/templates/base.html:22 app/main/templates/credits.html:36
-#: app/main/templates/index.html:94
+#: app/main/templates/index.html:104
 msgid "French"
 msgstr "Français"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:95
+#: app/main/templates/base.html:22 app/main/templates/index.html:105
 msgid "English"
 msgstr "anglais"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:96
+#: app/main/templates/base.html:22 app/main/templates/index.html:106
 msgid "Portuguese"
 msgstr "portugais"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:97
+#: app/main/templates/base.html:22 app/main/templates/index.html:107
 msgid "Vietnamese"
 msgstr "vietnamien"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:98
+#: app/main/templates/base.html:22 app/main/templates/index.html:108
 msgid "German"
 msgstr "allemand"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:99
+#: app/main/templates/base.html:22 app/main/templates/index.html:109
 msgid "Korean"
 msgstr "coréen"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:100
+#: app/main/templates/base.html:22 app/main/templates/index.html:110
 msgid "Italian"
 msgstr "italien"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:101
+#: app/main/templates/base.html:22 app/main/templates/index.html:111
 msgid "Hebrew"
 msgstr "hébreu"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:102
+#: app/main/templates/base.html:22 app/main/templates/index.html:112
 msgid "Indonesian"
 msgstr "indonésien"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:103
+#: app/main/templates/base.html:22 app/main/templates/index.html:113
 msgid "Turkish"
 msgstr "turc"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:104
+#: app/main/templates/base.html:22 app/main/templates/index.html:114
 msgid "Chinese"
 msgstr "chinois"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:105
+#: app/main/templates/base.html:22 app/main/templates/index.html:115
 msgid "Filipino"
 msgstr "tagalog"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:106
+#: app/main/templates/base.html:22 app/main/templates/index.html:116
 msgid "Arabic"
 msgstr "arabe"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:107
+#: app/main/templates/base.html:22 app/main/templates/index.html:117
 #, fuzzy
 msgid "Polish"
 msgstr "polonais"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:108
+#: app/main/templates/base.html:22 app/main/templates/index.html:118
 msgid "Thai"
 msgstr "thaïlandais"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:109
+#: app/main/templates/base.html:22 app/main/templates/index.html:119
 msgid "Czech"
 msgstr "tchèque"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:110
+#: app/main/templates/base.html:22 app/main/templates/index.html:120
 msgid "Swedish"
 msgstr "suédois"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:31
-#: app/main/templates/index.html:111
+#: app/main/templates/base.html:22 app/main/templates/index.html:25
+#: app/main/templates/index.html:121
 msgid "Japanese"
 msgstr "japonais"
 
 #: app/main/templates/base.html:22 app/main/templates/credits.html:41
-#: app/main/templates/index.html:112
+#: app/main/templates/index.html:122
 msgid "Spanish"
 msgstr "Español"
 
@@ -188,15 +185,19 @@ msgstr "Facebook"
 msgid "Twitter"
 msgstr "Twitter"
 
-#: app/main/templates/base.html:122 app/main/templates/credits.html:5
+#: app/main/templates/base.html:122
+msgid "About"
+msgstr ""
+
+#: app/main/templates/base.html:123 app/main/templates/credits.html:5
 msgid "Credits"
 msgstr "Crédits"
 
-#: app/main/templates/base.html:123 app/main/templates/disclaimers.html:4
+#: app/main/templates/base.html:124 app/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr "Exclusion"
 
-#: app/main/templates/base.html:124
+#: app/main/templates/base.html:125
 msgid "Bug reporting"
 msgstr "Rapports"
 
@@ -240,18 +241,7 @@ msgstr "Localisaion"
 msgid "Your desktop app is outdated. Get the latest version below."
 msgstr ""
 
-#: app/main/templates/index.html:5
-msgid "app-description-html"
-msgstr ""
-"La traduction aumieux est un service qui permet d'effectuer des "
-"traductions de la langue envers le japonais. Le motif déterminant de ce "
-"service est <a href=\"#\" onclick=\"toggle_screenshot()\">cela</a>, il y "
-"a des donnés accumulés par utilisateurs partout dans le monde qui "
-"essaient de traduire le porno japonais dans leur propre langage. Par "
-"conséquent, Google Traduction envers le japonais vous donne le meilleur "
-"résultat."
-
-#: app/main/templates/index.html:10
+#: app/main/templates/index.html:8
 #, fuzzy
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
@@ -261,40 +251,44 @@ msgstr ""
 "La traduction aumieux ne peut pas fonctionner correctement avec ancien "
 "navigateur."
 
-#: app/main/templates/index.html:23
+#: app/main/templates/index.html:17
 #, fuzzy
 msgid "Detect language"
 msgstr "Intervertir des langues"
 
-#: app/main/templates/index.html:28
+#: app/main/templates/index.html:22
 #, fuzzy
 msgid "Intermediate Language"
 msgstr "Utilisez japonais en tant qu'une langue intermédiaire"
 
-#: app/main/templates/index.html:30
+#: app/main/templates/index.html:24
 msgid "None"
 msgstr ""
 
-#: app/main/templates/index.html:47 app/main/templates/index.html:48
+#: app/main/templates/index.html:41 app/main/templates/index.html:42
 msgid "Swap languages"
 msgstr "Intervertir des langues"
 
-#: app/main/templates/index.html:50
+#: app/main/templates/index.html:44
 msgid "Translate"
 msgstr "Traduire"
 
-#: app/main/templates/index.html:57
+#: app/main/templates/index.html:51
 msgid "Type in your sentences"
 msgstr "Tapez votre phrases"
 
-#: app/main/templates/index.html:60
+#: app/main/templates/index.html:54
 #, fuzzy
 msgid "Similar translations"
 msgstr "Traduction similaire"
 
-#: app/main/templates/index.html:69
+#: app/main/templates/index.html:63
 msgid "Translation in progress..."
 msgstr "Traductioon en cours"
+
+#: app/main/templates/index.html:83 app/main/templates/index.html:96
+msgid "Close"
+msgstr "Fermer"
 
 #: app/main/templates/maintenance.html:3
 msgid "Maintenance"
@@ -462,4 +456,13 @@ msgstr "Statistiques\t"
 
 #~ msgid "Please help to me translate this from %%1$s to %%2$s"
 #~ msgstr "Aidez-moi à traduire cette phrase à partir du %%1$s à %%2$s"
+
+#~ msgid "Source language"
+#~ msgstr "Intervertir des langues"
+
+#~ msgid "Target language"
+#~ msgstr "Intervertir des langues"
+
+#~ msgid "Original text"
+#~ msgstr "texte original"
 

@@ -2,18 +2,12 @@
 {% block content %}
   <div id="fb-root"></div>
 
-  <p>{{ _("app-description-html") }}</p>
-
   {% if is_msie %}
   <div class="alert">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     {{ _("Better Translator may not work properly with Internet Explorer 9 and below. We encourage you to try modern browsers such as Firefox, Chrome and Safari.") }}
   </div>
   {% endif %}
-
-  <p id="google-translate">
-    <img src="/static/google_translate.jpg" alt="구글 번역기를 사용할 때에는 바로 다른 언어로 번역하는것 보다 일본어로 한 번 번역한 다음에 다른 언어로 바꾸는게 더 정확합니다. 전 세계에서 일본 동인지를 번역 하다 보니 수많은 데이터베이스가 쌓였거든요" />
-  </p>
 
   <form id="translation-form" method="get" onsubmit="return performTranslation()">
     <div class="row-fluid">
@@ -82,7 +76,7 @@
     </div>
     <div class="modal-body">
       Text is too long.
-      <a href=\"/download-clients\">Try the Better Translator client</a>
+      <a href=\"/download-clients\">Try the Better Translator destop app</a> 
       to circumvent this issue.
     </div>
     <div class="modal-footer">

@@ -2,6 +2,7 @@
 import json
 import operator
 import os
+import random
 import re
 import sys
 import urllib
@@ -47,6 +48,8 @@ def lambda_get(url, params={}, data={}, headers={}):
     """Sends an HTTP GET request via AWS Lambda."""
     lambda_client = get_lambda_client()
 
+    function_names = ['web_proxy', 'web_proxy2']
+
     payload = {
         'url': url,
         'params': params,
@@ -54,7 +57,7 @@ def lambda_get(url, params={}, data={}, headers={}):
         'headers': headers,
     }
     resp = lambda_client.invoke(
-        FunctionName='web_proxy',
+        FunctionName=random.choice(function_names),
         InvocationType='RequestResponse',
         LogType='Tail',
         Payload=json.dumps(payload)
@@ -152,7 +155,7 @@ def params():
     request_params = request.form if request.method == 'POST' else request.args
     text, source, target = \
         [request_params[x] for x in ('text', 'source', 'target')]
-    return jsonify(__params__(text.encode('utf-8'), source, target))
+    return jsonify(__params__(text, source, target))
 
 
 @api_module.route('/api/v1.3/parse_javascript', methods=['post'])
@@ -386,9 +389,18 @@ def __translate__(text, source, target, client='x',
     if client == 'x':
         data = json.loads(req.text)
 
+        # It appears in some cases the Google Translate returns a string
+        # rather than a dictionary
+        try:
+            if isinstance(data, unicode):
+                return data
+        except NameError:
+            if isinstance(data, str):
+                return data
+
         try:
             sentences = data['sentences']
-        except:
+        except TypeError:
             sentences = data['results'][0]['sentences']
 
         result = ' '.join(map(lambda x: x['trans'], sentences))

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.10'
+__version__ = '1.3.11'
 
 import os
 import sys
@@ -117,12 +117,14 @@ def create_app(name=__name__, config={}):
 
         Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
         try:
-            return request.args['locale']
+            locale = request.args['locale']
         except KeyError:
             try:
-                return request.cookies['locale']
+                locale = request.cookies['locale']
             except KeyError:
-                return request.accept_languages.best_match(['ko', 'en'])
+                locale = request.accept_languages.best_match(['ko', 'en'])
+
+        return locale if locale else 'en'
 
     return app
 
@@ -134,9 +136,11 @@ def get_locale():
 
     Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
     try:
-        return request.args['locale']
+        locale = request.args['locale']
     except KeyError:
         try:
-            return request.cookies['locale']
+            locale = request.cookies['locale']
         except KeyError:
-            return request.accept_languages.best_match(['ko', 'en'])
+            locale = request.accept_languages.best_match(['ko', 'en'])
+
+    return locale if locale else 'en'

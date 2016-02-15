@@ -6,13 +6,11 @@ flask-script
 flask_oauthlib
 flask-login
 jinja2
+markupsafe
 requests
 sphinx
 sphinxcontrib-httpdomain
 psycopg2
-nilsimsa
-hallucination
-winnowing
 pybase62
 pytest
 pytest-cov
@@ -24,3 +22,4 @@ rollbar
 blinker
 elasticsearch
 boto3
+logbook

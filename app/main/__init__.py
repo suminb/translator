@@ -12,6 +12,11 @@ import os
 main_module = Blueprint('main', __name__, template_folder='templates')
 
 
+@main_module.route('/about')
+def about():
+    return render_template('about.html')
+
+
 @main_module.route('/longtext')
 def longtext():
     return render_template('longtext.html')
@@ -22,8 +27,7 @@ def download_clients():
     # Indicates whether we want to show a 'your client is outdated' message
     outdated = bool(request.args.get('outdated', False))
 
-    from app import config
-    context = {'config': config, 'outdated': outdated}
+    context = {'env': os.environ, 'outdated': outdated}
 
     return render_template('download_clients.html', **context)
 
@@ -87,7 +91,7 @@ def index(translation_id=None):
     #    tresponse = TranslationResponse.fetch(id_b62=translation_id)
 
     if translation_id is not None and tresponse is None:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     if tresponse is not None:
         translation = tresponse.serialize()

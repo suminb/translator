@@ -44,21 +44,21 @@
 
 <div class="row-fluid download-icons">
   <div class="span4 download-icon">
-    <a href="{{ config.windows_client_url }}">
+    <a href="{{ env.WINDOWS_APP_URL }}">
       <img src="/static/icon_windows_128.png" alt="Windows"/>
       <div>Windows</div>
     </a>
   </div>
 
   <div class="span4 download-icon">
-    <a href="{{ config.mac_client_url }}">
+    <a href="{{ env.MAC_APP_URL }}">
       <img src="/static/icon_mac_128.png" alt="Mac OSX"/>
       <div>Mac OS X</div>
     </a>
   </div>
 
   <div class="span4 download-icon">
-    <a href="{{ config.linux_client_url }}">
+    <a href="{{ env.LINUX_APP_URL }}">
       <img src="/static/icon_linux_128.png" alt="Linux"/>
       <div>Linux</div>
     </a>

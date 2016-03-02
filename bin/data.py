@@ -133,8 +133,8 @@ def import_to_es(filename):
                    'timestamp': int(unix_time(str2datetime(timestamp)) * 1000),
                    'source_lang': source_lang,
                    'target_lang': target_lang}
-            res = es.index(index=config['es_index'],
-                           doc_type=config['es_doc_type'], id=id, body=doc)
+            res = es.index(index=os.environ['ES_INDEX'],
+                           doc_type=os.environ['ES_DOC_TYPE'], id=id, body=doc)
             log.info(res)
         except:
             sys.stderr.write('Bad data: {}\n'.format(line))

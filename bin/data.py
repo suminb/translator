@@ -128,7 +128,7 @@ def import_to_es(filename):
             continue
 
         try:
-            id = hashlib.sha1(raw_data).hexdigest()
+            id = hashlib.sha1(raw_data.encode('utf-8')).hexdigest()
             doc = {'data': json.loads(raw_data),
                    'timestamp': int(unix_time(str2datetime(timestamp)) * 1000),
                    'source_lang': source_lang,

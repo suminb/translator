@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.3.11'
-
 import os
 import sys
 import logging
@@ -11,6 +9,8 @@ from flask.ext.babel import Babel
 import rollbar
 import rollbar.contrib.flask
 import yaml
+
+__version__ = '1.3.12'
 
 VALID_LANGUAGES = {
     '': 'None',

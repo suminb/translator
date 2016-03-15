@@ -313,20 +313,17 @@ function loadLanguages() {
     sltlLoaded = true;
   });
 
-  var ilLoaded = false;
-  var ilurl = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
-  $.get(ilurl, function(response) {
-    var languages = $.map(response.languages, function(pair) {
+  {
+    var languages = $.map(loadIntermediateLanguages(locale), function(pair) {
       return {label: pair[1], value: pair[0]};
     });
     var il = $.cookie('intermediateLanguage');
     model.set('intermediateLanguages', languages);
     model.set('intermediateLanguage', il != null ? il : 'ja');
-    ilLoaded = true;
-  });
+  }
 
   var timer = setInterval(function() {
-    if (sltlLoaded && ilLoaded) {
+    if (sltlLoaded) {
       initWithHashesOrParameters();
       clearInterval(timer);
     }

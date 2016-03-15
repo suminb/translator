@@ -30,6 +30,12 @@ QUnit.test('extractSentences', function(assert) {
   // TODO: Multi-sentence test
 });
 
+QUnit.test('syncAjax', function(assert) {
+  // Synchronous Ajax call should return something
+  var httpResp = syncAjax('/');
+  assert.notEqual(httpResp, '');
+});
+
 QUnit.test('loadIntermediateLanguages', function(assert) {
   var languages = loadIntermediateLanguages('en');
   assert.ok(languages != null);

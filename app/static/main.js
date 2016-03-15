@@ -283,14 +283,28 @@ function swapLanguages(evt) {
   model.set('targetLanguage', sourceLang);
 }
 
-function loadIntermediateLanguages(locale) {
-  var url = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
+/**
+ * Synchronous Ajax call
+ */
+function syncAjax(url) {
   var httpResp = $.ajax({
     type: 'GET',
     url: url,
-    async: false,
-    dataType: 'json'
+    async: false
   });
+  return httpResp;
+}
+
+function loadSourceLanguages(locale) {
+  var url = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
+  var httpResp = syncAjax(url);
+  var parsed = JSON.parse(httpResp.responseText);
+  return parsed.languages;
+}
+
+function loadIntermediateLanguages(locale) {
+  var url = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
+  var httpResp = syncAjax(url);
   var parsed = JSON.parse(httpResp.responseText);
   return parsed.languages;
 }

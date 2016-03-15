@@ -565,52 +565,6 @@ function hashChanged(hash) {
   }
 }
 
-function fetchTranslation(serial) {
-    $("#progress-message").show();
-
-    $.get("/v0.9/fetch/"+serial, function(response) {
-        // TODO: Refactor this part
-        $("#text").val(response.original_text);
-        $("#result").html(response.translated_text_dictlink);
-
-        $("select[name=sl]").val(response.source);
-        $("select[name=il]").val(response.intermediate); // FIXME: Not implemented on server side
-        $("select[name=tl]").val(response.target);
-
-        window.history.replaceState(state.serialize(), "", window.location.href);
-
-        //askForRating(response.request_id);
-
-    }).fail(function(response) {
-        displayError(response.responseText, null);
-    }).always(function() {
-        $("#progress-message").hide();
-    });
-}
-
-function deleteTranslation(id) {
-    $("div.alert").hide();
-
-    $.delete_(sprintf("/v1.0/trs/%s", id), function(response) {
-        location.href = sprintf("/trequest/%s/response", response.request_id);
-    }).fail(function(response) {
-        $("div.alert-error").text(response.responseText).show();
-    }).always(function() {
-
-    });
-}
-
-function displayPermalink(id) {
-    var origin = window.location.origin ? window.location.origin
-        : window.location.protocol+"//"+window.location.host;
-    var path = sprintf("?tr=%s", id);
-    var url = origin + path;
-
-    $("#request-permalink").hide();
-
-    window.history.pushState(state.serialize(), "", path);
-}
-
 /**
  * @param state True or false
  */

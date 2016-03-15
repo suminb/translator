@@ -179,6 +179,11 @@ def disclaimers():
     return render_template('disclaimers.html', **context)
 
 
+@main_module.route('/tests')
+def tests():
+    return render_template('tests/test.html')
+
+
 @main_module.teardown_request
 def teardown_request(exception):
     """Refer http://flask.pocoo.org/docs/tutorial/dbcon/ for more details."""

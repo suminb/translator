@@ -284,41 +284,57 @@ function swapLanguages(evt) {
 }
 
 /**
+ * Synchronous Ajax call
+ */
+function syncAjax(url) {
+  var httpResp = $.ajax({
+    type: 'GET',
+    url: url,
+    async: false
+  });
+  return httpResp;
+}
+
+function loadSourceLanguages(locale) {
+  var url = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
+  var httpResp = syncAjax(url);
+  var parsed = JSON.parse(httpResp.responseText);
+  return parsed.languages;
+}
+
+function loadIntermediateLanguages(locale) {
+  var url = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
+  var httpResp = syncAjax(url);
+  var parsed = JSON.parse(httpResp.responseText);
+  return parsed.languages;
+}
+
+function makeLabelValueDicts(pairs) {
+  return $.map(pairs, function(pair) {
+    return {label: pair[1], value: pair[0]};
+  });
+}
+
+/**
  * Dynamically loads available languages from the server
  */
 function loadLanguages() {
-  var sltlLoaded = false;
-  var lurl = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
-  $.get(lurl, function(response) {
-    var languages = $.map(response.languages, function(pair) {
-      return {label: pair[1], value: pair[0]};
-    });
+  {
+    var languages = makeLabelValueDicts(loadSourceLanguages(locale));
     var sl = $.cookie('sourceLanguage');
     var tl = $.cookie('targetLanguage');
     model.set('languages', languages);
     model.set('sourceLanguage', sl ? sl : 'en');
     model.set('targetLanguage', tl ? tl : 'ko');
-    sltlLoaded = true;
-  });
-
-  var ilLoaded = false;
-  var ilurl = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
-  $.get(ilurl, function(response) {
-    var languages = $.map(response.languages, function(pair) {
-      return {label: pair[1], value: pair[0]};
-    });
+  }
+  {
+    var languages = makeLabelValueDicts(loadIntermediateLanguages(locale));
     var il = $.cookie('intermediateLanguage');
     model.set('intermediateLanguages', languages);
     model.set('intermediateLanguage', il != null ? il : 'ja');
-    ilLoaded = true;
-  });
+  }
 
-  var timer = setInterval(function() {
-    if (sltlLoaded && ilLoaded) {
-      initWithHashesOrParameters();
-      clearInterval(timer);
-    }
-  }, 100);
+  initWithHashesOrParameters();
 }
 
 function performTranslation() {
@@ -524,11 +540,6 @@ function refreshExample() {
     performTranslation();
 }
 
-function displayResult(result) {
-    hideError();
-    $("#result").html(result);
-}
-
 function displayError(message, postfix) {
     if (postfix == null) {
         postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.';
@@ -563,52 +574,6 @@ function hashChanged(hash) {
       performTranslation();
     }
   }
-}
-
-function fetchTranslation(serial) {
-    $("#progress-message").show();
-
-    $.get("/v0.9/fetch/"+serial, function(response) {
-        // TODO: Refactor this part
-        $("#text").val(response.original_text);
-        $("#result").html(response.translated_text_dictlink);
-
-        $("select[name=sl]").val(response.source);
-        $("select[name=il]").val(response.intermediate); // FIXME: Not implemented on server side
-        $("select[name=tl]").val(response.target);
-
-        window.history.replaceState(state.serialize(), "", window.location.href);
-
-        //askForRating(response.request_id);
-
-    }).fail(function(response) {
-        displayError(response.responseText, null);
-    }).always(function() {
-        $("#progress-message").hide();
-    });
-}
-
-function deleteTranslation(id) {
-    $("div.alert").hide();
-
-    $.delete_(sprintf("/v1.0/trs/%s", id), function(response) {
-        location.href = sprintf("/trequest/%s/response", response.request_id);
-    }).fail(function(response) {
-        $("div.alert-error").text(response.responseText).show();
-    }).always(function() {
-
-    });
-}
-
-function displayPermalink(id) {
-    var origin = window.location.origin ? window.location.origin
-        : window.location.protocol+"//"+window.location.host;
-    var path = sprintf("?tr=%s", id);
-    var url = origin + path;
-
-    $("#request-permalink").hide();
-
-    window.history.pushState(state.serialize(), "", path);
 }
 
 /**

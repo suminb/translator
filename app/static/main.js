@@ -536,11 +536,6 @@ function refreshExample() {
     performTranslation();
 }
 
-function displayResult(result) {
-    hideError();
-    $("#result").html(result);
-}
-
 function displayError(message, postfix) {
     if (postfix == null) {
         postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.';

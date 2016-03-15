@@ -32,7 +32,7 @@ QUnit.test('extractSentences', function(assert) {
 
 QUnit.test('syncAjax', function(assert) {
   // Synchronous Ajax call should return something
-  var httpResp = syncAjax('/');
+  var httpResp = syncAjax('/tests');
   assert.notEqual(httpResp, '');
 });
 
@@ -42,5 +42,14 @@ QUnit.test('loadIntermediateLanguages', function(assert) {
   assert.equal(languages.length, 3);
   $.each(languages, function(i, v) {
     assert.equal(v.length, 2);
+  });
+});
+
+QUnit.test('makeLabelValueDicts', function(assert) {
+  var pairs = [['value', 'label'], [1, 2]];
+  var dicts = makeLabelValueDicts(pairs);
+  $.each(dicts, function(i, v) {
+    assert.ok(v.label != null);
+    assert.ok(v.value != null);
   });
 });

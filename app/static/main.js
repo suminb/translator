@@ -309,39 +309,32 @@ function loadIntermediateLanguages(locale) {
   return parsed.languages;
 }
 
+function makeLabelValueDicts(pairs) {
+  return $.map(pairs, function(pair) {
+    return {label: pair[1], value: pair[0]};
+  });
+}
+
 /**
  * Dynamically loads available languages from the server
  */
 function loadLanguages() {
-  var sltlLoaded = false;
-  var lurl = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
-  $.get(lurl, function(response) {
-    var languages = $.map(response.languages, function(pair) {
-      return {label: pair[1], value: pair[0]};
-    });
+  {
+    var languages = makeLabelValueDicts(loadSourceLanguages(locale));
     var sl = $.cookie('sourceLanguage');
     var tl = $.cookie('targetLanguage');
     model.set('languages', languages);
     model.set('sourceLanguage', sl ? sl : 'en');
     model.set('targetLanguage', tl ? tl : 'ko');
-    sltlLoaded = true;
-  });
-
+  }
   {
-    var languages = $.map(loadIntermediateLanguages(locale), function(pair) {
-      return {label: pair[1], value: pair[0]};
-    });
+    var languages = makeLabelValueDicts(loadIntermediateLanguages(locale));
     var il = $.cookie('intermediateLanguage');
     model.set('intermediateLanguages', languages);
     model.set('intermediateLanguage', il != null ? il : 'ja');
   }
 
-  var timer = setInterval(function() {
-    if (sltlLoaded) {
-      initWithHashesOrParameters();
-      clearInterval(timer);
-    }
-  }, 100);
+  initWithHashesOrParameters();
 }
 
 function performTranslation() {

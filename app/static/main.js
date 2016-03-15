@@ -283,6 +283,18 @@ function swapLanguages(evt) {
   model.set('targetLanguage', sourceLang);
 }
 
+function loadIntermediateLanguages(locale) {
+  var url = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
+  var httpResp = $.ajax({
+    type: 'GET',
+    url: url,
+    async: false,
+    dataType: 'json'
+  });
+  var parsed = JSON.parse(httpResp.responseText);
+  return parsed.languages;
+}
+
 /**
  * Dynamically loads available languages from the server
  */

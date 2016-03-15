@@ -29,3 +29,12 @@ QUnit.test('extractSentences', function(assert) {
 
   // TODO: Multi-sentence test
 });
+
+QUnit.test('loadIntermediateLanguages', function(assert) {
+  var languages = loadIntermediateLanguages('en');
+  assert.ok(languages != null);
+  assert.equal(languages.length, 3);
+  $.each(languages, function(i, v) {
+    assert.equal(v.length, 2);
+  });
+});

@@ -10,3 +10,10 @@ Credits
 * Translation service: <http://translate.google.com>
 * App icon: <http://icon-generator.net>
 * Loading icon: <http://www.ajaxload.info>
+
+Sponsors
+--------
+
+<a href="https://www.browserstack.com">
+  <img src="https://jordankasper.com/js-testing/images/browserstack.png"/>
+</a>

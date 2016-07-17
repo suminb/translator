@@ -111,20 +111,8 @@ def create_app(name=__name__, config={}):
         got_request_exception.connect(rollbar.contrib.flask.report_exception,
                                       app)
 
-    @babel.localeselector
-    def get_locale():
-        """Selects an appropriate locale.
-
-        Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
-        try:
-            locale = request.args['locale']
-        except KeyError:
-            try:
-                locale = request.cookies['locale']
-            except KeyError:
-                locale = request.accept_languages.best_match(['ko', 'en'])
-
-        return locale if locale else 'en'
+    if babel.locale_selector_func is None:
+        babel.localeselector(get_locale)
 
     return app
 

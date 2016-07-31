@@ -96,6 +96,6 @@ if __name__ == '__main__':
     # tables = (TranslationRequest, TranslationResponse, Rating, )
     tables = [Corpus, CorpusRaw, CorpusIndex]
     for table in tables:
-        print '{};'.format(CreateTable(table.__table__).compile(db.engine))
+        print('{};'.format(CreateTable(table.__table__).compile(db.engine)))
 
     # db.create_all()

@@ -48,6 +48,11 @@
               <a href="http://blog.suminb.com/archives/1856" target="_blank">번역기 활용 팁</a>
             </li>
             {% endif %}
+            {% if locale == 'ko' and not is_mobile %}
+            <li>
+              <a href="{{ url_for('main.download_apps') }}">번역기 앱 다운로드</a>
+            </li>
+            {% endif %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _("Social Media" )}} <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -124,7 +129,7 @@
         <a href="/disclaimers">{{ _("Disclaimers") }}</a> |
         <a href="http://github.com/suminb/translator/issues" target="_blank">{{ _("Bug reporting") }}</a>
         <br/>
-        &copy; 2015 <a href="http://labs.suminb.com" target="_blank">Sumin's Labs</a>.
+        &copy; 2016 <a href="http://labs.suminb.com" target="_blank">Sumin's Labs</a>.
       </div>
     </div>
   </div>

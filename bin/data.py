@@ -10,9 +10,10 @@ import sys
 import click
 from elasticsearch import Elasticsearch
 from logbook import Logger, StreamHandler
-import uuid64
+import sqlalchemy
 
 from app import config
+from app.analysis.model import db, Phrase, Sentence
 
 
 es_host = os.environ.get('ES_HOST', 'localhost')
@@ -56,15 +57,21 @@ def store_sentences(source_lang, target_lang, observed_at, sentences):
     """
     for source_text, target_text in sentences:
         source_hash = hashlib.sha1(source_text.encode('utf-8')).hexdigest()
-        statement = \
-            'INSERT INTO sentence (id, observed_at, source_lang, ' \
-            'target_lang, source_text_hash, source_text, target_text) ' \
-            "VALUES('{}', '{}', '{}', '{}', '{}', '{}', '{}');".format(
-                uuid64.issue(), observed_at, source_lang, target_lang,
-                source_hash,
-                source_text.replace("'", "''"),
-                target_text.replace("'", "''"))
-        print(statement)
+        try:
+            log.info('  - {} -> {}'.format(source_text, target_text))
+            Sentence.create(
+                observed_at=observed_at,
+                source_lang=source_lang,
+                target_lang=target_lang,
+                source_text_hash=source_hash,
+                source_text=source_text,
+                target_text=target_text)
+        except sqlalchemy.exc.IntegrityError:
+            log.warn('Sentence already exists.')
+            db.session.rollback()
+        except sqlalchemy.exc.DataError as e:
+            log.warn(str(e))
+            db.session.rollback()
 
 
 def extract_phrases(raw):
@@ -89,25 +96,32 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
     """
     for source_text, target_texts in phrases:
         for target_text in target_texts:
-            record_id = uuid64.issue()
-            statement = \
-                'INSERT INTO phrase (id, observed_at, source_lang, ' \
-                'target_lang, source_text, target_text, count) VALUES(' \
-                "'{}', '{}', '{}', '{}', '{}', '{}', '0');".format(
-                    record_id, observed_at, source_lang, target_lang,
-                    source_text.replace("'", "''"),
-                    target_text.replace("'", "''"))
-            print(statement)
-            statement2 = \
-                "UPDATE phrase SET count = count + 1 WHERE " \
-                "source_lang = '{}' AND " \
-                "target_lang = '{}' AND " \
-                "source_text = '{}' AND " \
-                "target_text = '{}';".format(
-                    source_lang, target_lang,
-                    source_text.replace("'", "''"),
-                    target_text.replace("'", "''"))
-            print(statement2)
+            try:
+                Phrase.create(
+                    first_observed_at=observed_at,
+                    last_observed_at=observed_at,
+                    source_lang=source_lang,
+                    target_lang=target_lang,
+                    source_text=source_text,
+                    target_text=target_text,
+                    count=1)
+            except sqlalchemy.exc.IntegrityError:
+                db.session.rollback()
+
+                phrase = Phrase.query.filter(
+                    Phrase.source_text == source_text,
+                    Phrase.source_lang == source_lang,
+                    Phrase.target_text == target_text,
+                    Phrase.target_lang == target_lang
+                ).first()
+                phrase.count += 1
+                if phrase.first_observed_at is not None and observed_at < phrase.first_observed_at:
+                    phrase.first_observed_at = observed_at
+                if phrase.last_observed_at is not None and observed_at > phrase.last_observed_at:
+                    phrase.last_observed_at = observed_at
+                db.session.commit()
+            except sqlalchemy.exc.DataError:
+                db.session.rollback()
 
 
 @click.group()

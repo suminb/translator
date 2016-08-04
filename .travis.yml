@@ -7,7 +7,7 @@ python:
 
 install:
   - mkdir lib
-  - pip install -r requirements.txt --use-mirrors
+  - pip install -r requirements.txt
 
 script:
   - ./localization.sh

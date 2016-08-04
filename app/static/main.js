@@ -480,7 +480,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
       // directly manipulating the UI here.
       // throw new LongtextException();
       displayError('Text is too long. ' +
-        '<a href="/download-clients">Try the Better Translator client</a> ' +
+        '<a href="/download-apps">Try the Better Translator desktop app</a> ' +
         'to circumvent this issue.');
 
       // FIXME: The following section must be bound to the model

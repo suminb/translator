@@ -23,13 +23,14 @@ def longtext():
 
 
 @main_module.route('/download-clients')
-def download_clients():
+@main_module.route('/download-apps')
+def download_apps():
     # Indicates whether we want to show a 'your client is outdated' message
     outdated = bool(request.args.get('outdated', False))
 
     context = {'env': os.environ, 'outdated': outdated}
 
-    return render_template('download_clients.html', **context)
+    return render_template('download_apps.html', **context)
 
 
 @main_module.route('/backupdb')
@@ -65,10 +66,10 @@ def index(translation_id=None):
     if request.host == 'translator.suminb.com':
         return redirect('http://better-translator.com')
 
-    """
-    NOTE: Do not use HTTP GET parameters 'sl', 'tl', 'm' and 't'. These are
-    reserved for special purposes.
-    """
+    # NOTE: Do not use HTTP GET parameters 'sl', 'tl', 'm' and 't'. These are
+    # reserved for special purposes.
+
+    # FIXME: The following values must exist in other pages as well
     user_agent = request.headers.get('User-Agent', [])
     is_android = 'Android' in user_agent
     is_iphone = 'iPhone' in user_agent
@@ -78,6 +79,8 @@ def index(translation_id=None):
         version=__version__,
         locale=get_locale(),
         is_android=is_android,
+        is_iphone=is_iphone,
+        is_mobile=is_android or is_iphone,
         is_msie=is_msie,
         language_options=language_options_html(),
         debug=os.environ.get('DEBUG', None),

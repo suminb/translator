@@ -10,7 +10,9 @@ import rollbar
 import rollbar.contrib.flask
 import yaml
 
-__version__ = '1.3.12'
+
+__version__ = '1.3.13'
+
 
 VALID_LANGUAGES = {
     '': 'None',
@@ -111,26 +113,12 @@ def create_app(name=__name__, config={}):
         got_request_exception.connect(rollbar.contrib.flask.report_exception,
                                       app)
 
-    @babel.localeselector
-    def get_locale():
-        """Selects an appropriate locale.
-
-        Copied from https://github.com/lunant/lunant-web/blob/homepage/lunant/__init__.py"""  # noqa
-        try:
-            locale = request.args['locale']
-        except KeyError:
-            try:
-                locale = request.cookies['locale']
-            except KeyError:
-                locale = request.accept_languages.best_match(['ko', 'en'])
-
-        return locale if locale else 'en'
+    if babel.locale_selector_func is None:
+        babel.localeselector(get_locale)
 
     return app
 
 
-# FIXME: Could we de-duplicate this function definition? @babel.localeselector
-# is the problem.
 def get_locale():
     """Selects an appropriate locale.
 

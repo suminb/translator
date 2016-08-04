@@ -119,8 +119,6 @@ def create_app(name=__name__, config={}):
     return app
 
 
-# FIXME: Could we de-duplicate this function definition? @babel.localeselector
-# is the problem.
 def get_locale():
     """Selects an appropriate locale.
 

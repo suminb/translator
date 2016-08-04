@@ -115,7 +115,10 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
                     Phrase.target_lang == target_lang
                 ).first()
                 phrase.count += 1
-                phrase.last_observed_at = observed_at
+                if phrase.first_observed_at is not None and observed_at < phrase.first_observed_at:
+                    phrase.first_observed_at = observed_at
+                if phrase.last_observed_at is not None and observed_at > phrase.last_observed_at:
+                    phrase.last_observed_at = observed_at
                 db.session.commit()
             except sqlalchemy.exc.DataError:
                 db.session.rollback()

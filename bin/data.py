@@ -98,13 +98,28 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
         for target_text in target_texts:
             try:
                 Phrase.create(
-                    observed_at=observed_at,
+                    first_observed_at=observed_at,
+                    last_observed_at=observed_at,
                     source_lang=source_lang,
                     target_lang=target_lang,
                     source_text=source_text,
-                    target_text=target_text)
+                    target_text=target_text,
+                    count=1)
             except sqlalchemy.exc.IntegrityError:
                 db.session.rollback()
+
+                phrase = Phrase.query.filter(
+                    Phrase.source_text == source_text,
+                    Phrase.source_lang == source_lang,
+                    Phrase.target_text == target_text,
+                    Phrase.target_lang == target_lang
+                ).first()
+                phrase.count += 1
+                if phrase.first_observed_at is not None and observed_at < phrase.first_observed_at:
+                    phrase.first_observed_at = observed_at
+                if phrase.last_observed_at is not None and observed_at > phrase.last_observed_at:
+                    phrase.last_observed_at = observed_at
+                db.session.commit()
             except sqlalchemy.exc.DataError:
                 db.session.rollback()
 

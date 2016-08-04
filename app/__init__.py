@@ -10,7 +10,9 @@ import rollbar
 import rollbar.contrib.flask
 import yaml
 
-__version__ = '1.3.12'
+
+__version__ = '1.3.13'
+
 
 VALID_LANGUAGES = {
     '': 'None',
@@ -117,8 +119,6 @@ def create_app(name=__name__, config={}):
     return app
 
 
-# FIXME: Could we de-duplicate this function definition? @babel.localeselector
-# is the problem.
 def get_locale():
     """Selects an appropriate locale.
 

@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-02-16 01:27+0900\n"
+"POT-Creation-Date: 2016-08-31 23:40+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: app/utils.py:44
 #, python-format
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Confidence"
 msgstr ""
 
-#: app/main/__init__.py:105
+#: app/main/__init__.py:108
 msgid "app-description-text"
 msgstr ""
 
@@ -153,31 +153,31 @@ msgstr ""
 msgid "Discussions"
 msgstr ""
 
-#: app/main/templates/base.html:52
+#: app/main/templates/base.html:57
 msgid "Social Media"
 msgstr ""
 
-#: app/main/templates/base.html:54
+#: app/main/templates/base.html:59
 msgid "Facebook"
 msgstr ""
 
-#: app/main/templates/base.html:55
+#: app/main/templates/base.html:60
 msgid "Twitter"
 msgstr ""
 
-#: app/main/templates/base.html:122
+#: app/main/templates/base.html:127
 msgid "About"
 msgstr ""
 
-#: app/main/templates/base.html:123 app/main/templates/credits.html:5
+#: app/main/templates/base.html:128 app/main/templates/credits.html:5
 msgid "Credits"
 msgstr ""
 
-#: app/main/templates/base.html:124 app/main/templates/disclaimers.html:4
+#: app/main/templates/base.html:129 app/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: app/main/templates/base.html:125
+#: app/main/templates/base.html:130
 msgid "Bug reporting"
 msgstr ""
 
@@ -215,7 +215,7 @@ msgstr ""
 msgid "Localization"
 msgstr ""
 
-#: app/main/templates/download_clients.html:36
+#: app/main/templates/download_apps.html:36
 msgid "Your desktop app is outdated. Get the latest version below."
 msgstr ""
 
@@ -260,6 +260,10 @@ msgstr ""
 
 #: app/main/templates/index.html:83 app/main/templates/index.html:96
 msgid "Close"
+msgstr ""
+
+#: app/main/templates/index.html:123
+msgid "Hungarian"
 msgstr ""
 
 #: app/main/templates/maintenance.html:3

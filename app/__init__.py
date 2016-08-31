@@ -37,6 +37,7 @@ VALID_LANGUAGES = {
     'pt': 'Portuguese',
     'sv': 'Swedish',
     'tr': 'Turkish',
+    'hu': 'Hungarian',
 }
 
 SOURCE_LANGUAGES = list(filter(lambda x: x not in ['', 'auto'],

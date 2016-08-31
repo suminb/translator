@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-02-16 01:27+0900\n"
+"POT-Creation-Date: 2016-08-31 23:40+0900\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: app/utils.py:44
 #, python-format
@@ -43,7 +43,7 @@ msgstr "번역문"
 msgid "Confidence"
 msgstr ""
 
-#: app/main/__init__.py:105
+#: app/main/__init__.py:108
 msgid "app-description-text"
 msgstr "구글 번역기와 일본어 중역을 이용한 번역 서비스입니다."
 
@@ -154,31 +154,31 @@ msgstr "스페인어"
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: app/main/templates/base.html:52
+#: app/main/templates/base.html:57
 msgid "Social Media"
 msgstr "소셜 미디어"
 
-#: app/main/templates/base.html:54
+#: app/main/templates/base.html:59
 msgid "Facebook"
 msgstr "페이스북"
 
-#: app/main/templates/base.html:55
+#: app/main/templates/base.html:60
 msgid "Twitter"
 msgstr "트위터"
 
-#: app/main/templates/base.html:122
+#: app/main/templates/base.html:127
 msgid "About"
 msgstr ""
 
-#: app/main/templates/base.html:123 app/main/templates/credits.html:5
+#: app/main/templates/base.html:128 app/main/templates/credits.html:5
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: app/main/templates/base.html:124 app/main/templates/disclaimers.html:4
+#: app/main/templates/base.html:129 app/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr "책임의 한계와 법적 고지"
 
-#: app/main/templates/base.html:125
+#: app/main/templates/base.html:130
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -216,7 +216,7 @@ msgstr "보기"
 msgid "Localization"
 msgstr ""
 
-#: app/main/templates/download_clients.html:36
+#: app/main/templates/download_apps.html:36
 msgid "Your desktop app is outdated. Get the latest version below."
 msgstr "새로운 버전의 번역기 프로그램이 있습니다. 아래의 링크에서 다운로드 하세요."
 
@@ -264,6 +264,10 @@ msgstr "번역중입니다..."
 #: app/main/templates/index.html:83 app/main/templates/index.html:96
 msgid "Close"
 msgstr ""
+
+#: app/main/templates/index.html:123
+msgid "Hungarian"
+msgstr "헝가리어"
 
 #: app/main/templates/maintenance.html:3
 msgid "Maintenance"

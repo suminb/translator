@@ -4,22 +4,10 @@ from datetime import datetime
 
 from flask import Blueprint, jsonify, request
 
-from app.corpus.models import Corpus, Translation
+from app.corpus.models import Translation
 
 
 corpus_module = Blueprint('corpus', __name__, template_folder='templates')
-
-
-@corpus_module.route('/match')
-def corpus_match():
-
-    query = request.args.get('q', '')
-    source_lang = request.args.get('sl', None)
-    target_lang = request.args.get('tl', None)
-
-    matches = Corpus.match(query, source_lang, target_lang)
-
-    return json.dumps(map(lambda x: x.serialize(), matches))
 
 
 @corpus_module.route('/raw', methods=['POST'])

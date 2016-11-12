@@ -2,10 +2,6 @@ from pynamodb.models import Model
 from pynamodb.attributes import UnicodeAttribute, UTCDateTimeAttribute
 
 
-class Corpus():
-    pass
-
-
 class Translation(Model):
     class Meta:
         table_name = 'translation'

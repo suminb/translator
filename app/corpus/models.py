@@ -11,7 +11,7 @@ class Translation(Model):
         table_name = 'translation'
 
         # NOTE: Could we make this to follow the default settings?
-        region = 'us-west-2'
+        region = 'ap-northeast-2'
 
     timestamp = UTCDateTimeAttribute(range_key=True)
     raw = UnicodeAttribute()

@@ -1,5 +1,9 @@
+from logbook import Logger
 from pynamodb.models import Model
 from pynamodb.attributes import UnicodeAttribute, UTCDateTimeAttribute
+
+
+log = Logger(__name__)
 
 
 class Translation(Model):
@@ -18,5 +22,6 @@ class Translation(Model):
 
 if __name__ == '__main__':
     if not Translation.exists():
+        log.info('Creating a table {}', Translation)
         Translation.create_table(read_capacity_units=1,
                                  write_capacity_units=1, wait=True)

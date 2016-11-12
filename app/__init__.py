@@ -11,7 +11,7 @@ import rollbar.contrib.flask
 import yaml
 
 
-__version__ = '1.3.13'
+__version__ = '1.3.14'
 
 
 VALID_LANGUAGES = {
@@ -37,6 +37,7 @@ VALID_LANGUAGES = {
     'pt': 'Portuguese',
     'sv': 'Swedish',
     'tr': 'Turkish',
+    'hu': 'Hungarian',
 }
 
 SOURCE_LANGUAGES = list(filter(lambda x: x not in ['', 'auto'],

@@ -37,7 +37,7 @@ def test_translate_4():
         translate('The cake was a lie', 1, 'en', 'unknown')
 
 
-def test_translate_5(testapp):
+def _test_translate_5(testapp):
     params = dict(
         t=u'도요타는 일본의 자동차 제조사이다.',
         m=1, sl='ko', tl='en')
@@ -51,7 +51,7 @@ def test_translate_5(testapp):
     assert 'Japan' in t['translated_text']
 
 
-def test_translate_6(testapp):
+def _test_translate_6(testapp):
     params = dict(
         t=u'구글은 세계 정복을 꿈꾸고 있다.',
         m=1, sl='ko', tl='en')
@@ -67,7 +67,7 @@ def test_translate_6(testapp):
     assert 'world' in tt
 
 
-def test_translate_7(testapp):
+def _test_translate_7(testapp):
     params = dict(
         t=u'Coca Cola is one of the most widely known brand names.',
         m=2, sl='en', tl='ko')

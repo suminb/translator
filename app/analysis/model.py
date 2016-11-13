@@ -95,3 +95,11 @@ class PhraseOld(db.Model, CRUDMixin):
     source_text = db.Column(db.String(255))
     target_texts = db.Column(ARRAY(db.String))
     raw = db.Column(JSON)
+
+
+class RawTranslation(db.Model, CRUDMixin):
+    __tablename__ = 'raw_translation'
+    observed_at = db.Column(db.DateTime(timezone=False))
+    source_lang = db.Column(db.String(16))
+    target_lang = db.Column(db.String(16))
+    raw = db.Column(JSON)

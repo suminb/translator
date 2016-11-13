@@ -13,7 +13,7 @@ from logbook import Logger, StreamHandler
 import sqlalchemy
 
 from app import config
-from app.analysis.model import db, Phrase, Sentence
+from app.analysis.model import db, Phrase, RawTranslation, Sentence
 
 
 es_host = os.environ.get('ES_HOST', 'localhost')
@@ -124,6 +124,25 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
                 db.session.rollback()
 
 
+def store_raw(source_lang, target_lang, observed_at, raw):
+    """Stores raw data.
+
+    :type source_lang: str
+    :type target_lang: str
+    :type observed_at: datetime
+    :type raw: dict
+    """
+    # raw_str = json.dumps(raw, ensure_ascii=False)
+    # hash = hashlib.sha1(raw_str.encode('utf-8')).hexdigest()
+
+    RawTranslation.create(
+        observed_at=observed_at,
+        source_lang=source_lang,
+        target_lang=target_lang,
+        raw=raw,
+    )
+
+
 @click.group()
 def cli():
     pass
@@ -176,18 +195,21 @@ def process_entry(hit):
         else:
             observed_at = parser.parse(hit['_source']['timestamp'])
 
-        source_lang = raw_data[2] if raw_data[2] else \
+        source_lang = raw_data['src'] if raw_data['src'] else \
             hit['_source']['source_lang']
         target_lang = hit['_source']['target_lang']
         log.info('{}, {}, {}'.format(source_lang, target_lang, doc_id))
 
-        if len(raw_data) > 0 and raw_data[0]:
-            store_sentences(source_lang, target_lang, observed_at,
-                            extract_sentences(raw_data[0]))
+        store_raw(source_lang, target_lang, observed_at, raw_data)
 
-        if len(raw_data) > 5 and raw_data[5]:
-            store_phrases(source_lang, target_lang, observed_at,
-                          extract_phrases(raw_data[5]))
+        # if len(raw_data) > 0 and raw_data[0]:
+        #     store_sentences(source_lang, target_lang, observed_at,
+        #                     extract_sentences(raw_data[0]))
+
+        # if len(raw_data) > 5 and raw_data[5]:
+        #     store_phrases(source_lang, target_lang, observed_at,
+        #                   extract_phrases(raw_data[5]))
+
         # raw_data[0]: sentences
         # raw_data[1]: dictionary data?
         # raw_data[2]: source language

@@ -100,4 +100,4 @@ def test_translate_v1_3_1(testapp):
     assert 'Python' in sentences
     assert 'programador' in sentences
     assert 'experiencia' in sentences
-    assert 'lenguajes' in sentences
+    assert 'otros' in sentences

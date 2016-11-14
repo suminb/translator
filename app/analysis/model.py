@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
@@ -19,7 +20,10 @@ class CRUDMixin(object):
 
     @classmethod
     def create(cls, commit=True, **kwargs):
-        kwargs.update(dict(id=uuid64.issue()))
+        # NOTE: This is a temporary workaround. Process IDs may not be unique
+        # across multiple machines.
+        node_id = os.getpid()
+        kwargs.update(dict(id=uuid64.issue(node_id)))
         instance = cls(**kwargs)
 
         if hasattr(instance, 'timestamp') \

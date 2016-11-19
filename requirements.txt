@@ -20,7 +20,6 @@ python-dateutil
 click
 rollbar
 blinker
-elasticsearch
 boto3
 logbook
 temporaluuid64

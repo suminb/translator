@@ -1,24 +1,18 @@
-"""Script to import data to Elasticsearch."""
+"""Script to process translation data. We'd like to store things in a form of
+phrases that are broken down to meaningful units, not the entire translation.
+"""
 
 import hashlib
-import json
 from datetime import datetime
 from dateutil import parser
-import os
 import sys
 
 import click
-from elasticsearch import Elasticsearch
 from logbook import Logger, StreamHandler
 import sqlalchemy
 
-from app import config
 from app.analysis.model import db, Phrase, RawTranslation, Sentence
 
-
-es_host = os.environ.get('ES_HOST', 'localhost')
-es_port = int(os.environ.get('ES_PORT', 9200))
-es = Elasticsearch([{'host': es_host, 'port': es_port}])
 
 StreamHandler(sys.stderr, level='INFO').push_application()
 log = Logger('')
@@ -115,9 +109,11 @@ def store_phrases(source_lang, target_lang, observed_at, phrases):
                     Phrase.target_lang == target_lang
                 ).first()
                 phrase.count += 1
-                if phrase.first_observed_at is not None and observed_at < phrase.first_observed_at:
+                if phrase.first_observed_at is not None \
+                        and observed_at < phrase.first_observed_at:
                     phrase.first_observed_at = observed_at
-                if phrase.last_observed_at is not None and observed_at > phrase.last_observed_at:
+                if phrase.last_observed_at is not None \
+                        and observed_at > phrase.last_observed_at:
                     phrase.last_observed_at = observed_at
                 db.session.commit()
             except sqlalchemy.exc.DataError:
@@ -146,31 +142,6 @@ def store_raw(source_lang, target_lang, observed_at, raw):
 @click.group()
 def cli():
     pass
-
-
-@cli.command()
-@click.argument('filename')
-def import_to_es(filename):
-    for line in open(filename):
-        cols = [x.strip() for x in line.split('\t')]
-        if len(cols) == 4:
-            source_lang, target_lang, timestamp, raw_data = cols
-        elif len(cols) == 5:
-            source_lang, target_lang, timestamp, digest, raw_data = cols
-        else:
-            continue
-
-        try:
-            id = hashlib.sha1(raw_data.encode('utf-8')).hexdigest()
-            doc = {'data': json.loads(raw_data),
-                   'timestamp': int(unix_time(str2datetime(timestamp)) * 1000),
-                   'source_lang': source_lang,
-                   'target_lang': target_lang}
-            res = es.index(index=os.environ['ES_INDEX'],
-                           doc_type=os.environ['ES_DOC_TYPE'], id=id, body=doc)
-            log.info(res)
-        except:
-            sys.stderr.write('Bad data: {}\n'.format(line))
 
 
 def process_entry(hit):
@@ -219,32 +190,6 @@ def process_entry(hit):
         # raw_data[6]: some floating point value; potentially confidence?
         # raw_data[7]: (null)
         # raw_data[8]: source languages along with confidence?
-
-        es.delete(index=config['es_index'], doc_type=config['es_doc_type'],
-                  id=doc_id)
-
-
-@cli.command()
-@click.option('-n', '--size', type=int, default=10,
-              help='# of documents to fetch at once')
-@click.option('-m', '--skip', type=int, default=0,
-              help='# of documents to skip')
-@click.option('-p', '--processes', type=int, default=16,
-              help='# of processes')
-def process(size, skip, processes):
-    """Processes data on Elasticsearch"""
-
-    # Get all data (the batch size will be 10 or so)
-    res = es.search(index=config['es_index'],
-                    body={'query': {'match_all': {}}},
-                    params={'size': size, 'from': skip})
-
-    log.info("Got %d Hits:" % res['hits']['total'])
-
-    # p = Pool(processes)
-    # p.map(process_entry, res['hits']['hits'])
-    for hit in res['hits']['hits']:
-        process_entry(hit)
 
 
 @cli.command()

@@ -2,16 +2,19 @@
 phrases that are broken down to meaningful units, not the entire translation.
 """
 
-import hashlib
 from datetime import datetime
 from dateutil import parser
+import hashlib
+import json
 import sys
+import time
 
 import click
 from logbook import Logger, StreamHandler
 import sqlalchemy
 
 from app.analysis.model import db, Phrase, RawTranslation, Sentence
+from app.corpus.models import Translation
 
 
 StreamHandler(sys.stderr, level='INFO').push_application()
@@ -142,6 +145,27 @@ def store_raw(source_lang, target_lang, observed_at, raw):
 @click.group()
 def cli():
     pass
+
+
+@cli.command()
+@click.option('--interval', type=float, default=0.25)
+def process(interval):
+    from app import create_app
+    app = create_app()
+    with app.app_context():
+        for translation in Translation.scan():
+            raw = json.loads(translation.raw)
+            log.info('{}, {}, {}',
+                     translation.source_lang, translation.target_lang,
+                     raw['sentences'])
+            try:
+                store_raw(translation.source_lang, translation.target_lang,
+                          translation.timestamp, raw)
+            except Exception as e:
+                log.error(e)
+            else:
+                translation.delete()
+                time.sleep(interval)
 
 
 def process_entry(hit):

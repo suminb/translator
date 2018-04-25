@@ -43,6 +43,39 @@ Deploy on AWS with Seamless
 
     sls wsgi serve
 
+Deploy on AWS Elastic Beanstalk
+-------------------------------
+
+    eb deploy
+
+Text Localization
+-----------------
+
+Running the following command will generate `.mo` files based on `.po` files.
+
+    ./localization.sh
+
+Data Warehousing
+----------------
+
+### Launch a PostgreSQL database
+
+    docker run -d \
+        -e POSTGRES_USER=postgres \
+        -e POSTGRES_PASSWORD=${password} \
+        -e POSTGRES_DB=test \
+        -p 5432:5432 \
+        --volume ${host_dir}:/var/lib/postgresql/data \
+        postgres
+
+### Deploy on AWS
+
+    sls deploy --region=ap-northeast-2
+
+### Serve locally
+
+    sls wsgi serve
+
 Credits
 -------
 

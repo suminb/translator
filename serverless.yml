@@ -1,0 +1,18 @@
+service: better-translator
+
+provider:
+  name: aws
+  runtime: python3.6
+
+plugins:
+  - serverless-wsgi
+
+functions:
+  api:
+    handler: wsgi.handler
+    events:
+      - http: ANY /
+
+custom:
+  wsgi:
+    app: application.application

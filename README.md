@@ -15,15 +15,23 @@ Then upload to S3:
     aws s3 sync translator/build/ s3://better-translator.com/ \
         --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
 
+Deploy on AWS with Seamless
+---------------------------
+
+### Install required npm packages
+
+    npm i --save serverless serverless-wsgi
+
+### Deploy on AWS
+
+    sls deploy --region=ap-northeast-2
+
+### Serve locally
+
+    sls wsgi serve
+
 Deploy on AWS Elastic Beanstalk
 -------------------------------
-
-Install EB CLI. For more details, refer [the official
-documentation](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html).
-
-    pip install awsebcli
-
-(TODO: Write some description how I set up things)
 
     eb deploy
 

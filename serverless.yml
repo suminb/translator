@@ -12,6 +12,11 @@ functions:
     handler: wsgi.handler
     events:
       - http: GET /
+      - http: GET /about
+      - http: GET /credits
+      - http: GET /discuss
+      - http: GET /disclaimers
+      - http: GET /locale
       - http: GET /api/v1.3/languages
       - http: GET /api/v1.4/translate
 

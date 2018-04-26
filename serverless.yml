@@ -11,7 +11,9 @@ functions:
   api:
     handler: wsgi.handler
     events:
-      - http: ANY /
+      - http: GET /
+      - http: GET /api/v1.3/languages
+      - http: GET /api/v1.4/translate
 
 custom:
   wsgi:

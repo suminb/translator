@@ -11,7 +11,7 @@ import rollbar.contrib.flask
 import yaml
 
 
-__version__ = '1.3.14'
+__version__ = '1.3.15'
 
 
 VALID_LANGUAGES = {
@@ -73,9 +73,6 @@ def create_app(name=__name__, config={}):
     app.secret_key = config.get('secret_key', '(secret key is not set)')
 
     app.config.update(config)
-
-    from app.analysis.model import db
-    db.init_app(app)
 
     from app.api import api_module
     from app.main import main_module

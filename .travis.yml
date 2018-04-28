@@ -2,8 +2,7 @@ language: python
 sudo: false
 
 python:
-  - "2.7"
-  - "3.4"
+  - "3.6"
 
 install:
   - mkdir lib
@@ -12,7 +11,7 @@ install:
 script:
   - ./localization.sh
   - export PYTHONPATH=$PYTHONPATH:.:./lib
-  - py.test app/tests --cov app --durations=10
+  - py.test app/tests -v --cov app --durations=10
 
 after_success:
 - coveralls

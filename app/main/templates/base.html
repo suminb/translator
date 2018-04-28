@@ -15,14 +15,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta property="og:title" content="{{ _("app-title") }}"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:image" content="http://translator.suminb.com/static/icon_512.png"/>
+  <meta property="og:image" content="https://better-translator/static/icon_512.png"/>
   <meta property="og:site_name" content="{{ _("app-title") }}"/>
   <meta property="fb:admins" content="10132775"/>
   <meta property="og:description"
         content="{{ og_description }}. This translator supports {{ _('Russian') }}, {{ _('French') }}, {{ _('English') }}, {{ _('Portuguese') }}, {{ _('Vietnamese') }}, {{ _('German') }}, {{ _('Korean') }}, {{ _('Italian') }}, {{ _('Hebrew') }}, {{ _('Indonesian') }}, {{ _('Turkish') }}, {{ _('Chinese') }}, {{ _('Filipino') }}, {{ _('Arabic') }}, {{ _('Polish') }}, {{ _('Thai') }}, {{ _('Czech') }}, {{ _('Swedish') }}, {{ _('Japanese') }}, {{ _('Spanish') }}"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <link rel="canonical" href="http://better-translator.com">
+  <link rel="canonical" href="https://better-translator.com">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
@@ -48,18 +48,6 @@
               <a href="http://blog.suminb.com/archives/1856" target="_blank">번역기 활용 팁</a>
             </li>
             {% endif %}
-            {% if locale == 'ko' and not is_mobile %}
-            <li>
-              <a href="{{ url_for('main.download_apps') }}">번역기 앱 다운로드</a>
-            </li>
-            {% endif %}
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _("Social Media" )}} <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="http://www.facebook.com/bettertranslator" target="_blank">{{ _("Facebook") }}</a></li>
-                <li><a href="http://twitter.com/btrtranslator" target="_blank">{{ _("Twitter") }}</a></li>
-              </ul>
-            </li>
           </ul>
           <ul class="nav pull-right">
           </ul>
@@ -86,7 +74,7 @@
       //-->
       </script>
       <script type="text/javascript"
-        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
       </script>
       {% else %}
       <style>
@@ -94,7 +82,7 @@
       @media(min-width: 500px) { .better-translator-responsive { width: 468px; height: 60px; } }
       @media(min-width: 800px) { .better-translator-responsive { width: 728px; height: 90px; } }
       </style>
-      <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <!-- Better Translator (Responsive) -->
       <div style="text-align:center">
       <ins class="adsbygoogle better-translator-responsive"
@@ -120,7 +108,7 @@
               <!--<a class="addthis_counter addthis_pill_style"></a>-->
           </div>
           <script type="text/javascript">var addthis_config = {"data_track_addressbar":false};</script>
-          <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513d8a896d2c8ac3"></script>
+          <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513d8a896d2c8ac3"></script>
           <!-- AddThis Button END -->
       </div>
       <div id="copyright">
@@ -134,7 +122,7 @@
     </div>
   </div>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript" src="/static/jquery.autoresize.min.js"></script>
   <script type="text/javascript" src="/static/jquery.cookie.js"></script>
   <script type="text/javascript" src="/static/sprintf.min.js"></script>

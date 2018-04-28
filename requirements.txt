@@ -1,3 +1,4 @@
+flask==0.12.2
 flask-babel
 flask-sqlalchemy
 flask-wtf
@@ -20,7 +21,6 @@ python-dateutil
 click
 rollbar
 blinker
-elasticsearch
 boto3
 logbook
 temporaluuid64

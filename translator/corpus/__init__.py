@@ -4,7 +4,7 @@ from datetime import datetime
 
 from flask import Blueprint, jsonify, request
 
-from app.corpus.models import Translation
+from translator.corpus.models import Translation
 
 
 corpus_module = Blueprint('corpus', __name__, template_folder='templates')

@@ -2,7 +2,7 @@ from functools import wraps
 from flask.ext.babel import gettext as _
 from flask import g, request, redirect, url_for, jsonify
 
-from app import VALID_LANGUAGES
+from translator import VALID_LANGUAGES
 
 import uuid
 import base62

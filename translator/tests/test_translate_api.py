@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from app.api import translate, HTTPException
+from translator.api import translate, HTTPException
 
 import pytest
 import json

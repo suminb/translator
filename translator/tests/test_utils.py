@@ -1,4 +1,4 @@
-from app.utils import HTTPException
+from translator.utils import HTTPException
 
 
 def test_http_exception():

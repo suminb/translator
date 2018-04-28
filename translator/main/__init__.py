@@ -3,8 +3,8 @@ from flask import Blueprint, request, render_template, url_for, redirect
 from flask.ext.babel import gettext as _
 from datetime import datetime
 
-from app import __version__, get_locale
-from app.utils import language_options_html
+from translator import __version__, get_locale
+from translator.utils import language_options_html
 
 import json
 import os

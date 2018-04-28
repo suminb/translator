@@ -11,7 +11,7 @@ install:
 script:
   - ./localization.sh
   - export PYTHONPATH=$PYTHONPATH:.:./lib
-  - py.test translator/tests -v --cov app --durations=10
+  - py.test translator/tests -v --cov translator --durations=10
 
 after_success:
 - coveralls

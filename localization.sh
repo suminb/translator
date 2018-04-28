@@ -1,5 +1,5 @@
 #!/bin/bash
 
-pybabel extract -o app/translations/messages.pot -F babel.cfg app
-pybabel update -i app/translations/messages.pot -d app/translations
-pybabel compile -d app/translations
+pybabel extract -o translator/translations/messages.pot -F babel.cfg translator
+pybabel update -i translator/translations/messages.pot -d translator/translations
+pybabel compile -d translator/translations

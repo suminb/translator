@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-08-31 23:40+0900\n"
+"POT-Creation-Date: 2018-04-28 13:46+0900\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language: es\n"
@@ -16,34 +16,36 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.3.4\n"
+"Generated-By: Babel 2.5.3\n"
 
-#: app/utils.py:44
+#: translator/utils.py:44
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr ""
 
-#: app/corpus/templates/list.html:13 app/main/templates/index.html:15
+#: translator/corpus/templates/list.html:13
+#: translator/main/templates/index.html:15
 msgid "Source Language"
 msgstr ""
 
-#: app/corpus/templates/list.html:14 app/main/templates/index.html:31
+#: translator/corpus/templates/list.html:14
+#: translator/main/templates/index.html:31
 msgid "Target Language"
 msgstr ""
 
-#: app/corpus/templates/list.html:15
+#: translator/corpus/templates/list.html:15
 msgid "Source Text"
 msgstr ""
 
-#: app/corpus/templates/list.html:16
+#: translator/corpus/templates/list.html:16
 msgid "Target Text"
 msgstr ""
 
-#: app/corpus/templates/list.html:17
+#: translator/corpus/templates/list.html:17
 msgid "Confidence"
 msgstr ""
 
-#: app/main/__init__.py:108
+#: translator/main/__init__.py:108
 msgid "app-description-text"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en la "
@@ -54,17 +56,17 @@ msgstr ""
 "pornografía Japonesa a su idioma. Usando esta base de datos, la "
 "traducción de idiomas funciona mejor a través del uso del Japonés."
 
-#: app/main/templates/404.html:6
+#: translator/main/templates/404.html:6
 msgid ""
 "You are viewing this message because the page you requested is not found."
 " You may go back to the <a href=\"/\">home page</a>."
 msgstr ""
 
-#: app/main/templates/about.html:3
+#: translator/main/templates/about.html:3
 msgid "What is Better Translator?"
 msgstr ""
 
-#: app/main/templates/about.html:4
+#: translator/main/templates/about.html:4
 msgid "app-description-html"
 msgstr ""
 "Un Mejor Traductor es un servicio de traducción de idiomas basado en <a "
@@ -76,219 +78,237 @@ msgstr ""
 " Usando esta base de datos, la traducción de idiomas funciona mejor a "
 "través del uso del Japonés"
 
-#: app/main/templates/base.html:13 app/main/templates/base.html:16
-#: app/main/templates/base.html:19 app/main/templates/base.html:42
+#: translator/main/templates/base.html:13
+#: translator/main/templates/base.html:16
+#: translator/main/templates/base.html:19
+#: translator/main/templates/base.html:42
 msgid "app-title"
 msgstr "Un Mejor Traductor"
 
-#: app/main/templates/base.html:22 app/main/templates/credits.html:45
-#: app/main/templates/index.html:26 app/main/templates/index.html:103
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:45
+#: translator/main/templates/index.html:26
+#: translator/main/templates/index.html:103
 msgid "Russian"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/credits.html:36
-#: app/main/templates/index.html:104
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/index.html:104
 msgid "French"
 msgstr "Francés"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:105
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:105
 msgid "English"
 msgstr "Inglés"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:106
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:106
 msgid "Portuguese"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:107
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:107
 msgid "Vietnamese"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:108
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:108
 msgid "German"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:109
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:109
 msgid "Korean"
 msgstr "Coreano"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:110
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:110
 msgid "Italian"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:111
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:111
 msgid "Hebrew"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:112
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:112
 msgid "Indonesian"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:113
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:113
 msgid "Turkish"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:114
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:114
 msgid "Chinese"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:115
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:115
 msgid "Filipino"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:116
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:116
 msgid "Arabic"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:117
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:117
 #, fuzzy
 msgid "Polish"
 msgstr "Español"
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:118
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:118
 msgid "Thai"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:119
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:119
 msgid "Czech"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:120
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:120
 msgid "Swedish"
 msgstr ""
 
-#: app/main/templates/base.html:22 app/main/templates/index.html:25
-#: app/main/templates/index.html:121
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:25
+#: translator/main/templates/index.html:121
 msgid "Japanese"
 msgstr "Japonés"
 
-#: app/main/templates/base.html:22 app/main/templates/credits.html:41
-#: app/main/templates/index.html:122
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/index.html:122
 msgid "Spanish"
 msgstr "Español"
 
-#: app/main/templates/base.html:45 app/main/templates/discuss.html:4
+#: translator/main/templates/base.html:45
+#: translator/main/templates/discuss.html:4
 msgid "Discussions"
 msgstr ""
 
-#: app/main/templates/base.html:57
-msgid "Social Media"
-msgstr ""
-
-#: app/main/templates/base.html:59
-msgid "Facebook"
-msgstr ""
-
-#: app/main/templates/base.html:60
-msgid "Twitter"
-msgstr ""
-
-#: app/main/templates/base.html:127
+#: translator/main/templates/base.html:115
 msgid "About"
 msgstr ""
 
-#: app/main/templates/base.html:128 app/main/templates/credits.html:5
+#: translator/main/templates/base.html:116
+#: translator/main/templates/credits.html:5
 msgid "Credits"
 msgstr "Créditos"
 
-#: app/main/templates/base.html:129 app/main/templates/disclaimers.html:4
+#: translator/main/templates/base.html:117
+#: translator/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: app/main/templates/base.html:130
+#: translator/main/templates/base.html:118
 msgid "Bug reporting"
 msgstr "Reportar código defectuoso"
 
-#: app/main/templates/credits.html:8
+#: translator/main/templates/credits.html:8
 msgid "Lead Developer"
 msgstr ""
 
-#: app/main/templates/credits.html:11 app/main/templates/credits.html:25
-#: app/main/templates/credits.html:38
+#: translator/main/templates/credits.html:11
+#: translator/main/templates/credits.html:25
+#: translator/main/templates/credits.html:38
 msgid "Web"
 msgstr ""
 
-#: app/main/templates/credits.html:12
+#: translator/main/templates/credits.html:12
 msgid "Blog"
 msgstr ""
 
-#: app/main/templates/credits.html:18
+#: translator/main/templates/credits.html:18
 msgid "Android App Developer"
 msgstr ""
 
-#: app/main/templates/credits.html:22
+#: translator/main/templates/credits.html:22
 msgid "iOS App Developer"
 msgstr ""
 
-#: app/main/templates/credits.html:29
+#: translator/main/templates/credits.html:29
 msgid "Former collaborators"
 msgstr ""
 
-#: app/main/templates/credits.html:31
+#: translator/main/templates/credits.html:31
 msgid "Show"
 msgstr ""
 
-#: app/main/templates/credits.html:36 app/main/templates/credits.html:41
-#: app/main/templates/credits.html:45
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/credits.html:45
 msgid "Localization"
 msgstr "Localización"
 
-#: app/main/templates/download_apps.html:36
+#: translator/main/templates/download_apps.html:36
 msgid "Your desktop app is outdated. Get the latest version below."
 msgstr ""
 
-#: app/main/templates/index.html:8
+#: translator/main/templates/index.html:8
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
 "below. We encourage you to try modern browsers such as Firefox, Chrome "
 "and Safari."
 msgstr ""
 
-#: app/main/templates/index.html:17
+#: translator/main/templates/index.html:17
 msgid "Detect language"
 msgstr ""
 
-#: app/main/templates/index.html:22
+#: translator/main/templates/index.html:22
 msgid "Intermediate Language"
 msgstr ""
 
-#: app/main/templates/index.html:24
+#: translator/main/templates/index.html:24
 msgid "None"
 msgstr ""
 
-#: app/main/templates/index.html:41 app/main/templates/index.html:42
+#: translator/main/templates/index.html:41
+#: translator/main/templates/index.html:42
 msgid "Swap languages"
 msgstr ""
 
-#: app/main/templates/index.html:44
+#: translator/main/templates/index.html:44
 msgid "Translate"
 msgstr "Traducir"
 
-#: app/main/templates/index.html:51
+#: translator/main/templates/index.html:51
 msgid "Type in your sentences"
 msgstr ""
 
-#: app/main/templates/index.html:54
+#: translator/main/templates/index.html:54
 #, fuzzy
 msgid "Similar translations"
 msgstr "Traducción directa"
 
-#: app/main/templates/index.html:63
+#: translator/main/templates/index.html:63
 msgid "Translation in progress..."
 msgstr ""
 
-#: app/main/templates/index.html:83 app/main/templates/index.html:96
+#: translator/main/templates/index.html:83
+#: translator/main/templates/index.html:96
 msgid "Close"
 msgstr ""
 
-#: app/main/templates/index.html:123
+#: translator/main/templates/index.html:123
 msgid "Hungarian"
 msgstr ""
 
-#: app/main/templates/maintenance.html:3
+#: translator/main/templates/maintenance.html:3
 msgid "Maintenance"
 msgstr ""
 
-#: app/main/templates/statistics.html:4
+#: translator/main/templates/statistics.html:4
 msgid "Statistics"
 msgstr ""
 
@@ -461,5 +481,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Original text"
+#~ msgstr ""
+
+#~ msgid "Social Media"
+#~ msgstr ""
+
+#~ msgid "Facebook"
+#~ msgstr ""
+
+#~ msgid "Twitter"
 #~ msgstr ""
 

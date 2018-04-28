@@ -1,6 +1,5 @@
-from functools import wraps
 from flask.ext.babel import gettext as _
-from flask import g, request, redirect, url_for, jsonify
+from flask import jsonify
 
 from translator import VALID_LANGUAGES
 
@@ -78,7 +77,8 @@ def language_options_html():
     tuples = [(key, _(VALID_LANGUAGES[key])) for key in VALID_LANGUAGES]
     sorted_tuples = sorted(tuples, key=operator.itemgetter(1))
 
-    return '\n'.join(['<option value="%s">%s</option>' % (k, v) for k, v in sorted_tuples])
+    return '\n'.join(['<option value="%s">%s</option>' % (k, v)
+                      for k, v in sorted_tuples])
 
 
 def parse_javascript(text):

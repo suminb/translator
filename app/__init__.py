@@ -74,9 +74,6 @@ def create_app(name=__name__, config={}):
 
     app.config.update(config)
 
-    from app.analysis.model import db
-    db.init_app(app)
-
     from app.api import api_module
     from app.main import main_module
     from app.corpus import corpus_module

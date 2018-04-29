@@ -79,7 +79,7 @@ def index(translation_id=None):
 
     translation_id = translation_id or request.args.get('tr', None)
 
-    #if translation_id != None:
+    # if translation_id != None:
     #    tresponse = TranslationResponse.fetch(id_b62=translation_id)
 
     if translation_id is not None and tresponse is None:
@@ -88,8 +88,9 @@ def index(translation_id=None):
     if tresponse is not None:
         translation = tresponse.serialize()
         translation['original_text'] = tresponse.request.original_text
-        #translation['translated_text_dictlink'] = link_dictionary(
-        #translation['translated_text'], translation['source'], translation['target'])
+        # translation['translated_text_dictlink'] = link_dictionary(
+        #     translation['translated_text'], translation['source'],
+        #     translation['target'])
 
         context['og_description'] = tresponse.request.original_text
         context['translation'] = json.dumps(translation)

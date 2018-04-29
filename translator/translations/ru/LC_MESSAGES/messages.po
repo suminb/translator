@@ -1,0 +1,492 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2016 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-04-30 02:58+0900\n"
+"PO-Revision-Date: 2013-03-18 14:45+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.3\n"
+
+#: translator/utils.py:43
+#, python-format
+msgid "%%m/%%d/%%Y"
+msgstr ""
+
+#: translator/corpus/templates/list.html:13
+#: translator/main/templates/index.html:15
+msgid "Source Language"
+msgstr ""
+
+#: translator/corpus/templates/list.html:14
+#: translator/main/templates/index.html:31
+msgid "Target Language"
+msgstr ""
+
+#: translator/corpus/templates/list.html:15
+msgid "Source Text"
+msgstr ""
+
+#: translator/corpus/templates/list.html:16
+msgid "Target Text"
+msgstr ""
+
+#: translator/corpus/templates/list.html:17
+msgid "Confidence"
+msgstr ""
+
+#: translator/main/__init__.py:97
+msgid "app-description-text"
+msgstr ""
+"Лучший переводчик – языкового переводчика на идее, что перевод через "
+"японскому языку дает лучший результат. Причиной этого является то, что "
+"большое количество образцов данных было накоплено в базе данных Google "
+"Translate, как и все в мире пытается перевести японские порно на свой "
+"язык, и, таким образом Google Translate работает лучше с японцами."
+
+#: translator/main/templates/404.html:6
+msgid ""
+"You are viewing this message because the page you requested is not found."
+" You may go back to the <a href=\"/\">home page</a>."
+msgstr ""
+
+#: translator/main/templates/about.html:3
+msgid "What is Better Translator?"
+msgstr ""
+
+#: translator/main/templates/about.html:4
+msgid "app-description-html"
+msgstr ""
+"Лучший переводчик – языкового переводчика на <a href=\"#\" "
+"onclick=\"toggle_screenshot()\">идее</a>, что перевод через японскому "
+"языку дает лучший результат. Причиной этого является то, что большое "
+"количество образцов данных было накоплено в базе данных Google Translate,"
+" как и все в мире пытается перевести японские порно на свой язык, и, "
+"таким образом Google Translate работает лучше с японцами."
+
+#: translator/main/templates/base.html:13
+#: translator/main/templates/base.html:16
+#: translator/main/templates/base.html:19
+#: translator/main/templates/base.html:42
+msgid "app-title"
+msgstr "Лучший переводчик"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:45
+#: translator/main/templates/index.html:26
+#: translator/main/templates/index.html:101
+msgid "Russian"
+msgstr "Pусский"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/index.html:102
+msgid "French"
+msgstr "Французский"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:103
+msgid "English"
+msgstr "Английский"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:104
+msgid "Portuguese"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:105
+msgid "Vietnamese"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:106
+msgid "German"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:107
+msgid "Korean"
+msgstr "Корейский"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:108
+msgid "Italian"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:109
+msgid "Hebrew"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:110
+msgid "Indonesian"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:111
+msgid "Turkish"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:112
+msgid "Chinese"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:113
+msgid "Filipino"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:114
+msgid "Arabic"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:115
+#, fuzzy
+msgid "Polish"
+msgstr "Испанский"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:116
+msgid "Thai"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:117
+msgid "Czech"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:118
+msgid "Swedish"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:25
+#: translator/main/templates/index.html:119
+msgid "Japanese"
+msgstr "Японский"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/index.html:120
+msgid "Spanish"
+msgstr "Испанский"
+
+#: translator/main/templates/base.html:45
+#: translator/main/templates/discuss.html:4
+msgid "Discussions"
+msgstr ""
+
+#: translator/main/templates/base.html:115
+msgid "About"
+msgstr ""
+
+#: translator/main/templates/base.html:116
+#: translator/main/templates/credits.html:5
+msgid "Credits"
+msgstr "Титры"
+
+#: translator/main/templates/base.html:117
+#: translator/main/templates/disclaimers.html:4
+msgid "Disclaimers"
+msgstr ""
+
+#: translator/main/templates/base.html:118
+msgid "Bug reporting"
+msgstr "Сообщить об ошибке"
+
+#: translator/main/templates/credits.html:8
+msgid "Lead Developer"
+msgstr "Ведущий программист"
+
+#: translator/main/templates/credits.html:11
+#: translator/main/templates/credits.html:25
+#: translator/main/templates/credits.html:38
+msgid "Web"
+msgstr ""
+
+#: translator/main/templates/credits.html:12
+msgid "Blog"
+msgstr ""
+
+#: translator/main/templates/credits.html:18
+#, fuzzy
+msgid "Android App Developer"
+msgstr "Ведущий программист"
+
+#: translator/main/templates/credits.html:22
+#, fuzzy
+msgid "iOS App Developer"
+msgstr "Ведущий программист"
+
+#: translator/main/templates/credits.html:29
+msgid "Former collaborators"
+msgstr ""
+
+#: translator/main/templates/credits.html:31
+msgid "Show"
+msgstr ""
+
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/credits.html:45
+msgid "Localization"
+msgstr "Локализации"
+
+#: translator/main/templates/index.html:8
+msgid ""
+"Better Translator may not work properly with Internet Explorer 9 and "
+"below. We encourage you to try modern browsers such as Firefox, Chrome "
+"and Safari."
+msgstr ""
+
+#: translator/main/templates/index.html:17
+msgid "Detect language"
+msgstr ""
+
+#: translator/main/templates/index.html:22
+msgid "Intermediate Language"
+msgstr ""
+
+#: translator/main/templates/index.html:24
+msgid "None"
+msgstr ""
+
+#: translator/main/templates/index.html:41
+#: translator/main/templates/index.html:42
+msgid "Swap languages"
+msgstr ""
+
+#: translator/main/templates/index.html:44
+msgid "Translate"
+msgstr "Перевести"
+
+#: translator/main/templates/index.html:51
+msgid "Type in your sentences"
+msgstr ""
+
+#: translator/main/templates/index.html:54
+#, fuzzy
+msgid "Similar translations"
+msgstr "Прямой перевод"
+
+#: translator/main/templates/index.html:63
+msgid "Translation in progress..."
+msgstr ""
+
+#: translator/main/templates/index.html:81
+#: translator/main/templates/index.html:94
+msgid "Close"
+msgstr ""
+
+#: translator/main/templates/index.html:121
+msgid "Hungarian"
+msgstr ""
+
+#: translator/main/templates/maintenance.html:3
+msgid "Maintenance"
+msgstr ""
+
+#: translator/main/templates/statistics.html:4
+msgid "Statistics"
+msgstr ""
+
+#~ msgid "Corpus Dictionary"
+#~ msgstr ""
+
+#~ msgid "Show another example"
+#~ msgstr "Показать другим пример"
+
+#~ msgid "Direct translation"
+#~ msgstr "Прямой перевод"
+
+#~ msgid "Use Japanese as an intermediate language"
+#~ msgstr ""
+
+#~ msgid "User translations"
+#~ msgstr "Прямой перевод"
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "Requrested resource does not exist"
+#~ msgstr ""
+
+#~ msgid "Please provide a non-empty translation."
+#~ msgstr ""
+
+#~ msgid "Your translation has been posted."
+#~ msgstr "Прямой перевод"
+
+#~ msgid "{} has completed a translation challenge"
+#~ msgstr ""
+
+#~ msgid "How do you say \"{0}\" in {1}?"
+#~ msgstr ""
+
+#~ msgid "Your translation has been posted on your timeline."
+#~ msgstr ""
+
+#~ msgid "Help Requests"
+#~ msgstr ""
+
+#~ msgid "Login"
+#~ msgstr ""
+
+#~ msgid "My Account"
+#~ msgstr ""
+
+#~ msgid "Logout"
+#~ msgstr ""
+
+#~ msgid "Beta"
+#~ msgstr ""
+
+#~ msgid "Language"
+#~ msgstr ""
+
+#~ msgid "Post a Translation Challenge"
+#~ msgstr ""
+
+#~ msgid "Translation by Better Translator"
+#~ msgstr ""
+
+#~ msgid "Post a translation challenge on Facebook"
+#~ msgstr ""
+
+#~ msgid "Translation Challenge"
+#~ msgstr ""
+
+#~ msgid "Regular translation"
+#~ msgstr "Прямой перевод"
+
+#~ msgid "Better translation"
+#~ msgstr "Прямой перевод"
+
+#~ msgid "Translations by others"
+#~ msgstr ""
+
+#~ msgid "No one has posted a translation. Become the first one!"
+#~ msgstr ""
+
+#~ msgid "Post a translation"
+#~ msgstr "Прямой перевод"
+
+#~ msgid "Ask your friends for help"
+#~ msgstr ""
+
+#~ msgid "Watch"
+#~ msgstr ""
+
+#~ msgid "Translated Text"
+#~ msgstr "Перевести"
+
+#~ msgid "Languages"
+#~ msgstr ""
+
+#~ msgid "Optional"
+#~ msgstr ""
+
+#~ msgid "Your translation"
+#~ msgstr "Прямой перевод"
+
+#~ msgid "Login with your Facebook to post a translation."
+#~ msgstr ""
+
+#~ msgid "See how others did"
+#~ msgstr ""
+
+#~ msgid "Brag about it"
+#~ msgstr ""
+
+#~ msgid "Delete"
+#~ msgstr ""
+
+#~ msgid "Brag about it on your Facebook"
+#~ msgstr ""
+
+#~ msgid "Please wait while posting a link on your timeline."
+#~ msgstr ""
+
+#~ msgid "%%1$s has completed a translation challenge"
+#~ msgstr ""
+
+#~ msgid "Privacy Policy"
+#~ msgstr ""
+
+#~ msgid "Comment"
+#~ msgstr ""
+
+#~ msgid "Type in your comment"
+#~ msgstr ""
+
+#~ msgid "Post"
+#~ msgstr ""
+
+#~ msgid "My Help Requests"
+#~ msgstr ""
+
+#~ msgid "My Translations"
+#~ msgstr "Прямой перевод"
+
+#~ msgid "Date"
+#~ msgstr ""
+
+#~ msgid "Original Text"
+#~ msgstr ""
+
+#~ msgid "You have a notification from Better Translator"
+#~ msgstr ""
+
+#~ msgid "Did you not like this translation?"
+#~ msgstr ""
+
+#~ msgid "Ask for help"
+#~ msgstr ""
+
+#~ msgid "Thank you for your feedback."
+#~ msgstr ""
+
+#~ msgid "Loading..."
+#~ msgstr ""
+
+#~ msgid "Please help to me translate this from %%1$s to %%2$s"
+#~ msgstr ""
+
+#~ msgid "Source language"
+#~ msgstr ""
+
+#~ msgid "Target language"
+#~ msgstr ""
+
+#~ msgid "Original text"
+#~ msgstr ""
+
+#~ msgid "Social Media"
+#~ msgstr ""
+
+#~ msgid "Facebook"
+#~ msgstr ""
+
+#~ msgid "Twitter"
+#~ msgstr ""
+
+#~ msgid "Your desktop app is outdated. Get the latest version below."
+#~ msgstr ""
+

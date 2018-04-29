@@ -1,0 +1,500 @@
+# French translations for PROJECT.
+# Copyright (C) 2016 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-04-30 02:58+0900\n"
+"PO-Revision-Date: 2013-03-15 20:36+0900\n"
+"Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
+"Language: fr\n"
+"Language-Team: Yujin Chung <flyingyujin@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.3\n"
+
+#: translator/utils.py:43
+#, python-format
+msgid "%%m/%%d/%%Y"
+msgstr ""
+
+#: translator/corpus/templates/list.html:13
+#: translator/main/templates/index.html:15
+#, fuzzy
+msgid "Source Language"
+msgstr "Intervertir des langues"
+
+#: translator/corpus/templates/list.html:14
+#: translator/main/templates/index.html:31
+#, fuzzy
+msgid "Target Language"
+msgstr "Intervertir des langues"
+
+#: translator/corpus/templates/list.html:15
+msgid "Source Text"
+msgstr "Texte de depart"
+
+#: translator/corpus/templates/list.html:16
+msgid "Target Text"
+msgstr "Texte d'aariveé"
+
+#: translator/corpus/templates/list.html:17
+msgid "Confidence"
+msgstr "Confidence"
+
+#: translator/main/__init__.py:97
+msgid "app-description-text"
+msgstr ""
+"La traduction aumieux est un service qui permet d'effectuer des "
+"traductions de la langue envers le japonais. Le motif déterminant de ce "
+"service est cela, il y a des donnés accumulés par utilisateurs partout "
+"dans le monde qui essaient de traduire le porno japonais dans leur propre"
+" langage. Par conséquent, Google Traduction envers le japonais vous donne"
+" le meilleur résultat."
+
+#: translator/main/templates/404.html:6
+msgid ""
+"You are viewing this message because the page you requested is not found."
+" You may go back to the <a href=\"/\">home page</a>."
+msgstr ""
+"Vous visualisez actuellement ce message parce que la page demandée est "
+"introuvable. Vous pouvez revenir à l'étape précédente pour retourner à la"
+" page d'accueil."
+
+#: translator/main/templates/about.html:3
+msgid "What is Better Translator?"
+msgstr ""
+
+#: translator/main/templates/about.html:4
+msgid "app-description-html"
+msgstr ""
+"La traduction aumieux est un service qui permet d'effectuer des "
+"traductions de la langue envers le japonais. Le motif déterminant de ce "
+"service est <a href=\"#\" onclick=\"toggle_screenshot()\">cela</a>, il y "
+"a des donnés accumulés par utilisateurs partout dans le monde qui "
+"essaient de traduire le porno japonais dans leur propre langage. Par "
+"conséquent, Google Traduction envers le japonais vous donne le meilleur "
+"résultat."
+
+#: translator/main/templates/base.html:13
+#: translator/main/templates/base.html:16
+#: translator/main/templates/base.html:19
+#: translator/main/templates/base.html:42
+msgid "app-title"
+msgstr "Traduction de mieux "
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:45
+#: translator/main/templates/index.html:26
+#: translator/main/templates/index.html:101
+msgid "Russian"
+msgstr "Russe"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/index.html:102
+msgid "French"
+msgstr "Français"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:103
+msgid "English"
+msgstr "anglais"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:104
+msgid "Portuguese"
+msgstr "portugais"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:105
+msgid "Vietnamese"
+msgstr "vietnamien"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:106
+msgid "German"
+msgstr "allemand"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:107
+msgid "Korean"
+msgstr "coréen"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:108
+msgid "Italian"
+msgstr "italien"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:109
+msgid "Hebrew"
+msgstr "hébreu"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:110
+msgid "Indonesian"
+msgstr "indonésien"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:111
+msgid "Turkish"
+msgstr "turc"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:112
+msgid "Chinese"
+msgstr "chinois"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:113
+msgid "Filipino"
+msgstr "tagalog"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:114
+msgid "Arabic"
+msgstr "arabe"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:115
+#, fuzzy
+msgid "Polish"
+msgstr "polonais"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:116
+msgid "Thai"
+msgstr "thaïlandais"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:117
+msgid "Czech"
+msgstr "tchèque"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:118
+msgid "Swedish"
+msgstr "suédois"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:25
+#: translator/main/templates/index.html:119
+msgid "Japanese"
+msgstr "japonais"
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/index.html:120
+msgid "Spanish"
+msgstr "Español"
+
+#: translator/main/templates/base.html:45
+#: translator/main/templates/discuss.html:4
+msgid "Discussions"
+msgstr "Discussion"
+
+#: translator/main/templates/base.html:115
+msgid "About"
+msgstr ""
+
+#: translator/main/templates/base.html:116
+#: translator/main/templates/credits.html:5
+msgid "Credits"
+msgstr "Crédits"
+
+#: translator/main/templates/base.html:117
+#: translator/main/templates/disclaimers.html:4
+msgid "Disclaimers"
+msgstr "Exclusion"
+
+#: translator/main/templates/base.html:118
+msgid "Bug reporting"
+msgstr "Rapports"
+
+#: translator/main/templates/credits.html:8
+msgid "Lead Developer"
+msgstr "Développeur"
+
+#: translator/main/templates/credits.html:11
+#: translator/main/templates/credits.html:25
+#: translator/main/templates/credits.html:38
+msgid "Web"
+msgstr "Web"
+
+#: translator/main/templates/credits.html:12
+msgid "Blog"
+msgstr "Blog"
+
+#: translator/main/templates/credits.html:18
+#, fuzzy
+msgid "Android App Developer"
+msgstr "Développeur"
+
+#: translator/main/templates/credits.html:22
+#, fuzzy
+msgid "iOS App Developer"
+msgstr "Développeur"
+
+#: translator/main/templates/credits.html:29
+msgid "Former collaborators"
+msgstr "Collaborateurs précédents"
+
+#: translator/main/templates/credits.html:31
+msgid "Show"
+msgstr "Afficher"
+
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/credits.html:45
+msgid "Localization"
+msgstr "Localisaion"
+
+#: translator/main/templates/index.html:8
+#, fuzzy
+msgid ""
+"Better Translator may not work properly with Internet Explorer 9 and "
+"below. We encourage you to try modern browsers such as Firefox, Chrome "
+"and Safari."
+msgstr ""
+"La traduction aumieux ne peut pas fonctionner correctement avec ancien "
+"navigateur."
+
+#: translator/main/templates/index.html:17
+#, fuzzy
+msgid "Detect language"
+msgstr "Intervertir des langues"
+
+#: translator/main/templates/index.html:22
+#, fuzzy
+msgid "Intermediate Language"
+msgstr "Utilisez japonais en tant qu'une langue intermédiaire"
+
+#: translator/main/templates/index.html:24
+msgid "None"
+msgstr ""
+
+#: translator/main/templates/index.html:41
+#: translator/main/templates/index.html:42
+msgid "Swap languages"
+msgstr "Intervertir des langues"
+
+#: translator/main/templates/index.html:44
+msgid "Translate"
+msgstr "Traduire"
+
+#: translator/main/templates/index.html:51
+msgid "Type in your sentences"
+msgstr "Tapez votre phrases"
+
+#: translator/main/templates/index.html:54
+#, fuzzy
+msgid "Similar translations"
+msgstr "Traduction similaire"
+
+#: translator/main/templates/index.html:63
+msgid "Translation in progress..."
+msgstr "Traductioon en cours"
+
+#: translator/main/templates/index.html:81
+#: translator/main/templates/index.html:94
+msgid "Close"
+msgstr "Fermer"
+
+#: translator/main/templates/index.html:121
+msgid "Hungarian"
+msgstr ""
+
+#: translator/main/templates/maintenance.html:3
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: translator/main/templates/statistics.html:4
+msgid "Statistics"
+msgstr "Statistiques\t"
+
+#~ msgid "Corpus Dictionary"
+#~ msgstr "Corpus des dictionnaires "
+
+#~ msgid "Show another example"
+#~ msgstr "Afficher un autre exemple"
+
+#~ msgid "Direct translation"
+#~ msgstr "Traduction directe"
+
+#~ msgid "User translations"
+#~ msgstr "Traduction des utilisateurs"
+
+#~ msgid ""
+#~ msgstr "Postuler une tradiction en défi"
+
+#~ msgid "Requrested resource does not exist"
+#~ msgstr "La ressource demandée n'existe pas"
+
+#~ msgid "Please provide a non-empty translation."
+#~ msgstr "Suggerèz une traduction, s'il vous plaît. "
+
+#~ msgid "Your translation has been posted."
+#~ msgstr "Traduction directe"
+
+#~ msgid "{} has completed a translation challenge"
+#~ msgstr "{} a réussi un défi de traduction"
+
+#~ msgid "How do you say \"{0}\" in {1}?"
+#~ msgstr "Que dire \"{0}\" en {}?"
+
+#~ msgid "Your translation has been posted on your timeline."
+#~ msgstr "Votre traduction a publié sur votre mur."
+
+#~ msgid "Help Requests"
+#~ msgstr "Demande d'aide"
+
+#~ msgid "Login"
+#~ msgstr "Connexion"
+
+#~ msgid "My Account"
+#~ msgstr "Mon compte"
+
+#~ msgid "Logout"
+#~ msgstr "Déconnexion"
+
+#~ msgid "Beta"
+#~ msgstr "Béta"
+
+#~ msgid "Language"
+#~ msgstr "Intervertir des langues"
+
+#~ msgid "Post a Translation Challenge"
+#~ msgstr "Postuler une tradiction en défi"
+
+#~ msgid "Translation by Better Translator"
+#~ msgstr "Traduit par Traduction au mieux"
+
+#~ msgid "Post a translation challenge on Facebook"
+#~ msgstr "Publier une tranduction proposée sur Facebook"
+
+#~ msgid "Translation Challenge"
+#~ msgstr "Postuler une tradiction en défi"
+
+#~ msgid "Regular translation"
+#~ msgstr "Traduction régulière"
+
+#~ msgid "Better translation"
+#~ msgstr "Traduction de mieux"
+
+#~ msgid "Translations by others"
+#~ msgstr "Traduit par Traduction au mieux"
+
+#~ msgid "No one has posted a translation. Become the first one!"
+#~ msgstr "Personne n'a pas encore soumis. Devenez le premier!"
+
+#~ msgid "Post a translation"
+#~ msgstr "Traduction directe"
+
+#~ msgid "Ask your friends for help"
+#~ msgstr "Demander de l'aide à vos amis"
+
+#~ msgid "Watch"
+#~ msgstr "Effectuer le suivi"
+
+#~ msgid "Translated Text"
+#~ msgstr "Text Traduit"
+
+#~ msgid "Languages"
+#~ msgstr "Langages"
+
+#~ msgid "Optional"
+#~ msgstr "Optionnelle"
+
+#~ msgid "Your translation"
+#~ msgstr "Votre traduction"
+
+#~ msgid "Login with your Facebook to post a translation."
+#~ msgstr "Se connecter avec Facebook pour publier la traduction."
+
+#~ msgid "See how others did"
+#~ msgstr "Voir les autres suggestions"
+
+#~ msgid "Brag about it"
+#~ msgstr "Parlez de la traduction"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "Brag about it on your Facebook"
+#~ msgstr "Parlez de la traduction sur Facebook"
+
+#~ msgid "Please wait while posting a link on your timeline."
+#~ msgstr ""
+
+#~ msgid "%%1$s has completed a translation challenge"
+#~ msgstr "Postuler une tradiction en défi"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Politique de confidentialité"
+
+#~ msgid "Comment"
+#~ msgstr "Commentaire"
+
+#~ msgid "Type in your comment"
+#~ msgstr "Laissez votre avis en commentaire"
+
+#~ msgid "Post"
+#~ msgstr "Publier"
+
+#~ msgid "My Help Requests"
+#~ msgstr "Mes demandes d'aide"
+
+#~ msgid "My Translations"
+#~ msgstr "Traduction directe"
+
+#~ msgid "Date"
+#~ msgstr "Date"
+
+#~ msgid "Original Text"
+#~ msgstr "texte original"
+
+#~ msgid "You have a notification from Better Translator"
+#~ msgstr "Traduit par Traduction au mieux"
+
+#~ msgid "Did you not like this translation?"
+#~ msgstr "Vous n'aimez pas cette traduction?"
+
+#~ msgid "Ask for help"
+#~ msgstr "Demander de l'aide"
+
+#~ msgid "Thank you for your feedback."
+#~ msgstr "Merci pour vos commentaires."
+
+#~ msgid "Loading..."
+#~ msgstr "Chargement..."
+
+#~ msgid "Please help to me translate this from %%1$s to %%2$s"
+#~ msgstr "Aidez-moi à traduire cette phrase à partir du %%1$s à %%2$s"
+
+#~ msgid "Source language"
+#~ msgstr "Intervertir des langues"
+
+#~ msgid "Target language"
+#~ msgstr "Intervertir des langues"
+
+#~ msgid "Original text"
+#~ msgstr "texte original"
+
+#~ msgid "Social Media"
+#~ msgstr "Réseaux Sociaux"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Twitter"
+#~ msgstr "Twitter"
+
+#~ msgid "Your desktop app is outdated. Get the latest version below."
+#~ msgstr ""
+

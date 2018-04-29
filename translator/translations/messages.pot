@@ -1,0 +1,292 @@
+# Translations template for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-04-30 02:58+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.3\n"
+
+#: translator/utils.py:43
+#, python-format
+msgid "%%m/%%d/%%Y"
+msgstr ""
+
+#: translator/corpus/templates/list.html:13
+#: translator/main/templates/index.html:15
+msgid "Source Language"
+msgstr ""
+
+#: translator/corpus/templates/list.html:14
+#: translator/main/templates/index.html:31
+msgid "Target Language"
+msgstr ""
+
+#: translator/corpus/templates/list.html:15
+msgid "Source Text"
+msgstr ""
+
+#: translator/corpus/templates/list.html:16
+msgid "Target Text"
+msgstr ""
+
+#: translator/corpus/templates/list.html:17
+msgid "Confidence"
+msgstr ""
+
+#: translator/main/__init__.py:97
+msgid "app-description-text"
+msgstr ""
+
+#: translator/main/templates/404.html:6
+msgid ""
+"You are viewing this message because the page you requested is not found."
+" You may go back to the <a href=\"/\">home page</a>."
+msgstr ""
+
+#: translator/main/templates/about.html:3
+msgid "What is Better Translator?"
+msgstr ""
+
+#: translator/main/templates/about.html:4
+msgid "app-description-html"
+msgstr ""
+
+#: translator/main/templates/base.html:13
+#: translator/main/templates/base.html:16
+#: translator/main/templates/base.html:19
+#: translator/main/templates/base.html:42
+msgid "app-title"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:45
+#: translator/main/templates/index.html:26
+#: translator/main/templates/index.html:101
+msgid "Russian"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/index.html:102
+msgid "French"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:103
+msgid "English"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:104
+msgid "Portuguese"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:105
+msgid "Vietnamese"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:106
+msgid "German"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:107
+msgid "Korean"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:108
+msgid "Italian"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:109
+msgid "Hebrew"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:110
+msgid "Indonesian"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:111
+msgid "Turkish"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:112
+msgid "Chinese"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:113
+msgid "Filipino"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:114
+msgid "Arabic"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:115
+msgid "Polish"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:116
+msgid "Thai"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:117
+msgid "Czech"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:118
+msgid "Swedish"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/index.html:25
+#: translator/main/templates/index.html:119
+msgid "Japanese"
+msgstr ""
+
+#: translator/main/templates/base.html:22
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/index.html:120
+msgid "Spanish"
+msgstr ""
+
+#: translator/main/templates/base.html:45
+#: translator/main/templates/discuss.html:4
+msgid "Discussions"
+msgstr ""
+
+#: translator/main/templates/base.html:115
+msgid "About"
+msgstr ""
+
+#: translator/main/templates/base.html:116
+#: translator/main/templates/credits.html:5
+msgid "Credits"
+msgstr ""
+
+#: translator/main/templates/base.html:117
+#: translator/main/templates/disclaimers.html:4
+msgid "Disclaimers"
+msgstr ""
+
+#: translator/main/templates/base.html:118
+msgid "Bug reporting"
+msgstr ""
+
+#: translator/main/templates/credits.html:8
+msgid "Lead Developer"
+msgstr ""
+
+#: translator/main/templates/credits.html:11
+#: translator/main/templates/credits.html:25
+#: translator/main/templates/credits.html:38
+msgid "Web"
+msgstr ""
+
+#: translator/main/templates/credits.html:12
+msgid "Blog"
+msgstr ""
+
+#: translator/main/templates/credits.html:18
+msgid "Android App Developer"
+msgstr ""
+
+#: translator/main/templates/credits.html:22
+msgid "iOS App Developer"
+msgstr ""
+
+#: translator/main/templates/credits.html:29
+msgid "Former collaborators"
+msgstr ""
+
+#: translator/main/templates/credits.html:31
+msgid "Show"
+msgstr ""
+
+#: translator/main/templates/credits.html:36
+#: translator/main/templates/credits.html:41
+#: translator/main/templates/credits.html:45
+msgid "Localization"
+msgstr ""
+
+#: translator/main/templates/index.html:8
+msgid ""
+"Better Translator may not work properly with Internet Explorer 9 and "
+"below. We encourage you to try modern browsers such as Firefox, Chrome "
+"and Safari."
+msgstr ""
+
+#: translator/main/templates/index.html:17
+msgid "Detect language"
+msgstr ""
+
+#: translator/main/templates/index.html:22
+msgid "Intermediate Language"
+msgstr ""
+
+#: translator/main/templates/index.html:24
+msgid "None"
+msgstr ""
+
+#: translator/main/templates/index.html:41
+#: translator/main/templates/index.html:42
+msgid "Swap languages"
+msgstr ""
+
+#: translator/main/templates/index.html:44
+msgid "Translate"
+msgstr ""
+
+#: translator/main/templates/index.html:51
+msgid "Type in your sentences"
+msgstr ""
+
+#: translator/main/templates/index.html:54
+msgid "Similar translations"
+msgstr ""
+
+#: translator/main/templates/index.html:63
+msgid "Translation in progress..."
+msgstr ""
+
+#: translator/main/templates/index.html:81
+#: translator/main/templates/index.html:94
+msgid "Close"
+msgstr ""
+
+#: translator/main/templates/index.html:121
+msgid "Hungarian"
+msgstr ""
+
+#: translator/main/templates/maintenance.html:3
+msgid "Maintenance"
+msgstr ""
+
+#: translator/main/templates/statistics.html:4
+msgid "Statistics"
+msgstr ""
+

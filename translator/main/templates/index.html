@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="fb-root"></div>
+
+  {% if is_msie %}
+  <div class="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ _("Better Translator may not work properly with Internet Explorer 9 and below. We encourage you to try modern browsers such as Firefox, Chrome and Safari.") }}
+  </div>
+  {% endif %}
+
+  <form id="translation-form" method="get" onsubmit="return performTranslation()">
+    <div class="row-fluid">
+      <div class="span3">
+        <label>{{ _("Source Language") }}</label>
+        <select name="sl">
+          <option value="auto">{{ _("Detect language" ) }}</option>
+          {{ language_options | safe }}
+        </select>
+      </div>
+      <div class="span3">
+        <label>{{ _("Intermediate Language") }}</label>
+        <select name="il">
+          <option value="">{{ _("None") }}</option>
+          <option value="ja">{{ _("Japanese") }}</option>
+          <option value="ru">{{ _("Russian") }}</option>
+        </select>
+      </div>
+
+      <div class="span3">
+        <label>{{ _("Target Language") }}</label>
+        <select name="tl">
+            {{ language_options | safe }}
+        </select>
+      </div>
+
+      <div class="span3" style="text-align:right;">
+        <label>&nbsp;</label>
+        <button class="btn" onclick="swapLanguages(event)"
+          data-toggle="tooltip" data-placement="top"
+          title="{{ _('Swap languages') }}">
+          <img src="/static/swap.png" alt="{{ _("Swap languages") }}"/>
+        </button>
+        <button class="btn btn-primary translate">{{ _("Translate") }}</button>
+      </div>
+
+    </div>
+    <div class="row-fluid" style="margin-top:1em;">
+      <div class="span6">
+
+        <textarea id="source-text" name="t" placeholder="{{ _('Type in your sentences') }}"></textarea>
+
+        <div id="search-results" class="hide">
+          {{ _("Similar translations") }}
+          <ul></ul>
+        </div>
+      </div>
+      <div class="span6">
+
+        <div id="error-message" class="alert alert-error"></div>
+        <div>
+          <div id="progress-message" style="float:left;">
+            {{ _("Translation in progress...") }} <img src="/static/progress.gif"/>
+          </div>
+          <pre id="target-text"></pre>
+        </div>
+
+      </div>
+    </div>
+  </form>
+
+  <div id="longtext-dialog" class="modal hide fade">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"
+        aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+      Text is too long.
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">{{ _("Close") }}</a>
+    </div>
+  </div>
+
+  <div id="captcha-dialog" class="modal hide fade">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"
+        aria-hidden="true">&times;</button>
+      <h3>Oops...</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">{{ _("Close") }}</a>
+    </div>
+  </div>
+
+<!--
+This section is reserved for gettext string extraction purposes
+FIXME: There must be a better way than this
+{{ _('Russian') }}
+{{ _('French') }}
+{{ _('English') }}
+{{ _('Portuguese') }}
+{{ _('Vietnamese') }}
+{{ _('German') }}
+{{ _('Korean') }}
+{{ _('Italian') }}
+{{ _('Hebrew') }}
+{{ _('Indonesian') }}
+{{ _('Turkish') }}
+{{ _('Chinese') }}
+{{ _('Filipino') }}
+{{ _('Arabic') }}
+{{ _('Polish') }}
+{{ _('Thai') }}
+{{ _('Czech') }}
+{{ _('Swedish') }}
+{{ _('Japanese') }}
+{{ _('Spanish') }}
+{{ _('Hungarian') }}
+-->
+
+<!--<script type="text/javascript" src="/static/jquery.succinct.js"></script>-->
+<script type="text/javascript">
+{% if translation %}state.initWithTranslation({{ translation | safe }}); {% endif %}
+
+var locale = '{{ locale }}';
+
+window.onload = function() {
+    loadLanguages();
+
+    $("#source-text, #target-text").autoResize({
+        // On resize:
+        onResize: function() {
+            $(this).css({opacity:0.8});
+        },
+        // After resize:
+        animateCallback: function() {
+            $(this).css({opacity:1});
+        },
+        // Quite slow animation:
+        animateDuration: 300,
+        // More extra space:
+        extraSpace: 40
+    })
+    .keypress(function (event) {
+        if (event.keyCode == 13) {
+            performTranslation();
+        }
+    })
+    .trigger("change");
+
+    // Initialize tooltips
+    $("button[data-toggle=tooltip]").tooltip();
+};
+
+window.onpopstate = function(event) {
+    if (event.state != null) {
+        state.initWithState(event.state);
+    }
+};
+</script>
+{% endblock %}

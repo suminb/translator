@@ -73,7 +73,7 @@ var examples = {
 };
 
 // URL encoded length, exclusively less than
-var LONG_TRANSLATION_THRESHOLD = 1200;
+var LONG_TRANSLATION_THRESHOLD = 5000;
 
 var TAGS_TO_REPLACE = {
     '&': '&amp;',
@@ -463,7 +463,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
-    var url = 'http://api.better-translator.com/api/v1.3/translate';
+    var url = '/api/v1.4/translate';
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);

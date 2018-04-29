@@ -82,31 +82,6 @@ var TAGS_TO_REPLACE = {
 };
 
 /**
- * Copied from http://homework.nwsnet.de/releases/9132/
- */
-function _ajax_request(url, data, callback, type, method) {
-    if (jQuery.isFunction(data)) {
-        callback = data;
-        data = {};
-    }
-    return jQuery.ajax({
-        type: method,
-        url: url,
-        data: data,
-        success: callback,
-        dataType: type
-        });
-}
-jQuery.extend({
-    put: function(url, data, callback, type) {
-        return _ajax_request(url, data, callback, type, 'PUT');
-    },
-    delete_: function(url, data, callback, type) {
-        return _ajax_request(url, data, callback, type, 'DELETE');
-    }
-});
-
-/**
  * Copied from http://stackoverflow.com/questions/9614622/equivalent-of-jquery-hide-to-set-visibility-hidden
  */
 $.fn.visible = function() {
@@ -283,30 +258,28 @@ function swapLanguages(evt) {
   model.set('targetLanguage', sourceLang);
 }
 
-/**
- * Synchronous Ajax call
- */
-function syncAjax(url) {
-  var httpResp = $.ajax({
-    type: 'GET',
-    url: url,
-    async: false
-  });
-  return httpResp;
-}
-
 function loadSourceLanguages(locale) {
-  var url = sprintf('/api/v1.3/languages?locale=%s&field=source', locale);
-  var httpResp = syncAjax(url);
-  var parsed = JSON.parse(httpResp.responseText);
-  return parsed.languages;
+  if (locale == 'en') {
+    return [["ar","Arabic"],["zh-CN","Chinese"],["cs","Czech"],["en","English"],["tl","Filipino"],["fr","French"],["de","German"],["iw","Hebrew"],["hu","Hungarian"],["id","Indonesian"],["it","Italian"],["ja","Japanese"],["ko","Korean"],["pl","Polish"],["pt","Portuguese"],["ru","Russian"],["es","Spanish"],["sv","Swedish"],["th","Thai"],["tr","Turkish"],["vi","Vietnamese"]];
+  }
+  else if (locale == 'ko') {
+    return [["de","독일어"],["ru","러시아어"],["vi","베트남어"],["sv","스웨덴어"],["es","스페인어"],["ar","아랍어"],["en","영어"],["it","이탈리아어"],["id","인도네시아어"],["ja","일본어"],["zh-CN","중국어"],["cs","체코어"],["th","태국어"],["tr","터키어"],["pt","포르투갈어"],["pl","폴란드어"],["fr","프랑스어"],["tl","필리핀어"],["ko","한국어"],["hu","헝가리어"],["iw","히브리어"]];
+  }
+  else {
+    throw sprintf('Unsupported locale: %s', locale);
+  }
 }
 
 function loadIntermediateLanguages(locale) {
-  var url = sprintf('/api/v1.3/languages?locale=%s&field=intermediate&sortby=-1', locale);
-  var httpResp = syncAjax(url);
-  var parsed = JSON.parse(httpResp.responseText);
-  return parsed.languages;
+  if (locale == 'en') {
+    return [["ja","Japanese"],["","None"],["ru","Russian"]]
+  }
+  else if (locale == 'ko') {
+    return [["","None"],["ru","러시아어"],["ja","일본어"]]
+  }
+  else {
+    throw sprintf('Unsupported locale: %s', locale);
+  }
 }
 
 function makeLabelValueDicts(pairs) {

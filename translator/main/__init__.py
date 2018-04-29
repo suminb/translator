@@ -22,17 +22,6 @@ def longtext():
     return render_template('longtext.html')
 
 
-@main_module.route('/download-clients')
-@main_module.route('/download-apps')
-def download_apps():
-    # Indicates whether we want to show a 'your client is outdated' message
-    outdated = bool(request.args.get('outdated', False))
-
-    context = {'env': os.environ, 'outdated': outdated}
-
-    return render_template('download_apps.html', **context)
-
-
 @main_module.route('/backupdb')
 def backupdb():
     """This is a temporary workaround. We shall figure out how to store

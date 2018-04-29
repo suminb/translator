@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-28 13:46+0900\n"
+"POT-Creation-Date: 2018-04-30 02:58+0900\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: translator/utils.py:44
+#: translator/utils.py:43
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr "%%Y-%%m-%%d"
@@ -45,7 +45,7 @@ msgstr "번역문"
 msgid "Confidence"
 msgstr ""
 
-#: translator/main/__init__.py:108
+#: translator/main/__init__.py:97
 msgid "app-description-text"
 msgstr "구글 번역기와 일본어 중역을 이용한 번역 서비스입니다."
 
@@ -73,105 +73,105 @@ msgstr "더 나은 번역기"
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:45
 #: translator/main/templates/index.html:26
-#: translator/main/templates/index.html:103
+#: translator/main/templates/index.html:101
 msgid "Russian"
 msgstr "러시아어"
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:36
-#: translator/main/templates/index.html:104
+#: translator/main/templates/index.html:102
 msgid "French"
 msgstr "프랑스어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:105
+#: translator/main/templates/index.html:103
 msgid "English"
 msgstr "영어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:106
+#: translator/main/templates/index.html:104
 msgid "Portuguese"
 msgstr "포르투갈어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:107
+#: translator/main/templates/index.html:105
 msgid "Vietnamese"
 msgstr "베트남어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:108
+#: translator/main/templates/index.html:106
 msgid "German"
 msgstr "독일어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:109
+#: translator/main/templates/index.html:107
 msgid "Korean"
 msgstr "한국어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:110
+#: translator/main/templates/index.html:108
 msgid "Italian"
 msgstr "이탈리아어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:111
+#: translator/main/templates/index.html:109
 msgid "Hebrew"
 msgstr "히브리어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:112
+#: translator/main/templates/index.html:110
 msgid "Indonesian"
 msgstr "인도네시아어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:113
+#: translator/main/templates/index.html:111
 msgid "Turkish"
 msgstr "터키어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:114
+#: translator/main/templates/index.html:112
 msgid "Chinese"
 msgstr "중국어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:115
+#: translator/main/templates/index.html:113
 msgid "Filipino"
 msgstr "필리핀어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:116
+#: translator/main/templates/index.html:114
 msgid "Arabic"
 msgstr "아랍어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:117
+#: translator/main/templates/index.html:115
 msgid "Polish"
 msgstr "폴란드어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:118
+#: translator/main/templates/index.html:116
 msgid "Thai"
 msgstr "태국어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:119
+#: translator/main/templates/index.html:117
 msgid "Czech"
 msgstr "체코어"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:120
+#: translator/main/templates/index.html:118
 msgid "Swedish"
 msgstr "스웨덴어"
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/index.html:25
-#: translator/main/templates/index.html:121
+#: translator/main/templates/index.html:119
 msgid "Japanese"
 msgstr "일본어"
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:41
-#: translator/main/templates/index.html:122
+#: translator/main/templates/index.html:120
 msgid "Spanish"
 msgstr "스페인어"
 
@@ -234,10 +234,6 @@ msgstr "보기"
 msgid "Localization"
 msgstr ""
 
-#: translator/main/templates/download_apps.html:36
-msgid "Your desktop app is outdated. Get the latest version below."
-msgstr "새로운 버전의 번역기 프로그램이 있습니다. 아래의 링크에서 다운로드 하세요."
-
 #: translator/main/templates/index.html:8
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
@@ -280,12 +276,12 @@ msgstr "비슷한 번역문"
 msgid "Translation in progress..."
 msgstr "번역중입니다..."
 
-#: translator/main/templates/index.html:83
-#: translator/main/templates/index.html:96
+#: translator/main/templates/index.html:81
+#: translator/main/templates/index.html:94
 msgid "Close"
 msgstr ""
 
-#: translator/main/templates/index.html:123
+#: translator/main/templates/index.html:121
 msgid "Hungarian"
 msgstr "헝가리어"
 
@@ -473,4 +469,7 @@ msgstr "통계"
 
 #~ msgid "Twitter"
 #~ msgstr "트위터"
+
+#~ msgid "Your desktop app is outdated. Get the latest version below."
+#~ msgstr "새로운 버전의 번역기 프로그램이 있습니다. 아래의 링크에서 다운로드 하세요."
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-28 13:46+0900\n"
+"POT-Creation-Date: 2018-04-30 02:58+0900\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: translator/utils.py:44
+#: translator/utils.py:43
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr ""
@@ -47,7 +47,7 @@ msgstr "Texte d'aariveé"
 msgid "Confidence"
 msgstr "Confidence"
 
-#: translator/main/__init__.py:108
+#: translator/main/__init__.py:97
 msgid "app-description-text"
 msgstr ""
 "La traduction aumieux est un service qui permet d'effectuer des "
@@ -91,106 +91,106 @@ msgstr "Traduction de mieux "
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:45
 #: translator/main/templates/index.html:26
-#: translator/main/templates/index.html:103
+#: translator/main/templates/index.html:101
 msgid "Russian"
 msgstr "Russe"
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:36
-#: translator/main/templates/index.html:104
+#: translator/main/templates/index.html:102
 msgid "French"
 msgstr "Français"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:105
+#: translator/main/templates/index.html:103
 msgid "English"
 msgstr "anglais"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:106
+#: translator/main/templates/index.html:104
 msgid "Portuguese"
 msgstr "portugais"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:107
+#: translator/main/templates/index.html:105
 msgid "Vietnamese"
 msgstr "vietnamien"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:108
+#: translator/main/templates/index.html:106
 msgid "German"
 msgstr "allemand"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:109
+#: translator/main/templates/index.html:107
 msgid "Korean"
 msgstr "coréen"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:110
+#: translator/main/templates/index.html:108
 msgid "Italian"
 msgstr "italien"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:111
+#: translator/main/templates/index.html:109
 msgid "Hebrew"
 msgstr "hébreu"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:112
+#: translator/main/templates/index.html:110
 msgid "Indonesian"
 msgstr "indonésien"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:113
+#: translator/main/templates/index.html:111
 msgid "Turkish"
 msgstr "turc"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:114
+#: translator/main/templates/index.html:112
 msgid "Chinese"
 msgstr "chinois"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:115
+#: translator/main/templates/index.html:113
 msgid "Filipino"
 msgstr "tagalog"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:116
+#: translator/main/templates/index.html:114
 msgid "Arabic"
 msgstr "arabe"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:117
+#: translator/main/templates/index.html:115
 #, fuzzy
 msgid "Polish"
 msgstr "polonais"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:118
+#: translator/main/templates/index.html:116
 msgid "Thai"
 msgstr "thaïlandais"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:119
+#: translator/main/templates/index.html:117
 msgid "Czech"
 msgstr "tchèque"
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:120
+#: translator/main/templates/index.html:118
 msgid "Swedish"
 msgstr "suédois"
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/index.html:25
-#: translator/main/templates/index.html:121
+#: translator/main/templates/index.html:119
 msgid "Japanese"
 msgstr "japonais"
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:41
-#: translator/main/templates/index.html:122
+#: translator/main/templates/index.html:120
 msgid "Spanish"
 msgstr "Español"
 
@@ -255,10 +255,6 @@ msgstr "Afficher"
 msgid "Localization"
 msgstr "Localisaion"
 
-#: translator/main/templates/download_apps.html:36
-msgid "Your desktop app is outdated. Get the latest version below."
-msgstr ""
-
 #: translator/main/templates/index.html:8
 #, fuzzy
 msgid ""
@@ -305,12 +301,12 @@ msgstr "Traduction similaire"
 msgid "Translation in progress..."
 msgstr "Traductioon en cours"
 
-#: translator/main/templates/index.html:83
-#: translator/main/templates/index.html:96
+#: translator/main/templates/index.html:81
+#: translator/main/templates/index.html:94
 msgid "Close"
 msgstr "Fermer"
 
-#: translator/main/templates/index.html:123
+#: translator/main/templates/index.html:121
 msgid "Hungarian"
 msgstr ""
 
@@ -498,4 +494,7 @@ msgstr "Statistiques\t"
 
 #~ msgid "Twitter"
 #~ msgstr "Twitter"
+
+#~ msgid "Your desktop app is outdated. Get the latest version below."
+#~ msgstr ""
 

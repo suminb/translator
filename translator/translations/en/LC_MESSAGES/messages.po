@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-28 13:46+0900\n"
+"POT-Creation-Date: 2018-04-30 02:58+0900\n"
 "PO-Revision-Date: 2013-08-10 09:25+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: translator/utils.py:44
+#: translator/utils.py:43
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr ""
@@ -45,7 +45,7 @@ msgstr ""
 msgid "Confidence"
 msgstr ""
 
-#: translator/main/__init__.py:108
+#: translator/main/__init__.py:97
 msgid "app-description-text"
 msgstr ""
 "Better Translator is a language translation service based on the idea "
@@ -87,105 +87,105 @@ msgstr "Better Translator"
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:45
 #: translator/main/templates/index.html:26
-#: translator/main/templates/index.html:103
+#: translator/main/templates/index.html:101
 msgid "Russian"
 msgstr ""
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:36
-#: translator/main/templates/index.html:104
+#: translator/main/templates/index.html:102
 msgid "French"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:105
+#: translator/main/templates/index.html:103
 msgid "English"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:106
+#: translator/main/templates/index.html:104
 msgid "Portuguese"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:107
+#: translator/main/templates/index.html:105
 msgid "Vietnamese"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:108
+#: translator/main/templates/index.html:106
 msgid "German"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:109
+#: translator/main/templates/index.html:107
 msgid "Korean"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:110
+#: translator/main/templates/index.html:108
 msgid "Italian"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:111
+#: translator/main/templates/index.html:109
 msgid "Hebrew"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:112
+#: translator/main/templates/index.html:110
 msgid "Indonesian"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:113
+#: translator/main/templates/index.html:111
 msgid "Turkish"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:114
+#: translator/main/templates/index.html:112
 msgid "Chinese"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:115
+#: translator/main/templates/index.html:113
 msgid "Filipino"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:116
+#: translator/main/templates/index.html:114
 msgid "Arabic"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:117
+#: translator/main/templates/index.html:115
 msgid "Polish"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:118
+#: translator/main/templates/index.html:116
 msgid "Thai"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:119
+#: translator/main/templates/index.html:117
 msgid "Czech"
 msgstr ""
 
 #: translator/main/templates/base.html:22
-#: translator/main/templates/index.html:120
+#: translator/main/templates/index.html:118
 msgid "Swedish"
 msgstr ""
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/index.html:25
-#: translator/main/templates/index.html:121
+#: translator/main/templates/index.html:119
 msgid "Japanese"
 msgstr ""
 
 #: translator/main/templates/base.html:22
 #: translator/main/templates/credits.html:41
-#: translator/main/templates/index.html:122
+#: translator/main/templates/index.html:120
 msgid "Spanish"
 msgstr ""
 
@@ -248,10 +248,6 @@ msgstr ""
 msgid "Localization"
 msgstr ""
 
-#: translator/main/templates/download_apps.html:36
-msgid "Your desktop app is outdated. Get the latest version below."
-msgstr ""
-
 #: translator/main/templates/index.html:8
 msgid ""
 "Better Translator may not work properly with Internet Explorer 9 and "
@@ -293,12 +289,12 @@ msgstr "Regular"
 msgid "Translation in progress..."
 msgstr ""
 
-#: translator/main/templates/index.html:83
-#: translator/main/templates/index.html:96
+#: translator/main/templates/index.html:81
+#: translator/main/templates/index.html:94
 msgid "Close"
 msgstr ""
 
-#: translator/main/templates/index.html:123
+#: translator/main/templates/index.html:121
 msgid "Hungarian"
 msgstr ""
 
@@ -488,5 +484,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Twitter"
+#~ msgstr ""
+
+#~ msgid "Your desktop app is outdated. Get the latest version below."
 #~ msgstr ""
 

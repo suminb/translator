@@ -1,10 +1,6 @@
 db_uri: ""
 secret_key: ""
 api_key: ""
-mac_client_url: ''
-windows_client_url: ''
-linux_client_url: ''
-latest_client_version: 0.1.2
 
 aws:
   access_key: ""

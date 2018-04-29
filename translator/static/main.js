@@ -82,31 +82,6 @@ var TAGS_TO_REPLACE = {
 };
 
 /**
- * Copied from http://homework.nwsnet.de/releases/9132/
- */
-function _ajax_request(url, data, callback, type, method) {
-    if (jQuery.isFunction(data)) {
-        callback = data;
-        data = {};
-    }
-    return jQuery.ajax({
-        type: method,
-        url: url,
-        data: data,
-        success: callback,
-        dataType: type
-        });
-}
-jQuery.extend({
-    put: function(url, data, callback, type) {
-        return _ajax_request(url, data, callback, type, 'PUT');
-    },
-    delete_: function(url, data, callback, type) {
-        return _ajax_request(url, data, callback, type, 'DELETE');
-    }
-});
-
-/**
  * Copied from http://stackoverflow.com/questions/9614622/equivalent-of-jquery-hide-to-set-visibility-hidden
  */
 $.fn.visible = function() {

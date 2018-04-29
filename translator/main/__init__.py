@@ -191,30 +191,4 @@ def page_not_found(error):
 
 @main_module.route('/captcha', methods=['GET', 'POST'])
 def captcha():
-    return """
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="viewport" content="initial-scale=1"><title>http://translate.google.com/translate_a/t?client=t</title></head>
-<body style="font-family: arial, sans-serif; background-color: #fff; color: #000; padding:20px; font-size:18px;" onload="e=document.getElementById('captcha');if(e){e.focus();}">
-<div style="max-width:400px;">
- <hr noshade size="1" style="color:#ccc; background-color:#ccc;"><br>
- 
-  To continue, please type the characters below:<br><br>
-  <img src="/sorry/image?id=15806218432220984486&amp;hl=en" border="1" alt="Please enable images"><br><br><form action="CaptchaRedirect" method="get"><input type="hidden" name="continue" value="http://translate.google.com/translate_a/t?client=t"><input type="hidden" name="id" value="15806218432220984486"><input type="text" name="captcha" value="" id="captcha" size="12" style="font-size:16px; padding:3px 0 3px 5px; margin-left:0px;"><input type="submit" name="submit" value="Submit" style="font-size:18px; padding:4px 0;"><br><br><br></form>
-  <hr noshade size="1" style="color:#ccc; background-color:#ccc;">
-  
-   <div style="font-size:13px;">
-    <b>About this page</b><br><br>Our systems have detected unusual traffic from your computer network.  This page checks to see if it&#39;s really you sending the requests, and not a robot.  <a href="#" onclick="document.getElementById('infoDiv').style.display='block';">Why did this happen?</a><br><br>
-    <div id="infoDiv" style="display:none; background-color:#eee; padding:10px; margin:0 0 15px 0; line-height:1.4em;">
-     This page appears when Google automatically detects requests coming from your computer network which appear to be in violation of the <a href="//www.google.com/policies/terms/">Terms of Service</a>. The block will expire shortly after those requests stop.  In the meantime, solving the above CAPTCHA will let you continue to use our services.<br><br>This traffic may have been sent by malicious software, a browser plug-in, or a script that sends automated requests.  If you share your network connection, ask your administrator for help &mdash; a different computer using the same IP address may be responsible.  <a href="//support.google.com/websearch/answer/86640">Learn more</a><br><br>Sometimes you may be asked to solve the CAPTCHA if you are using advanced terms that robots are known to use, or sending requests very quickly.
-    </div>
-
- 
- 
- 
- IP address: 8.35.200.36<br>Time: 2013-11-17T10:28:53Z<br>URL: http://translate.google.com/translate_a/t?client=t<br>
- </div>
-</div>
-</body>
-</html>
-""".strip()
+    return render_template('captcha.html')

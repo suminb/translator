@@ -111,6 +111,9 @@
                     if (!this.target) {
                         this.errors.push('Target language must be specified');
                     }
+                    if (this.source == this.target) {
+                        this.errors.push('Target and source langauges must be different')
+                    }
                     event.preventDefault();
 
                     return !this.errors;

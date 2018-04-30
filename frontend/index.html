@@ -108,12 +108,19 @@
                     });
                 },
 
-                showErrorMessage: function(message) {
+                showErrorMessage: function (message) {
                     this.errorMessage = message;
                     $('div.negative.message').transition('show');
                 }
             }
         });
+
+        $('.message .close')
+            .on('click', function () {
+                $(this)
+                    .closest('.message')
+                    .transition('fade');
+            });
     </script>
 </body>
 

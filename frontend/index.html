@@ -57,7 +57,7 @@
                     </select>
                 </div>
                 <div class="column">
-                    <button class="ui button" v-on:click="translate">Translate</button>
+                    <button class="ui button" v-on:click="translate" :disabled="isTextEmpty()">Translate</button>
                 </div>
             </div>
 
@@ -99,6 +99,7 @@
                 text: '',
                 translated: ''
             },
+
             methods: {
                 checkForm: function (event) {
                     this.errors = [];
@@ -114,13 +115,11 @@
                     return !this.errors;
                 },
 
+                isTextEmpty: function (event) {
+                    return this.text.trim() == '';
+                },
+
                 translate: function (event) {
-
-                    if (!this.source) {
-                        this.showErrorMessage('You gotta say something');
-                        return;
-                    }
-
                     var data = {
                         'source': this.source,
                         'target': this.target,

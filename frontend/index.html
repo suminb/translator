@@ -62,10 +62,10 @@
 
         <div class="row">
             <div class="column">
-                <div class="ui negative message">
+                <div class="ui hidden negative message">
                     <i class="close icon"></i>
                     <div class="header">Something went sideways</div>
-                    <p>That offer has expired</p>
+                    <p>{{ errorMessage }}</p>
                 </div>
             </div>
         </div>
@@ -92,10 +92,11 @@
                 intermediate: '',
                 target: '',
                 text: '',
-                translated: ''
+                translated: '',
+                errorMessage: ''
             },
             methods: {
-                translate: function (event) {
+                translate: function(event) {
                     var data = {
                         'source': this.source,
                         'target': this.target,
@@ -105,9 +106,14 @@
                         console.log(response);
                         this.translated = response;
                     });
+                },
+
+                showErrorMessage: function(message) {
+                    this.errorMessage = message;
+                    $('div.negative.message').transition('show');
                 }
             }
-        })
+        });
     </script>
 </body>
 

@@ -3,6 +3,7 @@
 
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -37,20 +38,20 @@
                 <div class="column"></div>
                 <div class="column"></div>
                 <div class="column field">
-                    <select class="ui dropdown" v-model="source">
+                    <select class="ui dropdown" v-model="source" @change="updateSource">
                         <option value="">Source</option>
                         <option value="en">English</option>
                         <option value="ko">Korean</option>
                     </select>
                 </div>
                 <div class="column field">
-                    <select class="ui dropdown" v-model="intermediate">
+                    <select class="ui dropdown" v-model="intermediate" @change="updateIntermediate">
                         <option value="">Intermediate</option>
                         <option value="jp">Japanese</option>
                     </select>
                 </div>
                 <div class="column field">
-                    <select class="ui dropdown" v-model="target">
+                    <select class="ui dropdown" v-model="target" @change="updateTarget">
                         <option value="">Target</option>
                         <option value="en">English</option>
                         <option value="ko">Korean</option>
@@ -93,9 +94,9 @@
             el: '#app',
             data: {
                 errors: [],
-                source: '',
-                intermediate: '',
-                target: '',
+                source: Cookies.get('source') || '',
+                intermediate: Cookies.get('intermediate') || '',
+                target: Cookies.get('target') || '',
                 text: '',
                 translated: ''
             },
@@ -117,6 +118,17 @@
 
                 isTextEmpty: function (event) {
                     return this.text.trim() == '';
+                },
+
+                // FIMXE: There's gotta be a better way to handle this...
+                updateSource: function (event) {
+                    Cookies.set('source', this.source);
+                },
+                updateIntermediate: function (event) {
+                    Cookies.set('intermediate', this.intermediate);
+                },
+                updateTarget: function (event) {
+                    Cookies.set('target', this.target);
                 },
 
                 translate: function (event) {

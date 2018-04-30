@@ -31,72 +31,96 @@
         <i class="content icon"></i>
         <span class="text">Menu</span>
     </div>
-    <div class="ui grid form" id="app">
-        <div class="six column row">
-            <div class="column"></div>
-            <div class="column"></div>
-            <div class="column field">
-                <select class="ui dropdown" v-model="source">
-                    <option value="">Source</option>
-                    <option value="en">English</option>
-                    <option value="ko">Korean</option>
-                </select>
-            </div>
-            <div class="column field">
-                <select class="ui dropdown" v-model="intermediate">
-                    <option value="">Intermediate</option>
-                    <option value="jp">Japanese</option>
-                </select>
-            </div>
-            <div class="column field">
-                <select class="ui dropdown" v-model="target">
-                    <option value="">Target</option>
-                    <option value="en">English</option>
-                    <option value="ko">Korean</option>
-                </select>
-            </div>
-            <div class="column">
-                <button class="ui button" v-on:click="translate">Translate</button>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="column">
-                <div class="ui hidden negative message">
-                    <i class="close icon"></i>
-                    <div class="header">Something went sideways</div>
-                    <p>{{ errorMessage }}</p>
+    <form id="app" @submit="checkForm">
+        <div class="ui grid form">
+            <div class="six column row">
+                <div class="column"></div>
+                <div class="column"></div>
+                <div class="column field">
+                    <select class="ui dropdown" v-model="source">
+                        <option value="">Source</option>
+                        <option value="en">English</option>
+                        <option value="ko">Korean</option>
+                    </select>
+                </div>
+                <div class="column field">
+                    <select class="ui dropdown" v-model="intermediate">
+                        <option value="">Intermediate</option>
+                        <option value="jp">Japanese</option>
+                    </select>
+                </div>
+                <div class="column field">
+                    <select class="ui dropdown" v-model="target">
+                        <option value="">Target</option>
+                        <option value="en">English</option>
+                        <option value="ko">Korean</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <button class="ui button" v-on:click="translate">Translate</button>
                 </div>
             </div>
-        </div>
 
-        <div class="two column row">
-            <div class="column">
-                <div class="ui form">
-                    <div class="field">
-                        <textarea class="text" v-model="text"></textarea>
+            <div class="row" v-if="errors.length">
+                <div class="column">
+                    <div class="ui negative message">
+                        <i class="close icon"></i>
+                        <div class="header">Something went sideways</div>
+                        <ul>
+                            <li v-for="error in errors">{{ error }}</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="column">
-                {{ translated }}
+
+            <div class="two column row">
+                <div class="column">
+                    <div class="ui form">
+                        <div class="field">
+                            <textarea class="text" v-model="text"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    {{ translated }}
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <script>
         var app = new Vue({
             el: '#app',
             data: {
+                errors: [],
                 source: '',
                 intermediate: '',
                 target: '',
                 text: '',
-                translated: '',
-                errorMessage: ''
+                translated: ''
             },
             methods: {
-                translate: function(event) {
+                checkForm: function (event) {
+                    this.errors = [];
+
+                    if (!this.source) {
+                        this.errors.push('Source language must be specified');
+                    }
+                    if (!this.target) {
+                        this.errors.push('Target language must be specified');
+                    }
+                    event.preventDefault();
+
+                    return !this.errors;
+                },
+
+                translate: function (event) {
+
+                    if (!this.source) {
+                        this.showErrorMessage('You gotta say something');
+                        return;
+                    }
+
                     var data = {
                         'source': this.source,
                         'target': this.target,
@@ -106,11 +130,6 @@
                         console.log(response);
                         this.translated = response;
                     });
-                },
-
-                showErrorMessage: function (message) {
-                    this.errorMessage = message;
-                    $('div.negative.message').transition('show');
                 }
             }
         });

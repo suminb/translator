@@ -31,7 +31,7 @@
         <i class="content icon"></i>
         <span class="text">Menu</span>
     </div>
-    <form id="app" @submit="checkForm">
+    <form id="app" @submit="checkForm" v-on:submit="translate">
         <div class="ui grid form">
             <div class="six column row">
                 <div class="column"></div>
@@ -57,7 +57,7 @@
                     </select>
                 </div>
                 <div class="column">
-                    <button class="ui button" v-on:click="translate" :disabled="isTextEmpty()">Translate</button>
+                    <button class="ui button" :disabled="isTextEmpty()">Translate</button>
                 </div>
             </div>
 

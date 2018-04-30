@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- production version, optimized for size and speed -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css" />
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        textarea.text {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui black big launch right attached fixed button">
+        <i class="content icon"></i>
+        <span class="text">Menu</span>
+    </div>
+    <div class="ui grid form" id="app">
+        <div class="six column row">
+            <div class="column"></div>
+            <div class="column"></div>
+            <div class="column field">
+                <select class="ui dropdown" v-model="source">
+                    <option value="">Source</option>
+                    <option value="en">English</option>
+                    <option value="ko">Korean</option>
+                </select>
+            </div>
+            <div class="column field">
+                <select class="ui dropdown" v-model="intermediate">
+                    <option value="">Intermediate</option>
+                    <option value="jp">Japanese</option>
+                </select>
+            </div>
+            <div class="column field">
+                <select class="ui dropdown" v-model="target">
+                    <option value="">Target</option>
+                    <option value="en">English</option>
+                    <option value="ko">Korean</option>
+                </select>
+            </div>
+            <div class="column">
+                <button class="ui button" v-on:click="translate">Translate</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <div class="ui negative message">
+                    <i class="close icon"></i>
+                    <div class="header">Something went sideways</div>
+                    <p>That offer has expired</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="two column row">
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <textarea class="text" v-model="text"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                {{ translated }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                source: '',
+                intermediate: '',
+                target: '',
+                text: '',
+                translated: ''
+            },
+            methods: {
+                translate: function (event) {
+                    var data = {
+                        'source': this.source,
+                        'target': this.target,
+                        'text': this.text
+                    };
+                    $.post('http://localhost:8001/api/v1.3/translate', data, response => {
+                        console.log(response);
+                        this.translated = response;
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

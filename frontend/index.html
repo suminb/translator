@@ -83,6 +83,7 @@
                     </div>
                 </div>
                 <div class="column">
+                    <img src="progress.gif" alt="Translation in progress..."/>
                     {{ translated }}
                 </div>
             </div>
@@ -140,13 +141,25 @@
                         'target': this.target,
                         'text': this.text
                     };
-                    $.post('http://localhost:8001/api/v1.3/translate', data, response => {
-                        console.log(response);
-                        this.translated = response;
-                    });
+                    $.post('http://localhost:8001/api/v1.3/translate', data)
+                        .done(response => {
+                            var raw = JSON.parse(response);
+                            this.translated = this.extractSentences(raw);
+                        })
+                        .fail((xhr, status, error) => {
+                            this.errors.push(error);
+                        });
+                },
+
+                extractSentences: function (raw) {
+                    return $.map(raw.sentences, function (v) { return v.trans }).join('');
                 }
             }
         });
+
+        let translate = (source, target, text) => {
+            return new Promise((resolve, reject) => resolve(...));
+        };
 
         $('.message .close')
             .on('click', function () {

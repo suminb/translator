@@ -6,6 +6,7 @@ import random
 import re
 import sys
 import urllib
+from urllib.parse import quote_plus
 import uuid
 
 import requests
@@ -19,6 +20,55 @@ from translator.utils import HTTPException, parse_javascript
 
 
 api_module = Blueprint('api', __name__)
+
+
+
+from datetime import timedelta
+from flask import make_response, request, current_app
+from functools import update_wrapper
+
+
+def crossdomain(origin=None, methods=None, headers=None,
+                max_age=21600, attach_to_all=True,
+                automatic_options=True):
+    if methods is not None:
+        methods = ', '.join(sorted(x.upper() for x in methods))
+    if headers is not None and not isinstance(headers, str):
+        headers = ', '.join(x.upper() for x in headers)
+    if not isinstance(origin, str):
+        origin = ', '.join(origin)
+    if isinstance(max_age, timedelta):
+        max_age = max_age.total_seconds()
+
+    def get_methods():
+        if methods is not None:
+            return methods
+
+        options_resp = current_app.make_default_options_response()
+        return options_resp.headers['allow']
+
+    def decorator(f):
+        def wrapped_function(*args, **kwargs):
+            if automatic_options and request.method == 'OPTIONS':
+                resp = current_app.make_default_options_response()
+            else:
+                resp = make_response(f(*args, **kwargs))
+            if not attach_to_all and request.method != 'OPTIONS':
+                return resp
+
+            h = resp.headers
+
+            h['Access-Control-Allow-Origin'] = origin
+            h['Access-Control-Allow-Methods'] = get_methods()
+            h['Access-Control-Max-Age'] = str(max_age)
+            if headers is not None:
+                h['Access-Control-Allow-Headers'] = headers
+            return resp
+
+        f.provide_automatic_options = False
+        return update_wrapper(wrapped_function, f)
+    return decorator
+
 
 
 def get_lambda_client():
@@ -483,6 +533,7 @@ def translate(text, mode, source, target, client='x'):
 
 
 @api_module.route('/api/v1.3/translate', methods=['get', 'post'])
+@crossdomain(origin='*')
 def translate_v1_3():
     # TODO: Use AWS Lambda to make translation requests
     request_params = request.form if request.method == 'POST' else request.args
@@ -498,6 +549,38 @@ def translate_v1_3():
     return resp_text, resp_status_code
 
 
+@api_module.route('/api/v1.4/translate', methods=['get', 'post'])
+@crossdomain(origin='*')
+def translate_v1_4():
+    request_params = request.form if request.method == 'POST' else request.args
+    text, source, target = \
+        [request_params[k] for k in ('text', 'source', 'target')]
+
+    url = 'https://www.google.co.kr/async/translate?yv=3'
+    headers = {
+        'User-Agent': DEFAULT_USER_AGENT,
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Accept': '*/*',
+        'Referer': 'https://www.google.co.kr/',
+        'Authority': 'www.google.co.kr',
+        'Cookie': 'NID=129=; 1P_JAR=2018-04-29-15',
+    }
+    data = 'async=translate,sl:{source},tl:{target},st:{text},id:{id}' \
+           ',qc:true,ac:false,_id:tw-async-translate,_pms:s,_fmt:pc'.format(
+               source=source, target=target, text=quote_plus(text), id=1)
+    resp = requests.post(url, headers=headers, data=data)
+
+    _, _, _, result = resp.text.split('\n')
+
+    return result, resp.status_code
+
+
 @api_module.route('/api/v1.3/exception')
 def exception():
     raise Exception(request.args.get('message', 'Anything you can imagine'))
+
+
+@api_module.route('/api/v1.4/message')
+@crossdomain(origin='*')
+def message():
+    return request.args.get('message', 'Anything you say, boss')

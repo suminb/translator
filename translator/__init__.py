@@ -5,6 +5,7 @@ import sys
 import logging
 
 from flask import got_request_exception, Flask, request
+from flask_cors import CORS
 from flask.ext.babel import Babel
 import rollbar
 import rollbar.contrib.flask
@@ -85,6 +86,10 @@ def create_app(name=__name__, config={}):
     register_filters(app)
 
     babel.init_app(app)
+
+    CORS(app, resources={r'/api/*': {
+        'origins': 'https://better-translator.com'}
+    })
 
     if app.config['DEBUG']:
         from werkzeug import SharedDataMiddleware

@@ -12,7 +12,7 @@ Freeze the Flask app first:
 
 Then upload to S3:
 
-    aws s3 sync translator/build/ s3://better-translator/ \
+    aws s3 sync translator/build/ s3://better-translator.com/ \
         --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
 
 Deploy on AWS Elastic Beanstalk

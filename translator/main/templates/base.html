@@ -112,9 +112,9 @@
           <!-- AddThis Button END -->
       </div>
       <div id="copyright">
-        <a href="/about">{{ _("About") }}</a> |
-        <a href="/credits">{{ _("Credits") }}</a> |
-        <a href="/disclaimers">{{ _("Disclaimers") }}</a> |
+        <a href="{{ url_for('main.about') }}">{{ _("About") }}</a> |
+        <a href="{{ url_for('main.credits') }}">{{ _("Credits") }}</a> |
+        <a href="{{ url_for('main.disclaimers') }}">{{ _("Disclaimers") }}</a> |
         <a href="http://github.com/suminb/translator/issues" target="_blank">{{ _("Bug reporting") }}</a>
         <br/>
         &copy; 2016 <a href="http://labs.suminb.com" target="_blank">Sumin's Labs</a>.

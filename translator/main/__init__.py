@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, request, render_template, url_for, redirect
 from flask.ext.babel import gettext as _
-from datetime import datetime
 
 from translator import __version__, get_locale
 from translator.utils import language_options_html
@@ -134,20 +133,6 @@ def credits():
         locale=get_locale(),
     )
     return render_template('credits.html', **context)
-
-
-@main_module.route('/statistics')
-def statistics():
-    if request.args.get('format') == 'json':
-        from analytics import generate_output
-        from flask import Response
-        return Response(generate_output(), mimetype='application/json')
-    else:
-        context = dict(
-            version=__version__,
-            timestamp=datetime.now().strftime('%Y%m%d%H%M')
-        )
-        return render_template('statistics.html', **context)
 
 
 @main_module.route('/v1.0/test')

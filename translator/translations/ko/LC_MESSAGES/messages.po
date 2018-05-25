@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-30 02:58+0900\n"
+"POT-Creation-Date: 2018-05-26 02:37+0900\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ko\n"
@@ -66,7 +66,7 @@ msgstr "구글 번역기와 일본어 중역을 이용한 번역 서비스입니
 #: translator/main/templates/base.html:13
 #: translator/main/templates/base.html:16
 #: translator/main/templates/base.html:19
-#: translator/main/templates/base.html:42
+#: translator/main/templates/base.html:45
 msgid "app-title"
 msgstr "더 나은 번역기"
 
@@ -175,26 +175,26 @@ msgstr "일본어"
 msgid "Spanish"
 msgstr "스페인어"
 
-#: translator/main/templates/base.html:45
+#: translator/main/templates/base.html:48
 #: translator/main/templates/discuss.html:4
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: translator/main/templates/base.html:115
+#: translator/main/templates/base.html:120
 msgid "About"
 msgstr ""
 
-#: translator/main/templates/base.html:116
+#: translator/main/templates/base.html:121
 #: translator/main/templates/credits.html:5
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: translator/main/templates/base.html:117
+#: translator/main/templates/base.html:122
 #: translator/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr "책임의 한계와 법적 고지"
 
-#: translator/main/templates/base.html:118
+#: translator/main/templates/base.html:123
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -288,10 +288,6 @@ msgstr "헝가리어"
 #: translator/main/templates/maintenance.html:3
 msgid "Maintenance"
 msgstr ""
-
-#: translator/main/templates/statistics.html:4
-msgid "Statistics"
-msgstr "통계"
 
 #~ msgid ""
 #~ msgstr ""
@@ -472,4 +468,7 @@ msgstr "통계"
 
 #~ msgid "Your desktop app is outdated. Get the latest version below."
 #~ msgstr "새로운 버전의 번역기 프로그램이 있습니다. 아래의 링크에서 다운로드 하세요."
+
+#~ msgid "Statistics"
+#~ msgstr "통계"
 

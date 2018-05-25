@@ -7,6 +7,7 @@ flask-paginate
 flask-script
 flask_oauthlib
 flask-login
+frozen-flask
 jinja2
 markupsafe
 requests

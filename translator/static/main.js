@@ -513,7 +513,7 @@ function refreshExample() {
 
 function displayError(message, postfix) {
     if (postfix == null) {
-        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.';
+        postfix = 'If problem persists, please report it <a href="/discuss.html?rel=bug_report">here</a>.';
     }
     $("#error-message").html(sprintf("%s %s", message, postfix)).show();
     $("#result").empty();

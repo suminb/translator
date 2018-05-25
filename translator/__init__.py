@@ -12,7 +12,7 @@ import rollbar.contrib.flask
 import yaml
 
 
-__version__ = '1.3.16'
+__version__ = '1.4.0'
 
 
 VALID_LANGUAGES = {

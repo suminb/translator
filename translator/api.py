@@ -12,7 +12,7 @@ import requests
 from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext as _
 
-from translator import config, logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
+from translator import logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
     TARGET_LANGUAGES, INTERMEDIATE_LANGUAGES, DEFAULT_USER_AGENT, \
     MAX_TEXT_LENGTH
 from translator.utils import HTTPException, parse_javascript
@@ -26,12 +26,9 @@ def get_lambda_client():
     then try to access the config object if environment variables are not
     available."""
     from boto3.session import Session
-    access_key = os.environ.get('AWS_ACCESS_KEY_ID',
-                                config['aws']['access_key'])
-    secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY',
-                                config['aws']['secret_key'])
-    region = os.environ.get('AWS_DEFAULT_REGION',
-                            config['aws']['region'])
+    access_key = os.environ.get('AWS_ACCESS_KEY_ID')
+    secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    region = os.environ.get('AWS_DEFAULT_REGION')
 
     session = Session(aws_access_key_id=access_key,
                       aws_secret_access_key=secret_key,

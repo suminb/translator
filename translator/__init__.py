@@ -9,7 +9,6 @@ from flask_cors import CORS
 from flask.ext.babel import Babel
 import rollbar
 import rollbar.contrib.flask
-import yaml
 
 
 __version__ = '1.4.0'
@@ -51,12 +50,6 @@ DEFAULT_USER_AGENT = 'AndroidTranslate/4.4.0.RC01.104701208-44000162 5.1 ' \
     'tablet GTR_TRANS_WLOPV1_ANDROID GTR_TRANS_WLOPV1_DE_EN_AR'
 MAX_TEXT_LENGTH = 8000
 
-
-try:
-    config = yaml.load(open('config.yml'))
-except IOError:
-    # FIXME: This is a temporary workaround; use a dummy config object
-    config = yaml.load(open('config.yml.dist'))
 
 logger = logging.getLogger('translator')
 handler = logging.StreamHandler(sys.stderr)

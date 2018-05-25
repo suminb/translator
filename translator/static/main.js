@@ -482,7 +482,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 }
 
 function uploadRawCorpora(source, target, raw) {
-    $.post("/corpus/raw", {sl:source, tl:target, raw:raw});
+    $.post("https://api.better-translator.com/corpus/raw", {sl:source, tl:target, raw:raw});
 }
 
 function showCaptcha(body) {

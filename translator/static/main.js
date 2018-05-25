@@ -468,7 +468,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
-    var url = '/api/v1.3/translate';
+    var url = 'https://api.better-translator.com/api/v1.3/translate';
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
@@ -482,7 +482,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 }
 
 function uploadRawCorpora(source, target, raw) {
-    $.post("/corpus/raw", {sl:source, tl:target, raw:raw});
+    $.post("https://api.better-translator.com/corpus/raw", {sl:source, tl:target, raw:raw});
 }
 
 function showCaptcha(body) {
@@ -513,7 +513,7 @@ function refreshExample() {
 
 function displayError(message, postfix) {
     if (postfix == null) {
-        postfix = 'If problem persists, please report it <a href="/discuss?rel=bug_report">here</a>.';
+        postfix = 'If problem persists, please report it <a href="/discuss.html?rel=bug_report">here</a>.';
     }
     $("#error-message").html(sprintf("%s %s", message, postfix)).show();
     $("#result").empty();

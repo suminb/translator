@@ -1,5 +1,6 @@
 flask==0.12.2
 flask-babel
+flask-cors
 flask-sqlalchemy
 flask-wtf
 flask-paginate

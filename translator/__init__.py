@@ -5,13 +5,14 @@ import sys
 import logging
 
 from flask import got_request_exception, Flask, request
+from flask_cors import CORS
 from flask.ext.babel import Babel
 import rollbar
 import rollbar.contrib.flask
 import yaml
 
 
-__version__ = '1.3.16'
+__version__ = '1.4.0'
 
 
 VALID_LANGUAGES = {
@@ -86,6 +87,10 @@ def create_app(name=__name__, config={}):
 
     babel.init_app(app)
 
+    CORS(app, resources={r'/api/*': {
+        'origins': '*'}
+    })
+
     if app.config['DEBUG']:
         from werkzeug import SharedDataMiddleware
         app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
@@ -129,4 +134,4 @@ def get_locale():
         except KeyError:
             locale = request.accept_languages.best_match(['ko', 'en'])
 
-    return locale if locale else 'en'
+    return locale if locale else 'ko'

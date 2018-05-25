@@ -22,7 +22,7 @@
         content="{{ og_description }}. This translator supports {{ _('Russian') }}, {{ _('French') }}, {{ _('English') }}, {{ _('Portuguese') }}, {{ _('Vietnamese') }}, {{ _('German') }}, {{ _('Korean') }}, {{ _('Italian') }}, {{ _('Hebrew') }}, {{ _('Indonesian') }}, {{ _('Turkish') }}, {{ _('Chinese') }}, {{ _('Filipino') }}, {{ _('Arabic') }}, {{ _('Polish') }}, {{ _('Thai') }}, {{ _('Czech') }}, {{ _('Swedish') }}, {{ _('Japanese') }}, {{ _('Spanish') }}"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <link rel="canonical" href="https://better-translator.com">
+  <link rel="canonical" href="http://better-translator.com">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
@@ -58,10 +58,12 @@
 
   <div id="content" class="container {% if request.endpoint == 'index' %}wide{% endif %}">
 {% block content %}{% endblock %}
+    <!--
     <div class="locales">
       <a href="/locale?locale=ko">한국어</a> |
       <a href="/locale?locale=en">English</a>
     </div>
+    -->
 
     <div class="adsense">
       {% if request.endpoint == 'index' %}
@@ -112,9 +114,9 @@
           <!-- AddThis Button END -->
       </div>
       <div id="copyright">
-        <a href="/about">{{ _("About") }}</a> |
-        <a href="/credits">{{ _("Credits") }}</a> |
-        <a href="/disclaimers">{{ _("Disclaimers") }}</a> |
+        <a href="{{ url_for('main.about') }}">{{ _("About") }}</a> |
+        <a href="{{ url_for('main.credits') }}">{{ _("Credits") }}</a> |
+        <a href="{{ url_for('main.disclaimers') }}">{{ _("Disclaimers") }}</a> |
         <a href="http://github.com/suminb/translator/issues" target="_blank">{{ _("Bug reporting") }}</a>
         <br/>
         &copy; 2016 <a href="http://labs.suminb.com" target="_blank">Sumin's Labs</a>.

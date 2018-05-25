@@ -10,7 +10,7 @@
 .cache
 lib
 provision.sh
-
+docs/buils
 
 
 # Elastic Beanstalk Files

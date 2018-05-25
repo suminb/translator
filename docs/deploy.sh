@@ -1,7 +1,4 @@
 #!/bin/sh
 
-HOST="sumin@suminb.com"
-
-# Deploy documents
-rsync -arzP -e ssh build/html/* $HOST:webapps/static/translator-docs/
-
+aws s3 sync build/html s3://better-translator.com/docs/ \
+    --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers

@@ -9,8 +9,8 @@ Welcome to Better Translator's documentation!
 APIs
 ====
 
-.. autoflask:: app:app
-   :undoc-static: 
+.. autoflask:: application:application
+   :undoc-static:
 
 
 Indices and tables

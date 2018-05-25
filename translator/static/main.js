@@ -468,7 +468,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
-    var url = '/api/v1.3/translate';
+    var url = 'https://api.better-translator.com/api/v1.3/translate';
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);

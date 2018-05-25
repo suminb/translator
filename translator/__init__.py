@@ -88,7 +88,7 @@ def create_app(name=__name__, config={}):
     babel.init_app(app)
 
     CORS(app, resources={r'/api/*': {
-        'origins': 'https://better-translator.com'}
+        'origins': '*'}
     })
 
     if app.config['DEBUG']:

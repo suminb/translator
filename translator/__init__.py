@@ -134,4 +134,4 @@ def get_locale():
         except KeyError:
             locale = request.accept_languages.best_match(['ko', 'en'])
 
-    return locale if locale else 'en'
+    return locale if locale else 'ko'

@@ -3,6 +3,18 @@ Build Status
 ![Better Translator build status](https://travis-ci.org/suminb/translator.svg)
 [![Coverage Status](https://coveralls.io/repos/suminb/translator/badge.svg?branch=develop&service=github)](https://coveralls.io/github/suminb/translator?branch=develop)
 
+Deploy Static Frontend
+----------------------
+
+Freeze the Flask app first:
+
+    python freeze.py
+
+Then upload to S3:
+
+    aws s3 sync translator/build/ s3://better-translator.com/ \
+        --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+
 Deploy on AWS Elastic Beanstalk
 -------------------------------
 

@@ -12,12 +12,12 @@ import os
 main_module = Blueprint('main', __name__, template_folder='templates')
 
 
-@main_module.route('/about')
+@main_module.route('/about.html')
 def about():
     return render_template('about.html')
 
 
-@main_module.route('/longtext')
+@main_module.route('/longtext.html')
 def longtext():
     return render_template('longtext.html')
 
@@ -118,7 +118,7 @@ def set_locale():
     return response
 
 
-@main_module.route('/discuss')
+@main_module.route('/discuss.html')
 def discuss():
     context = dict(
         version=__version__,
@@ -127,7 +127,7 @@ def discuss():
     return render_template('discuss.html', **context)
 
 
-@main_module.route('/credits')
+@main_module.route('/credits.html')
 def credits():
     context = dict(
         version=__version__,
@@ -163,7 +163,7 @@ def test():
         return '', 400
 
 
-@main_module.route('/disclaimers')
+@main_module.route('/disclaimers.html')
 def disclaimers():
     context = dict(
         version=__version__,

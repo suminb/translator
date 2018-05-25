@@ -4,7 +4,7 @@ import json
 
 
 def test_pages(testapp):
-    pages = ('/', '/credits', '/discuss', '/disclaimers')
+    pages = ('/', '/credits.html', '/discuss.html', '/disclaimers.html')
 
     for page in pages:
         resp = testapp.get(page)

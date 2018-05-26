@@ -468,7 +468,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
-    var url = 'https://api.better-translator.com/api/v1.3/translate';
+    var url = 'http://api.better-translator.com/api/v1.3/translate';
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
@@ -482,7 +482,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 }
 
 function uploadRawCorpora(source, target, raw) {
-    $.post("https://api.better-translator.com/corpus/raw", {sl:source, tl:target, raw:raw});
+    $.post("http://api.better-translator.com/corpus/raw", {sl:source, tl:target, raw:raw});
 }
 
 function showCaptcha(body) {

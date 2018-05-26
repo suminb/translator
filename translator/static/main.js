@@ -73,7 +73,7 @@ var examples = {
 };
 
 // URL encoded length, exclusively less than
-var LONG_TRANSLATION_THRESHOLD = 1200;
+var LONG_TRANSLATION_THRESHOLD = 5000;
 
 var TAGS_TO_REPLACE = {
     '&': '&amp;',
@@ -213,8 +213,30 @@ function buildTranslateURL(sl, tl, text, method) {
     }
 }
 
-function extractSentences(raw) {
-    return $.map(raw.sentences, function(v) { return v.trans }).join('');
+/**
+ * @param version API version
+ */
+function parseResponse(version, response) {
+    if (version == '1.4') {
+        return response;
+    }
+    else {
+        return JSON.parse(response);
+    }
+}
+
+/**
+ * @param version API version
+ * @param raw Raw HTML
+ */
+function extractSentences(version, raw) {
+    if (version == '1.4') {
+        var html = $('<html></html>').html(raw);
+        return $('#tw-answ-target-text', html).text();
+    }
+    else {
+        return $.map(raw.sentences, function(v) { return v.trans }).join('');
+    }
 }
 
 /**
@@ -241,7 +263,7 @@ function initWithHashesOrParameters() {
 
   if (getParameterByName("t")) {
       state.initWithParameters();
-      performTranslation();
+      performTranslation('', '1.4');
   }
   else {
       hashChanged(window.location.hash ? window.location.hash : "");
@@ -310,7 +332,11 @@ function loadLanguages() {
   initWithHashesOrParameters();
 }
 
-function performTranslation() {
+/**
+ * @param baseURL Base URL of the API server
+ * @param version API version
+ */
+function performTranslation(baseURL, version) {
 
   var sourceLang = model.get('sourceLanguage');
   var intermediateLang = model.get('intermediateLanguage');
@@ -328,12 +354,12 @@ function performTranslation() {
                 displayError("sendTranslationRequest(): response body is null.",
                     null);
             }
-            else if (String(response).substring(0, 1) == "<") {
-                showCaptcha(response);
-            }
+            // else if (String(response).substring(0, 1) == "<") {
+            //     showCaptcha(response);
+            // }
             else {
-                var raw = JSON.parse(response);
-                var targetText = extractSentences(raw);
+                var raw = parseResponse(version, response);
+                var targetText = extractSentences(version, raw);
 
                 model.set('raw', raw);
                 model.set('targetText', targetText);
@@ -378,7 +404,9 @@ function performTranslation() {
 
         if (intermediateLang) {
 
-            sendTranslationRequest(sourceLang, intermediateLang, sourceText, function(response) {
+            sendTranslationRequest(
+                baseURL, version, sourceLang, intermediateLang, sourceText,
+                function(response) {
 
                 onSuccess(intermediateLang)(response);
 
@@ -387,8 +415,9 @@ function performTranslation() {
 
                 setTimeout(function() {
                     state.pending = true;
-                    sendTranslationRequest(intermediateLang, targetLang,
-                        extractSentences(model.get('raw')),
+                    sendTranslationRequest(
+                        baseURL, version, intermediateLang, targetLang,
+                        extractSentences(version, model.get('raw')),
                         onSuccess(targetLang),
                         onAlways
                     );
@@ -399,7 +428,8 @@ function performTranslation() {
             });
         }
         else {
-            sendTranslationRequest(sourceLang, targetLang, sourceText,
+            sendTranslationRequest(
+                baseURL, version, sourceLang, targetLang, sourceText,
                 onSuccess(targetLang), onAlways);
         }
 
@@ -435,8 +465,16 @@ function sendXDomainRequest(url, method, data, onSuccess, onAlways) {
 
 /**
  * Sends a translation request to a remote server
+ *
+ * @param baseURL Base URL of the API server
+ * @param version API version
+ * @param source Source language
+ * @param target Target language
+ * @param text Source text
+ * @param onSuccess Function called upon success
+ * @param onAlways Function called upon any type of response
  */
-function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
+function sendTranslationRequest(baseURL, version, source, target, text, onSuccess, onAlways) {
 
     // Use GET for short requests and POST for long requests
     var textLength = encodeURIComponent(text).length;
@@ -463,7 +501,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
-    var url = 'http://api.better-translator.com/api/v1.3/translate';
+    var url = sprintf('%s/api/v%s/translate', baseURL, version);
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
@@ -499,7 +537,7 @@ function refreshExample() {
 
     $("#text").val(example);
 
-    performTranslation();
+    performTranslation('', '1.4');
 }
 
 function displayError(message, postfix) {
@@ -533,7 +571,7 @@ function hashChanged(hash) {
       model.set('intermediateLanguage', intermediate);
     if (text) {
       model.set('sourceText', decodeURIComponent(text));
-      performTranslation();
+      performTranslation('', '1.4');
     }
   }
 }

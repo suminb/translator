@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 import json
 import operator
 import os
@@ -6,6 +7,7 @@ import random
 import re
 import sys
 import urllib
+from urllib.parse import quote_plus
 import uuid
 
 import requests
@@ -493,6 +495,33 @@ def translate_v1_3():
     resp_status_code = resp_content['status_code']
 
     return resp_text, resp_status_code
+
+
+@api_module.route('/api/v1.4/translate', methods=['get', 'post'])
+def translate_v1_4():
+    request_params = request.form if request.method == 'POST' else request.args
+    text, source, target = \
+        [request_params[k] for k in ('text', 'source', 'target')]
+
+    datehour = datetime.utcnow().strftime('%Y-%m-%d-%H')
+    url = 'https://www.google.co.kr/async/translate?yv=3'
+    headers = {
+        'User-Agent': DEFAULT_USER_AGENT,
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Referer': 'https://www.google.co.kr/',
+        'Authority': 'www.google.co.kr',
+        'Cookie': 'NID=131=; 1P_JAR={0}'.format(datehour),
+    }
+    data = 'async=translate,sl:{source},tl:{target},st:{text},id:{id}' \
+           ',qc:true,ac:false,_id:tw-async-translate,_pms:s,_fmt:pc'.format(
+               source=source, target=target, text=quote_plus(text), id=1)
+    resp = requests.post(url, headers=headers, data=data, timeout=10)
+    index = resp.text.find('<span')
+    result = resp.text[index:]
+
+    return result, resp.status_code
 
 
 @api_module.route('/api/v1.3/exception')

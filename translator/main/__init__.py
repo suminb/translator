@@ -51,7 +51,7 @@ def index(translation_id=None):
         language_options=language_options_html(),
         debug=os.environ.get('DEBUG', None),
         api_base_url='',
-        api_version='1.4',
+        api_version='1.3',
     )
 
     tresponse = None

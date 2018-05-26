@@ -101,3 +101,40 @@ def test_translate_v1_3_1(testapp):
     assert 'programador' in sentences
     assert 'experiencia' in sentences
     assert 'otros' in sentences
+
+
+def test_translate_v1_4_1(testapp):
+    text = '''
+AdSense publishers may not display Google ads on pages with content protected
+by copyright law unless they have the necessary legal rights to display that
+content. This includes pages that display copyrighted material, pages hosting
+copyrighted files, or pages that provide links driving traffic to pages that
+contain copyrighted material.
+
+It is our policy to respond to notices of alleged infringement that comply with
+the Digital Millennium Copyright Act (DMCA). For AdSense publishers, if we
+receive a notice or otherwise have reason to believe that your page is
+infringing, we may terminate your participation in the program. You can file a
+counter-notification via this form. More information about our DMCA process is
+available in this blog post.
+
+If you believe that a page which is participating in the AdSense program is
+displaying your copyrighted material without the rights to do so, please report
+it using this form or by clicking on the AdChoices icon AdChoices icon.
+'''
+    params = {
+        'text': text,
+        'source': 'en',
+        'target': 'fr',
+    }
+    resp = testapp.post('/api/v1.4/translate', data=params)
+    assert resp.status_code == 200
+
+    resp_data = resp.data.decode('utf-8')
+
+    assert 'AdSense' in resp_data
+    assert 'AdChoices' in resp_data
+    assert 'Digital Millennium Copyright' in resp_data
+    assert 'diteurs' in resp_data
+    assert 'politique' in resp_data
+    assert 'programme' in resp_data

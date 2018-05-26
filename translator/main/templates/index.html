@@ -9,7 +9,7 @@
   </div>
   {% endif %}
 
-  <form id="translation-form" method="get" onsubmit="return performTranslation()">
+  <form id="translation-form" method="get" onsubmit="return performTranslation('{{ api_base_url }}', '{{ api_version }}')">
     <div class="row-fluid">
       <div class="span3">
         <label>{{ _("Source Language") }}</label>
@@ -146,7 +146,7 @@ window.onload = function() {
     })
     .keypress(function (event) {
         if (event.keyCode == 13) {
-            performTranslation();
+          performTranslation('{{ api_base_url }}', '{{ api_version }}');
         }
     })
     .trigger("change");

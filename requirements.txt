@@ -2,14 +2,8 @@ flask==0.12.2
 flask-babel
 flask-cors
 flask-sqlalchemy
-flask-wtf
-flask-paginate
 flask-script
-flask_oauthlib
-flask-login
 frozen-flask
-jinja2
-markupsafe
 requests
 sphinx
 sphinxcontrib-httpdomain
@@ -25,5 +19,3 @@ rollbar
 blinker
 boto3
 logbook
-temporaluuid64
-pynamodb

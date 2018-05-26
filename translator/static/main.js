@@ -214,7 +214,8 @@ function buildTranslateURL(sl, tl, text, method) {
 }
 
 function extractSentences(raw) {
-    return $.map(raw.sentences, function(v) { return v.trans }).join('');
+    var html = $('<html></html>').html(raw);
+    return $('#tw-answ-target-text', html).text();
 }
 
 /**
@@ -332,7 +333,7 @@ function performTranslation() {
                 showCaptcha(response);
             }
             else {
-                var raw = JSON.parse(response);
+                var raw = response;
                 var targetText = extractSentences(raw);
 
                 model.set('raw', raw);

@@ -253,8 +253,3 @@ a.dictionary-link:hover {
   text-decoration: none;
   background-color: #dfdfdf;
 }
-
-span.corpus:hover {
-  background-color: #ff0;
-  cursor: pointer;
-}

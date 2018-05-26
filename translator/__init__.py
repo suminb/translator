@@ -70,10 +70,8 @@ def create_app(name=__name__, config={}):
 
     from translator.api import api_module
     from translator.main import main_module
-    from translator.corpus import corpus_module
     app.register_blueprint(api_module, url_prefix='')
     app.register_blueprint(main_module, url_prefix='')
-    app.register_blueprint(corpus_module, url_prefix='/corpus')
 
     from translator.utils import register_filters
     register_filters(app)

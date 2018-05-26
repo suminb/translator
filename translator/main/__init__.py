@@ -21,28 +21,6 @@ def longtext():
     return render_template('longtext.html')
 
 
-@main_module.route('/backupdb')
-def backupdb():
-    """This is a temporary workaround. We shall figure out how to store
-    data in a relational database directly from the GAE. The problem we had
-    was that we could not use psycopg2 package on GAE."""
-
-    # NOTE: Minimal protection against malicious parties...
-    api_key = request.args.get('api_key')
-    from app import config
-    if api_key != config['api_key']:
-        return 'Invalid API key', 401
-
-    limit = int(request.args.get('limit', 1000))
-    from app.corpus.models import CorpusRaw, ndb
-    query = CorpusRaw.query()
-    entries = query.fetch(limit)
-    output = '\n'.join(['{}\t{}\t{}\t{}'.format(
-        x.source_lang, x.target_lang, x.timestamp, x.raw) for x in entries])
-    ndb.delete_multi([x.key for x in entries])
-    return output
-
-
 #
 # Request handlers
 #

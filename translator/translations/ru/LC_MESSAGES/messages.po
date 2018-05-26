@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-05-26 02:37+0900\n"
+"POT-Creation-Date: 2018-05-26 23:02+0900\n"
 "PO-Revision-Date: 2013-03-18 14:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -22,28 +22,6 @@ msgstr ""
 #: translator/utils.py:43
 #, python-format
 msgid "%%m/%%d/%%Y"
-msgstr ""
-
-#: translator/corpus/templates/list.html:13
-#: translator/main/templates/index.html:15
-msgid "Source Language"
-msgstr ""
-
-#: translator/corpus/templates/list.html:14
-#: translator/main/templates/index.html:31
-msgid "Target Language"
-msgstr ""
-
-#: translator/corpus/templates/list.html:15
-msgid "Source Text"
-msgstr ""
-
-#: translator/corpus/templates/list.html:16
-msgid "Target Text"
-msgstr ""
-
-#: translator/corpus/templates/list.html:17
-msgid "Confidence"
 msgstr ""
 
 #: translator/main/__init__.py:97
@@ -256,6 +234,10 @@ msgid ""
 "and Safari."
 msgstr ""
 
+#: translator/main/templates/index.html:15
+msgid "Source Language"
+msgstr ""
+
 #: translator/main/templates/index.html:17
 msgid "Detect language"
 msgstr ""
@@ -266,6 +248,10 @@ msgstr ""
 
 #: translator/main/templates/index.html:24
 msgid "None"
+msgstr ""
+
+#: translator/main/templates/index.html:31
+msgid "Target Language"
 msgstr ""
 
 #: translator/main/templates/index.html:41
@@ -487,5 +473,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Statistics"
+#~ msgstr ""
+
+#~ msgid "Source Text"
+#~ msgstr ""
+
+#~ msgid "Target Text"
+#~ msgstr ""
+
+#~ msgid "Confidence"
 #~ msgstr ""
 

@@ -337,11 +337,6 @@ function performTranslation() {
 
                 model.set('raw', raw);
                 model.set('targetText', targetText);
-
-                // detected source language
-                var source = raw[2];
-
-                uploadRawCorpora(sourceLang, target, JSON.stringify(raw));
             }
         };
     };
@@ -479,10 +474,6 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
         }).always(onAlways);
     }
-}
-
-function uploadRawCorpora(source, target, raw) {
-    $.post("http://api.better-translator.com/corpus/raw", {sl:source, tl:target, raw:raw});
 }
 
 function showCaptcha(body) {

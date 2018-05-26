@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-05-26 02:37+0900\n"
+"POT-Creation-Date: 2018-05-26 23:02+0900\n"
 "PO-Revision-Date: 2013-03-15 20:36+0900\n"
 "Last-Translator: Yujin Chung <flyingyujin@gmail.com>\n"
 "Language: fr\n"
@@ -22,30 +22,6 @@ msgstr ""
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr ""
-
-#: translator/corpus/templates/list.html:13
-#: translator/main/templates/index.html:15
-#, fuzzy
-msgid "Source Language"
-msgstr "Intervertir des langues"
-
-#: translator/corpus/templates/list.html:14
-#: translator/main/templates/index.html:31
-#, fuzzy
-msgid "Target Language"
-msgstr "Intervertir des langues"
-
-#: translator/corpus/templates/list.html:15
-msgid "Source Text"
-msgstr "Texte de depart"
-
-#: translator/corpus/templates/list.html:16
-msgid "Target Text"
-msgstr "Texte d'aariveé"
-
-#: translator/corpus/templates/list.html:17
-msgid "Confidence"
-msgstr "Confidence"
 
 #: translator/main/__init__.py:97
 msgid "app-description-text"
@@ -265,6 +241,11 @@ msgstr ""
 "La traduction aumieux ne peut pas fonctionner correctement avec ancien "
 "navigateur."
 
+#: translator/main/templates/index.html:15
+#, fuzzy
+msgid "Source Language"
+msgstr "Intervertir des langues"
+
 #: translator/main/templates/index.html:17
 #, fuzzy
 msgid "Detect language"
@@ -278,6 +259,11 @@ msgstr "Utilisez japonais en tant qu'une langue intermédiaire"
 #: translator/main/templates/index.html:24
 msgid "None"
 msgstr ""
+
+#: translator/main/templates/index.html:31
+#, fuzzy
+msgid "Target Language"
+msgstr "Intervertir des langues"
 
 #: translator/main/templates/index.html:41
 #: translator/main/templates/index.html:42
@@ -496,4 +482,13 @@ msgstr "Maintenance"
 
 #~ msgid "Statistics"
 #~ msgstr "Statistiques\t"
+
+#~ msgid "Source Text"
+#~ msgstr "Texte de depart"
+
+#~ msgid "Target Text"
+#~ msgstr "Texte d'aariveé"
+
+#~ msgid "Confidence"
+#~ msgstr "Confidence"
 

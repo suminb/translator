@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 import json
 import operator
 import os
@@ -502,21 +503,22 @@ def translate_v1_4():
     text, source, target = \
         [request_params[k] for k in ('text', 'source', 'target')]
 
+    datehour = datetime.utcnow().strftime('%Y-%m-%d-%H')
     url = 'https://www.google.co.kr/async/translate?yv=3'
     headers = {
         'User-Agent': DEFAULT_USER_AGENT,
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate, br',
         'Referer': 'https://www.google.co.kr/',
         'Authority': 'www.google.co.kr',
-        'Cookie': 'NID=129=; 1P_JAR=2018-04-29-15',
+        'Cookie': 'NID=131=; 1P_JAR={0}'.format(datehour),
     }
     data = 'async=translate,sl:{source},tl:{target},st:{text},id:{id}' \
            ',qc:true,ac:false,_id:tw-async-translate,_pms:s,_fmt:pc'.format(
                source=source, target=target, text=quote_plus(text), id=1)
-    resp = requests.post(url, headers=headers, data=data)
-
-    _, _, _, result = resp.text.split('\n')
+    resp = requests.post(url, headers=headers, data=data, timeout=10)
+    result = resp.text.split('\n')[-1]
 
     return result, resp.status_code
 

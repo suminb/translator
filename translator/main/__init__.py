@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, request, render_template, url_for, redirect
 from flask.ext.babel import gettext as _
-from datetime import datetime
 
 from translator import __version__, get_locale
 from translator.utils import language_options_html
@@ -20,28 +19,6 @@ def about():
 @main_module.route('/longtext.html')
 def longtext():
     return render_template('longtext.html')
-
-
-@main_module.route('/backupdb')
-def backupdb():
-    """This is a temporary workaround. We shall figure out how to store
-    data in a relational database directly from the GAE. The problem we had
-    was that we could not use psycopg2 package on GAE."""
-
-    # NOTE: Minimal protection against malicious parties...
-    api_key = request.args.get('api_key')
-    from app import config
-    if api_key != config['api_key']:
-        return 'Invalid API key', 401
-
-    limit = int(request.args.get('limit', 1000))
-    from app.corpus.models import CorpusRaw, ndb
-    query = CorpusRaw.query()
-    entries = query.fetch(limit)
-    output = '\n'.join(['{}\t{}\t{}\t{}'.format(
-        x.source_lang, x.target_lang, x.timestamp, x.raw) for x in entries])
-    ndb.delete_multi([x.key for x in entries])
-    return output
 
 
 #
@@ -134,20 +111,6 @@ def credits():
         locale=get_locale(),
     )
     return render_template('credits.html', **context)
-
-
-@main_module.route('/statistics')
-def statistics():
-    if request.args.get('format') == 'json':
-        from analytics import generate_output
-        from flask import Response
-        return Response(generate_output(), mimetype='application/json')
-    else:
-        context = dict(
-            version=__version__,
-            timestamp=datetime.now().strftime('%Y%m%d%H%M')
-        )
-        return render_template('statistics.html', **context)
 
 
 @main_module.route('/v1.0/test')

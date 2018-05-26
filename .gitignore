@@ -8,11 +8,9 @@
 *.csv
 
 .cache
-config.py
-config.yml
 lib
 provision.sh
-
+docs/buils
 
 
 # Elastic Beanstalk Files

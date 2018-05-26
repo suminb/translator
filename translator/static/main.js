@@ -337,11 +337,6 @@ function performTranslation() {
 
                 model.set('raw', raw);
                 model.set('targetText', targetText);
-
-                // detected source language
-                var source = raw[2];
-
-                uploadRawCorpora(sourceLang, target, JSON.stringify(raw));
             }
         };
     };
@@ -468,7 +463,7 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
     var requestMethod = textLength < 550 ?
         "GET" : "POST";
 
-    var url = 'https://api.better-translator.com/api/v1.3/translate';
+    var url = 'http://api.better-translator.com/api/v1.3/translate';
 
     if (msie()) {
         sendXDomainRequest(url, requestMethod, {q: text}, onSuccess, onAlways);
@@ -479,10 +474,6 @@ function sendTranslationRequest(source, target, text, onSuccess, onAlways) {
 
         }).always(onAlways);
     }
-}
-
-function uploadRawCorpora(source, target, raw) {
-    $.post("https://api.better-translator.com/corpus/raw", {sl:source, tl:target, raw:raw});
 }
 
 function showCaptcha(body) {

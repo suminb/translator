@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-30 02:58+0900\n"
+"POT-Creation-Date: 2018-05-26 23:02+0900\n"
 "PO-Revision-Date: 2013-03-15 06:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ko\n"
@@ -22,28 +22,6 @@ msgstr ""
 #, python-format
 msgid "%%m/%%d/%%Y"
 msgstr "%%Y-%%m-%%d"
-
-#: translator/corpus/templates/list.html:13
-#: translator/main/templates/index.html:15
-msgid "Source Language"
-msgstr "원문 언어"
-
-#: translator/corpus/templates/list.html:14
-#: translator/main/templates/index.html:31
-msgid "Target Language"
-msgstr "번역문 언어"
-
-#: translator/corpus/templates/list.html:15
-msgid "Source Text"
-msgstr "원문"
-
-#: translator/corpus/templates/list.html:16
-msgid "Target Text"
-msgstr "번역문"
-
-#: translator/corpus/templates/list.html:17
-msgid "Confidence"
-msgstr ""
 
 #: translator/main/__init__.py:97
 msgid "app-description-text"
@@ -66,7 +44,7 @@ msgstr "구글 번역기와 일본어 중역을 이용한 번역 서비스입니
 #: translator/main/templates/base.html:13
 #: translator/main/templates/base.html:16
 #: translator/main/templates/base.html:19
-#: translator/main/templates/base.html:42
+#: translator/main/templates/base.html:45
 msgid "app-title"
 msgstr "더 나은 번역기"
 
@@ -175,26 +153,26 @@ msgstr "일본어"
 msgid "Spanish"
 msgstr "스페인어"
 
-#: translator/main/templates/base.html:45
+#: translator/main/templates/base.html:48
 #: translator/main/templates/discuss.html:4
 msgid "Discussions"
 msgstr "건의 &amp; 토론"
 
-#: translator/main/templates/base.html:115
+#: translator/main/templates/base.html:120
 msgid "About"
 msgstr ""
 
-#: translator/main/templates/base.html:116
+#: translator/main/templates/base.html:121
 #: translator/main/templates/credits.html:5
 msgid "Credits"
 msgstr "만든 사람들"
 
-#: translator/main/templates/base.html:117
+#: translator/main/templates/base.html:122
 #: translator/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr "책임의 한계와 법적 고지"
 
-#: translator/main/templates/base.html:118
+#: translator/main/templates/base.html:123
 msgid "Bug reporting"
 msgstr "버그 리포팅"
 
@@ -243,6 +221,10 @@ msgstr ""
 "더 나은 번역기는 인터넷 익스플로러 9 이하에서 제대로 작동하지 않을 수도 있습니다. 파이어폭스, 크롬, 사파리와 같은 현대적인 "
 "브라우저를 권장합니다."
 
+#: translator/main/templates/index.html:15
+msgid "Source Language"
+msgstr "원문 언어"
+
 #: translator/main/templates/index.html:17
 msgid "Detect language"
 msgstr "언어 자동 감지"
@@ -254,6 +236,10 @@ msgstr "중간 언어"
 #: translator/main/templates/index.html:24
 msgid "None"
 msgstr ""
+
+#: translator/main/templates/index.html:31
+msgid "Target Language"
+msgstr "번역문 언어"
 
 #: translator/main/templates/index.html:41
 #: translator/main/templates/index.html:42
@@ -288,10 +274,6 @@ msgstr "헝가리어"
 #: translator/main/templates/maintenance.html:3
 msgid "Maintenance"
 msgstr ""
-
-#: translator/main/templates/statistics.html:4
-msgid "Statistics"
-msgstr "통계"
 
 #~ msgid ""
 #~ msgstr ""
@@ -472,4 +454,16 @@ msgstr "통계"
 
 #~ msgid "Your desktop app is outdated. Get the latest version below."
 #~ msgstr "새로운 버전의 번역기 프로그램이 있습니다. 아래의 링크에서 다운로드 하세요."
+
+#~ msgid "Statistics"
+#~ msgstr "통계"
+
+#~ msgid "Source Text"
+#~ msgstr "원문"
+
+#~ msgid "Target Text"
+#~ msgstr "번역문"
+
+#~ msgid "Confidence"
+#~ msgstr ""
 

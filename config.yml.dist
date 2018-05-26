@@ -1,8 +1,0 @@
-db_uri: ""
-secret_key: ""
-api_key: ""
-
-aws:
-  access_key: ""
-  secret_key: ""
-  region: "us-west-2"

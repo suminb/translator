@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-30 02:58+0900\n"
+"POT-Creation-Date: 2018-05-26 23:02+0900\n"
 "PO-Revision-Date: 2013-03-15 06:16+0000\n"
 "Last-Translator: Leon Garcia <leonmcervantes@gmail.com>\n"
 "Language: es\n"
@@ -21,28 +21,6 @@ msgstr ""
 #: translator/utils.py:43
 #, python-format
 msgid "%%m/%%d/%%Y"
-msgstr ""
-
-#: translator/corpus/templates/list.html:13
-#: translator/main/templates/index.html:15
-msgid "Source Language"
-msgstr ""
-
-#: translator/corpus/templates/list.html:14
-#: translator/main/templates/index.html:31
-msgid "Target Language"
-msgstr ""
-
-#: translator/corpus/templates/list.html:15
-msgid "Source Text"
-msgstr ""
-
-#: translator/corpus/templates/list.html:16
-msgid "Target Text"
-msgstr ""
-
-#: translator/corpus/templates/list.html:17
-msgid "Confidence"
 msgstr ""
 
 #: translator/main/__init__.py:97
@@ -81,7 +59,7 @@ msgstr ""
 #: translator/main/templates/base.html:13
 #: translator/main/templates/base.html:16
 #: translator/main/templates/base.html:19
-#: translator/main/templates/base.html:42
+#: translator/main/templates/base.html:45
 msgid "app-title"
 msgstr "Un Mejor Traductor"
 
@@ -191,26 +169,26 @@ msgstr "Japonés"
 msgid "Spanish"
 msgstr "Español"
 
-#: translator/main/templates/base.html:45
+#: translator/main/templates/base.html:48
 #: translator/main/templates/discuss.html:4
 msgid "Discussions"
 msgstr ""
 
-#: translator/main/templates/base.html:115
+#: translator/main/templates/base.html:120
 msgid "About"
 msgstr ""
 
-#: translator/main/templates/base.html:116
+#: translator/main/templates/base.html:121
 #: translator/main/templates/credits.html:5
 msgid "Credits"
 msgstr "Créditos"
 
-#: translator/main/templates/base.html:117
+#: translator/main/templates/base.html:122
 #: translator/main/templates/disclaimers.html:4
 msgid "Disclaimers"
 msgstr ""
 
-#: translator/main/templates/base.html:118
+#: translator/main/templates/base.html:123
 msgid "Bug reporting"
 msgstr "Reportar código defectuoso"
 
@@ -257,6 +235,10 @@ msgid ""
 "and Safari."
 msgstr ""
 
+#: translator/main/templates/index.html:15
+msgid "Source Language"
+msgstr ""
+
 #: translator/main/templates/index.html:17
 msgid "Detect language"
 msgstr ""
@@ -267,6 +249,10 @@ msgstr ""
 
 #: translator/main/templates/index.html:24
 msgid "None"
+msgstr ""
+
+#: translator/main/templates/index.html:31
+msgid "Target Language"
 msgstr ""
 
 #: translator/main/templates/index.html:41
@@ -302,10 +288,6 @@ msgstr ""
 
 #: translator/main/templates/maintenance.html:3
 msgid "Maintenance"
-msgstr ""
-
-#: translator/main/templates/statistics.html:4
-msgid "Statistics"
 msgstr ""
 
 #~ msgid "Corpus Dictionary"
@@ -489,5 +471,17 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Your desktop app is outdated. Get the latest version below."
+#~ msgstr ""
+
+#~ msgid "Statistics"
+#~ msgstr ""
+
+#~ msgid "Source Text"
+#~ msgstr ""
+
+#~ msgid "Target Text"
+#~ msgstr ""
+
+#~ msgid "Confidence"
 #~ msgstr ""
 

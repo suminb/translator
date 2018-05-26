@@ -175,13 +175,15 @@ button.translate {
   text-align: center;
 }
 
-div.addthis_toolbox {
-  width: 300px;
-  margin: 0 auto;
+#share-buttons {
+  display: inline-block;
 }
 
 #footer {
   margin: 2em 0 1em 0;
+}
+#footer div.container {
+  text-align: center;
 }
 #copyright {
   margin-top: 1em;
@@ -250,9 +252,4 @@ a.dictionary-link {
 a.dictionary-link:hover {
   text-decoration: none;
   background-color: #dfdfdf;
-}
-
-span.corpus:hover {
-  background-color: #ff0;
-  cursor: pointer;
 }

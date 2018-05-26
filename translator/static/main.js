@@ -329,9 +329,9 @@ function performTranslation() {
                 displayError("sendTranslationRequest(): response body is null.",
                     null);
             }
-            else if (String(response).substring(0, 1) == "<") {
-                showCaptcha(response);
-            }
+            // else if (String(response).substring(0, 1) == "<") {
+            //     showCaptcha(response);
+            // }
             else {
                 var raw = response;
                 var targetText = extractSentences(raw);

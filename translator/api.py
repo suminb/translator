@@ -518,7 +518,8 @@ def translate_v1_4():
            ',qc:true,ac:false,_id:tw-async-translate,_pms:s,_fmt:pc'.format(
                source=source, target=target, text=quote_plus(text), id=1)
     resp = requests.post(url, headers=headers, data=data, timeout=10)
-    result = resp.text.split('\n')[-1]
+    index = resp.text.find('<span')
+    result = resp.text[index:]
 
     return result, resp.status_code
 

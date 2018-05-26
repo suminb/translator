@@ -78,7 +78,7 @@
       google_ad_height = 15;
       //-->
       </script>
-      <script type="text/javascript"
+      <script type="text/javascript" async
         src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
       </script>
       {% else %}
@@ -136,19 +136,7 @@
   <script type="text/javascript" src="/static/backbone.epoxy.min.js"></script>
   <script type="text/javascript" src="/static/main.js?v={{ version }}"></script>
 
-  <script>
-  // I'm not sure why but when the following code block is absent,
-  // the Facebook like button in 'add-this' panel disappears.
-
-  // Load the SDK asynchronously
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-  </script>
+  <script id="facebook-jssdk" src="https://connect.facebook.net/en_US/all.js"></script>
 
   <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 

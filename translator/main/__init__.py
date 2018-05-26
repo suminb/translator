@@ -50,6 +50,8 @@ def index(translation_id=None):
         is_msie=is_msie,
         language_options=language_options_html(),
         debug=os.environ.get('DEBUG', None),
+        api_base_url='',
+        api_version='1.4',
     )
 
     tresponse = None

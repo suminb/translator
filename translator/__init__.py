@@ -11,7 +11,7 @@ import rollbar
 import rollbar.contrib.flask
 
 
-__version__ = '1.4.0'
+__version__ = '1.4.1'
 
 
 VALID_LANGUAGES = {

@@ -213,9 +213,30 @@ function buildTranslateURL(sl, tl, text, method) {
     }
 }
 
-function extractSentences(raw) {
-    var html = $('<html></html>').html(raw);
-    return $('#tw-answ-target-text', html).text();
+/**
+ * @param version API version
+ */
+function parseResponse(version, response) {
+    if (version == '1.4') {
+        return response;
+    }
+    else {
+        return JSON.parse(response);
+    }
+}
+
+/**
+ * @param version API version
+ * @param raw Raw HTML
+ */
+function extractSentences(version, raw) {
+    if (version == '1.4') {
+        var html = $('<html></html>').html(raw);
+        return $('#tw-answ-target-text', html).text();
+    }
+    else {
+        return $.map(raw.sentences, function(v) { return v.trans }).join('');
+    }
 }
 
 /**
@@ -337,8 +358,8 @@ function performTranslation(baseURL, version) {
             //     showCaptcha(response);
             // }
             else {
-                var raw = response;
-                var targetText = extractSentences(raw);
+                var raw = parseResponse(version, response);
+                var targetText = extractSentences(version, raw);
 
                 model.set('raw', raw);
                 model.set('targetText', targetText);
@@ -396,7 +417,7 @@ function performTranslation(baseURL, version) {
                     state.pending = true;
                     sendTranslationRequest(
                         baseURL, version, intermediateLang, targetLang,
-                        extractSentences(model.get('raw')),
+                        extractSentences(version, model.get('raw')),
                         onSuccess(targetLang),
                         onAlways
                     );

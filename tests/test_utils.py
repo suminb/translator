@@ -1,6 +1,6 @@
 from translator.utils import (
     HTTPException, language_options, language_options_html,
-    parse_javascript)
+    parse_javascript, register_filters)
 
 
 def test_http_exception():
@@ -28,3 +28,7 @@ def test_language_options_html():
 def test_parse_javascript():
     assert parse_javascript('[,1,,2,,,3]') == \
         [None, 1, None, 2, None, None, 3]
+
+
+def test_register_filters(testapp):
+    register_filters(testapp.application)

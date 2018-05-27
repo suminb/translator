@@ -17,8 +17,14 @@ functions:
       - http: GET /discuss
       - http: GET /disclaimers
       - http: GET /locale
-      - http: GET /api/v1.4/translate
-      - http: POST /api/v1.4/translate
+      - http:
+          path: /api/v1.4/translate
+          method: GET
+          origin: '*'
+      - http:
+          path: /api/v1.4/translate
+          method: POST
+          origin: '*'
 
 custom:
   wsgi:

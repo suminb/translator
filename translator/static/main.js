@@ -434,7 +434,9 @@ function performTranslation(baseURL, version) {
         }
 
         ga('send', 'event', 'api', 'translate',
-           sprintf('sl=%s&il=%s&tl=%s', sourceLang, intermediateLang, targetLang));
+           sprintf('v=%s&sl=%s&il=%s&tl=%s&len=%d',
+             version, sourceLang, intermediateLang, targetLang,
+             sourceText.length));
     }
 
     return false;

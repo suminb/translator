@@ -2,6 +2,8 @@
 
 import json
 
+import pytest
+
 
 def test_pages(testapp):
     pages = ('/', '/credits.html', '/discuss.html', '/disclaimers.html')
@@ -85,3 +87,8 @@ def test_version_check(testapp):
     result = json.loads(resp.get_data(as_text=True))
     assert not result['is_latest']
     assert 'latest_version' in result
+
+
+def test_exception_v1_3(testapp):
+    with pytest.raises(Exception):
+        resp = testapp.get('/api/v1.3/exception?message=test')

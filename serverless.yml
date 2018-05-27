@@ -19,6 +19,7 @@ functions:
       - http: GET /locale
       - http: GET /api/v1.3/languages
       - http: GET /api/v1.4/translate
+      - http: POST /api/v1.4/translate
 
 custom:
   wsgi:

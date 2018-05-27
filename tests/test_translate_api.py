@@ -10,7 +10,7 @@ def test_translate_1():
     """Tests translation where source language and target language are
     identical."""
 
-    actual = translate('This is a test', 1, 'en', 'en')['translated_text']
+    actual = translate('This is a test', '1', 'en', 'en')['translated_text']
     expected = 'This is a test'
 
     assert actual == expected
@@ -20,24 +20,24 @@ def test_translate_2():
     """Tests translation where an empty text is given."""
 
     with pytest.raises(HTTPException):
-        translate('', 1, 'en', 'ko')
+        translate('', '1', 'en', 'ko')
 
 
 def test_translate_3():
     """Tests translation where an invalid source language is given."""
 
     with pytest.raises(HTTPException):
-        translate('The cake was a lie', 1, 'unknown', 'ko')
+        translate('The cake was a lie', '1', 'unknown', 'ko')
 
 
 def test_translate_4():
     """Tests translation where an invalid target language is given."""
 
     with pytest.raises(HTTPException):
-        translate('The cake was a lie', 1, 'en', 'unknown')
+        translate('The cake was a lie', '1', 'en', 'unknown')
 
 
-def _test_translate_5(testapp):
+def _test_translate_v1_1(testapp):
     params = dict(
         t=u'도요타는 일본의 자동차 제조사이다.',
         m=1, sl='ko', tl='en')

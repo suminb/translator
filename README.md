@@ -34,22 +34,6 @@ Running the following command will generate `.mo` files based on `.po` files.
 
     ./localization.sh
 
-Data Warehousing
-----------------
-
-### Launch a PostgreSQL database
-
-    docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=${password} -e POSTGRES_DB=test -p 5432:5432 --volume ${host_dir}:/var/lib/postgresql/data postgres
-
-### Connect to the database
-
-    psql -h localhost -U postgres translator
-
-### Backup
-
-    pg_dump -h localhost -U postgres -d translator -f translator.sql
-
-
 Credits
 -------
 

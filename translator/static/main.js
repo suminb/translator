@@ -433,10 +433,10 @@ function performTranslation(baseURL, version) {
                 onSuccess(targetLang), onAlways);
         }
 
-        ga('send', 'event', 'api', 'translate',
-           sprintf('v=%s&sl=%s&il=%s&tl=%s&len=%d',
-             version, sourceLang, intermediateLang, targetLang,
-             sourceText.length));
+        ga('send', 'event', 'api',
+           sprintf('translate-v%s', version),
+           sprintf('sl=%s&il=%s&tl=%s&len=%d',
+             sourceLang, intermediateLang, targetLang, sourceText.length));
     }
 
     return false;

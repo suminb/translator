@@ -6,8 +6,7 @@ import os
 import random
 import re
 import sys
-import urllib
-from urllib.parse import quote_plus
+from urllib.parse import quote, quote_plus, urlencode
 import uuid
 
 import requests
@@ -98,14 +97,6 @@ def __params__(text, source, target, client='at',
         'ie': 'UTF-8',
     }
     url = 'https://translate.google.com/translate_a/single'
-
-    try:
-        # Python 3
-        from urllib.parse import quote, urlencode
-    except ImportError:
-        # Python 2
-        quote = urllib.quote
-        urlencode = urllib.urlencode
 
     if len(quote(text)) > 1000:
         method = 'post'

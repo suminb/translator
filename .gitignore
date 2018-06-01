@@ -12,6 +12,9 @@ lib
 provision.sh
 docs/buils
 
+# Node.js stuff
+node_modules
+package*.json
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

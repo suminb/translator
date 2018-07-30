@@ -11,7 +11,7 @@ import uuid
 
 import requests
 from flask import Blueprint, request, jsonify
-from flask.ext.babel import gettext as _
+from flask_babel import gettext as _
 
 from translator import logger, VALID_LANGUAGES, SOURCE_LANGUAGES, \
     TARGET_LANGUAGES, INTERMEDIATE_LANGUAGES, DEFAULT_USER_AGENT, \

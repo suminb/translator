@@ -1,4 +1,4 @@
-from flask.ext.babel import gettext as _
+from flask_babel import gettext as _
 from flask import jsonify
 
 from translator import VALID_LANGUAGES

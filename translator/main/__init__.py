@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, request, render_template, url_for, redirect
-from flask.ext.babel import gettext as _
+from flask_babel import gettext as _
 
 from translator import __version__, get_locale
 from translator.utils import language_options_html

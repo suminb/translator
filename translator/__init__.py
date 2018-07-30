@@ -6,7 +6,7 @@ import logging
 
 from flask import got_request_exception, Flask, request
 from flask_cors import CORS
-from flask.ext.babel import Babel
+from flask_babel import Babel
 import rollbar
 import rollbar.contrib.flask
 

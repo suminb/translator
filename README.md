@@ -3,6 +3,19 @@ Build Status
 ![Better Translator build status](https://travis-ci.org/suminb/translator.svg)
 [![Coverage Status](https://coveralls.io/repos/suminb/translator/badge.svg?branch=develop&service=github)](https://coveralls.io/github/suminb/translator?branch=develop)
 
+Important Notes
+---------------
+
+- Make sure the API Gateway is deployed.
+- Fill out `api_base_url` and `api_version` in `translator/main/__init__.py`.
+
+Text Localization
+-----------------
+
+Running the following command will generate `.mo` files based on `.po` files.
+
+    ./localization.sh
+
 Deploy Static Frontend
 ----------------------
 
@@ -29,18 +42,6 @@ Deploy on AWS with Seamless
 ### Serve locally
 
     sls wsgi serve
-
-Deploy on AWS Elastic Beanstalk
--------------------------------
-
-    eb deploy
-
-Text Localization
------------------
-
-Running the following command will generate `.mo` files based on `.po` files.
-
-    ./localization.sh
 
 Credits
 -------

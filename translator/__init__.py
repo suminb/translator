@@ -60,7 +60,10 @@ logger.setLevel(logging.INFO)
 babel = Babel()
 
 
-def create_app(name=__name__, config={}):
+def create_app(name=__name__, config=None):
+    if config is None:
+        config = {}
+
     app = Flask(name)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
     # app.config['SQLALCHEMY_POOL_SIZE'] = 10
